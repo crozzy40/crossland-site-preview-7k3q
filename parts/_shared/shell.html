@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}} · {{shell_brand}}</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' fill='%230B1220'/%3E%3Ccircle cx='11' cy='11' r='8' fill='none' stroke='%23F4EFE8' stroke-width='1.6'/%3E%3Ccircle cx='11' cy='11' r='3' fill='%23E2A93B'/%3E%3C/svg%3E">
+<script>
+(function(){try{if(localStorage.getItem('xl-motion')==='off')document.documentElement.classList.add('still')}catch(e){}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_shared/demo.css">
+<link rel="stylesheet" href="part.css">
+</head>
+<body>
+<a class="skip" href="#main">{{shell_skip}}</a>
+<header class="top">
+<a class="brand" href="../../d10-map/index.html" aria-label="{{shell_home_aria}}">
+<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="none" stroke-width="1.5" style="stroke:var(--tx)"/><path d="M11 0.5v5M11 16.5v5M0.5 11h5M16.5 11h5" stroke-width="1.5" style="stroke:var(--tx)"/><circle cx="11" cy="11" r="2.6" style="fill:var(--ac)"/></svg>
+{{shell_brand}}
+</a>
+<div class="right"><a class="btn ac sm" href="#">{{shell_book}}</a></div>
+</header>
+<nav class="way" aria-label="{{shell_where}}">
+<a class="bk" data-back href="../../d10-map/index.html"><span class="ba" aria-hidden="true">←</span><span class="bl">{{shell_back}}</span></a>
+<ol class="trail"><li><a href="../../d10-map/index.html">{{shell_map}}</a></li><li><span aria-current="page">{{title}}</span></li></ol>
+</nav>
+<main class="stage" id="main">
+<p class="kick mono">{{shell_kick}}</p>
+{{__part__}}
+<div class="next">
+<a class="btn ac" href="#">{{shell_book}}</a>
+<nav class="others" aria-label="{{shell_others}}"><span>{{shell_others}}</span><ul>{{__others__}}</ul></nav>
+</div>
+</main>
+<script src="../_shared/demo.js" defer></script>
+<script src="part.js" defer></script>
+</body>
+</html>

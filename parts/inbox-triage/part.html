@@ -1,0 +1,27 @@
+<section class="xt is-static" data-part="inbox-triage" aria-labelledby="xt-t">
+<script type="application/json" class="xt-strings">{{__json__}}</script>
+<header class="xt-head">
+<div class="xt-htext">
+<h2 class="xt-title" id="xt-t">{{title}}</h2>
+<p class="xt-lead">{{lead}}</p>
+</div>
+<button class="xt-run" type="button" hidden>{{run}}</button>
+</header>
+<ol class="xt-inbox" aria-label="{{inbox_aria}}">
+<li class="xt-m" data-k="ai"><div class="xt-msg"><span class="xt-from">{{m1_from}}</span><span class="xt-subj">{{m1_subj}}</span></div><span class="xt-pend" aria-hidden="true">{{pending}}</span><span class="xt-tag">{{m1_tag}}</span></li>
+<li class="xt-m" data-k="ai"><div class="xt-msg"><span class="xt-from">{{m2_from}}</span><span class="xt-subj">{{m2_subj}}</span></div><span class="xt-pend" aria-hidden="true">{{pending}}</span><span class="xt-tag">{{m2_tag}}</span></li>
+<li class="xt-m" data-k="ai"><div class="xt-msg"><span class="xt-from">{{m3_from}}</span><span class="xt-subj">{{m3_subj}}</span></div><span class="xt-pend" aria-hidden="true">{{pending}}</span><span class="xt-tag">{{m3_tag}}</span></li>
+<li class="xt-m" data-k="human"><div class="xt-msg"><span class="xt-from">{{m4_from}}</span><span class="xt-subj">{{m4_subj}}</span></div><span class="xt-pend" aria-hidden="true">{{pending}}</span><span class="xt-tag">{{m4_tag}}</span></li>
+<li class="xt-m" data-k="wait"><div class="xt-msg"><span class="xt-from">{{m5_from}}</span><span class="xt-subj">{{m5_subj}}</span></div><span class="xt-pend" aria-hidden="true">{{pending}}</span><span class="xt-tag">{{m5_tag}}</span></li>
+<li class="xt-m" data-k="wait"><div class="xt-msg"><span class="xt-from">{{m6_from}}</span><span class="xt-subj">{{m6_subj}}</span></div><span class="xt-pend" aria-hidden="true">{{pending}}</span><span class="xt-tag">{{m6_tag}}</span></li>
+</ol>
+<div class="xt-foot">
+<p class="xt-status" aria-live="polite">{{foot_static}}</p>
+<ul class="xt-key" aria-label="{{key_aria}}">
+<li><span class="xt-sw xt-sw-ai"></span>{{key_ai}}</li>
+<li><span class="xt-sw xt-sw-wait"></span>{{key_wait}}</li>
+<li><span class="xt-sw xt-sw-human"></span>{{key_human}}</li>
+</ul>
+<p class="xt-note"><span class="xt-demo">{{demo_note}}</span></p>
+</div>
+</section>

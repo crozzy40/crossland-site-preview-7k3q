@@ -1,0 +1,57 @@
+<section class="xc is-static" data-part="whatsapp-calendar" data-beat="9" aria-labelledby="xc-t">
+<script type="application/json" class="xc-strings">{{__json__}}</script>
+<header class="xc-head">
+<div class="xc-htext">
+<h2 class="xc-title" id="xc-t">{{title}}</h2>
+<p class="xc-lead">{{lead}}</p>
+</div>
+<button class="xc-run" type="button" hidden>{{run}}</button>
+</header>
+<ol class="xc-steps" aria-label="{{steps_aria}}">
+<li class="xc-step" data-step="1"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="6.5" r="3.2"/><path d="M3.5 17.5c.8-3.6 3.4-5.4 6.5-5.4s5.7 1.8 6.5 5.4"/></svg><span class="xc-sl">{{s1}}</span></li>
+<li class="xc-step" data-step="2"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4.5h14v9H8.5L5 16.5v-3H3z"/></svg><span class="xc-sl">{{s2}}</span></li>
+<li class="xc-step" data-step="3"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14l-5.5 6.5V16l-3-1.5v-4z"/></svg><span class="xc-sl">{{s3}}</span></li>
+<li class="xc-step" data-step="4"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="5" rx="6" ry="2.2"/><path d="M4 5v10c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2V5M4 10c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2"/></svg><span class="xc-sl">{{s4}}</span></li>
+<li class="xc-step" data-step="5"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16l1-4 8.5-8.5 3 3L8 15z M11.5 5.5l3 3"/></svg><span class="xc-sl">{{s5}}</span></li>
+<li class="xc-step" data-step="6"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M6.8 10.2l2.2 2.2 4.2-4.6"/></svg><span class="xc-sl">{{s6}}</span></li>
+<li class="xc-step" data-step="7"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12" rx="1.5"/><path d="M3 8.5h14M7 3v3M13 3v3"/></svg><span class="xc-sl">{{s7}}</span></li>
+</ol>
+<p class="xc-status" aria-live="polite">{{done_static}}</p>
+<div class="xc-panes">
+<div class="xc-phonewrap">
+<p class="xc-pane-t">{{phone_t}}</p>
+<div class="xc-phone" role="group" aria-label="{{phone_aria}}">
+<div class="xc-ph-top"><span class="xc-av" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M3 4.5h14v9H8.5L5 16.5v-3H3z"/></svg></span><span class="xc-ph-name">{{business}}</span></div>
+<ol class="xc-thread">
+<li class="xc-slot xc-in"><span class="xc-typing" data-at="1" data-until="1"><span class="xc-vh">{{typing}}</span><i></i><i></i><i></i></span><p class="xc-b" data-at="2"><span class="xc-vh">{{from_customer}}: </span>{{msg_1}}</p></li>
+<li class="xc-slot xc-out"><p class="xc-b" data-at="6"><span class="xc-vh">{{from_business}}: </span>{{reply}}</p></li>
+<li class="xc-slot xc-in"><p class="xc-b" data-at="7"><span class="xc-vh">{{from_customer}}: </span>{{msg_2}}</p></li>
+<li class="xc-slot xc-out"><p class="xc-b" data-at="9"><span class="xc-vh">{{from_business}}: </span>{{confirm}}</p></li>
+</ol>
+</div>
+</div>
+<div class="xc-sys">
+<p class="xc-pane-t">{{system_t}}</p>
+<article class="xc-card" data-at="3" aria-labelledby="xc-rec-t">
+<div class="xc-ch"><h3 id="xc-rec-t">{{rec_t}}</h3><span class="xc-badges"><span class="xc-bd xc-bd-no" data-at="0" data-until="2">{{empty}}</span><span class="xc-bd" data-at="4">{{rec_saved}}</span></span></div>
+<dl class="xc-fields">
+<div><dt>{{f_name}}</dt><dd data-at="3">{{v_name}}</dd></div>
+<div><dt>{{f_channel}}</dt><dd data-at="3">{{v_channel}}</dd></div>
+<div><dt>{{f_request}}</dt><dd data-at="3">{{v_request}}</dd></div>
+<div><dt>{{f_date}}</dt><dd data-at="3">{{v_date}}</dd></div>
+<div><dt>{{f_appt}}</dt><dd data-at="8">{{v_appt}}</dd></div>
+</dl>
+</article>
+<article class="xc-card" data-at="5" aria-labelledby="xc-dr-t">
+<div class="xc-ch"><h3 id="xc-dr-t">{{draft_t}}</h3><span class="xc-badges"><span class="xc-bd xc-bd-no" data-at="0" data-until="4">{{empty}}</span><span class="xc-bd xc-bd-wait" data-at="5" data-until="5">{{draft_wait}}</span><span class="xc-bd" data-at="6">{{draft_ok}}</span></span></div>
+<p class="xc-draft" data-at="5">{{reply}}</p>
+<button class="xc-approve" type="button" data-at="5" data-until="5" hidden>{{approve}}</button>
+</article>
+<article class="xc-card" data-at="8" aria-labelledby="xc-cal-t">
+<div class="xc-ch"><h3 id="xc-cal-t">{{cal_t}}</h3><span class="xc-badges"><span class="xc-bd xc-bd-no" data-at="0" data-until="7">{{empty}}</span><span class="xc-bd" data-at="8">{{cal_booked}}</span></span></div>
+<div class="xc-slotcal" data-at="8"><p class="xc-when"><span>{{cal_day}}</span><span>{{cal_time}}</span></p><p class="xc-what"><span>{{cal_what}}</span><span>{{cal_who}}</span></p></div>
+</article>
+</div>
+</div>
+<p class="xc-foot"><span class="xc-demo">{{demo_note}}</span></p>
+</section>
