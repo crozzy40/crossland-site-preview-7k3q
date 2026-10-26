@@ -45,11 +45,11 @@ Crossland AI
 <li><a href="who.html">Who we work with</a></li>
 <li><a href="faq.html">FAQ</a></li>
 <li><a href="start.html">Start</a></li>
-<li class="m-es"><a href="#" lang="es">Español</a></li>
+<li class="m-es"><a href="es/doors.html" lang="es" hreflang="es">Español</a></li>
 </ul>
 </nav>
 <div class="right">
-<a class="btn ghost sm" href="#" lang="es">Español</a>
+<a class="btn ghost sm" href="es/doors.html" lang="es" hreflang="es">Español</a>
 <a class="btn ac sm" href="start.html#book">Book a call</a>
 </div>
 <button class="mbtn" type="button" aria-expanded="false" aria-controls="mainnav"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 9h14M2 13h14" stroke-width="1.6" style="stroke:var(--tx)"/></svg><span>Menu</span></button>
@@ -124,7 +124,7 @@ Crossland AI
 <h2 class="dp-h"><a class="dp-t" href="#plan"><span class="nd" aria-hidden="true">03</span><span class="ttl">Get a plan</span><span class="dthumb dgt" aria-hidden="true"><svg class="dg" viewBox="0 0 120 64"><use href="#g-plan"/></svg></span><span class="pm" aria-hidden="true"></span></a></h2>
 <p class="lead">What to automate first, what stays human, what it costs.</p>
 <div class="dp-body">
-<figure class="dhero"><picture><source media="(max-width:760px)" srcset="img/door-03-get-a-plan-phone.jpg"><img src="img/door-03-get-a-plan-1280.jpg" srcset="img/door-03-get-a-plan-640.jpg 640w, img/door-03-get-a-plan-1280.jpg 1280w, img/door-03-get-a-plan.jpg 1920w" sizes="(min-width:761px) 640px, 100vw" alt="Seen from above: a paper contour relief. The brass thread is a planned route, pinned at its turns." loading="lazy" width="1920" height="1080"></picture></figure>
+<figure class="dhero"><picture><source media="(max-width:760px)" srcset="img/door-03-get-a-plan-phone.jpg"><img src="img/door-03-get-a-plan-1280.jpg" srcset="img/door-03-get-a-plan-640.jpg 640w, img/door-03-get-a-plan-1280.jpg 1280w, img/door-03-get-a-plan.jpg 1920w" sizes="(min-width:761px) 640px, 100vw" alt="Seen from above: a paper contour relief. The brass thread is a planned route, pinned at its turns." loading="lazy" width="1920" height="1080"></picture><video class="dvid" muted loop playsinline disablepictureinpicture preload="none" data-poster="img/door-03-get-a-plan-1280.jpg" data-src="media/loop-door-03-get-a-plan.mp4" tabindex="-1" aria-hidden="true"></video></figure>
 <div class="what"><h3 class="mh">What it is</h3>
 <ol class="wl"><li><span class="i mono">a</span>What to automate first.</li><li><span class="i mono">b</span>What stays human.</li><li><span class="i mono">c</span>What it costs.</li></ol></div>
 <div class="who"><h3 class="mh">Who it is for, at every size</h3>
@@ -654,8 +654,10 @@ else if(!v.paused)v.pause();
 var vs=[].slice.call(document.querySelectorAll('video[data-src]'));
 vs.forEach(function(v){v.muted=true;v.addEventListener('playing',function(){v.classList.add('live')})});
 if(!('IntersectionObserver' in window))return;
+function start(){requestAnimationFrame(function(){
 var io=new IntersectionObserver(function(es){es.forEach(function(e){on(e.target,e.isIntersecting)})},{threshold:.2});
-vs.forEach(function(v){io.observe(v)});
+vs.forEach(function(v){io.observe(v)})})}
+if(document.readyState==='complete')start();else addEventListener('load',start);
 })();
 </script>
 <script src="parts/week/part.js" defer></script>
