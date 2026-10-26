@@ -1,0 +1,58 @@
+<section class="xw is-static" data-part="week" aria-labelledby="xw-t">
+<script type="application/json" class="xw-strings">{{__json__}}</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="xw-ps" viewBox="0 0 10 10"><circle cx="5" cy="3" r="2.2" fill="currentColor"/><path d="M1 10a4 3.6 0 0 1 8 0z" fill="currentColor"/></symbol></svg>
+<header class="xw-head">
+<h2 class="xw-title" id="xw-t">{{title}}</h2>
+<p class="xw-label">{{label}}</p>
+</header>
+<input class="xw-vh" type="radio" name="xw-wk" id="xw-before" checked>
+<input class="xw-vh" type="radio" name="xw-wk" id="xw-after">
+<ol class="xw-week" aria-label="{{week_aria}}">
+<li class="xw-day" style="--r:3"><p class="xw-dn">{{mon}}</p><ul class="xw-tasks">
+<li class="xw-task xw-r"><span class="xw-tl">{{t_inbox}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-d"><span class="xw-tl">{{t_terms}}</span><span class="xw-tag"><svg class="xw-pg" aria-hidden="true"><use href="#xw-ps"/></svg>{{people_decide}}</span></li>
+<li class="xw-task xw-r"><span class="xw-tl">{{t_data}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-r"><span class="xw-tl">{{t_status}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-open" aria-hidden="true">{{open_time}}</li></ul></li>
+<li class="xw-day" style="--r:3"><p class="xw-dn">{{tue}}</p><ul class="xw-tasks">
+<li class="xw-task xw-r"><span class="xw-tl">{{t_calendar}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-r"><span class="xw-tl">{{t_reports}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-d"><span class="xw-tl">{{t_spend}}</span><span class="xw-tag"><svg class="xw-pg" aria-hidden="true"><use href="#xw-ps"/></svg>{{people_decide}}</span></li>
+<li class="xw-task xw-r"><span class="xw-tl">{{t_copy}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-open" aria-hidden="true">{{open_time}}</li></ul></li>
+<li class="xw-day" style="--r:3"><p class="xw-dn">{{wed}}</p><ul class="xw-tasks">
+<li class="xw-task xw-r"><span class="xw-tl">{{t_invoices}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-d"><span class="xw-tl">{{t_hiring}}</span><span class="xw-tag"><svg class="xw-pg" aria-hidden="true"><use href="#xw-ps"/></svg>{{people_decide}}</span></li>
+<li class="xw-task xw-r"><span class="xw-tl">{{t_leads}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-r"><span class="xw-tl">{{t_follow}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-open" aria-hidden="true">{{open_time}}</li></ul></li>
+<li class="xw-day" style="--r:2"><p class="xw-dn">{{thu}}</p><ul class="xw-tasks">
+<li class="xw-task xw-r"><span class="xw-tl">{{t_orders}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-d"><span class="xw-tl">{{t_pricing}}</span><span class="xw-tag"><svg class="xw-pg" aria-hidden="true"><use href="#xw-ps"/></svg>{{people_decide}}</span></li>
+<li class="xw-task xw-r"><span class="xw-tl">{{t_inbox}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-d"><span class="xw-tl">{{t_strategy}}</span><span class="xw-tag"><svg class="xw-pg" aria-hidden="true"><use href="#xw-ps"/></svg>{{people_decide}}</span></li>
+<li class="xw-open" aria-hidden="true">{{open_time}}</li></ul></li>
+<li class="xw-day" style="--r:2"><p class="xw-dn">{{fri}}</p><ul class="xw-tasks">
+<li class="xw-task xw-r"><span class="xw-tl">{{t_reports}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-r"><span class="xw-tl">{{t_data}}</span><span class="xw-tag">{{by_hand}}</span></li>
+<li class="xw-task xw-d"><span class="xw-tl">{{t_review}}</span><span class="xw-tag"><svg class="xw-pg" aria-hidden="true"><use href="#xw-ps"/></svg>{{people_decide}}</span></li>
+<li class="xw-task xw-d"><span class="xw-tl">{{t_priorities}}</span><span class="xw-tag"><svg class="xw-pg" aria-hidden="true"><use href="#xw-ps"/></svg>{{people_decide}}</span></li>
+<li class="xw-open" aria-hidden="true">{{open_time}}</li></ul></li>
+</ol>
+<div class="xw-seg" role="group" aria-label="{{switch_aria}}"><label for="xw-before">{{before}}</label><label for="xw-after">{{after}}</label></div>
+<div class="xw-ctl" hidden>
+<button class="xw-end" type="button" data-v="0">{{before}}</button>
+<input class="xw-range" type="range" min="0" max="100" step="1" value="0" aria-label="{{range_aria}}" aria-valuetext="{{vt_before}}">
+<button class="xw-end" type="button" data-v="100">{{after}}</button>
+</div>
+<div class="xw-foot">
+<p class="xw-readout" aria-live="polite"><span class="xw-ro-b">{{ro_before}}</span><span class="xw-ro-a">{{ro_after}}</span></p>
+<p class="xw-hint" hidden>{{hint}}</p>
+<ul class="xw-legend" aria-label="{{legend_aria}}">
+<li><span class="xw-sw xw-sw-h"></span>{{by_hand}}</li>
+<li><span class="xw-sw xw-sw-a"></span>{{runs_own}}</li>
+<li><span class="xw-sw xw-sw-d"></span>{{people_decide}}</li>
+<li><span class="xw-sw xw-sw-o"></span>{{open_time}}</li>
+</ul>
+</div>
+</section>

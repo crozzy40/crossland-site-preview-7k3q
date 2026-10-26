@@ -1,0 +1,106 @@
+/* D12 part 1: the week panel, "A week, before and after".
+   From board/b-instrument, recoloured to D10 ink and brass. Uses only D10 tokens (no colour literals).
+   Everything is scoped under .xw so it can sit inside any D10 page. */
+/* D12 (integration): every text size under 12 px raised to 12 px, the site's type floor (critique fix 9). */
+.xw{background:var(--s1);border:1px solid var(--line);border-radius:6px;padding:18px 20px 16px;color:var(--tx);font-family:var(--font);max-width:860px}
+.xw *{box-sizing:border-box;margin:0;padding:0}
+.xw [hidden]{display:none!important}
+.xw-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;opacity:0}
+.xw-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 18px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.xw-title{font-size:19px;line-height:1.25;letter-spacing:-.01em;font-weight:600}
+.xw-label{font-size:13.5px;line-height:1.4;color:var(--mu)}
+
+.xw-week{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.xw-dn{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.xw-tasks{list-style:none;display:flex;flex-direction:column;gap:6px;height:clamp(260px,42vh,340px)}
+.xw-task{flex:1 1 0;min-height:0;display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:9px 10px;border-radius:5px;background:var(--s3);border:1px solid var(--line2);color:var(--tx);overflow:hidden;
+  transition:flex-grow .6s var(--ease),flex-basis .6s var(--ease),background-color .4s,border-color .4s,color .4s,padding .4s}
+.xw-tl{font-size:13.5px;font-weight:500;line-height:1.2;overflow-wrap:normal;word-break:normal;hyphens:manual} /* D12: a word never breaks inside (was overflow-wrap:anywhere) */
+.xw-tag{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden}
+.xw-task.xw-d .xw-tag{color:var(--mu)}
+.xw-pg{width:10px;height:10px;flex:none}
+.xw-task .xw-tl::before{content:"";display:none;width:9px;height:9px;border:1.5px solid currentColor;border-right-color:transparent;border-radius:50%;margin-right:7px;vertical-align:-1px;box-sizing:border-box;flex:none}
+
+/* routine work: the tile stays, shrinks to a thin brass line, runs on its own */
+.xw-task.xw-r.xw-auto,
+.xw.is-static #xw-after:checked~.xw-week .xw-task.xw-r{flex:0 0 30px;justify-content:center;padding:0 9px;background:transparent;border-color:color-mix(in srgb,var(--ac) 70%,transparent);color:var(--ac)}
+.xw-task.xw-r.xw-auto .xw-tl,
+.xw.is-static #xw-after:checked~.xw-week .xw-task.xw-r .xw-tl{font-family:var(--mono);font-size:12px;font-weight:400;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xw-task.xw-r.xw-auto .xw-tl::before,
+.xw.is-static #xw-after:checked~.xw-week .xw-task.xw-r .xw-tl::before{display:inline-block;animation:xw-spin 1.8s linear infinite}
+.xw-task.xw-r.xw-auto .xw-tag,
+.xw.is-static #xw-after:checked~.xw-week .xw-task.xw-r .xw-tag{display:none}
+/* decisions stay with people, and stand out once the routine has moved */
+.xw-week.xw-hl .xw-task.xw-d,
+.xw.is-static #xw-after:checked~.xw-week .xw-task.xw-d{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.xw-week.xw-hl .xw-task.xw-d .xw-tag,
+.xw.is-static #xw-after:checked~.xw-week .xw-task.xw-d .xw-tag{color:var(--s3)}
+/* the time that opens up */
+.xw-open{flex:0 0 0;min-height:0;display:flex;align-items:center;justify-content:center;border:1px dashed transparent;border-radius:5px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);opacity:0;overflow:hidden;white-space:nowrap;
+  transition:flex-grow .6s var(--ease),opacity .4s}
+.xw-open.xw-on,
+.xw.is-static #xw-after:checked~.xw-week .xw-open{border-color:var(--line2);opacity:1}
+.xw.is-static #xw-after:checked~.xw-week .xw-open{flex-grow:var(--r)}
+@keyframes xw-spin{to{transform:rotate(360deg)}}
+
+/* the control (JavaScript on) */
+.xw-ctl{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.xw-end{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);background:none;border:0;cursor:pointer;min-height:44px;min-width:44px;padding:0 4px}
+.xw-end:hover{color:var(--tx)}
+.xw-range{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;cursor:grab;touch-action:none;--p:0%}
+.xw-range:active{cursor:grabbing}
+.xw-range::-webkit-slider-runnable-track{height:2px;background:linear-gradient(to right,var(--ac) var(--p),var(--line2) var(--p))}
+.xw-range::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-12px;border-radius:5px;background:var(--tx);border:7px solid var(--s1);box-shadow:0 0 0 1px var(--ac)}
+.xw-range::-moz-range-track{height:2px;background:var(--line2)}
+.xw-range::-moz-range-progress{height:2px;background:var(--ac)}
+.xw-range::-moz-range-thumb{width:12px;height:12px;border-radius:4px;background:var(--tx);border:7px solid var(--s1);box-shadow:0 0 0 1px var(--ac)}
+.xw-range:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+
+/* the Before/After switch (JavaScript off) */
+.xw-seg{display:inline-flex;margin-top:16px;border:1px solid var(--line2);border-radius:5px;padding:3px;gap:3px}
+.xw-seg label{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:4px;cursor:pointer;color:var(--mu);font-size:14px}
+.xw #xw-before:checked~.xw-seg label[for="xw-before"],.xw #xw-after:checked~.xw-seg label[for="xw-after"]{background:var(--s3);color:var(--tx)}
+.xw #xw-before:focus-visible~.xw-seg label[for="xw-before"],.xw #xw-after:focus-visible~.xw-seg label[for="xw-after"]{outline:2px solid var(--ac)}
+.xw.is-live .xw-seg{display:none}
+
+.xw-foot{display:flex;justify-content:space-between;align-items:center;gap:8px 18px;flex-wrap:wrap;margin-top:10px}
+.xw-readout{font-size:14.5px;color:var(--tx);min-height:22px;flex:1 1 280px}
+.xw-hint{font-size:13px;color:var(--dim);flex:0 0 auto}
+.xw.is-static .xw-ro-a,.xw.is-static #xw-after:checked~.xw-foot .xw-ro-b{display:none}
+.xw.is-static #xw-after:checked~.xw-foot .xw-ro-a{display:inline}
+.xw-legend{display:flex;gap:6px 16px;flex-wrap:wrap;list-style:none;flex-basis:100%}
+.xw-legend li{display:flex;align-items:center;gap:6px;color:var(--mu);font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.xw-sw{width:12px;height:9px;border-radius:2px;flex:none}
+.xw-sw-h{background:var(--s3);border:1px solid var(--line2)}
+.xw-sw-a{border:1px solid var(--ac)}
+.xw-sw-d{background:var(--tx)}
+.xw-sw-o{border:1px dashed var(--dim)}
+
+/* phone (D12): two days side by side, each day a column as on a desktop, so a tile is as wide as on a desktop
+   and no label has to break. (The D12 parts build had one day per row, five tiles across: words broke inside.)
+   It holds up to 900 px: below that, five columns are too narrow for the After lines ("Copy and paste").
+   Every tile keeps a fixed height; routine tiles shrink to a thin brass line and Open time takes what they free. */
+@media (max-width:900px){
+  .xw{padding:14px 12px 12px}
+  .xw-head{flex-direction:column;gap:4px;padding-bottom:10px;margin-bottom:10px}
+  .xw-title{font-size:17px}
+  .xw-week{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 8px}
+  .xw-day:last-child{grid-column:1/-1}
+  .xw-dn{margin-bottom:6px;font-size:12px;letter-spacing:.1em}
+  .xw-tasks{height:204px;gap:5px}
+  .xw-task{flex:0 0 46px;padding:6px 8px;gap:2px}
+  .xw-tl{font-size:12.5px}
+  .xw-tag{font-size:12px}
+  .xw-task.xw-r.xw-auto,
+  .xw.is-static #xw-after:checked~.xw-week .xw-task.xw-r{flex:0 0 24px;padding:0 8px}
+  .xw-task.xw-r.xw-auto .xw-tl,
+  .xw.is-static #xw-after:checked~.xw-week .xw-task.xw-r .xw-tl{font-size:12px;letter-spacing:.02em}
+  .xw-open{font-size:12px;letter-spacing:.04em}
+  .xw-ctl{gap:8px}
+  .xw-foot{flex-direction:column;align-items:flex-start}
+  .xw-readout{flex:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .xw *,.xw *::before,.xw *::after{transition:none!important;animation:none!important}
+}
+html.still .xw *,html.still .xw *::before,html.still .xw *::after{transition:none!important;animation:none!important}

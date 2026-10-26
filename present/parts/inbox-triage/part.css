@@ -1,0 +1,56 @@
+/* D12 part 3: inbox triage demo. From the old site's door 04 demo, in D10 ink and brass.
+   Uses only D10 tokens. Scoped under .xt. */
+/* D12 (integration): every text size under 12 px raised to 12 px, the site's type floor (critique fix 9). */
+.xt{background:var(--s1);border:1px solid var(--line);border-radius:6px;padding:20px 22px 16px;color:var(--tx);font-family:var(--font);max-width:860px}
+.xt *{box-sizing:border-box;margin:0;padding:0}
+.xt [hidden]{display:none!important}
+.xt-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px 24px;padding-bottom:16px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.xt-title{font-size:19px;line-height:1.25;letter-spacing:-.01em;font-weight:600}
+.xt-lead{margin-top:6px;font-size:14.5px;line-height:1.5;color:var(--mu);max-width:60ch}
+.xt-run{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:4px;border:0;background:var(--ac);color:var(--acink);font:600 14.5px/1 var(--font);white-space:nowrap;cursor:pointer;transition:background .2s,color .2s;flex:none}
+.xt-run:hover{background:var(--ac2)}
+.xt-run:disabled{background:var(--s3);color:var(--mu);cursor:default}
+
+.xt-inbox{list-style:none;display:flex;flex-direction:column;gap:8px}
+.xt-m{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 16px;padding:10px 14px;border:1px solid var(--line);border-radius:5px;background:var(--s2);transition:background .3s,border-color .3s,box-shadow .3s}
+.xt-msg{display:flex;flex-direction:column;gap:1px;min-width:0}
+.xt-from{font-size:15px;font-weight:600;letter-spacing:-.005em}
+.xt-subj{font-size:14.5px;color:var(--mu);overflow-wrap:anywhere}
+.xt-tag,.xt-pend{grid-column:2;grid-row:1;justify-self:end;font-family:var(--mono);font-size:12px;letter-spacing:.06em;line-height:1.2;white-space:nowrap;padding:6px 10px;border-radius:3px}
+.xt-tag{color:var(--ac);border:1px solid color-mix(in srgb,var(--ac) 55%,transparent);background:color-mix(in srgb,var(--ac) 9%,transparent);transition:opacity .3s,transform .3s var(--ease)}
+.xt-m[data-k="wait"] .xt-tag{color:var(--tx);border:1px dashed color-mix(in srgb,var(--tx) 60%,transparent);background:none}
+.xt-m[data-k="human"] .xt-tag{color:var(--acink);background:var(--ac);border-color:var(--ac);font-weight:600}
+.xt-pend{color:var(--dim);border:1px solid var(--line2);text-transform:uppercase;letter-spacing:.1em;font-size:12px}
+/* the message for a person stands out */
+.xt.is-static .xt-m[data-k="human"],.xt-m.xt-done[data-k="human"]{border-color:var(--ac);box-shadow:inset 0 0 0 1px var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--s2))}
+.xt.is-static .xt-pend{display:none}
+.xt.is-live .xt-m:not(.xt-done) .xt-tag{visibility:hidden;opacity:0;transform:translateX(6px)}
+.xt.is-live .xt-m.xt-done .xt-pend{visibility:hidden}
+.xt-m.xt-reading{border-color:var(--line2);background:var(--s3)}
+
+.xt-foot{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px}
+.xt-status{font-size:14.5px;color:var(--tx);min-height:22px;flex:1 1 280px}
+.xt-key{display:flex;flex-wrap:wrap;gap:6px 16px;list-style:none}
+.xt-key li{display:flex;align-items:center;gap:6px;color:var(--mu);font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.xt-sw{width:12px;height:9px;border-radius:2px;flex:none}
+.xt-sw-ai{border:1px solid var(--ac)}
+.xt-sw-wait{border:1px dashed var(--tx)}
+.xt-sw-human{background:var(--ac)}
+.xt-note{flex-basis:100%;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--mu)}
+.xt-demo{display:inline-block;border:1px dashed var(--line2);border-radius:3px;padding:2px 8px}
+
+@media (max-width:640px){
+  .xt{padding:14px 12px 12px}
+  .xt-head{flex-direction:column;padding-bottom:12px}
+  .xt-title{font-size:17px}
+  .xt-lead{font-size:14px}
+  .xt-run{width:100%}
+  .xt-m{grid-template-columns:minmax(0,1fr);padding:10px 12px;gap:8px}
+  .xt-tag,.xt-pend{grid-column:1;grid-row:2;justify-self:start;white-space:normal}
+  .xt-from{font-size:14.5px}
+  .xt-subj{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  .xt *,.xt *::before,.xt *::after{transition:none!important;animation:none!important}
+}
+html.still .xt *,html.still .xt *::before,html.still .xt *::after{transition:none!important;animation:none!important}
