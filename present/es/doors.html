@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Las puertas · Crossland AI</title>
+<title>Encuentre su paso · Crossland AI</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' fill='%230B1220'/%3E%3Ccircle cx='11' cy='11' r='8' fill='none' stroke='%23F4EFE8' stroke-width='1.6'/%3E%3Ccircle cx='11' cy='11' r='3' fill='%23E2A93B'/%3E%3C/svg%3E">
 <meta name="description" content="Somos lo que necesita. Cursos, capacitación en vivo, un plan, todo construido y operado para usted, o su propia idea construida con nosotros. Nos quedamos, y nos encargamos de la parte difícil.">
 <script>
@@ -39,7 +39,7 @@ Crossland AI
 <nav class="nav" id="mainnav" aria-label="Principal">
 <ul>
 <li><a href="index.html">Mapa</a></li>
-<li><a href="doors.html" aria-current="page">Las puertas</a></li>
+<li><a href="doors.html" aria-current="page">Encuentre su paso</a></li>
 <li><a href="partners.html">Construya con nosotros</a></li>
 <li><a href="about.html">Nosotros</a></li>
 <li><a href="work.html">Nuestro trabajo</a></li>
@@ -57,7 +57,7 @@ Crossland AI
 </header>
 <nav class="way" aria-label="Dónde está">
 <a class="bk" data-back href="index.html"><span class="ba" aria-hidden="true">←</span><span class="bl">Volver al mapa</span></a>
-<ol class="trail"><li><a href="index.html">Mapa</a></li><li><span aria-current="page">Las puertas</span></li></ol>
+<ol class="trail"><li><a href="index.html">Mapa</a></li><li><span aria-current="page">Encuentre su paso</span></li></ol>
 <div class="kwrap"><button class="kbtn" type="button" aria-expanded="false" aria-controls="keys"><kbd>?</kbd>Teclas</button>
 <p class="keys mono" id="keys" hidden><span><kbd>Esc</kbd>Atrás</span>
 <span><kbd>← →</kbd>Puertas</span>
@@ -393,7 +393,7 @@ Crossland AI
 <p class="sf-h mono">Páginas</p>
 <ul>
 <li><a href="index.html">Mapa</a></li>
-<li><a href="doors.html" aria-current="page">Las puertas</a></li>
+<li><a href="doors.html" aria-current="page">Encuentre su paso</a></li>
 <li><a href="partners.html">Construya con nosotros</a></li>
 <li><a href="about.html">Nosotros</a></li>
 <li><a href="work.html">Nuestro trabajo</a></li>
@@ -455,7 +455,7 @@ function label(k){var h=hs(k);if(pg(k)==='index.html')return 'el mapa';if(pg(k)=
 function crumbs(k){
 var h=hs(k),c=[['Mapa','index.html']];
 if(pg(k)==='index.html'){if(h)c.push([h==='support'?'Soporte':NUM[h]+' '+NAME[h],k])}
-else if(pg(k)==='doors.html'){c.push(['Las puertas','doors.html']);if(h)c.push([NUM[h]+' '+NAME[h],k])}
+else if(pg(k)==='doors.html'){c.push(['Encuentre su paso','doors.html']);if(h)c.push([NUM[h]+' '+NAME[h],k])}
 else if(pg(k)==='about.html'){c.push(['Nosotros','about.html']);c.push([hs(k)==='ai'?'IA':'Personas',k])}
 else if(k==='work.html')c.push(['Nuestro trabajo',k]);
 else if(more(k))c.push([MORE[k],k]);
@@ -600,7 +600,7 @@ var on=x===id;
 panel[x].classList.toggle('on',on);
 tab[x].setAttribute('aria-selected',on);tab[x].tabIndex=on||(!id&&x==='course')?0:-1;
 });
-document.title=(id?XL.NUM[id]+' '+names[id]+' · Las puertas · ':'Las puertas · ')+'Crossland AI';
+document.title=(id?XL.NUM[id]+' '+names[id]+' · Encuentre su paso · ':'Encuentre su paso · ')+'Crossland AI';
 if(phone.matches){
 if(id&&dir!=='out')setTimeout(function(){panel[id].scrollIntoView({block:'start'})},10);
 if(dir)XL.enter(id?panel[id]:panels,dir);
