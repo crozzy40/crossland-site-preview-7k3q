@@ -1,3 +1,3 @@
-# Crossland AI
+# Crossland AI site preview
 
-Search engines are asked not to index this site.
+A draft mock-up for review. Not the published site. Search engines are asked not to index it.
