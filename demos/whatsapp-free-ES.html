@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead to appointment — live demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --accent: #4D7CFE;
+    --channel: #22B573;
+    --urgent: #F0A030;
+    --danger: #E5484D;
+    --radius-lg: 18px;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --ease: cubic-bezier(.2,.8,.2,1);
+    --shadow-pop: 0 18px 50px -20px rgba(10,16,32,.55);
+  }
+  [data-theme="dark"] {
+    --bg: #0F1420;
+    --bg-2: #131A29;
+    --surface: #182034;
+    --surface-2: #1F2940;
+    --line: #283350;
+    --line-strong: #364468;
+    --text: #E9EDF7;
+    --text-2: #A7B1C9;
+    --text-3: #6F7B98;
+    --accent-soft: rgba(77,124,254,.16);
+    --channel-soft: rgba(34,181,115,.16);
+    --urgent-soft: rgba(240,160,48,.16);
+    --danger-soft: rgba(229,72,77,.16);
+    --rail-bg: #121a2b;
+    --host-band: rgba(77,124,254,.07);
+    --skeleton: #222c44;
+    --skeleton-hi: #2c3852;
+    --wa-head: #1f2c34; --wa-head-text: #e9edef; --wa-chat: #0b141a; --wa-in: #202c33; --wa-out: #005c4b; --wa-text: #e9edef; --wa-meta: #8696a0; --wa-bar: #1f2c34; --wa-field: #2a3942; --wa-read: #53bdeb;
+    color-scheme: dark;
+  }
+  [data-theme="light"] {
+    --bg: #F4F6FB;
+    --bg-2: #EEF1F8;
+    --surface: #FFFFFF;
+    --surface-2: #F6F8FD;
+    --line: #DEE3EF;
+    --line-strong: #C7CFE2;
+    --text: #131A2B;
+    --text-2: #4C5771;
+    --text-3: #8791AB;
+    --accent-soft: rgba(77,124,254,.12);
+    --channel-soft: rgba(34,181,115,.13);
+    --urgent-soft: rgba(240,160,48,.16);
+    --danger-soft: rgba(229,72,77,.12);
+    --rail-bg: #FFFFFF;
+    --host-band: rgba(77,124,254,.06);
+    --skeleton: #E4E8F2;
+    --skeleton-hi: #F1F3F9;
+    --wa-head: #008069; --wa-head-text: #ffffff; --wa-chat: #efeae2; --wa-in: #ffffff; --wa-out: #d9fdd3; --wa-text: #111b21; --wa-meta: #667781; --wa-bar: #f0f2f5; --wa-field: #ffffff; --wa-read: #53bdeb;
+    --shadow-pop: 0 18px 50px -20px rgba(20,30,60,.35);
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    transition: background .3s var(--ease), color .3s var(--ease);
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- layout ---------- */
+  .app { max-width: 1320px; margin: 0 auto; padding: 18px 20px 60px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 4px 0 18px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(135deg, var(--accent), #7A9BFF); display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 15px; letter-spacing: -.02em; }
+  .brand-name { font-weight: 800; font-size: 17px; letter-spacing: -.01em; line-height: 1.15; }
+  .brand-for { font-size: 12.5px; color: var(--text-2); }
+  .topbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-weight: 600; font-size: 13px; line-height: 1; transition: transform .12s var(--ease), background .18s, border-color .18s, box-shadow .18s; white-space: nowrap; }
+  .btn:hover:not(:disabled) { background: var(--surface-2); border-color: var(--line-strong); }
+  .btn:active:not(:disabled) { transform: translateY(1px) scale(.985); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 6px 18px -8px var(--accent); }
+  .btn-primary:hover:not(:disabled) { background: #3d6ef5; border-color: #3d6ef5; }
+  .btn-channel { background: var(--channel); border-color: var(--channel); color: #fff; }
+  .btn-channel:hover:not(:disabled) { background: #1da366; border-color: #1da366; }
+  .btn-ghost { background: transparent; border-color: transparent; color: var(--text-2); }
+  .btn-ghost:hover:not(:disabled) { background: var(--surface-2); color: var(--text); }
+  .btn-icon { padding: 9px; width: 36px; height: 36px; }
+  .btn.pulse { animation: pulse-ring 1.4s var(--ease) infinite; }
+  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 var(--channel-soft), 0 0 0 0 var(--channel); } 70% { box-shadow: 0 0 0 10px transparent, 0 0 0 4px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+  .seg { display: inline-flex; padding: 3px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; gap: 2px; }
+  .seg button { padding: 6px 12px; border: 0; background: transparent; border-radius: 7px; font-weight: 600; font-size: 12.5px; color: var(--text-2); transition: background .18s, color .18s; }
+  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.18); }
+  .seg button:hover:not([aria-pressed="true"]) { color: var(--text); }
+
+  kbd { font-family: var(--font); font-size: 11px; padding: 2px 6px; border-radius: 5px; border: 1px solid var(--line-strong); background: var(--bg-2); color: var(--text-2); }
+
+  /* ---------- rail ---------- */
+  .rail { background: var(--rail-bg); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 20px 22px 12px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .rail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 4px; flex-wrap: wrap; }
+  .rail-title { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; margin: 0; min-height: 27px; transition: opacity .2s; }
+  .rail-desc { margin: 4px 0 0; color: var(--text-2); font-size: 14px; max-width: 58ch; min-height: 21px; }
+  .rail-lead { text-align: right; font-size: 13px; color: var(--text-2); flex-shrink: 0; }
+  .rail-lead strong { display: block; color: var(--text); font-size: 15px; }
+  .turn { display: flex; align-items: center; gap: 10px; margin: 10px 0 2px; padding: 10px 14px; border-radius: 10px; background: var(--accent-soft); border: 1px solid rgba(77,124,254,.4); font-weight: 700; font-size: 13.5px; animation: enter .3s var(--ease); }
+  .turn[hidden], .score[hidden] { display: none; }
+  .turn-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: turn-pulse 1.3s ease-out infinite; flex-shrink: 0; }
+  @keyframes turn-pulse { 0% { box-shadow: 0 0 0 0 rgba(77,124,254,.6); } 100% { box-shadow: 0 0 0 9px rgba(77,124,254,0); } }
+  .qchip.pulse { animation: pulse-ring 1.4s var(--ease) infinite; }
+  .score { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+  .score div { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .score b { display: block; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+  .score span { font-size: 12px; color: var(--text-2); }
+  @media (max-width: 720px) { .score { grid-template-columns: 1fr 1fr; } }
+  .rail-scroll { overflow-x: auto; overflow-y: hidden; margin: 6px -22px 0; padding: 0 22px; scrollbar-width: thin; }
+  .rail-svg { display: block; width: 100%; min-width: 760px; height: auto; }
+  .station { transition: transform .25s var(--ease); }
+  .station .ring { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; transition: stroke .25s, fill .25s, stroke-width .25s; }
+  .station .icon { stroke: var(--text-3); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; transition: stroke .25s; }
+  .station .lbl { fill: var(--text-2); font-size: 13px; font-weight: 600; text-anchor: middle; transition: fill .25s; }
+  .station .sub { fill: var(--text-3); font-size: 11px; text-anchor: middle; }
+  .station.done .ring { stroke: var(--line-strong); fill: var(--surface-2); }
+  .station.done .icon { stroke: var(--text-2); }
+  .station.active .ring { stroke: var(--accent); stroke-width: 2.5; fill: var(--surface-2); }
+  .station.active .icon { stroke: var(--accent); }
+  .station.active .lbl { fill: var(--text); }
+  .station.active .halo { opacity: 1; }
+  .station.alert .ring { stroke: var(--urgent); stroke-width: 2.5; }
+  .station.alert .icon { stroke: var(--urgent); }
+  .station.alert .halo { opacity: 1; stroke: var(--urgent); animation: halo-pulse 1s var(--ease) infinite; }
+  .station.ok .ring { stroke: var(--channel); stroke-width: 2.5; }
+  .station.ok .icon { stroke: var(--channel); }
+  .halo { fill: none; stroke: var(--accent); stroke-width: 6; opacity: 0; transition: opacity .3s; stroke-opacity: .28; }
+  @keyframes halo-pulse { 0%, 100% { stroke-opacity: .1; r: 34; } 50% { stroke-opacity: .4; } }
+  .track-line { stroke: var(--line-strong); stroke-width: 2; }
+  .host-band { fill: var(--host-band); stroke: var(--accent); stroke-opacity: .25; stroke-dasharray: 4 5; }
+  .host-lbl { fill: var(--text-3); font-size: 11.5px; font-weight: 600; text-anchor: middle; }
+  .packet { opacity: 0; transition: opacity .15s; }
+  .packet .core { fill: var(--accent); }
+  .packet .glow { fill: var(--accent); opacity: .35; }
+  .packet.green .core, .packet.green .glow { fill: var(--channel); }
+  .packet.amber .core, .packet.amber .glow { fill: var(--urgent); }
+
+  /* ---------- controls ---------- */
+  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 14px; position: sticky; top: 8px; z-index: 20; box-shadow: 0 8px 30px -22px rgba(0,0,0,.6); }
+  .controls .grow { flex: 1; min-width: 160px; }
+  .control-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .control-group.hidden { display: none; }
+  .check { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-2); cursor: pointer; user-select: none; padding: 6px 4px; }
+  .check input { accent-color: var(--accent); width: 15px; height: 15px; margin: 0; }
+  .mode-block { display: flex; flex-direction: column; gap: 3px; }
+  .mode-seg .paid-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--urgent); margin-left: 5px; vertical-align: middle; }
+  .mode-seg button.locked { opacity: .55; cursor: not-allowed; }
+  .mode-seg button.locked .lock { font-size: 10px; margin-left: 4px; vertical-align: middle; }
+  .mode-hint { font-size: 11px; color: var(--text-3); max-width: 300px; }
+  .auto-note { font-size: 11px; color: var(--channel); margin-top: 4px; display: block; }
+  .select { padding: 8px 10px; border-radius: 9px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 12.5px; }
+  .progress { height: 6px; border-radius: 99px; background: var(--bg-2); overflow: hidden; border: 1px solid var(--line); }
+  .progress > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #7A9BFF); border-radius: 99px; transition: width .5s var(--ease); }
+  .progress-lbl { font-size: 12px; color: var(--text-2); margin-top: 5px; display: flex; justify-content: space-between; }
+  .steps { display: flex; gap: 6px; flex-wrap: wrap; width: 100%; }
+  .step { flex: 1; min-width: 74px; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 4px; border-radius: 9px; border: 1px solid var(--line); background: var(--bg-2); color: var(--text-2); font-size: 11.5px; font-weight: 600; transition: background .18s, border-color .18s, color .18s, opacity .18s; }
+  .step em { font-style: normal; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); color: var(--text-2); font-size: 11px; }
+  .step:hover { background: var(--surface-2); }
+  .step[aria-current="step"] { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
+  .step[aria-current="step"] em { background: var(--accent); color: #fff; }
+  .step.past { opacity: .6; }
+  .step.past em { background: var(--channel-soft); color: var(--channel); }
+
+  /* ---------- workspace ---------- */
+  .work { display: grid; grid-template-columns: 340px minmax(0,1fr) 320px; gap: 14px; align-items: start; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); display: flex; flex-direction: column; min-width: 0; }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px 10px; }
+  .panel-title { font-size: 14px; font-weight: 700; margin: 0; }
+  .panel-hint { font-size: 12px; color: var(--text-3); }
+  .panel-body { padding: 0 16px 16px; }
+  .stack > * + * { margin-top: 14px; }
+
+  .empty { border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 22px 16px; text-align: center; color: var(--text-2); font-size: 13px; }
+  .empty strong { display: block; color: var(--text); margin-bottom: 4px; font-size: 13.5px; }
+
+  /* inbox */
+  .inbox { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .lead-row { display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; border: 1px solid transparent; background: transparent; text-align: left; width: 100%; transition: background .15s, border-color .15s; }
+  .lead-row:hover { background: var(--surface-2); }
+  .lead-row[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent); }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 12px; color: #fff; }
+  .lead-name { font-weight: 700; font-size: 13px; }
+  .lead-sub { font-size: 11.5px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pill { font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+  .pill-new { background: var(--accent-soft); color: var(--accent); }
+  .pill-wait { background: var(--urgent-soft); color: var(--urgent); }
+  .pill-ok { background: var(--channel-soft); color: var(--channel); }
+  .pill-idle { background: var(--bg-2); color: var(--text-3); border: 1px solid var(--line); }
+
+  /* phone */
+  .phone { width: 100%; max-width: 330px; margin: 0 auto; background: #0d0f14; border-radius: 40px; padding: 11px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.7), inset 0 0 0 1.5px #2a2f3b; }
+  .phone-screen { background: var(--wa-chat); border-radius: 30px; overflow: hidden; display: flex; flex-direction: column; height: 560px; position: relative; }
+  .phone-status { display: flex; justify-content: space-between; align-items: center; padding: 10px 22px 2px; background: var(--wa-head); color: var(--wa-head-text); font-size: 12px; font-weight: 700; }
+  .phone-status .island { position: absolute; left: 50%; top: 10px; transform: translateX(-50%); width: 86px; height: 22px; border-radius: 12px; background: #0d0f14; }
+  .wa-head { display: flex; align-items: center; gap: 10px; padding: 8px 12px 10px; background: var(--wa-head); color: var(--wa-head-text); }
+  .wa-head .avatar { width: 34px; height: 34px; font-size: 12px; }
+  .wa-name { font-weight: 700; font-size: 14px; line-height: 1.2; }
+  .wa-sub { font-size: 11.5px; opacity: .8; }
+  .wa-body { flex: 1; overflow-y: auto; padding: 14px 10px 10px; display: flex; flex-direction: column; gap: 6px; scrollbar-width: none; background-color: var(--wa-chat); background-image: radial-gradient(rgba(127,127,127,.09) 1px, transparent 1px); background-size: 14px 14px; }
+  .wa-body::-webkit-scrollbar { display: none; }
+  .wa-day { align-self: center; font-size: 11px; color: var(--wa-meta); background: var(--wa-in); padding: 4px 10px; border-radius: 8px; margin-bottom: 4px; }
+  .msg { max-width: 86%; padding: 7px 9px 6px; border-radius: 9px; font-size: 13.5px; line-height: 1.4; color: var(--wa-text); box-shadow: 0 1px 1px rgba(0,0,0,.12); position: relative; }
+  .msg.in { align-self: flex-start; background: var(--wa-in); border-top-left-radius: 2px; }
+  .msg.out { align-self: flex-end; background: var(--wa-out); border-top-right-radius: 2px; }
+  .msg-time { font-size: 10.5px; color: var(--wa-meta); margin-top: 3px; display: flex; gap: 5px; justify-content: flex-end; align-items: center; }
+  .msg-time .auto { font-style: italic; margin-right: auto; }
+  .ticks { color: var(--wa-read); font-weight: 700; letter-spacing: -2px; }
+  .ticks.grey { color: var(--wa-meta); }
+  .typing { align-self: flex-start; display: inline-flex; gap: 4px; padding: 10px 12px; background: var(--wa-in); border-radius: 9px; border-top-left-radius: 2px; }
+  .typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--wa-meta); animation: dot 1s infinite; }
+  .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+  @keyframes dot { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-4px); opacity: 1; } }
+  .caret { display: inline-block; width: 2px; height: 1em; background: var(--wa-text); vertical-align: -2px; margin-left: 1px; animation: blink .8s steps(1) infinite; }
+  .wa-empty { margin: auto; text-align: center; color: var(--wa-meta); font-size: 13px; padding: 0 24px; }
+  .wa-empty strong { display: block; color: var(--wa-text); font-size: 14px; margin-bottom: 4px; }
+  .wa-quick { display: flex; gap: 8px; justify-content: flex-end; padding: 0 10px 8px; background: var(--wa-chat); }
+  .wa-quick:empty { display: none; }
+  .qchip { padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--channel); background: var(--wa-in); color: var(--channel); font-weight: 700; font-size: 12.5px; }
+  .qchip:hover { background: var(--wa-out); }
+  .wa-input { display: flex; align-items: center; gap: 8px; padding: 8px 10px 12px; background: var(--wa-bar); }
+  .wa-field { flex: 1; height: 36px; border-radius: 18px; background: var(--wa-field); color: var(--wa-meta); font-size: 13px; display: flex; align-items: center; padding: 0 14px; }
+  .wa-mic { width: 36px; height: 36px; border-radius: 50%; background: var(--channel); display: grid; place-items: center; color: #fff; }
+  .wa-mic svg { width: 18px; height: 18px; }
+  .captured { margin-top: 12px; }
+  .captured-lbl { font-size: 12px; color: var(--text-3); margin-bottom: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(77,124,254,.35); }
+  .enter { animation: enter .35s var(--ease) both; }
+  @keyframes enter { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+
+  /* cards in system column */
+  .card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+  .card-title { font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 8px; }
+  .card-title svg { width: 16px; height: 16px; color: var(--text-3); flex-shrink: 0; }
+  .card-head .card-title { flex: 1; min-width: 0; overflow-wrap: break-word; }
+  .card-head .panel-hint, .card-head .pill { flex-shrink: 0; }
+  .field { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .field:last-child { border-bottom: 0; }
+  .field span:first-child { color: var(--text-3); }
+  .field span:last-child { font-weight: 600; text-align: right; }
+  .draft-text { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; font-size: 13.5px; line-height: 1.5; }
+  .draft-text[contenteditable="true"] { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+  .draft-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .draft-note { font-size: 12px; color: var(--text-3); margin-top: 8px; }
+  .triage { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; }
+  .triage.urgent { background: var(--urgent-soft); color: var(--urgent); }
+  .triage.normal { background: var(--bg-2); color: var(--text-2); border: 1px solid var(--line); }
+  .triage svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .sla { margin-top: 8px; padding: 9px 12px; border-radius: 10px; background: var(--bg-2); border: 1px solid var(--line); font-size: 12.5px; }
+  .sla-row { display: flex; justify-content: space-between; gap: 10px; align-items: center; font-weight: 600; color: var(--text-2); }
+  .sla-row span:first-child { display: inline-flex; align-items: center; gap: 6px; }
+  .sla-row svg { width: 14px; height: 14px; }
+  .sla-bar { height: 5px; border-radius: 99px; background: var(--line); margin-top: 7px; overflow: hidden; }
+  .sla-bar > div { height: 100%; background: var(--urgent); border-radius: 99px; transition: width 1s linear; }
+  .sla.warn .sla-row { color: var(--urgent); }
+  .sla.over { border-color: var(--danger); } .sla.over .sla-row { color: var(--danger); } .sla.over .sla-bar > div { background: var(--danger); }
+  .sla.met { border-color: rgba(34,181,115,.4); } .sla.met .sla-row { color: var(--channel); } .sla.met .sla-bar > div { background: var(--channel); }
+  .sla.late .sla-row { color: var(--danger); } .sla.late .sla-bar > div { background: var(--danger); }
+  .station .sub { display: none; }
+  .lens-tech .station .sub { display: block; }
+  .lens-tech .station .lbl { font-size: 12.5px; }
+  .trust { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .trust div { background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; font-size: 12px; color: var(--text-2); }
+  .trust b { display: block; color: var(--text); font-size: 12.5px; margin-bottom: 2px; }
+  .trust b::before { content: "✓ "; color: var(--channel); }
+  .ev { border: 1px solid var(--line); border-radius: 10px; background: var(--bg-2); margin-top: 8px; overflow: hidden; }
+  .ev-head { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 8px 11px; font-size: 12px; }
+  .ev-verb { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 700; font-size: 11px; padding: 2px 7px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
+  .ev-verb.fail { background: var(--danger-soft); color: var(--danger); }
+  .ev-verb.ok { background: var(--channel-soft); color: var(--channel); }
+  .ev-verb.amber { background: var(--urgent-soft); color: var(--urgent); }
+  .ev-hop { font-weight: 600; }
+  .ev-lat { color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .ev pre { margin: 0; padding: 8px 11px 10px; border-top: 1px solid var(--line); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11.5px; line-height: 1.5; color: var(--text-2); white-space: pre-wrap; word-break: break-word; background: var(--surface); }
+  .ev pre .k { color: var(--accent); } .ev pre .s { color: var(--channel); } .ev pre .n { color: var(--urgent); }
+  .lens-tech #panelSystem .panel-title::after { content: " · event stream"; color: var(--text-3); font-weight: 500; }
+  @media (max-width: 720px) { .trust { grid-template-columns: 1fr; } }
+  pre.md { margin: 0; padding: 10px 12px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11.5px; line-height: 1.5; color: var(--text-2); white-space: pre-wrap; word-break: break-word; max-height: 300px; overflow: auto; }
+  .tiers { display: grid; gap: 6px; }
+  .tier-h { font-size: 12px; font-weight: 700; color: var(--text-3); margin: 10px 0 2px; }
+  .tier-row { display: flex; gap: 8px; font-size: 12.5px; align-items: flex-start; color: var(--text-2); }
+  .tier-row i { font-style: normal; flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 800; }
+  .tier-row.in i { background: var(--channel-soft); color: var(--channel); }
+  .tier-row.out i { background: var(--bg-2); color: var(--text-3); border: 1px solid var(--line); }
+  .drive { display: flex; flex-direction: column; gap: 4px; }
+  .drive-row { display: grid; grid-template-columns: 22px 1fr auto; gap: 8px; align-items: center; padding: 7px 8px; border-radius: 8px; font-size: 12.5px; }
+  .drive-row:hover { background: var(--bg-2); }
+  .drive-row svg { width: 16px; height: 16px; color: var(--text-3); }
+  .drive-row b { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 600; font-size: 12px; }
+  .drive-row span:last-child { font-size: 11px; color: var(--text-3); }
+  .tier-badge { font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: var(--channel-soft); color: var(--channel); margin-left: 8px; vertical-align: 2px; }
+  .appt { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .appt:last-child { border-bottom: 0; }
+  .date-tile { width: 50px; height: 50px; border-radius: 11px; background: var(--channel-soft); border: 1px solid rgba(34,181,115,.4); color: var(--channel); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; flex-shrink: 0; }
+  .date-tile b { font-size: 18px; font-weight: 800; }
+  .date-tile small { font-size: 10px; font-weight: 700; margin-top: 2px; }
+  .date-tile.faded { background: var(--bg-2); border-color: var(--line); color: var(--text-3); }
+  .date-tile.urgent { background: var(--urgent-soft); border-color: rgba(240,160,48,.5); color: var(--urgent); }
+  .appt-title { font-weight: 700; font-size: 13px; }
+  .appt-sub { font-size: 12px; color: var(--text-3); }
+
+  /* metrics */
+  .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .metric { background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 12px 10px; }
+  .metric-v { font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+  .metric-v small { font-size: 13px; font-weight: 600; color: var(--text-3); margin-left: 2px; }
+  .metric-l { font-size: 12px; color: var(--text-2); margin-top: 3px; }
+  .metric-d { font-size: 11px; font-weight: 700; margin-top: 6px; color: var(--channel); }
+  .metric-d.flat { color: var(--text-3); }
+  .chart-wrap { margin-top: 12px; }
+  .chart-svg { width: 100%; height: auto; display: block; }
+  .bar { transition: height .6s var(--ease), y .6s var(--ease); }
+  .bar-lead { fill: var(--line-strong); }
+  .bar-book { fill: var(--accent); }
+  .chart-lbl { fill: var(--text-3); font-size: 11px; text-anchor: middle; }
+  .chart-lbl.today { fill: var(--text); font-weight: 700; }
+  .legend { display: flex; gap: 14px; font-size: 11.5px; color: var(--text-2); margin-top: 4px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 5px; }
+
+  /* feed */
+  .feed { display: flex; flex-direction: column; gap: 2px; max-height: 340px; overflow-y: auto; scrollbar-width: thin; padding-right: 2px; }
+  .feed-item { display: grid; grid-template-columns: 26px 1fr auto; gap: 9px; align-items: start; padding: 7px 6px; border-radius: 9px; font-size: 12.5px; }
+  .feed-item:hover { background: var(--bg-2); }
+  .feed-ic { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+  .feed-ic svg { width: 14px; height: 14px; }
+  .feed-ic.green { background: var(--channel-soft); color: var(--channel); }
+  .feed-ic.amber { background: var(--urgent-soft); color: var(--urgent); }
+  .feed-ic.red { background: var(--danger-soft); color: var(--danger); }
+  .feed-ic.grey { background: var(--bg-2); color: var(--text-3); border: 1px solid var(--line); }
+  .feed-t { font-size: 11px; color: var(--text-3); white-space: nowrap; padding-top: 2px; }
+  .feed-item b { font-weight: 700; }
+
+  /* toasts */
+  .toasts { position: fixed; right: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 8px; z-index: 60; width: min(360px, calc(100vw - 36px)); }
+  .toast { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: start; padding: 12px 12px 12px 12px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 12px; box-shadow: var(--shadow-pop); animation: toast-in .35s var(--ease) both; position: relative; overflow: hidden; }
+  .toast.leaving { animation: toast-out .25s var(--ease) both; }
+  .toast .feed-ic { width: 30px; height: 30px; }
+  .toast-title { font-weight: 700; font-size: 13px; }
+  .toast-body { font-size: 12.5px; color: var(--text-2); }
+  .toast-x { background: transparent; border: 0; color: var(--text-3); padding: 2px 4px; border-radius: 6px; }
+  .toast-x:hover { color: var(--text); background: var(--surface-2); }
+  .toast::after { content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--accent); transform-origin: left; animation: toast-bar var(--toast-ms, 4200ms) linear forwards; }
+  .toast.green::after { background: var(--channel); } .toast.amber::after { background: var(--urgent); } .toast.red::after { background: var(--danger); }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes toast-out { to { opacity: 0; transform: translateX(16px); } }
+  @keyframes toast-bar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+  /* loader */
+  .loader { position: fixed; inset: 0; background: var(--bg); z-index: 100; display: grid; place-items: center; transition: opacity .45s var(--ease); }
+  .loader.out { opacity: 0; pointer-events: none; }
+  .loader-box { width: min(520px, 92vw); }
+  .loader-title { font-weight: 800; font-size: 18px; letter-spacing: -.01em; margin-bottom: 14px; }
+  .sk { border-radius: 8px; background: linear-gradient(90deg, var(--skeleton) 25%, var(--skeleton-hi) 50%, var(--skeleton) 75%); background-size: 200% 100%; animation: shimmer 1.2s linear infinite; }
+  @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  .loader-rows { display: grid; gap: 10px; margin-bottom: 18px; }
+  .loader-rows .sk { height: 46px; }
+  .loader-status { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--text-2); }
+  .loader-status div { display: flex; align-items: center; gap: 8px; opacity: .45; transition: opacity .3s; }
+  .loader-status div.on { opacity: 1; color: var(--text); }
+  .loader-status div.ok { opacity: 1; }
+  .loader-status .dotp { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
+  .loader-status .on .dotp { background: var(--accent); animation: blink .8s infinite; }
+  .loader-status .ok .dotp { background: var(--channel); animation: none; }
+  @keyframes blink { 50% { opacity: .3; } }
+
+  /* tour */
+  .tour { position: fixed; inset: 0; z-index: 80; display: none; }
+  .tour.open { display: block; }
+  .tour-spot { position: absolute; border-radius: 14px; box-shadow: 0 0 0 9999px rgba(8,12,22,.66); transition: all .35s var(--ease); pointer-events: none; border: 2px solid var(--accent); }
+  .tour-card { position: absolute; width: min(380px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line-strong); border-radius: 14px; padding: 16px 16px 14px; box-shadow: var(--shadow-pop); transition: top .35s var(--ease), left .35s var(--ease); }
+  .tour-step { font-size: 12px; color: var(--text-3); font-weight: 600; margin-bottom: 4px; }
+  .tour-title { font-weight: 800; font-size: 16px; margin: 0 0 6px; letter-spacing: -.01em; }
+  .tour-body { color: var(--text-2); font-size: 13.5px; margin: 0 0 10px; }
+  .tour-nav { display: flex; gap: 8px; align-items: center; }
+  .tour-nav .spacer { flex: 1; }
+
+  .foot { margin-top: 24px; font-size: 12px; color: var(--text-3); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  @media (max-width: 1080px) {
+    .work { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+    .work .panel:nth-child(3) { grid-column: 1 / -1; }
+    .panel:nth-child(3) .panel-body { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .panel:nth-child(3) .chart-wrap { margin-top: 0; }
+  }
+  @media (max-width: 720px) {
+    .app { padding: 12px 12px 48px; }
+    .work { grid-template-columns: 1fr; }
+    .panel:nth-child(3) .panel-body { grid-template-columns: 1fr; }
+    .controls { position: static; }
+    .rail { padding: 16px 14px 8px; }
+    .rail-scroll { margin: 6px -14px 0; padding: 0 14px; }
+    .rail-title { font-size: 18px; }
+    .rail-lead { text-align: left; }
+    #kbdHint { display: none; }
+    .tour-card { left: 12px !important; right: 12px; bottom: 12px; top: auto !important; width: auto; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+    .step { min-width: 62px; font-size: 10.5px; }
+    .phone-screen { height: 500px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition-duration: .001s !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-live="polite">
+  <div class="loader-box">
+    <div class="loader-title" id="loaderTitle">Iniciando el entorno de demostración</div>
+    <div class="loader-rows"><div class="sk"></div><div class="sk"></div><div class="sk" style="width:70%"></div></div>
+    <div class="loader-status" id="loaderStatus"></div>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" id="brandMark">N</div>
+      <div>
+        <div class="brand-name" id="brandName">Lead to appointment</div>
+        <div class="brand-for" id="brandFor"></div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="panel-hint" id="kbdHint"><kbd>Space</kbd> play <kbd>R</kbd> reset <kbd>U</kbd> under the hood <kbd>?</kbd> guía</span>
+      <div class="seg" id="lensSeg" role="group" aria-label="View">
+        <button type="button" id="lensBusiness" aria-pressed="true">Vista de negocio</button>
+        <button type="button" id="lensTech" aria-pressed="false">Por dentro</button>
+      </div>
+      <button class="btn" id="btnTour" type="button">Guía del presentador</button>
+      <button class="btn btn-icon" id="btnTheme" type="button" aria-label="Cambiar a tema claro" title="Switch theme"></button>
+    </div>
+  </header>
+
+  <section class="rail" id="rail" aria-label="Message pipeline">
+    <div class="rail-head">
+      <div>
+        <h1 class="rail-title" id="stepTitle">Listo cuando tú quieras</h1>
+        <p class="rail-desc" id="stepDesc">Tus clientes siguen en WhatsApp. Tú apruebas desde Telegram. Los registros viven en tu Google Drive. Sin servidores. Presiona Reproducir para verlo funcionar.</p>
+      </div>
+      <div class="rail-lead" id="railLead"></div>
+    </div>
+    <div class="score" id="score" hidden></div>
+    <div class="turn" id="turn" hidden><span class="turn-dot"></span><span id="turnText"></span></div>
+    <div class="rail-scroll"><svg class="rail-svg" id="railSvg" viewBox="0 0 1040 150" role="img" aria-labelledby="railTitle"><title id="railTitle">Estaciones del recorrido, del cliente al calendario</title></svg></div>
+  </section>
+
+  <section class="controls" id="controls" aria-label="Demo controls">
+    <div class="seg" role="group" aria-label="Mode">
+      <button type="button" id="modeDemo" aria-pressed="true">Verlo funcionar</button>
+      <button type="button" id="modeHands" aria-pressed="false">Pruébalo tú mismo</button>
+      <button type="button" id="modeStep" aria-pressed="false">Paso a paso</button>
+    </div>
+    <div class="control-group" id="demoControls">
+      <button class="btn btn-primary" id="btnPlay" type="button"></button>
+      <button class="btn" id="btnReset" type="button">Reiniciar</button>
+      <select class="select" id="speedSel" aria-label="Playback speed"><option value="0.55">Tranquilo</option><option value="1" selected>Normal</option><option value="1.8">Rápido</option></select>
+      <div class="mode-block" id="approvalModeWrap">
+        <div class="seg mode-seg" role="group" aria-label="Approval mode">
+          <button type="button" id="modeManual" aria-pressed="true">Manual</button>
+          <button type="button" id="modeHybrid" class="locked" aria-pressed="false" aria-disabled="true" title="Parte de la versión paga">Híbrido<i class="paid-dot" aria-hidden="true"></i><span class="lock" aria-hidden="true">&#128274;</span></button>
+          <button type="button" id="modeAuto" class="locked" aria-pressed="false" aria-disabled="true" title="Parte de la versión paga">Auto<i class="paid-dot" aria-hidden="true"></i><span class="lock" aria-hidden="true">&#128274;</span></button>
+        </div>
+        <div class="mode-hint" id="modeHint">Manual es lo que va incluido sin costo: cada respuesta espera tu toque. Híbrido y Auto son parte de la versión paga.</div>
+      </div>
+      <button class="btn btn-primary" id="btnNextLead" type="button">Traer al siguiente cliente</button>
+    </div>
+    <div class="control-group hidden" id="stepControls">
+      <div class="seg" role="group" aria-label="Lead type">
+        <button type="button" id="urgNormal" aria-pressed="true">Lead normal</button>
+        <button type="button" id="urgUrgent" aria-pressed="false">Lead urgente</button>
+      </div>
+      <button class="btn" id="btnBack" type="button">Atrás</button>
+      <button class="btn btn-primary" id="btnNext" type="button">Siguiente paso</button>
+      <button class="btn btn-ghost" id="btnRestart" type="button">Reiniciar</button>
+    </div>
+    <div class="grow" id="progressWrap">
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="progress-lbl"><span id="progressLbl">Sin empezar</span><span id="progressLeads" class="num"></span></div>
+    </div>
+    <div class="steps" id="track" role="group" aria-label="Steps"></div>
+  </section>
+
+  <main class="work">
+    <section class="panel" id="panelChat" aria-label="Conversation">
+      <div class="panel-head"><h2 class="panel-title">El celular del cliente</h2><span class="panel-hint">Exactamente lo que ve</span></div>
+      <div class="panel-body">
+        <div class="inbox" id="inbox" role="listbox" aria-label="Leads"></div>
+        <div class="phone" aria-label="Customer's phone">
+          <div class="phone-screen">
+            <div class="phone-status"><span id="phoneClock" class="num">9:41</span><span class="island"></span><span>LTE 84%</span></div>
+            <div class="wa-head" id="waHead"></div>
+            <div class="wa-body" id="thread"></div>
+            <div class="wa-quick" id="waQuick"></div>
+            <div class="wa-input"><div class="wa-field">Message</div><div class="wa-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div></div>
+          </div>
+        </div>
+        <div class="captured" id="captured"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panelSystem" aria-label="System">
+      <div class="panel-head"><h2 class="panel-title">Dentro del sistema</h2><span class="panel-hint" id="hostHint"></span></div>
+      <div class="panel-body stack">
+        <div id="techBanner" hidden style="position:sticky;top:76px;z-index:15;background:var(--urgent-soft);border:1px solid rgba(240,160,48,.5);color:var(--urgent);border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:700;backdrop-filter:blur(6px)">Vista técnica. Haz clic en “Vista de negocio” arriba para volver a lo que ve el cliente.</div>
+        <div id="trust" hidden></div>
+        <div id="record"></div>
+        <div id="draft"></div>
+        <div id="stream" hidden></div>
+        <div id="calendar"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panelInsights" aria-label="Hoy">
+      <div class="panel-head"><h2 class="panel-title">Tu Google Drive</h2><span class="panel-hint num" id="clock"></span></div>
+      <div class="panel-body">
+        <div>
+          <div class="card" id="driveCard"></div>
+          <div class="card" id="tiersCard" style="margin-top:12px"></div>
+        </div>
+        <div>
+          <div class="panel-head" style="padding:16px 0 8px"><h2 class="panel-title">Actividad</h2><span class="panel-hint">Cada acción, registrada</span></div>
+          <div class="feed" id="feed" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <p class="foot"><span id="footNote" style="max-width:70ch"></span><span>Datos de demostración. Los clientes y las conversaciones son ficticios. <b id="buildStamp">Build 2026-09-08.1 · ES</b></span></p>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<div class="tour" id="tour" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+  <div class="tour-spot" id="tourSpot"></div>
+  <div class="tour-card" id="tourCard">
+    <div class="tour-step" id="tourStep"></div>
+    <h3 class="tour-title" id="tourTitle"></h3>
+    <p class="tour-body" id="tourBody"></p>
+    <div class="tour-nav">
+      <button class="btn" id="tourPrev" type="button">Anterior</button>
+      <button class="btn btn-primary" id="tourNext" type="button">Siguiente</button>
+      <span class="spacer"></span>
+      <button class="btn btn-ghost" id="tourClose" type="button">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIG — edit this block per client. Everything below reads from it.
+   ===================================================================== */
+const CONFIG = {
+  brand: {
+    agency: "HumanIA",     // your company (shown in the footer)
+    client: "ConectaFibra",             // the prospect's business name
+    product: "De mensaje a cita",     // page title
+    tier: "Plan gratuito",                  // shown next to the title
+    mark: "N",                          // 1–2 letters for the logo tile
+    hostLine: "Tus cuentas: WhatsApp, Google Drive, Calendar, Telegram. Nuestro motor ejecuta la lógica.",
+  },
+  colors: {
+    accent:  "#4D7CFE",                 // the system's color (rail, buttons)
+    channel: "#22B573",                 // anything the customer sees (WhatsApp)
+    urgent:  "#F0A030",                 // urgency
+    defaultTheme: "dark",               // "dark" | "light"
+  },
+  business: {
+    service: "instalación de fibra",      // used in reply text
+    apptMinutes: 45,
+    slots: ["10:00 AM", "2:00 PM"],     // offered to normal leads, on the date they asked for
+    // Reserved emergency capacity offered to urgent leads instead of the requested date
+    urgentSlots: [ { label: "hoy a las 4:00 PM", time: "4:00 PM", dayOffset: 0 }, { label: "mañana a las 8:00 AM", time: "8:00 AM", dayOffset: 1 } ],
+  },
+  // What "urgent" changes operationally. Every item here is visible in the demo.
+  freeTier: {
+    driveFolder: "/WhatsApp_Leads/",
+    approvalChannel: "Telegram",        // where the owner gets the draft: "Telegram" (buttons) or "email" (links)
+    included: [
+      "Cada mensaje de WhatsApp leído y convertido en un registro",
+      "Un archivo .md legible por cliente en tu Google Drive",
+      "Una respuesta redactada en tu tono, enviada a tu Telegram con botones de Aprobar y Editar",
+      "Nada sale hasta que tú lo apruebes",
+      "El cliente elige un horario y la confirmación se envía sola",
+      "Cita creada en tu Google Calendar",
+      "Mensajes urgentes marcados, cliente atendido al instante",
+      "Reintento automático si WhatsApp rechaza un envío",
+      "3 meses de soporte de garantía incluidos, sin costo",
+    ],
+    paid: [
+      "Respuestas híbridas o totalmente automáticas, cuando confíes en el tono",
+      "Cronómetro de respuesta urgente con escalamiento a una persona de respaldo",
+      "Horarios de emergencia reservados para trabajos urgentes",
+      "Soporte garantizado después de los 3 meses de garantía",
+      "Tablero: leads, tiempos de respuesta y citas en todos los registros",
+      "Pasar de archivos en Drive a una base de datos real a medida que creces",
+      "Varias sedes, varios aprobadores, reventa a tus socios",
+    ],
+    costNote: "La lógica corre de nuestro lado. Meta le cobra a tu propia cuenta los mensajes que cobra.",
+  },
+  urgency: {
+    ack: "Recibido, {name}. Esto está marcado como urgente y una persona lo está revisando ahora mismo. Te respondemos en unos minutos.",
+    interrupt: false,                   // paid tier: urgent leads jump the queue
+    timer: false,                       // paid tier: reply timer and escalation
+    emergencySlots: false,              // paid tier: reserved emergency capacity
+    interruptAfterMs: 7000,             // how long after a normal lead pauses for approval the urgent one arrives
+    targetSec: 90,                      // demo clock: urgent must be answered within this. Production value: 300
+    normalTarget: "antes de terminar el día",      // shown for normal leads, no countdown
+    backup: "Carlos (técnico de respaldo)", // who gets it if the clock runs out
+  },
+  // Baseline numbers so the dashboard doesn't start at zero
+  baseline: {
+    leadsToday: 14,
+    bookedToday: 9,
+    medianReplySec: 58,
+    beforeReply: "unas 4 horas",       // how long first replies took before the system
+    week: [ // last 6 days + today (today is computed live)
+      { day: "Jue", leads: 21, booked: 12 },
+      { day: "Vie", leads: 26, booked: 15 },
+      { day: "Sáb", leads: 12, booked: 7 },
+      { day: "Dom", leads: 6,  booked: 3 },
+      { day: "Lun", leads: 24, booked: 14 },
+      { day: "Mar", leads: 27, booked: 17 },
+    ],
+    upcoming: [ // appointments already on the calendar
+      { name: "Diego Pardo", date: "2026-09-03", time: "9:00 AM", what: "Cambio de router" },
+      { name: "Juliana Ortiz", date: "2026-09-04", time: "11:00 AM", what: "Instalación nueva" },
+    ],
+  },
+  // Leads that flow in Demo mode, in order. `urgent` triggers the alert path,
+  // `failFirstSend` shows the automatic retry. `pick` is the slot the customer chooses.
+  leads: [
+    { name: "Sofía Ramírez",   phone: "+57 300 555 0142", intent: "Instalación nueva",     date: "2026-09-15", text: "Hola, me interesa instalar internet el 15 de septiembre.", pick: 0 },
+    { name: "Andrés Molina",   phone: "+57 310 555 0187", intent: "Caída del servicio",  date: "2026-09-03", text: "En la oficina no tenemos internet desde las 8 y no podemos trabajar. ¿Puede venir alguien hoy o mañana?", pick: 1, urgent: true },
+    { name: "Valentina Ríos",  phone: "+57 320 555 0233", intent: "Mejora de plan",    date: "2026-09-18", text: "¡Hola! Quiero pasarme al plan de 500 Mbps. ¿Podría venir un técnico el 18?", pick: 0 },
+    { name: "Camilo Herrera",  phone: "+57 301 555 0419", intent: "Cambio de dirección",  date: "2026-09-22", text: "Nos mudamos a Chapinero el 22 y necesitamos el traslado del servicio ese mismo día.", pick: 1, failFirstSend: true },
+    { name: "Laura Castaño",   phone: "+57 315 555 0764", intent: "Instalación nueva",     date: "2026-09-04", text: "Empiezo a trabajar desde casa el viernes y todavía no tengo conexión. ¿Pueden instalar antes?", pick: 0, urgent: true },
+    { name: "Mateo Quintero",  phone: "+57 311 555 0908", intent: "Cambio de router", date: "2026-09-25", text: "El router que nos dieron se desconecta del wifi a cada rato. ¿Nos pueden cambiar uno el 25?", pick: 1, lowConfidence: true },  // ambiguous enough that Hybrid mode still asks you
+  ],
+  // Step-through mode uses this lead; the Normal/Urgent switch changes only its urgency.
+  stepLead: { name: "Sofía Ramírez", phone: "+57 300 555 0142", intent: "Instalación nueva", date: "2026-09-15", text: "Hola, me interesa instalar internet el 15 de septiembre.", pick: 0 },
+  // Reply copy. {name} {service} {date} {slot1} {slot2} {pick} are replaced.
+  copy: {
+    reply: "¡Hola {name}! Gracias por escribirnos. Podemos programar tu {service} para el {date}. ¿Te sirve mejor a las {slot1} o a las {slot2}?",
+    replyUrgent: "Hola {name}, ya estamos en eso. Lo más pronto que podemos ir es el {date}. ¿Te sirve mejor {slot1} o {slot2}?",
+    customerPick: "{pick} me sirve, ¡gracias!",
+    confirm: "Quedas confirmado para el {date} a las {pick}. ¡Nos vemos!",
+  },
+  // Milliseconds per step at Normal speed
+  timing: { steps: [3200, 2600, 2200, 3000, 3000, 2200, 3400, 3200, 2800, 2600, 2400], betweenLeads: 4500, retryWait: 3200 },
+  // "Under the hood" lens. Generic names for now; replace with your real stack when you're ready.
+  tech: {
+    hostLine: "{agency} opera el motor de flujos. Las cuentas de Meta, Google y Telegram son tuyas. Sin servidores.",
+    dataResidency: "tu propio Google Drive, como archivos .md que abres con cualquier programa",
+    components: {
+      customer: { label: "Celular del cliente", sub: "app de WhatsApp" },
+      whatsapp: { label: "WhatsApp Cloud API", sub: "Meta, tu cuenta de negocio" },
+      capture:  { label: "Paso de IA", sub: "lee el mensaje" },
+      database: { label: "Google Drive", sub: "un archivo .md por cliente" },
+      draft:    { label: "Paso de IA", sub: "redacta la respuesta" },
+      you:      { label: "El dueño aprueba", sub: "{channel}, botones Aprobar / Editar" },
+      calendar: { label: "Google Calendar", sub: "tu calendario" },
+    },
+    trust: [
+      { title: "Tus datos, tus cuentas", body: "El número de WhatsApp, Google Drive, Calendar y Telegram son tuyos. Revoca nuestro acceso con un clic, cuando quieras." },
+      { title: "Nada se envía sin ti", body: "El borrador llega primero a tu Telegram. El envío solo ocurre después de que tocas Aprobar." },
+      { title: "Registros legibles que te pertenecen", body: "Guardados en {residency}." },
+      { title: "Sin servidores que alojar", body: "La lógica son dos flujos automatizados de nuestro lado. Nosotros los mantenemos; tú nunca los tocas." },
+    ],
+    steps: [
+      { title: "Meta envía el mensaje a nuestro webhook", desc: "Tu número de WhatsApp Cloud API reenvía cada mensaje entrante a nuestro flujo, en cerca de un segundo." },
+      { title: "Nuestro paso de IA lee el mensaje",     desc: "Una llamada de IA devuelve nombre, teléfono, intención, fecha solicitada y una señal de urgencia en JSON." },
+      { title: "Se crea o actualiza un archivo .md en Drive", desc: "Nuestro flujo busca {phone}.md en tu carpeta de Drive. Cliente nuevo: crea el archivo con encabezado YAML. Cliente conocido: agrega al historial." },
+      { title: "Nuestro paso de IA redacta la respuesta", desc: "Con tu guía de tono, los datos extraídos y tus dos horarios estándar. El resultado es texto en una variable, no un envío." },
+      { title: "El enrutador revisa la señal de urgencia", desc: "Urgente: el cliente recibe un acuse automático y tu mensaje de Telegram se marca URGENTE. Normal: espera en cola." },
+      { title: "Tocas Aprobar en Telegram",           desc: "El borrador llegó como mensaje de Telegram con botones Aprobar y Editar. Al tocar, se envía una señal a nuestro segundo flujo, que libera el envío." },
+      { title: "Enviamos por la Cloud API",             desc: "Los acuses de entrega vuelven como webhooks. Si Meta rechaza el envío, nuestro manejador de errores reintenta." },
+      { title: "Llega la respuesta del cliente",        desc: "Mismo webhook, mismo flujo. El paso de IA lee qué horario eligió." },
+      { title: "Confirmación enviada automáticamente",  desc: "Ya aprobaste la oferta, así que la confirmación sale sin una segunda aprobación." },
+      { title: "Evento creado en Google Calendar",      desc: "Nuestro paso de calendario crea el evento con nombre, trabajo y duración. El id del evento se escribe en el archivo .md." },
+      { title: "Encabezado actualizado, archivo cerrado", desc: "lead_stage pasa a confirmed, se fija appointment_date y toda la conversación queda en el archivo." },
+    ],
+  },
+  // "Try it yourself" mode
+  handsOn: {
+    minutesSavedPerLead: 4,             // rough manual effort per lead (read, re-type into CRM, write reply, book, update)
+    autoArriveMs: 0,                    // 0 = the prospect brings in each customer; otherwise next one texts in after this many ms
+  },
+};
+
+/* ===================================================================== */
+
+const STEPS = [
+  { key: "in",        label: "Llega",       title: "Llega un mensaje por WhatsApp",             desc: "El cliente escribe en la app que ya usa. Nada que descargar, ningún formulario." },
+  { key: "captured",  label: "Capturado",   title: "El sistema lo lee y saca lo importante",   desc: "Nombre, teléfono, qué quiere y cuándo. Nadie vuelve a digitar nada." },
+  { key: "stored",    label: "Guardado",    title: "Se crea un archivo del cliente en tu Drive", desc: "Un archivo legible por cliente, en tu propio Google Drive, con toda la conversación." },
+  { key: "drafted",   label: "Redactado",   title: "Se escribe una respuesta por ti",           desc: "Con tu tono, tus horarios disponibles y lo que pidió el cliente." },
+  { key: "triaged",   label: "Clasificado", title: "Se revisa la urgencia",                     desc: "Los leads urgentes reciben un acuse inmediato y tu mensaje de aprobación se marca como urgente." },
+  { key: "approved",  label: "Aprobado",    title: "Apruebas desde Telegram",                   desc: "El borrador llega como mensaje de Telegram con botones Aprobar y Editar. Nada sale sin ti." },
+  { key: "sent",      label: "Enviado",     title: "La respuesta llega al cliente",             desc: "Enviada por WhatsApp con confirmación de entrega y lectura." },
+  { key: "picked",    label: "Hora elegida", title: "El cliente elige un horario",              desc: "Su respuesta se lee igual que el primer mensaje." },
+  { key: "confirmed", label: "Confirmado",  title: "La confirmación sale automáticamente",      desc: "No hace falta aprobar una confirmación que ya acordaste." },
+  { key: "booked",    label: "Agendado",    title: "La cita queda en tu Google Calendar",       desc: "Con el nombre del cliente, el trabajo y la duración que definiste." },
+  { key: "filed",     label: "Archivado",   title: "Se actualiza el archivo del cliente",       desc: "Estado y horario escritos en el archivo. La conversación se queda ahí, en tu Drive." },
+];
+
+const STATIONS = [
+  { id: "customer", label: "Cliente", icon: "user" },
+  { id: "whatsapp", label: "WhatsApp", icon: "chat" },
+  { id: "capture",  label: "Captura",  icon: "filter" },
+  { id: "database", label: "Tu Drive", icon: "db" },
+  { id: "draft",    label: "Borrador", icon: "pen" },
+  { id: "you",      label: "Tú apruebas", icon: "check" },
+  { id: "calendar", label: "Calendario", icon: "cal" },
+];
+const HOST_RANGE = ["capture", "draft"];
+
+const ICONS = {
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
+  chat: '<path d="M4 12a8 8 0 1 1 3 6.2L4 20l1.4-3.8A8 8 0 0 1 4 12Z"/>',
+  filter: '<path d="M4 4h16l-6 8v6l-4 2v-8L4 4Z"/>',
+  db: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
+  pen: '<path d="M4 20l1-4 12-12 3 3-12 12-4 1Z"/><path d="M14 5l3 3"/>',
+  check: '<path d="M5 12l4 4L19 6"/>',
+  cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>',
+  bell: '<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4l2-2Z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>',
+  send: '<path d="M21 3 3 10l8 3 3 8 7-18Z"/>',
+  retry: '<path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/>',
+  play: '<path d="M7 4v16l13-8L7 4Z" fill="currentColor" stroke="none"/>',
+  pause: '<rect x="6" y="4" width="4" height="16" fill="currentColor" stroke="none"/><rect x="14" y="4" width="4" height="16" fill="currentColor" stroke="none"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  back: '<path d="M15 5l-7 7 7 7"/>',
+  lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+};
+const svgIcon = (name, cls = "") => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+
+/* ---------- state ---------- */
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const state = {
+  theme: CONFIG.colors.defaultTheme,
+  mode: "demo",             // "demo" | "step"
+  playing: false,
+  speed: 1,
+  approvalMode: "manual",  // "manual" | "hybrid" | "auto"
+  awaiting: null,           // lead waiting for manual approval
+  awaitingReply: null,      // lead waiting for the prospect to answer as the customer (hands-on)
+  awaitingLead: false,      // hands-on: waiting for the prospect to bring in the next customer
+  taps: 0, handsStart: null,
+  timer: null,
+  leads: [],                // runtime demo leads
+  stepLead: null,
+  stepUrgent: false,
+  activeId: null,
+  finished: false,
+  tourIndex: 0,
+  lens: "business",       // "business" | "tech"
+};
+const $ = id => document.getElementById(id);
+const AVATAR_COLORS = ["#4D7CFE", "#22B573", "#F0A030", "#A855F7", "#EC4899", "#14B8A6"];
+const initials = n => n.split(" ").map(s => s[0]).join("").slice(0, 2).toUpperCase();
+const fmtDate = iso => { const d = new Date(iso + "T12:00:00"); return d.toLocaleDateString("es-CO", { month: "short", day: "numeric" }); };
+const fmtDateYear = iso => { const d = new Date(iso + "T12:00:00"); return d.toLocaleDateString("es-CO", { month: "short", day: "numeric", year: "numeric" }); };
+const fmtDateLong = iso => { const d = new Date(iso + "T12:00:00"); return d.toLocaleDateString("es-CO", { weekday: "long", month: "long", day: "numeric" }); };
+const nowTime = () => new Date().toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit" });
+const isoPlus = days => { const d = new Date(); d.setDate(d.getDate() + days); return d.toISOString().slice(0, 10); };
+const emerg = lead => lead.urgent && CONFIG.urgency.emergencySlots;
+const apptDate = lead => emerg(lead) ? isoPlus(CONFIG.business.urgentSlots[lead.pick].dayOffset) : lead.date;
+const slotTime = lead => emerg(lead) ? CONFIG.business.urgentSlots[lead.pick].time : CONFIG.business.slots[lead.pick];
+const slotLabel = (lead, i) => emerg(lead) ? CONFIG.business.urgentSlots[i].label : CONFIG.business.slots[i];
+const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+const fill = (tpl, lead) => tpl.replace("{name}", lead.name.split(" ")[0]).replace("{service}", lead.intent === "New install" ? CONFIG.business.service : lead.intent.toLowerCase()).replace("{date}", fmtDateLong(apptDate(lead))).replace("{slot1}", slotLabel(lead, 0)).replace("{slot2}", slotLabel(lead, 1)).replace("{pick}", emerg(lead) ? (tpl.startsWith("{pick}") ? cap(slotLabel(lead, lead.pick)) : slotTime(lead)) : slotTime(lead));
+
+function makeLead(src, i) {
+  return { ...src, id: "lead" + i, color: AVATAR_COLORS[i % AVATAR_COLORS.length], progress: -1, approvedText: null, retryUsed: false, retryAt: null, replySec: null, times: [], ackAt: null, slaStart: null, slaEnd: null, escalatedAt: null, parkedAt: null };
+}
+function resetLeads() {
+  state.leads = CONFIG.leads.map(makeLead);
+  state.stepLead = makeLead(CONFIG.stepLead, 0);
+  state.stepLead.id = "steplead";
+  state.stepLead.urgent = state.stepUrgent;
+  state.awaiting = null; state.awaitingReply = null; state.awaitingLead = false; state.taps = 0; state.handsStart = null; state.finished = false;
+  state.activeId = state.mode === "demo" ? null : state.stepLead.id;
+}
+const isDemoLike = () => state.mode === "demo" || state.mode === "hands";
+const visibleLeads = () => isDemoLike() ? state.leads : [state.stepLead];
+const activeLead = () => visibleLeads().find(l => l.id === state.activeId) || null;
+const draftText = lead => lead.approvedText || fill(lead.urgent ? CONFIG.copy.replyUrgent : CONFIG.copy.reply, lead);
+
+/* ---------- rail ---------- */
+const RAIL = { y: 66, x0: 70, gap: 150 };
+const stationX = id => RAIL.x0 + STATIONS.findIndex(s => s.id === id) * RAIL.gap;
+function buildRail() {
+  const svg = $("railSvg");
+  const hx1 = stationX(HOST_RANGE[0]) - 52, hx2 = stationX(HOST_RANGE[1]) + 52;
+  let html = `<rect class="host-band" x="${hx1}" y="14" width="${hx2 - hx1}" height="128" rx="16"/>
+    <text class="host-lbl" x="${(hx1 + hx2) / 2}" y="139">${CONFIG.brand.hostLine}</text>
+    <line class="track-line" x1="${RAIL.x0}" y1="${RAIL.y}" x2="${stationX("calendar")}" y2="${RAIL.y}"/>`;
+  STATIONS.forEach(s => {
+    const x = stationX(s.id);
+    html += `<g class="station" id="st-${s.id}" transform="translate(${x},${RAIL.y})">
+      <circle class="halo" r="34"/>
+      <circle class="ring" r="27"/>
+      <g class="icon" transform="translate(-12,-12)"><svg width="24" height="24" viewBox="0 0 24 24" overflow="visible">${ICONS[s.icon]}</svg></g>
+      <text class="lbl" y="52">${s.label}</text>
+      <text class="sub" y="67"></text>
+    </g>`;
+  });
+  html = html.replace('class="host-lbl"', 'class="host-lbl" id="hostLbl"');
+  html += `<g class="packet" id="packet" transform="translate(${RAIL.x0},${RAIL.y})"><circle class="glow" r="14"/><circle class="core" r="7"/></g>`;
+  svg.innerHTML += html;
+}
+let packetAnim = null;
+function movePacket(fromId, toId, ms, tone) {
+  const p = $("packet");
+  if (packetAnim) cancelAnimationFrame(packetAnim);
+  p.setAttribute("class", "packet" + (tone ? " " + tone : ""));
+  const x1 = stationX(fromId), x2 = stationX(toId);
+  if (REDUCED) { p.setAttribute("transform", `translate(${x2},${RAIL.y})`); p.style.opacity = 1; setTimeout(() => p.style.opacity = 0, 400); return; }
+  const t0 = performance.now();
+  p.style.opacity = 1;
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const frame = now => {
+    const t = Math.min(1, (now - t0) / ms);
+    const x = x1 + (x2 - x1) * ease(t);
+    p.setAttribute("transform", `translate(${x},${RAIL.y})`);
+    if (t < 1) packetAnim = requestAnimationFrame(frame); else { p.style.opacity = 0; packetAnim = null; }
+  };
+  packetAnim = requestAnimationFrame(frame);
+}
+// stations lit per step
+const STEP_STATIONS = [["customer", "whatsapp"], ["whatsapp", "capture"], ["capture", "database"], ["database", "draft"], ["draft"], ["you"], ["draft", "whatsapp", "customer"], ["customer", "whatsapp", "capture"], ["draft", "whatsapp", "customer"], ["draft", "calendar"], ["draft", "database"]];
+function renderRail(lead) {
+  const p = lead ? lead.progress : -1;
+  const active = new Set(p >= 0 ? STEP_STATIONS[p] : []);
+  if (p === 4 && lead.urgent) active.add("you");
+  if (state.awaiting === lead) active.add("you");
+  const done = new Set();
+  for (let i = 0; i < p; i++) STEP_STATIONS[i].forEach(id => done.add(id));
+  if (p > 4 && lead.urgent) done.add("you");
+  STATIONS.forEach(s => {
+    const el = $("st-" + s.id);
+    el.classList.remove("active", "done", "alert", "ok");
+    if (active.has(s.id)) {
+      el.classList.add("active");
+      if (s.id === "you" && p === 4 && lead.urgent) el.classList.add("alert");
+      if (s.id === "you" && p === 5) el.classList.add("ok");
+    } else if (done.has(s.id)) el.classList.add("done");
+  });
+  const t = $("stepTitle"), d = $("stepDesc");
+  const turn = $("turn");
+  if (!(state.finished && state.mode === "hands")) $("score").hidden = true;
+  let turnText = "";
+  if (state.mode === "hands" && !state.finished) {
+    if (state.awaiting) turnText = state.awaiting.urgent ? "Your turn: this one is urgent. Read the draft in the middle column, then approve it." : "Tu turno: lee el borrador en la columna central. Edítalo si quieres y apruébalo.";
+    else if (state.awaitingReply) turnText = "Tu turno: ahora eres el cliente. Toca un horario en el celular.";
+    else if (state.awaitingLead || !state.leads.some(l => l.progress >= 0)) turnText = state.leads.some(l => l.progress >= 0) ? "Tu turno: trae al siguiente cliente." : "Presiona “Traer al siguiente cliente” para empezar. El sistema hace su parte; tú la tuya.";
+  }
+  turn.hidden = !turnText; $("turnText").textContent = turnText;
+  if (p < 0) {
+    t.textContent = state.mode === "hands" ? "Pruébalo tú mismo" : state.mode === "demo" ? (state.finished ? "Demo completa" : "Listo cuando tú quieras") : "Recorrer un lead";
+    d.textContent = state.mode === "hands" ? "Seis clientes están a punto de escribirte. Lo automático sigue siendo automático. Cada decisión es tuya." : state.mode === "demo" ? (state.finished ? `${state.leads.length} leads atendidos, del primer mensaje al calendario. Reinicia para verlo de nuevo.` : "Tus clientes siguen en WhatsApp. Tú apruebas desde Telegram. Los registros viven en tu Google Drive. Sin servidores. Presiona Reproducir para verlo funcionar.") : "Usa Siguiente paso para recorrer un lead a tu propio ritmo.";
+  } else if (state.finished && state.mode === "hands") {
+    const sc = handsScore();
+    t.textContent = "Atendiste todos los leads";
+    d.textContent = "Todo lo que vio el cliente, lo aprobaste tú. Todo lo demás, lo hizo el sistema. Reinicia para repetirlo.";
+    $("score").hidden = false;
+    $("score").innerHTML = `<div><b>${state.leads.length}</b><span>clientes atendidos</span></div><div><b>${sc.taps}</b><span>toques tuyos</span></div><div><b class="num">${fmtClock(sc.secs)}</b><span>de tu tiempo</span></div><div><b>~${sc.manual} min</b><span>haciéndolo a mano</span></div>`;
+  } else if (state.finished && state.mode === "demo") {
+    t.textContent = "Demo completa";
+    d.textContent = `${state.leads.length} leads atendidos, del primer mensaje al calendario. Reinicia para verlo de nuevo.`;
+  } else if (state.awaiting === lead) {
+    t.textContent = lead.urgent ? "Urgent: waiting for your approval" : "Esperando tu aprobación";
+    d.textContent = lead.urgent ? "El cliente ya tiene un mensaje de espera. Tu mensaje de Telegram está marcado URGENTE; aprueba el borrador." : `This is what your ${CONFIG.freeTier.approvalChannel} message contains. Edit if you want, then tap Approve.`;
+  } else {
+    t.textContent = stepTitle(p);
+    d.textContent = state.lens === "tech" ? stepDesc(p) : p === 4 ? (lead.urgent ? `Marcado como urgente: el cliente recibió un acuse automático y tu aprobación ${CONFIG.freeTier.approvalChannel} está marcado URGENTE.` : `Prioridad normal. En espera de tu revisión ${CONFIG.urgency.normalTarget}, no alert.`) : stepDesc(p);
+  }
+  // keep the furthest-along lit station in view when the rail scrolls (phones)
+  const sc = document.querySelector(".rail-scroll");
+  if (sc && sc.scrollWidth > sc.clientWidth + 4 && active.size) {
+    const ids = STATIONS.map(s => s.id).filter(id => active.has(id));
+    const xs = ids.map(stationX), scale = sc.scrollWidth / 1040;
+    const target = ((Math.min(...xs) + Math.max(...xs)) / 2) * scale - sc.clientWidth / 2;
+    sc.scrollTo({ left: Math.max(0, target), behavior: REDUCED ? "auto" : "smooth" });
+  }
+  $("railLead").innerHTML = lead && p >= 0 ? `<span>${isDemoLike() ? `Lead ${state.leads.indexOf(lead) + 1} of ${state.leads.length}` : "Lead de muestra"}</span><strong>${lead.name}</strong>` : "";
+}
+
+function setLens(l) {
+  state.lens = l;
+  document.body.classList.toggle("lens-tech", l === "tech");
+  $("lensBusiness").setAttribute("aria-pressed", String(l !== "tech"));
+  $("lensTech").setAttribute("aria-pressed", String(l === "tech"));
+  STATIONS.forEach(s => {
+    const g = $("st-" + s.id), c = CONFIG.tech.components[s.id];
+    g.querySelector(".lbl").textContent = l === "tech" ? c.label : s.label;
+    g.querySelector(".sub").textContent = l === "tech" ? c.sub.replace("{channel}", CONFIG.freeTier.approvalChannel) : "";
+  });
+  $("hostLbl").textContent = l === "tech" ? CONFIG.tech.hostLine.replace("{agency}", CONFIG.brand.agency) : CONFIG.brand.hostLine;
+  $("hostLbl").setAttribute("y", l === "tech" ? "27" : "139");
+  render(); if (!activeLead() || activeLead().progress < 0) renderRail(null);
+}
+const stepTitle = p => state.lens === "tech" ? CONFIG.tech.steps[p].title : STEPS[p].title;
+const stepDesc = p => (state.lens === "tech" ? CONFIG.tech.steps[p].desc : STEPS[p].desc).replace("{channel}", CONFIG.freeTier.approvalChannel);
+
+/* ---------- step engine ---------- */
+const PACKET_MOVES = {
+  0: ["customer", "whatsapp"], 1: ["whatsapp", "capture"], 2: ["capture", "database"], 3: ["database", "draft"],
+  6: ["draft", "customer", "green"], 7: ["customer", "capture"], 8: ["draft", "customer", "green"], 9: ["draft", "calendar"], 10: ["draft", "database"],
+};
+function stepDuration(i) { return CONFIG.timing.steps[i] / state.speed; }
+
+// Advances one lead by one step and fires side effects. Returns false if it should not advance yet (retry).
+function advance(lead, animate = true) {
+  const next = lead.progress + 1;
+  if (next > STEPS.length - 1) return false;
+
+  // Simulated delivery failure with automatic retry
+  if (next === 6 && lead.failFirstSend && !lead.retryUsed) {
+    lead.retryUsed = true; lead.retryAt = nowTime();
+    if (animate) movePacket("draft", "whatsapp", stepDuration(6) * .6, "amber");
+    toast({ tone: "red", icon: "retry", title: "Falló la entrega", body: `WhatsApp didn't accept the message to ${lead.name}. Reintentando automáticamente.` });
+    render();
+    return false;
+  }
+
+  lead.progress = next;
+  lead.times[next] = nowTime();
+  if (next === 6) lead.replySec = 30 + Math.floor(Math.random() * 60);
+  state.activeId = lead.id;
+
+  if (animate) {
+    const mv = PACKET_MOVES[next];
+    if (mv) movePacket(mv[0], mv[1], stepDuration(next) * .8, mv[2]);
+    else if (next === 4 && lead.urgent) movePacket("draft", "you", stepDuration(4) * .7, "amber");
+  }
+  if (next === 4 && lead.urgent) {
+    lead.ackAt = nowTime(); if (CONFIG.urgency.timer) lead.slaStart = performance.now();
+    toast({ tone: "amber", icon: "bell", title: "Lead urgente", body: `${lead.name}: ${lead.intent.toLowerCase()}. Cliente atendido automáticamente. Tu aprobación ${CONFIG.freeTier.approvalChannel} está marcado URGENTE.` });
+  }
+  if (next === 5 && lead.slaStart && !lead.slaEnd) lead.slaEnd = performance.now();
+  if (next === 9) toast({ tone: "green", icon: "cal", title: "Cita agendada", body: `${lead.name}, ${fmtDate(apptDate(lead))} at ${slotTime(lead)}.` });
+  render();
+  return true;
+}
+
+function currentDemoLead() {
+  const open = l => l.progress < STEPS.length - 1;
+  return state.leads.find(l => l.urgent && l.progress >= 0 && open(l))   // urgent work first
+      || state.leads.find(l => l.progress >= 0 && open(l))               // then anything parked
+      || state.leads.find(l => open(l)) || null;                          // then the next arrival
+}
+function armInterrupt(lead) {
+  const nx = nextArrival();
+  if (CONFIG.urgency.interrupt && !lead.urgent && nx && nx.urgent) { clearTimeout(state.timer); state.timer = setTimeout(() => interrupt(nx, lead), CONFIG.urgency.interruptAfterMs / state.speed); }
+}
+function nextArrival() { return state.leads.find(l => l.progress < 0) || null; }
+function interrupt(urgent, parked) {
+  if (!state.playing || state.awaiting !== parked) return;
+  parked.parkedAt = nowTime();
+  state.awaiting = null;
+  toast({ tone: "amber", icon: "bolt", title: "Urgent lead jumping the queue", body: `${parked.name.split(" ")[0]} queda en espera. ${urgent.name} va primero.` });
+  advance(urgent);
+  scheduleTick(stepDuration(0));
+}
+function scheduleTick(ms) { clearTimeout(state.timer); state.timer = setTimeout(demoTick, ms); }
+// Manual: every first reply waits for a tap. Auto: every first reply sends itself. Hybrid: auto,
+// except urgent leads and ones the extraction model wasn't confident about, which still wait for you.
+// "Try it yourself" always waits, so the person practising the approval actually gets to do it.
+function shouldAutoSend(lead) {
+  return false; // free tier: Manual only, permanently (decision 11, 6 Sep 2026). Hybrid/Auto live in the full-tier demo.
+  // --- unreachable below; kept so the full-tier demo and this file stay diffable ---
+  if (state.mode === "hands") return false;
+  if (lead.urgent) return false; // urgent always needs a human, in every mode
+  if (state.approvalMode === "manual") return false;
+  if (state.approvalMode === "auto") return true;
+  return !lead.lowConfidence; // hybrid: auto unless the extraction was unsure
+}
+function autoApprove(lead) {
+  lead.autoApproved = true; lead.autoMode = state.approvalMode;
+  while (lead.progress < 5) { if (!advance(lead, lead.progress === 4)) break; }
+  toast({ tone: "green", icon: "send", title: "Enviado automáticamente", body: `${lead.name}: sin aprobación necesaria en modo ${state.approvalMode === "auto" ? "Auto" : "Híbrido"}.` });
+}
+function demoTick() {
+  if (!state.playing || !isDemoLike()) return;
+  const lead = currentDemoLead();
+  if (!lead) { finishDemo(); return; }
+  const next = lead.progress + 1;
+  if (state.mode === "hands" && next === 0) {
+    if (CONFIG.handsOn.autoArriveMs && state.leads.some(l => l.progress >= 0)) { state.awaitingLead = false; }
+    else { state.awaitingLead = true; render(); return; }
+  }
+  if (state.mode === "hands" && next === 7) { state.awaitingReply = lead; state.activeId = lead.id; render(); return; }
+  if (next === 5) {
+    if (shouldAutoSend(lead)) { autoApprove(lead); scheduleTick(stepDuration(5)); return; }
+    state.awaiting = lead; state.activeId = lead.id;
+    render();
+    armInterrupt(lead);
+    return;
+  }
+  const moved = advance(lead);
+  if (!moved) { scheduleTick(CONFIG.timing.retryWait / state.speed); return; }
+  if (lead.progress === STEPS.length - 1) scheduleTick((state.mode === "hands" && CONFIG.handsOn.autoArriveMs ? CONFIG.handsOn.autoArriveMs : CONFIG.timing.betweenLeads) / state.speed);
+  else scheduleTick(stepDuration(lead.progress));
+}
+function finishDemo() {
+  state.playing = false; state.finished = true; state.activeId = state.leads[state.leads.length - 1].id;
+  if (state.mode === "hands") toast({ tone: "green", icon: "check", title: "Listo", body: `Atendiste ${state.leads.length} leads with ${state.taps} taps.`, ms: 6000 });
+  else toast({ tone: "green", icon: "check", title: "Demo completa", body: `${state.leads.length} leads atendidos sin que nadie volviera a digitar nada.` });
+  render();
+}
+function bringNextLead() {
+  if (state.mode !== "hands" || state.finished) return;
+  const lead = nextArrival(); if (!lead) return;
+  if (!state.handsStart) state.handsStart = performance.now();
+  state.taps++; state.awaitingLead = false; state.playing = true;
+  advance(lead);
+  scheduleTick(stepDuration(0));
+}
+function handsScore() {
+  const secs = Math.round((performance.now() - state.handsStart) / 1000);
+  const manual = state.leads.length * CONFIG.handsOn.minutesSavedPerLead;
+  return { secs, manual, taps: state.taps };
+}
+function play() {
+  if (state.mode === "hands") { if (state.awaitingLead || !state.leads.some(l => l.progress >= 0)) bringNextLead(); else if (!state.playing && !state.finished) { state.playing = true; render(); if (!state.awaiting && !state.awaitingReply) scheduleTick(250); } return; }
+  if (state.mode !== "demo" || state.playing || state.finished) return;
+  state.playing = true;
+  if (state.awaiting) { render(); armInterrupt(state.awaiting); return; }
+  render();
+  scheduleTick(250);
+}
+function pause() { state.playing = false; clearTimeout(state.timer); render(); }
+function togglePlay() { state.playing ? pause() : play(); }
+function setApprovalMode(mode) {
+  if (mode !== "manual") {
+    // Locked on the free tier. The button exists so the upgrade is visible; it never switches.
+    toast({ tone: "", icon: "lock", title: (mode === "auto" ? "Auto" : "Híbrido") + " es parte de la versión paga", body: "En lo que va incluido sin costo, cada respuesta espera tu toque. Híbrido y Auto vienen con la parte que alojamos y monitoreamos. Lo urgente siempre espera a una persona, elijas lo que elijas." });
+    return;
+  }
+  state.approvalMode = mode;
+  ["Manual", "Hybrid", "Auto"].forEach(m => $("mode" + m).setAttribute("aria-pressed", String(m.toLowerCase() === mode)));
+  if (state.awaiting && shouldAutoSend(state.awaiting)) {
+    const l = state.awaiting; state.awaiting = null; clearTimeout(state.timer);
+    autoApprove(l);
+    if (state.playing) scheduleTick(stepDuration(5));
+  }
+  render();
+}
+function resetDemo() {
+  pause(); clearTimeout(state.timer); resetLeads(); $("packet").style.opacity = 0;
+  $("feed").scrollTop = 0;
+  render(); renderRail(null);
+}
+function approve(lead) {
+  if (state.mode === "hands") state.taps++;
+  const el = document.querySelector("#draft .draft-text");
+  if (el && el.isContentEditable) { lead.approvedText = el.textContent.trim() || draftText(lead); }
+  if (isDemoLike()) {
+    if (state.awaiting !== lead) return;
+    state.awaiting = null; clearTimeout(state.timer);
+    while (lead.progress < 5) { if (!advance(lead, lead.progress === 4)) break; }
+    if (state.playing) scheduleTick(stepDuration(5));
+  } else {
+    while (lead.progress < 5) { if (!advance(lead, lead.progress === 4)) break; }
+  }
+  toast({ tone: "green", icon: "send", title: "Aprobado", body: `Responder a ${lead.name} is on its way.` });
+}
+
+/* ---------- urgency clock ---------- */
+const fmtClock = sec => `${Math.floor(Math.abs(sec) / 60)}:${String(Math.abs(sec) % 60).padStart(2, "0")}`;
+function slaElapsed(lead) { return Math.round(((lead.slaEnd || performance.now()) - lead.slaStart) / 1000); }
+function slaHtml(lead) {
+  if (!lead.urgent || !lead.slaStart) return "";
+  const el = slaElapsed(lead), left = CONFIG.urgency.targetSec - el, pct = Math.min(100, el / CONFIG.urgency.targetSec * 100);
+  const frozen = !!lead.slaEnd;
+  const state_ = frozen ? (lead.escalatedAt ? "late" : "met") : left < 0 ? "over" : left < CONFIG.urgency.targetSec * .33 ? "warn" : "";
+  const text = frozen ? (lead.escalatedAt ? `Respondido después de ${fmtClock(el)}, past the ${fmtClock(CONFIG.urgency.targetSec)} target` : `Respondido en ${fmtClock(el)}, inside the ${fmtClock(CONFIG.urgency.targetSec)} target`)
+    : left > 0 ? `Responder en menos de ${fmtClock(left)}` : `${fmtClock(left)} por encima del objetivo. ${CONFIG.urgency.backup} fue alertado.`;
+  return `<div class="sla ${state_}" data-sla="${lead.id}"><div class="sla-row"><span>${svgIcon("clock")} ${text}</span><span class="num">${fmtClock(el)}</span></div><div class="sla-bar"><div style="width:${pct}%"></div></div></div>`;
+}
+function slaTick() {
+  let needRender = false;
+  visibleLeads().forEach(l => {
+    if (!l.urgent || !l.slaStart || l.slaEnd) return;
+    if (!l.escalatedAt && slaElapsed(l) >= CONFIG.urgency.targetSec) {
+      l.escalatedAt = nowTime(); needRender = true;
+      toast({ tone: "red", icon: "bell", title: "Escalado", body: `${l.name} waited ${fmtClock(CONFIG.urgency.targetSec)} sin respuesta. ${CONFIG.urgency.backup} fue alertado.`, ms: 6000 });
+    }
+    const box = document.querySelector(`[data-sla="${l.id}"]`);
+    if (box) box.outerHTML = slaHtml(l);
+  });
+  if (needRender && !(document.activeElement && document.activeElement.isContentEditable)) render();
+}
+setInterval(slaTick, 1000);
+
+/* ---------- renderers ---------- */
+function render() {
+  const lead = activeLead();
+  renderRail(lead);
+  renderControls();
+  renderInbox();
+  renderThread(lead);
+  const tech = state.lens === "tech";
+  $("record").hidden = tech; $("calendar").hidden = tech; $("stream").hidden = !tech; $("trust").hidden = !tech; $("techBanner").hidden = !tech;
+  if (tech) { renderTrust(); renderStream(lead); } else { renderRecord(lead); renderCalendar(); }
+  renderDraft(lead);
+  renderDrive();
+  renderTiers();
+  renderFeed();
+}
+
+function renderControls() {
+  const demo = isDemoLike(), hands = state.mode === "hands";
+  $("modeDemo").setAttribute("aria-pressed", state.mode === "demo");
+  $("modeHands").setAttribute("aria-pressed", hands);
+  $("modeStep").setAttribute("aria-pressed", state.mode === "step");
+  $("demoControls").classList.toggle("hidden", !demo);
+  $("stepControls").classList.toggle("hidden", demo);
+  $("track").style.display = demo ? "none" : "";
+  $("approvalModeWrap").style.display = hands ? "none" : "";
+  const needLead = hands && !state.finished && (state.awaitingLead || !state.leads.some(l => l.progress >= 0));
+  const nl = $("btnNextLead");
+  nl.style.display = hands && !state.finished ? "" : "none"; nl.disabled = !needLead; nl.classList.toggle("pulse", needLead);
+  const play = $("btnPlay");
+  play.style.display = hands ? "none" : "";
+  play.innerHTML = (state.playing ? svgIcon("pause") : svgIcon("play")) + (state.playing ? "Pausa" : state.finished ? "Terminado" : state.leads.some(l => l.progress >= 0) ? "Continuar" : "Reproducir demo");
+  play.disabled = state.finished;
+  play.setAttribute("aria-label", state.playing ? "Pausar demo" : "Reproducir demo");
+  $("btnReset").disabled = !state.leads.some(l => l.progress >= 0);
+
+  // progress
+  const leads = visibleLeads();
+  const total = leads.length * STEPS.length;
+  const done = leads.reduce((a, l) => a + (l.progress + 1), 0);
+  $("progressBar").style.width = (done / total * 100) + "%";
+  const cur = activeLead();
+  $("progressLbl").textContent = state.awaitingReply ? "Esperando al cliente (tú)" : state.awaitingLead ? "Esperando al siguiente cliente (tú)" : state.awaiting ? (hands ? "Esperando tu aprobación" : "En pausa, esperando aprobación") : cur && cur.progress >= 0 ? `Paso ${cur.progress + 1} de ${STEPS.length}: ${STEPS[cur.progress].label}` : state.finished ? "Completo" : "Sin empezar";
+  $("progressLeads").textContent = demo ? `${state.leads.filter(l => l.progress === STEPS.length - 1).length} de ${state.leads.length} leads listos` : "";
+
+  // step-through
+  if (!demo) {
+    const l = state.stepLead;
+    $("urgNormal").setAttribute("aria-pressed", !state.stepUrgent);
+    $("urgUrgent").setAttribute("aria-pressed", state.stepUrgent);
+    $("btnBack").disabled = l.progress < 0;
+    $("btnNext").disabled = l.progress >= STEPS.length - 1;
+    $("btnNext").textContent = l.progress < 0 ? "Start" : l.progress >= STEPS.length - 1 ? "End of flow" : l.progress === 4 ? "Aprobar y enviar" : "Next step";
+    $("btnRestart").disabled = l.progress < 0;
+    const track = $("track");
+    track.innerHTML = STEPS.map((s, i) => `<button type="button" class="step ${i < l.progress ? "past" : ""}" data-i="${i}" ${i === l.progress ? 'aria-current="step"' : ""}><em>${i < l.progress ? "✓" : i + 1}</em>${s.label}</button>`).join("");
+  }
+}
+
+function renderInbox() {
+  const leads = visibleLeads();
+  const started = leads.filter(l => l.progress >= 0);
+  const box = $("inbox");
+  if (!started.length) { box.innerHTML = ""; return; }
+  const open = l => l.progress < STEPS.length - 1;
+  started.sort((a, b) => Number(!!(open(b) && b.urgent)) - Number(!!(open(a) && a.urgent)));
+  box.innerHTML = started.map(l => {
+    const parked = isDemoLike() && l.progress === 4 && state.awaiting !== l && !l.urgent && state.leads.some(x => x.urgent && x.progress >= 0 && open(x));
+    const pill = l.progress >= STEPS.length - 1 ? '<span class="pill pill-ok">Agendado</span>' : l.progress >= 6 ? '<span class="pill pill-new">En conversación</span>' : parked ? '<span class="pill pill-idle">En espera</span>' : l.progress >= 3 ? `<span class="pill pill-wait">${l.progress >= 5 ? "Aprobado" : "Needs approval"}</span>` : '<span class="pill pill-new">Nuevo</span>';
+    return `<button type="button" class="lead-row" role="option" data-id="${l.id}" aria-selected="${l.id === state.activeId}">
+      <span class="avatar" style="background:${l.color}">${initials(l.name)}</span>
+      <span><span class="lead-name">${l.name}${l.urgent ? ' <span class="pill pill-wait" style="margin-left:4px">Urgente</span>' : ""}</span><br><span class="lead-sub">${l.intent}, ${fmtDate(l.date)}</span></span>
+      ${pill}</button>`;
+  }).join("");
+}
+
+const typed = new Set();
+function typeInto(el, text, done) {
+  let i = 0; const ms = REDUCED ? 0 : Math.max(10, Math.min(45, 2200 / text.length)) / (state.mode === "step" ? 1 : state.speed);
+  const caret = document.createElement("span"); caret.className = "caret"; el.after(caret);
+  const tick = () => {
+    if (!el.isConnected) { caret.remove(); return; }
+    i++; el.textContent = text.slice(0, i); el.parentElement.parentElement.scrollTop = 1e6;
+    if (i < text.length) setTimeout(tick, ms); else { caret.remove(); if (done) done(); }
+  };
+  ms ? setTimeout(tick, 350) : (el.textContent = text, caret.remove(), done && done());
+}
+function renderThread(lead) {
+  const body = $("thread"), head = $("waHead"), quick = $("waQuick"), capEl = $("captured");
+  quick.innerHTML = ""; capEl.innerHTML = "";
+  if (!lead || lead.progress < 0) {
+    head.innerHTML = `<span class="avatar" style="background:var(--channel)">${svgIcon("chat")}</span><div><div class="wa-name">WhatsApp Business</div><div class="wa-sub">${CONFIG.brand.client}</div></div>`;
+    body.innerHTML = `<div class="wa-empty"><strong>Esperando un mensaje</strong>${state.mode === "hands" ? "Trae al siguiente cliente y su mensaje se escribirá aquí." : state.mode === "demo" ? "Presiona Reproducir y el primer lead escribirá aquí." : "Presiona Empezar para traer el lead de muestra."}</div>`;
+    body.dataset.key = ""; return;
+  }
+  const p = lead.progress;
+  head.innerHTML = `<span style="opacity:.9">${svgIcon("back")}</span><span class="avatar" style="background:${lead.color}">${initials(lead.name)}</span><div><div class="wa-name">${CONFIG.brand.client}</div><div class="wa-sub">${p >= 3 && p < 6 ? "typing…" : "online"}</div></div>`;
+  const msgs = [];
+  const m = (dir, key, text, time, extra = "") => msgs.push({ dir, key, text, html: `<div class="msg ${dir}" data-k="${key}"><span class="tx">${text}</span><div class="msg-time">${extra}${time || ""}${dir === "out" ? ` <span class="ticks ${p >= 7 || key === "m3" ? "" : "grey"}">✓✓</span>` : ""}</div></div>` });
+  m("in", "m0", lead.text, lead.times[0]);
+  if (lead.urgent && p >= 4) m("out", "ack", fill(CONFIG.urgency.ack, lead), lead.ackAt, '<span class="auto">Enviado automáticamente</span> ');
+  if (p >= 6) m("out", "m1", draftText(lead), lead.times[6]);
+  if (p >= 7) m("in", "m2", fill(CONFIG.copy.customerPick, lead), lead.times[7]);
+  if (p >= 8) m("out", "m3", fill(CONFIG.copy.confirm, lead), lead.times[8]);
+  const prevKey = body.dataset.key || "", key = lead.id + ":" + p;
+  body.innerHTML = `<div class="wa-day">Today</div>` + msgs.map(x => x.html).join("") + (p >= 3 && p < 6 ? `<div class="typing" aria-label="Reply being prepared"><i></i><i></i><i></i></div>` : "");
+  // customer messages type themselves in the first time they appear
+  const last = msgs[msgs.length - 1];
+  const tkey = lead.id + ":" + last.key;
+  if (last.dir === "in" && (p === 0 || p === 7) && !typed.has(tkey) && prevKey !== key) {
+    typed.add(tkey);
+    const tx = body.querySelector(`[data-k="${last.key}"] .tx`); tx.textContent = "";
+    typeInto(tx, last.text);
+  } else if (prevKey !== key && body.lastElementChild) body.lastElementChild.classList.add("enter");
+  body.dataset.key = key;
+  body.scrollTop = 1e6;
+  // customer picks a slot: real buttons, either answer works
+  if (p === 6 && (state.mode === "step" || state.playing || state.awaiting || state.awaitingReply === lead)) {
+    quick.innerHTML = [0, 1].map(i => `<button type="button" class="qchip" data-pick="${i}">${cap(slotLabel(lead, i))}</button>`).join("");
+    quick.querySelectorAll(".qchip").forEach(b => { if (state.awaitingReply === lead) b.classList.add("pulse"); b.onclick = () => { lead.pick = +b.dataset.pick; if (isDemoLike()) { if (state.mode === "hands") { state.taps++; state.awaitingReply = null; } clearTimeout(state.timer); advance(lead); if (state.playing) scheduleTick(stepDuration(7)); } else advance(lead); }; });
+  }
+  if (p >= 1) capEl.innerHTML = `<div class="captured-lbl">Lo que el sistema leyó de ese mensaje</div><div class="chips ${p === 1 ? "enter" : ""}"><span class="chip">${lead.name}</span><span class="chip">${lead.phone}</span><span class="chip">${lead.intent}</span><span class="chip">${fmtDate(lead.date)}</span>${lead.urgent && p >= 4 ? '<span class="chip" style="background:var(--urgent-soft);color:var(--urgent);border-color:rgba(240,160,48,.4)">Urgente</span>' : ""}</div>`;
+}
+
+function mdFile(lead) {
+  const p = lead.progress, f = lead.name.split(" ")[0];
+  const fm = [`phone: "${lead.phone}"`, `first_name: "${f}"`, `last_name: "${lead.name.split(" ").slice(1).join(" ")}"`, `channel: "whatsapp"`, `intent: "${lead.intent}"`, `requested_date: "${lead.date}"`];
+  if (p >= 4) fm.push(`priority: "${lead.urgent ? "urgent" : "normal"}"`);
+  fm.push(`lead_stage: "${p >= 10 ? "confirmed" : p >= 5 ? "reply_approved" : "new"}"`);
+  if (p >= 10) fm.push(`appointment_date: "${apptDate(lead)} ${slotTime(lead)}"`);
+  const log = [`## [${lead.times[0] || ""}] Entrante`, `- **Cliente:** ${lead.text}`];
+  if (lead.urgent && p >= 4) log.push(`- **Bot (auto):** ${fill(CONFIG.urgency.ack, lead)}`);
+  if (p >= 5) log.push(lead.autoApproved ? `- **Sistema (${lead.autoMode}):** enviado automáticamente, sin aprobación necesaria` : `- **Dueño:** respuesta aprobada${lead.approvedText ? " (editado)" : ""}`);
+  if (p >= 6) log.push(`- **Bot:** ${draftText(lead)}`);
+  if (p >= 7) log.push(`- **Cliente:** ${fill(CONFIG.copy.customerPick, lead)}`);
+  if (p >= 8) log.push(`- **Bot:** ${fill(CONFIG.copy.confirm, lead)}`);
+  if (p >= 9) log.push(`- **Calendario:** evento creado, ${fmtDate(apptDate(lead))} ${slotTime(lead)}`);
+  return `---\n${fm.join("\n")}\n---\n\n# ${lead.name}\n\n${log.join("\n")}`;
+}
+const esc = t => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+// Business view: the same file, read as a person would read it — a properties list and a plain
+// log — not the raw YAML/markdown syntax. The raw file (mdFile, above) is what "Under the hood"
+// shows; business view proves "it's a real file you own" without making it look like code.
+function renderRecord(lead) {
+  const el = $("record");
+  if (!lead || lead.progress < 2) {
+    el.innerHTML = `<div class="card"><div class="card-head"><span class="card-title">${svgIcon("db")} Archivo del cliente en tu Drive</span></div><div class="empty"><strong>Aún no hay archivo</strong>Created in ${CONFIG.freeTier.driveFolder} en cuanto se lee un mensaje.</div></div>`;
+    return;
+  }
+  const p = lead.progress;
+  const badge = p >= 10 ? '<span class="pill pill-ok">Confirmado</span>' : p >= 5 ? '<span class="pill pill-new">Respuesta aprobada</span>' : '<span class="pill pill-new">Nuevo</span>';
+  const fields = [
+    ["Nombre", esc(lead.name)], ["Teléfono", esc(lead.phone)], ["Canal", "WhatsApp"], ["Solicitud", esc(lead.intent)],
+    ["Fecha solicitada", fmtDateYear(lead.date)],
+  ];
+  if (p >= 4) fields.push(["Prioridad", lead.urgent ? "Urgente" : "Normal"]);
+  fields.push(["Estado", p >= 10 ? "Confirmado" : p >= 5 ? "Respuesta aprobada" : "Nuevo"]);
+  if (p >= 10) fields.push(["Cita", `${fmtDate(apptDate(lead))}, ${slotTime(lead)}`]);
+  const fieldsHtml = fields.map(([k, v]) => `<div class="field"><span>${k}</span><span>${v}</span></div>`).join("");
+
+  const log = [];
+  const line = (who, text) => log.push(`<div class="field" style="border-bottom:none;padding:4px 0"><span style="min-width:64px">${who}</span><span style="text-align:left;font-weight:400;color:var(--text-2)">${esc(text)}</span></div>`);
+  line("Cliente", lead.text);
+  if (lead.urgent && p >= 4) line("Auto-respuesta", fill(CONFIG.urgency.ack, lead));
+  if (p >= 5) line(lead.autoApproved ? `System (${lead.autoMode})` : "Dueño", lead.autoApproved ? "enviado automáticamente, sin aprobación necesaria" : `aprobado${lead.approvedText ? " (editado)" : ""}`);
+  if (p >= 6) line("Enviado", draftText(lead));
+  if (p >= 7) line("Cliente", fill(CONFIG.copy.customerPick, lead));
+  if (p >= 8) line("Enviado", fill(CONFIG.copy.confirm, lead));
+  if (p >= 9) line("Calendario", `evento creado, ${fmtDate(apptDate(lead))} ${slotTime(lead)}`);
+
+  el.innerHTML = `<div class="card ${p === 2 || p === 10 ? "enter" : ""}">
+    <div class="card-head"><span class="card-title">${svgIcon("db")} ${esc(lead.name)}</span>${badge}</div>
+    <div style="padding:0 14px">${fieldsHtml}</div>
+    <div class="panel-hint" style="padding:12px 14px 4px">${CONFIG.freeTier.driveFolder}${lead.phone.replace(/\D/g, "")}.md &middot; texto plano, en tu Drive</div>
+    <div style="padding:0 14px 12px">${log.join("")}</div>
+  </div>`;
+}
+
+function renderDraft(lead) {
+  const el = $("draft");
+  const head = (badge) => `<div class="card-head"><span class="card-title">${svgIcon("pen")} Borrador de respuesta</span>${badge || ""}</div>`;
+  if (!lead || lead.progress < 3) {
+    el.innerHTML = `<div class="card">${head()}<div class="empty"><strong>Nada por aprobar</strong>Los borradores aparecen aquí en cuanto se guarda un lead.</div></div>`;
+    return;
+  }
+  const p = lead.progress;
+  const canAct = (state.mode === "step" && p < 5) || (isDemoLike() && state.awaiting === lead);
+  const editing = el.dataset.editing === lead.id;
+  let triage = "";
+  if (p >= 4) triage = lead.urgent
+    ? `<div class="triage urgent">${svgIcon("bell")} <span>Marcado como urgente. Cliente atendido automáticamente${lead.ackAt ? " a las " + lead.ackAt : ""}; tu aprobación ${CONFIG.freeTier.approvalChannel} está marcado URGENTE${state.approvalMode !== "manual" ? " — urgent always waits for you, even in " + (state.approvalMode === "auto" ? "Auto" : "Hybrid") + " mode" : ""}.</span></div>`
+    : lead.lowConfidence
+    ? `<div class="triage normal">${svgIcon("clock")} <span>Marcado para revisión: esta solicitud no fue lo bastante clara para enviarse sola.</span></div>`
+    : `<div class="triage normal">${svgIcon("clock")} Prioridad normal. Esperando tu revisión ${CONFIG.urgency.normalTarget}.</div>`;
+  const badge = p >= 6 ? (lead.autoApproved ? '<span class="pill pill-ok">Auto-enviado</span>' : '<span class="pill pill-ok">Enviado</span>') : p >= 5 ? '<span class="pill pill-ok">Aprobado</span>' : '<span class="pill pill-wait">Esperando aprobación</span>';
+  const actions = canAct ? `<div class="draft-actions">
+      <button type="button" class="btn btn-channel ${state.awaiting === lead ? "pulse" : ""}" id="btnApprove">${svgIcon("send")} Aprobar y enviar</button>
+      <button type="button" class="btn" id="btnEdit">${editing ? "Done editing" : "Edit"}</button>
+    </div><div class="draft-note">${editing ? "Cambia lo que quieras y luego aprueba." : state.mode === "step" && p === 3 ? "Aprueba ahora, o presiona Siguiente paso para ver primero la clasificación de urgencia." : `Sent to your ${CONFIG.freeTier.approvalChannel} with Approve and Edit buttons. Nothing goes out until you tap one.`}</div>`
+    : p >= 6 ? `<div class="draft-note">${lead.autoApproved ? `Enviado automáticamente ${lead.times[6] || ""}, sin aprobación necesaria en modo ${lead.autoMode === "auto" ? "Auto" : "Híbrido"}.<span class="auto-note">Puedes hacer seguimiento desde Telegram cuando quieras.</span>` : `Enviado ${lead.times[6] || ""}${lead.retryUsed ? ", tras un reintento automático" : ""}.`}</div>` : p >= 5 ? `<div class="draft-note">${lead.autoApproved ? "Aprobado automáticamente. Enviando." : `Approved ${lead.times[5] || ""}. Enviando.`}</div>` : "";
+  el.innerHTML = `<div class="card ${p === 3 ? "enter" : ""}">${head(badge)}${triage ? triage + '<div style="height:10px"></div>' : ""}
+    <div class="draft-text" ${editing ? 'contenteditable="true" role="textbox" aria-label="Reply text"' : ""}>${draftText(lead)}</div>${actions}</div>`;
+  if (canAct) {
+    $("btnApprove").onclick = () => { el.dataset.editing = ""; approve(lead); };
+    $("btnEdit").onclick = () => {
+      if (editing) { lead.approvedText = el.querySelector(".draft-text").textContent.trim() || null; el.dataset.editing = ""; }
+      else el.dataset.editing = lead.id;
+      renderDraft(lead);
+      if (!editing) { const t = el.querySelector(".draft-text"); t.focus(); }
+    };
+  }
+}
+
+function renderCalendar() {
+  const el = $("calendar");
+  const booked = visibleLeads().filter(l => l.progress >= 9).map(l => ({ name: l.name, date: apptDate(l), time: slotTime(l), what: l.intent, urgent: l.urgent, fresh: l.progress === 9 && l.id === state.activeId }));
+  const all = [...CONFIG.baseline.upcoming.map(a => ({ ...a, base: true })), ...booked].sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time));
+  const rows = all.map(a => { const d = new Date(a.date + "T12:00:00"); return `<div class="appt ${a.fresh ? "enter" : ""}"><div class="date-tile ${a.base ? "faded" : a.urgent ? "urgent" : ""}"><b>${d.getDate()}</b><small>${d.toLocaleDateString("es-CO", { month: "short" })}</small></div><div><div class="appt-title">${a.what}, ${a.name}${a.urgent ? ' <span class="pill pill-wait">Urgente</span>' : ""}</div><div class="appt-sub">${a.time}, ${CONFIG.business.apptMinutes} min</div></div></div>`; }).join("");
+  el.innerHTML = `<div class="card"><div class="card-head"><span class="card-title">${svgIcon("cal")} Calendario</span><span class="panel-hint">${booked.length ? `${booked.length} agendadas en esta sesión` : "Próximas"}</span></div>${rows || `<div class="empty"><strong>Aún no hay citas</strong>Los horarios confirmados aparecen aquí.</div>`}</div>`;
+}
+
+function renderTrust() {
+  const el = $("trust");
+  if (el.children.length) return;
+  el.innerHTML = `<div class="trust">${CONFIG.tech.trust.map(t => `<div><b>${t.title}</b>${t.body.replace("{residency}", CONFIG.tech.dataResidency)}</div>`).join("")}</div>`;
+}
+const hash = str => { let h = 7; for (const c of str) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; };
+const lat = (lead, step, base, spread) => base + (hash(lead.id + step) % spread);
+const J = obj => JSON.stringify(obj, null, 2).replace(/"([^"]+)":/g, '<span class="k">"$1"</span>:').replace(/: "([^"]*)"/g, ': <span class="s">"$1"</span>').replace(/: (\d+(\.\d+)?|true|false|null)/g, ': <span class="n">$1</span>');
+function eventsFor(lead) {
+  const p = lead.progress, id = "ld_" + (hash(lead.id) % 9000 + 1000), f = lead.name.split(" ")[0];
+  const e = [];
+  const ev = (s, verb, cls, hop, ms, body) => { if (p >= s) e.push({ o: s, verb, cls, hop, ms, body, t: lead.times[s] || "" }); };
+  ev(0, "POST", "", "Meta Cloud API → nuestro webhook", lat(lead, 0, 180, 240), { event: "message.received", from: lead.phone, text: lead.text, message_id: "wamid." + (hash(lead.id + "m0") % 1e6) });
+  ev(1, "AI", "", "Paso de IA (extraer)", lat(lead, 1, 620, 700), { name: lead.name, phone: lead.phone, intent: lead.intent, requested_date: lead.date, urgency_hint: !!lead.urgent, confidence: 0.9 + (hash(lead.id) % 9) / 100 });
+  ev(2, "DRIVE", "", "Google Drive: crear o agregar", lat(lead, 2, 420, 500), { folder: CONFIG.freeTier.driveFolder, file: lead.phone.replace(/\D/g, "") + ".md", action: "create", frontmatter: { first_name: lead.name.split(" ")[0], phone: lead.phone, lead_stage: "new", requested_date: lead.date }, appended: "## [" + (lead.times[0] || "") + "] Inbound" });
+  ev(3, "AI", "", "Paso de IA (redactar)", lat(lead, 3, 900, 900), { inputs: ["tone_guide", "extracted_fields", "open_slots"], draft: draftText(lead), sent: false });
+  ev(4, lead.urgent ? "ALERT" : "ROUTE", lead.urgent ? "amber" : "", "Enrutador (urgencia)", lat(lead, 4, 3, 8), lead.urgent ? { priority: "urgent", auto_ack: "sent", approval_message: CONFIG.freeTier.approvalChannel + ", subject: URGENT" } : { priority: "normal", approval_message: CONFIG.freeTier.approvalChannel });
+  if (lead.escalatedAt && CONFIG.urgency.timer) e.push({ o: 4.5, verb: "ALERT", cls: "fail", hop: "escalation", ms: 4, t: lead.escalatedAt, body: { reason: "se venció el tiempo de respuesta", notified: CONFIG.urgency.backup } });
+  if (p >= 5) {
+    if (lead.autoApproved) e.push({ o: 5, verb: "ROUTE", cls: "ok", hop: "Enrutador de modo de aprobación", ms: lat(lead, 5, 5, 15), t: lead.times[5] || "", body: { mode: lead.autoMode, reason: (lead.urgent || lead.lowConfidence) ? "n/a, always manual" : "confidence above threshold", gate: "unlocked automatically, no Telegram round-trip" } });
+    else e.push({ o: 5, verb: "CALLBACK", cls: "ok", hop: "Botón de Telegram → nuestro flujo", ms: lat(lead, 5, 40, 60), t: lead.times[5] || "", body: { approved_by: "owner", edited: !!lead.approvedText, gate: "unlocked" } });
+  }
+  if (lead.retryAt && p >= 5) e.push({ o: 5.5, verb: "POST", cls: "fail", hop: "Nuestro flujo → envío por Meta Cloud API", ms: lat(lead, 55, 300, 200), t: lead.retryAt, body: { status: 429, error: "rate_limited", action: "retry in 2s" } });
+  ev(6, "POST", "ok", "Nuestro flujo → envío por Meta Cloud API", lat(lead, 6, 220, 300), { to: lead.phone, status: "delivered", attempt: lead.retryUsed ? 2 : 1 });
+  ev(7, "POST", "", "Meta Cloud API → nuestro webhook", lat(lead, 7, 180, 240), { event: "message.received", text: fill(CONFIG.copy.customerPick, lead), parsed_slot: slotTime(lead) });
+  ev(8, "POST", "ok", "Nuestro flujo → envío por Meta Cloud API", lat(lead, 8, 220, 300), { to: lead.phone, template: "confirmation", approval_required: false });
+  ev(9, "POST", "ok", "Nuestro flujo → Google Calendar: crear evento", lat(lead, 9, 260, 400), { title: `${lead.intent}, ${lead.name}`, start: `${apptDate(lead)} ${slotTime(lead)}`, duration_min: CONFIG.business.apptMinutes, event_id: "evt_" + (hash(lead.id + "c") % 1e5) });
+  ev(10, "DRIVE", "", "Google Drive: actualizar encabezado", lat(lead, 10, 380, 400), { file: lead.phone.replace(/\D/g, "") + ".md", lead_stage: "confirmed", appointment_date: apptDate(lead) + " " + slotTime(lead), calendar_event: "evt_" + (hash(lead.id + "c") % 1e5) });
+  return e.sort((a, b) => b.o - a.o);
+}
+function renderStream(lead) {
+  const el = $("stream");
+  const head = `<div class="card-head"><span class="card-title">${svgIcon("db")} Flujo de eventos${lead && lead.progress >= 0 ? `, ${lead.name.split(" ")[0]}` : ""}</span><span class="panel-hint">más reciente primero</span></div>`;
+  if (!lead || lead.progress < 0) { el.innerHTML = `<div class="card">${head}<div class="empty"><strong>Aún no hay eventos</strong>Cada salto del mensaje aparecerá aquí con su contenido y latencia.</div></div>`; el.dataset.n = 0; return; }
+  const evs = eventsFor(lead);
+  const grew = evs.length > +(el.dataset.n || 0) && el.dataset.lead === lead.id;
+  const rawFile = lead.progress >= 2
+    ? `<div class="card" style="margin-bottom:12px"><div class="card-head"><span class="card-title">${svgIcon("db")} ${CONFIG.freeTier.driveFolder}${lead.phone.replace(/\D/g, "")}.md, sin procesar</span><span class="panel-hint">lo que realmente hay en disco</span></div><pre class="md" style="margin:0 14px 14px">${esc(mdFile(lead))}</pre></div>`
+    : "";
+  el.innerHTML = rawFile + `<div class="card">${head}${evs.map((x, i) => `<div class="ev ${i === 0 && grew ? "enter" : ""}"><div class="ev-head"><span class="ev-verb ${x.cls}">${x.verb}</span><span class="ev-hop">${x.hop}</span><span class="ev-lat">${x.ms} ms${x.t ? ", " + x.t : ""}</span></div><pre>${J(x.body)}</pre></div>`).join("")}</div>`;
+  el.dataset.n = evs.length; el.dataset.lead = lead.id;
+}
+function renderDrive() {
+  const el = $("driveCard");
+  const files = visibleLeads().filter(l => l.progress >= 2);
+  const rows = files.map(l => `<div class="drive-row ${l.progress === 2 && l.id === state.activeId ? "enter" : ""}">${svgIcon("db")}<b>${l.phone.replace(/\D/g, "")}.md</b><span>${l.progress >= 10 ? "confirmed" : l.progress >= 5 ? "reply approved" : "new"}, ${l.times[2] || ""}</span></div>`).reverse().join("");
+  el.innerHTML = `<div class="card-head"><span class="card-title">${svgIcon("db")} ${CONFIG.freeTier.driveFolder}</span><span class="panel-hint">${files.length ? files.length + (files.length === 1 ? " file" : " files") + " esta sesión" : "your folder"}</span></div>${rows ? `<div class="drive">${rows}</div>` : `<div class="empty"><strong>La carpeta está vacía</strong>One .md file per customer appears here, readable in Drive, Obsidian or any editor.</div>`}`;
+}
+function renderTiers() {
+  const el = $("tiersCard");
+  if (el.children.length) return;
+  el.innerHTML = `<div class="card-head"><span class="card-title">${svgIcon("check")} Qué incluye el plan gratuito</span></div><div class="tiers">${CONFIG.freeTier.included.map(t => `<div class="tier-row in"><i>✓</i>${t}</div>`).join("")}<div class="tier-h">El plan pago agrega</div>${CONFIG.freeTier.paid.map(t => `<div class="tier-row out"><i>+</i>${t}</div>`).join("")}</div>`;
+}
+function feedEntries(lead) {
+  const f = lead.name.split(" ")[0];
+  const e = [];
+  const push = (s, icon, tone, html) => { if (lead.progress >= s) e.push({ t: lead.times[s] || "", icon, tone, html, o: s }); };
+  push(0, "chat", "green", `Nuevo mensaje de WhatsApp de <b>${lead.name}</b>`);
+  push(1, "filter", "", `Se capturó nombre, teléfono, solicitud y fecha de ${f}`);
+  push(2, "db", "", `Archivo del cliente creado en tu Drive para ${f}`);
+  push(3, "pen", "", `Respuesta redactada para ${f}, esperando aprobación`);
+  push(4, lead.urgent ? "bell" : "clock", lead.urgent ? "amber" : "grey", lead.urgent ? `<b>Urgent:</b> approval ${CONFIG.freeTier.approvalChannel} for ${f} marcado URGENTE` : `Prioridad normal, ${f} en cola para revisión ${CONFIG.urgency.normalTarget}`);
+  if (lead.urgent && lead.progress >= 4) e.push({ t: lead.ackAt || "", icon: "send", tone: "green", html: `Mensaje de espera enviado a ${f} automáticamente`, o: 4.1 });
+  if (lead.parkedAt && lead.progress >= 4) e.push({ t: lead.parkedAt, icon: "clock", tone: "grey", html: `${f} en espera mientras se atiende un lead urgente`, o: 4.2 });
+  if (lead.escalatedAt) e.push({ t: lead.escalatedAt, icon: "bell", tone: "red", html: `<b>Escalated:</b> ${f} esperó más de ${fmtClock(CONFIG.urgency.targetSec)}, ${CONFIG.urgency.backup} alerted`, o: 4.3 });
+  push(5, "check", "green", lead.autoApproved ? `Enviado automáticamente para ${f}, ${lead.autoMode} modo, sin aprobación necesaria` : `Respuesta aprobada${lead.approvedText ? " con cambios" : ""}${lead.urgent && lead.slaEnd ? `, ${fmtClock(slaElapsed(lead))} after the alert` : ""}`);
+  if (lead.retryAt && lead.progress >= 5) e.push({ t: lead.retryAt, icon: "retry", tone: "red", html: `La entrega a ${f} falló, reintentando automáticamente`, o: 5.5 });
+  push(6, "send", "green", `Respuesta entregada a ${f}${lead.retryUsed ? " en el segundo intento" : ""}, ${lead.replySec}s después del primer mensaje`);
+  push(7, "chat", "green", `${f} eligió ${slotLabel(lead, lead.pick)}`);
+  push(8, "send", "green", `Confirmación enviada a ${f}`);
+  push(9, "cal", "", `Cita agendada: ${fmtDate(apptDate(lead))}, ${slotTime(lead)}`);
+  push(10, "db", "", `${f}: archivo actualizado, confirmado`);
+  return e;
+}
+function renderFeed() {
+  const el = $("feed");
+  const items = [];
+  visibleLeads().forEach((l, li) => feedEntries(l).forEach(x => items.push({ ...x, order: li * 100 + x.o })));
+  if (!items.length) { el.innerHTML = `<div class="empty"><strong>Aún no ha pasado nada</strong>${isDemoLike() ? "Al empezar, cada paso quedará registrado aquí en tiempo real." : "Cada paso que des quedará registrado aquí."}</div>`; el.dataset.n = 0; return; }
+  items.sort((a, b) => b.order - a.order);
+  const grew = items.length > (+el.dataset.n || 0);
+  el.innerHTML = items.slice(0, 80).map((x, i) => `<div class="feed-item ${i === 0 && grew ? "enter" : ""}"><span class="feed-ic ${x.tone}">${svgIcon(x.icon)}</span><span>${x.html}</span><span class="feed-t num">${x.t}</span></div>`).join("");
+  el.dataset.n = items.length;
+  el.scrollTop = 0;
+}
+
+/* ---------- toasts ---------- */
+function toast({ tone = "", icon = "check", title, body, ms = 4200 }) {
+  const box = $("toasts");
+  const t = document.createElement("div");
+  t.className = "toast " + tone; t.style.setProperty("--toast-ms", ms + "ms");
+  t.innerHTML = `<span class="feed-ic ${tone}">${svgIcon(icon)}</span><div><div class="toast-title">${title}</div><div class="toast-body">${body}</div></div><button class="toast-x" type="button" aria-label="Dismiss">✕</button>`;
+  const close = () => { if (!t.isConnected) return; t.classList.add("leaving"); setTimeout(() => t.remove(), 240); };
+  t.querySelector(".toast-x").onclick = close;
+  box.appendChild(t);
+  while (box.children.length > 4) box.firstElementChild.remove();
+  setTimeout(close, ms);
+}
+
+/* ---------- theme ---------- */
+function setTheme(t) {
+  state.theme = t;
+  document.documentElement.setAttribute("data-theme", t);
+  const b = $("btnTheme");
+  b.innerHTML = svgIcon(t === "dark" ? "sun" : "moon");
+  b.setAttribute("aria-label", t === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+}
+
+/* ---------- presenter tour ---------- */
+const TOUR = [
+  { target: "#rail", title: "El recorrido", body: "Cada mensaje de WhatsApp viaja por este riel. La banda azul es lo que configuramos dentro de tus propias cuentas; los dos extremos son el cliente y tu Google Calendar. Nada de esto lo alojamos nosotros." },
+  { target: "#controls", title: "Tres formas de verlo", body: "Verlo funcionar reproduce seis leads seguidos. Pruébalo tú mismo le entrega todo al prospecto: trae clientes, aprueba borradores y responde como el cliente, con un marcador al final. Paso a paso recorre un lead clic por clic." },
+  { target: "#panelChat", title: "El lado del cliente", body: "Este es el celular real del cliente: lo que ve, nada más. Las etiquetas debajo son lo que el sistema leyó del mensaje. Cuando llega la respuesta, aparecen dos botones para responder como el cliente, y cualquiera de los dos horarios funciona." },
+  { target: "#record", title: "El archivo del cliente", body: "Un archivo .md sencillo en tu Google Drive, uno por cliente, creado en el momento en que se lee el mensaje. El encabezado son datos; el cuerpo es la conversación. Lo abres en Drive, Obsidian o cualquier editor." },
+  { target: "#draft", title: "Tú mantienes el control", body: "Cada primera respuesta llega a tu Telegram con botones Aprobar y Editar. Esta tarjeta muestra lo que contiene ese mensaje. Los leads urgentes se marcan URGENTE y el cliente recibe un acuse inmediato." },
+  { target: "#calendar", title: "Queda en tu calendario", body: "Cuando el cliente elige un horario, la cita se crea con nombre, trabajo y duración." },
+  { target: "#driveCard", title: "Tu carpeta de Drive", body: "Los archivos aparecen aquí a medida que llegan leads. Esta es toda la base de datos: legible, buscable, tuya. La tarjeta de abajo dice con claridad qué incluye el plan gratuito y qué agrega el plan pago." },
+  { target: "#feed", title: "Todo queda registrado", body: "Cada paso, incluido el envío que falló y se reintentó solo, se agrega al archivo del cliente." },
+  { target: "#lensSeg", title: "Por dentro", body: "Cámbialo para ver la arquitectura real: la Cloud API de Meta, dos flujos automatizados con pasos de IA, archivos en Google Drive, un bot de Telegram para aprobar, Google Calendar. La columna central se convierte en el flujo de eventos. La demo sigue corriendo debajo." },
+  { target: "#btnTheme", title: "Oscuro o claro", body: "Cambia al que se lea mejor en la sala. Presiona ? en cualquier momento para reabrir esta guía." },
+];
+function openTour(i = 0) { state.tourIndex = i; $("tour").classList.add("open"); positionTour(); $("tourNext").focus(); }
+function closeTour() { $("tour").classList.remove("open"); $("btnTour").focus(); }
+function positionTour() {
+  const step = TOUR[state.tourIndex];
+  const target = document.querySelector(step.target);
+  if (!target) return;
+  target.scrollIntoView({ block: "center", behavior: REDUCED ? "auto" : "smooth" });
+  const place = () => {
+    const r = target.getBoundingClientRect();
+    const spot = $("tourSpot"), card = $("tourCard");
+    spot.style.left = (r.left - 6) + "px"; spot.style.top = (r.top - 6) + "px"; spot.style.width = (r.width + 12) + "px"; spot.style.height = (r.height + 12) + "px";
+    $("tourStep").textContent = `${state.tourIndex + 1} of ${TOUR.length}`;
+    $("tourTitle").textContent = step.title; $("tourBody").textContent = step.body;
+    $("tourPrev").disabled = state.tourIndex === 0;
+    $("tourNext").textContent = state.tourIndex === TOUR.length - 1 ? "Finish" : "Next";
+    if (window.innerWidth > 720) {
+      const cw = card.offsetWidth, ch = card.offsetHeight;
+      let top = r.bottom + 14, left = Math.min(Math.max(12, r.left), window.innerWidth - cw - 12);
+      if (top + ch > window.innerHeight - 12) top = Math.max(12, r.top - ch - 14);
+      if (r.height > window.innerHeight * .7) { top = Math.max(12, Math.min(window.innerHeight - ch - 12, r.top + 40)); left = Math.min(window.innerWidth - cw - 12, r.right + 14); }
+      card.style.top = top + "px"; card.style.left = left + "px";
+    }
+  };
+  setTimeout(place, REDUCED ? 0 : 320);
+}
+
+/* ---------- loader ---------- */
+function runLoader(done) {
+  const stages = ["Conectando con tu cuenta de WhatsApp Business", "Abriendo la base de clientes", "Sincronizando el calendario", "Cargando los números de hoy"];
+  const box = $("loaderStatus");
+  box.innerHTML = stages.map(s => `<div><span class="dotp"></span>${s}</div>`).join("");
+  const rows = box.children;
+  let i = 0;
+  const tick = () => {
+    if (i > 0) { rows[i - 1].classList.remove("on"); rows[i - 1].classList.add("ok"); }
+    if (i === stages.length) { $("loaderTitle").textContent = "Listo"; setTimeout(() => { $("loader").classList.add("out"); done(); }, 300); return; }
+    rows[i].classList.add("on"); i++;
+    setTimeout(tick, REDUCED ? 60 : 380);
+  };
+  tick();
+}
+
+/* ---------- wiring ---------- */
+function init() {
+  document.documentElement.style.setProperty("--accent", CONFIG.colors.accent);
+  document.documentElement.style.setProperty("--channel", CONFIG.colors.channel);
+  document.documentElement.style.setProperty("--urgent", CONFIG.colors.urgent);
+  document.title = `${CONFIG.brand.product}, ${CONFIG.brand.tier} — demo para ${CONFIG.brand.client}`;
+  $("brandMark").textContent = CONFIG.brand.mark;
+  $("brandName").innerHTML = `${CONFIG.brand.product}<span class="tier-badge">${CONFIG.brand.tier}</span>`;
+  $("brandFor").textContent = `Preparado para ${CONFIG.brand.client}`;
+  $("hostHint").textContent = "Run by " + CONFIG.brand.agency + "; your accounts, your data";
+  $("footNote").textContent = `${CONFIG.brand.agency} construye y opera esto para ${CONFIG.brand.client}. ${CONFIG.freeTier.costNote}`;
+  setTheme(state.theme);
+  buildRail();
+  resetLeads();
+  setLens("business");
+  render();
+  const tickClock = () => { $("clock").textContent = nowTime(); $("phoneClock").textContent = nowTime().replace(/ [AP]M/, ""); };
+  tickClock(); setInterval(tickClock, 15000);
+
+  $("btnPlay").onclick = togglePlay;
+  $("btnReset").onclick = resetDemo;
+  $("speedSel").onchange = e => { state.speed = +e.target.value; };
+  $("modeManual").onclick = () => setApprovalMode("manual");
+  $("modeHybrid").onclick = () => setApprovalMode("hybrid");
+  $("modeAuto").onclick = () => setApprovalMode("auto");
+  $("modeDemo").onclick = () => setMode("demo");
+  $("modeStep").onclick = () => setMode("step");
+  $("modeHands").onclick = () => setMode("hands");
+  $("btnNextLead").onclick = bringNextLead;
+  $("urgNormal").onclick = () => setUrgent(false);
+  $("urgUrgent").onclick = () => setUrgent(true);
+  $("btnNext").onclick = stepNext;
+  $("btnBack").onclick = stepBack;
+  $("btnRestart").onclick = () => { const l = state.stepLead; l.progress = -1; l.approvedText = null; l.times = []; l.replySec = null; l.ackAt = l.slaStart = l.slaEnd = l.escalatedAt = null; $("draft").dataset.editing = ""; render(); };
+  $("track").addEventListener("click", e => { const b = e.target.closest(".step"); if (!b) return; jumpTo(+b.dataset.i); });
+  $("inbox").addEventListener("click", e => { const b = e.target.closest(".lead-row"); if (!b) return; state.activeId = b.dataset.id; render(); });
+  $("btnTheme").onclick = () => setTheme(state.theme === "dark" ? "light" : "dark");
+  $("lensBusiness").onclick = () => setLens("business");
+  $("lensTech").onclick = () => setLens("tech");
+  $("btnTour").onclick = () => openTour(0);
+  $("tourNext").onclick = () => { if (state.tourIndex === TOUR.length - 1) closeTour(); else { state.tourIndex++; positionTour(); } };
+  $("tourPrev").onclick = () => { if (state.tourIndex > 0) { state.tourIndex--; positionTour(); } };
+  $("tourClose").onclick = closeTour;
+  $("tour").addEventListener("click", e => { if (e.target === $("tour")) closeTour(); });
+  window.addEventListener("resize", () => { if ($("tour").classList.contains("open")) positionTour(); });
+
+  document.addEventListener("keydown", e => {
+    const tag = (e.target.tagName || "").toLowerCase();
+    if (e.target.isContentEditable || tag === "input" || tag === "textarea" || tag === "select") return;
+    const tourOpen = $("tour").classList.contains("open");
+    if (e.key === "Escape") { if (tourOpen) closeTour(); return; }
+    if (tourOpen) { if (e.key === "ArrowRight") $("tourNext").click(); if (e.key === "ArrowLeft") $("tourPrev").click(); return; }
+    if (e.key === "?") { e.preventDefault(); openTour(0); }
+    else if (e.key === " " && isDemoLike() && tag !== "button") { e.preventDefault(); state.mode === "hands" ? play() : togglePlay(); }
+    else if (e.key.toLowerCase() === "r") { isDemoLike() ? resetDemo() : $("btnRestart").click(); }
+    else if (e.key.toLowerCase() === "u") setLens(state.lens === "tech" ? "business" : "tech");
+    else if (e.key.toLowerCase() === "t") setTheme(state.theme === "dark" ? "light" : "dark");
+    else if (e.key === "ArrowRight" && state.mode === "step") stepNext();
+    else if (e.key === "ArrowLeft" && state.mode === "step") stepBack();
+    else if (e.key === "Enter" && state.awaiting && tag !== "button") { const b = $("btnApprove"); if (b) b.click(); }
+  });
+
+  runLoader(() => { $("btnPlay").focus(); });
+}
+function setMode(m) {
+  if (state.mode === m) return;
+  pause(); clearTimeout(state.timer);
+  const wasDemoLike = isDemoLike();
+  state.mode = m;
+  $("draft").dataset.editing = "";
+  if (isDemoLike() && (!wasDemoLike || true)) { resetLeads(); }   // demo-style modes always start clean
+  state.activeId = isDemoLike() ? null : state.stepLead.id;
+  render(); if (!activeLead() || activeLead().progress < 0) renderRail(null);
+}
+function setUrgent(u) {
+  const l = state.stepLead; state.stepUrgent = u; l.urgent = u; l.approvedText = null;
+  if (u && l.progress >= 4 && !l.slaStart) { l.ackAt = nowTime(); l.slaStart = performance.now(); if (l.progress >= 5) l.slaEnd = performance.now(); }
+  if (!u) { l.ackAt = l.slaStart = l.slaEnd = l.escalatedAt = null; }
+  render();
+  if (state.stepLead.progress === 4) { if (u) movePacket("draft", "you", stepDuration(4) * .7, "amber"); }
+}
+function stepNext() { const l = state.stepLead; if (l.progress >= STEPS.length - 1) return; advance(l); }
+function stepBack() { const l = state.stepLead; if (l.progress < 0) return; l.progress--; if (l.progress < 4) { l.ackAt = l.slaStart = l.slaEnd = l.escalatedAt = null; } if (l.progress < 5) l.slaEnd = null; $("draft").dataset.editing = ""; render(); if (l.progress >= 0) { const mv = PACKET_MOVES[l.progress]; if (mv) movePacket(mv[1], mv[0], 500, mv[2]); } }
+function jumpTo(i) { const l = state.stepLead; if (i === l.progress) return; if (i > l.progress) { while (l.progress < i) { if (!advance(l, l.progress === i - 1)) break; } } else { l.progress = i; if (i < 4) l.ackAt = l.slaStart = l.slaEnd = l.escalatedAt = null; else if (i < 5) l.slaEnd = null; render(); } }
+
+init();
+</script>
+</body>
+</html>

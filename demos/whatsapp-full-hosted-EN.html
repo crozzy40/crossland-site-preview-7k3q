@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead to appointment — live demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --accent: #4D7CFE;
+    --channel: #22B573;
+    --urgent: #F0A030;
+    --danger: #E5484D;
+    --radius-lg: 18px;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --ease: cubic-bezier(.2,.8,.2,1);
+    --shadow-pop: 0 18px 50px -20px rgba(10,16,32,.55);
+  }
+  [data-theme="dark"] {
+    --bg: #0F1420;
+    --bg-2: #131A29;
+    --surface: #182034;
+    --surface-2: #1F2940;
+    --line: #283350;
+    --line-strong: #364468;
+    --text: #E9EDF7;
+    --text-2: #A7B1C9;
+    --text-3: #6F7B98;
+    --accent-soft: rgba(77,124,254,.16);
+    --channel-soft: rgba(34,181,115,.16);
+    --urgent-soft: rgba(240,160,48,.16);
+    --danger-soft: rgba(229,72,77,.16);
+    --rail-bg: #121a2b;
+    --host-band: rgba(77,124,254,.07);
+    --skeleton: #222c44;
+    --skeleton-hi: #2c3852;
+    --wa-head: #1f2c34; --wa-head-text: #e9edef; --wa-chat: #0b141a; --wa-in: #202c33; --wa-out: #005c4b; --wa-text: #e9edef; --wa-meta: #8696a0; --wa-bar: #1f2c34; --wa-field: #2a3942; --wa-read: #53bdeb;
+    color-scheme: dark;
+  }
+  [data-theme="light"] {
+    --bg: #F4F6FB;
+    --bg-2: #EEF1F8;
+    --surface: #FFFFFF;
+    --surface-2: #F6F8FD;
+    --line: #DEE3EF;
+    --line-strong: #C7CFE2;
+    --text: #131A2B;
+    --text-2: #4C5771;
+    --text-3: #8791AB;
+    --accent-soft: rgba(77,124,254,.12);
+    --channel-soft: rgba(34,181,115,.13);
+    --urgent-soft: rgba(240,160,48,.16);
+    --danger-soft: rgba(229,72,77,.12);
+    --rail-bg: #FFFFFF;
+    --host-band: rgba(77,124,254,.06);
+    --skeleton: #E4E8F2;
+    --skeleton-hi: #F1F3F9;
+    --wa-head: #008069; --wa-head-text: #ffffff; --wa-chat: #efeae2; --wa-in: #ffffff; --wa-out: #d9fdd3; --wa-text: #111b21; --wa-meta: #667781; --wa-bar: #f0f2f5; --wa-field: #ffffff; --wa-read: #53bdeb;
+    --shadow-pop: 0 18px 50px -20px rgba(20,30,60,.35);
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    transition: background .3s var(--ease), color .3s var(--ease);
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- layout ---------- */
+  .app { max-width: 1320px; margin: 0 auto; padding: 18px 20px 60px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 4px 0 18px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(135deg, var(--accent), #7A9BFF); display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 15px; letter-spacing: -.02em; }
+  .brand-name { font-weight: 800; font-size: 17px; letter-spacing: -.01em; line-height: 1.15; }
+  .brand-for { font-size: 12.5px; color: var(--text-2); }
+  .topbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-weight: 600; font-size: 13px; line-height: 1; transition: transform .12s var(--ease), background .18s, border-color .18s, box-shadow .18s; white-space: nowrap; }
+  .btn:hover:not(:disabled) { background: var(--surface-2); border-color: var(--line-strong); }
+  .btn:active:not(:disabled) { transform: translateY(1px) scale(.985); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 6px 18px -8px var(--accent); }
+  .btn-primary:hover:not(:disabled) { background: #3d6ef5; border-color: #3d6ef5; }
+  .btn-channel { background: var(--channel); border-color: var(--channel); color: #fff; }
+  .btn-channel:hover:not(:disabled) { background: #1da366; border-color: #1da366; }
+  .btn-ghost { background: transparent; border-color: transparent; color: var(--text-2); }
+  .btn-ghost:hover:not(:disabled) { background: var(--surface-2); color: var(--text); }
+  .btn-icon { padding: 9px; width: 36px; height: 36px; }
+  .btn.pulse { animation: pulse-ring 1.4s var(--ease) infinite; }
+  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 var(--channel-soft), 0 0 0 0 var(--channel); } 70% { box-shadow: 0 0 0 10px transparent, 0 0 0 4px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+  .seg { display: inline-flex; padding: 3px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; gap: 2px; }
+  .seg button { padding: 6px 12px; border: 0; background: transparent; border-radius: 7px; font-weight: 600; font-size: 12.5px; color: var(--text-2); transition: background .18s, color .18s; }
+  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.18); }
+  .seg button:hover:not([aria-pressed="true"]) { color: var(--text); }
+
+  kbd { font-family: var(--font); font-size: 11px; padding: 2px 6px; border-radius: 5px; border: 1px solid var(--line-strong); background: var(--bg-2); color: var(--text-2); }
+
+  /* ---------- rail ---------- */
+  .rail { background: var(--rail-bg); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 20px 22px 12px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .rail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 4px; flex-wrap: wrap; }
+  .rail-title { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; margin: 0; min-height: 27px; transition: opacity .2s; }
+  .rail-desc { margin: 4px 0 0; color: var(--text-2); font-size: 14px; max-width: 58ch; min-height: 21px; }
+  .rail-lead { text-align: right; font-size: 13px; color: var(--text-2); flex-shrink: 0; }
+  .rail-lead strong { display: block; color: var(--text); font-size: 15px; }
+  .turn { display: flex; align-items: center; gap: 10px; margin: 10px 0 2px; padding: 10px 14px; border-radius: 10px; background: var(--accent-soft); border: 1px solid rgba(77,124,254,.4); font-weight: 700; font-size: 13.5px; animation: enter .3s var(--ease); }
+  .turn[hidden], .score[hidden] { display: none; }
+  .turn-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: turn-pulse 1.3s ease-out infinite; flex-shrink: 0; }
+  @keyframes turn-pulse { 0% { box-shadow: 0 0 0 0 rgba(77,124,254,.6); } 100% { box-shadow: 0 0 0 9px rgba(77,124,254,0); } }
+  .qchip.pulse { animation: pulse-ring 1.4s var(--ease) infinite; }
+  .score { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+  .score div { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .score b { display: block; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+  .score span { font-size: 12px; color: var(--text-2); }
+  @media (max-width: 720px) { .score { grid-template-columns: 1fr 1fr; } }
+  .rail-scroll { overflow-x: auto; overflow-y: hidden; margin: 6px -22px 0; padding: 0 22px; scrollbar-width: thin; }
+  .rail-svg { display: block; width: 100%; min-width: 760px; height: auto; }
+  .station { transition: transform .25s var(--ease); }
+  .station .ring { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; transition: stroke .25s, fill .25s, stroke-width .25s; }
+  .station .icon { stroke: var(--text-3); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; transition: stroke .25s; }
+  .station .lbl { fill: var(--text-2); font-size: 13px; font-weight: 600; text-anchor: middle; transition: fill .25s; }
+  .station .sub { fill: var(--text-3); font-size: 11px; text-anchor: middle; }
+  .station.done .ring { stroke: var(--line-strong); fill: var(--surface-2); }
+  .station.done .icon { stroke: var(--text-2); }
+  .station.active .ring { stroke: var(--accent); stroke-width: 2.5; fill: var(--surface-2); }
+  .station.active .icon { stroke: var(--accent); }
+  .station.active .lbl { fill: var(--text); }
+  .station.active .halo { opacity: 1; }
+  .station.alert .ring { stroke: var(--urgent); stroke-width: 2.5; }
+  .station.alert .icon { stroke: var(--urgent); }
+  .station.alert .halo { opacity: 1; stroke: var(--urgent); animation: halo-pulse 1s var(--ease) infinite; }
+  .station.ok .ring { stroke: var(--channel); stroke-width: 2.5; }
+  .station.ok .icon { stroke: var(--channel); }
+  .halo { fill: none; stroke: var(--accent); stroke-width: 6; opacity: 0; transition: opacity .3s; stroke-opacity: .28; }
+  @keyframes halo-pulse { 0%, 100% { stroke-opacity: .1; r: 34; } 50% { stroke-opacity: .4; } }
+  .track-line { stroke: var(--line-strong); stroke-width: 2; }
+  .host-band { fill: var(--host-band); stroke: var(--accent); stroke-opacity: .25; stroke-dasharray: 4 5; }
+  .host-lbl { fill: var(--text-3); font-size: 11.5px; font-weight: 600; text-anchor: middle; }
+  .packet { opacity: 0; transition: opacity .15s; }
+  .packet .core { fill: var(--accent); }
+  .packet .glow { fill: var(--accent); opacity: .35; }
+  .packet.green .core, .packet.green .glow { fill: var(--channel); }
+  .packet.amber .core, .packet.amber .glow { fill: var(--urgent); }
+
+  /* ---------- controls ---------- */
+  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 14px; position: sticky; top: 8px; z-index: 20; box-shadow: 0 8px 30px -22px rgba(0,0,0,.6); }
+  .controls .grow { flex: 1; min-width: 160px; }
+  .control-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .control-group.hidden { display: none; }
+  .check { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-2); cursor: pointer; user-select: none; padding: 6px 4px; }
+  .check input { accent-color: var(--accent); width: 15px; height: 15px; margin: 0; }
+  .mode-block { display: flex; flex-direction: column; gap: 3px; }
+  .mode-hint { font-size: 11px; color: var(--text-3); max-width: 300px; }
+  .auto-note { font-size: 11px; color: var(--channel); margin-top: 4px; display: block; }
+  .select { padding: 8px 10px; border-radius: 9px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 12.5px; }
+  .progress { height: 6px; border-radius: 99px; background: var(--bg-2); overflow: hidden; border: 1px solid var(--line); }
+  .progress > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #7A9BFF); border-radius: 99px; transition: width .5s var(--ease); }
+  .progress-lbl { font-size: 12px; color: var(--text-2); margin-top: 5px; display: flex; justify-content: space-between; }
+  .steps { display: flex; gap: 6px; flex-wrap: wrap; width: 100%; }
+  .step { flex: 1; min-width: 74px; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 4px; border-radius: 9px; border: 1px solid var(--line); background: var(--bg-2); color: var(--text-2); font-size: 11.5px; font-weight: 600; transition: background .18s, border-color .18s, color .18s, opacity .18s; }
+  .step em { font-style: normal; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); color: var(--text-2); font-size: 11px; }
+  .step:hover { background: var(--surface-2); }
+  .step[aria-current="step"] { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
+  .step[aria-current="step"] em { background: var(--accent); color: #fff; }
+  .step.past { opacity: .6; }
+  .step.past em { background: var(--channel-soft); color: var(--channel); }
+
+  /* ---------- workspace ---------- */
+  .work { display: grid; grid-template-columns: 340px minmax(0,1fr) 320px; gap: 14px; align-items: start; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); display: flex; flex-direction: column; min-width: 0; }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px 10px; }
+  .panel-title { font-size: 14px; font-weight: 700; margin: 0; }
+  .panel-hint { font-size: 12px; color: var(--text-3); }
+  .panel-body { padding: 0 16px 16px; }
+  .stack > * + * { margin-top: 14px; }
+
+  .empty { border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 22px 16px; text-align: center; color: var(--text-2); font-size: 13px; }
+  .empty strong { display: block; color: var(--text); margin-bottom: 4px; font-size: 13.5px; }
+
+  /* inbox */
+  .inbox { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .lead-row { display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; border: 1px solid transparent; background: transparent; text-align: left; width: 100%; transition: background .15s, border-color .15s; }
+  .lead-row:hover { background: var(--surface-2); }
+  .lead-row[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent); }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 12px; color: #fff; }
+  .lead-name { font-weight: 700; font-size: 13px; }
+  .lead-sub { font-size: 11.5px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pill { font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+  .pill-new { background: var(--accent-soft); color: var(--accent); }
+  .pill-wait { background: var(--urgent-soft); color: var(--urgent); }
+  .pill-ok { background: var(--channel-soft); color: var(--channel); }
+  .pill-idle { background: var(--bg-2); color: var(--text-3); border: 1px solid var(--line); }
+
+  /* phone */
+  .phone { width: 100%; max-width: 330px; margin: 0 auto; background: #0d0f14; border-radius: 40px; padding: 11px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.7), inset 0 0 0 1.5px #2a2f3b; }
+  .phone-screen { background: var(--wa-chat); border-radius: 30px; overflow: hidden; display: flex; flex-direction: column; height: 560px; position: relative; }
+  .phone-status { display: flex; justify-content: space-between; align-items: center; padding: 10px 22px 2px; background: var(--wa-head); color: var(--wa-head-text); font-size: 12px; font-weight: 700; }
+  .phone-status .island { position: absolute; left: 50%; top: 10px; transform: translateX(-50%); width: 86px; height: 22px; border-radius: 12px; background: #0d0f14; }
+  .wa-head { display: flex; align-items: center; gap: 10px; padding: 8px 12px 10px; background: var(--wa-head); color: var(--wa-head-text); }
+  .wa-head .avatar { width: 34px; height: 34px; font-size: 12px; }
+  .wa-name { font-weight: 700; font-size: 14px; line-height: 1.2; }
+  .wa-sub { font-size: 11.5px; opacity: .8; }
+  .wa-body { flex: 1; overflow-y: auto; padding: 14px 10px 10px; display: flex; flex-direction: column; gap: 6px; scrollbar-width: none; background-color: var(--wa-chat); background-image: radial-gradient(rgba(127,127,127,.09) 1px, transparent 1px); background-size: 14px 14px; }
+  .wa-body::-webkit-scrollbar { display: none; }
+  .wa-day { align-self: center; font-size: 11px; color: var(--wa-meta); background: var(--wa-in); padding: 4px 10px; border-radius: 8px; margin-bottom: 4px; }
+  .msg { max-width: 86%; padding: 7px 9px 6px; border-radius: 9px; font-size: 13.5px; line-height: 1.4; color: var(--wa-text); box-shadow: 0 1px 1px rgba(0,0,0,.12); position: relative; }
+  .msg.in { align-self: flex-start; background: var(--wa-in); border-top-left-radius: 2px; }
+  .msg.out { align-self: flex-end; background: var(--wa-out); border-top-right-radius: 2px; }
+  .msg-time { font-size: 10.5px; color: var(--wa-meta); margin-top: 3px; display: flex; gap: 5px; justify-content: flex-end; align-items: center; }
+  .msg-time .auto { font-style: italic; margin-right: auto; }
+  .ticks { color: var(--wa-read); font-weight: 700; letter-spacing: -2px; }
+  .ticks.grey { color: var(--wa-meta); }
+  .typing { align-self: flex-start; display: inline-flex; gap: 4px; padding: 10px 12px; background: var(--wa-in); border-radius: 9px; border-top-left-radius: 2px; }
+  .typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--wa-meta); animation: dot 1s infinite; }
+  .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+  @keyframes dot { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-4px); opacity: 1; } }
+  .caret { display: inline-block; width: 2px; height: 1em; background: var(--wa-text); vertical-align: -2px; margin-left: 1px; animation: blink .8s steps(1) infinite; }
+  .wa-empty { margin: auto; text-align: center; color: var(--wa-meta); font-size: 13px; padding: 0 24px; }
+  .wa-empty strong { display: block; color: var(--wa-text); font-size: 14px; margin-bottom: 4px; }
+  .wa-quick { display: flex; gap: 8px; justify-content: flex-end; padding: 0 10px 8px; background: var(--wa-chat); }
+  .wa-quick:empty { display: none; }
+  .qchip { padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--channel); background: var(--wa-in); color: var(--channel); font-weight: 700; font-size: 12.5px; }
+  .qchip:hover { background: var(--wa-out); }
+  .wa-input { display: flex; align-items: center; gap: 8px; padding: 8px 10px 12px; background: var(--wa-bar); }
+  .wa-field { flex: 1; height: 36px; border-radius: 18px; background: var(--wa-field); color: var(--wa-meta); font-size: 13px; display: flex; align-items: center; padding: 0 14px; }
+  .wa-mic { width: 36px; height: 36px; border-radius: 50%; background: var(--channel); display: grid; place-items: center; color: #fff; }
+  .wa-mic svg { width: 18px; height: 18px; }
+  .captured { margin-top: 12px; }
+  .captured-lbl { font-size: 12px; color: var(--text-3); margin-bottom: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(77,124,254,.35); }
+  .enter { animation: enter .35s var(--ease) both; }
+  @keyframes enter { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+
+  /* cards in system column */
+  .card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+  .card-title { font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 8px; }
+  .card-title svg { width: 16px; height: 16px; color: var(--text-3); flex-shrink: 0; }
+  .field { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .field:last-child { border-bottom: 0; }
+  .field span:first-child { color: var(--text-3); }
+  .field span:last-child { font-weight: 600; text-align: right; }
+  .draft-text { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; font-size: 13.5px; line-height: 1.5; }
+  .draft-text[contenteditable="true"] { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+  .draft-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .draft-note { font-size: 12px; color: var(--text-3); margin-top: 8px; }
+  .triage { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; }
+  .triage.urgent { background: var(--urgent-soft); color: var(--urgent); }
+  .triage.normal { background: var(--bg-2); color: var(--text-2); border: 1px solid var(--line); }
+  .triage svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .sla { margin-top: 8px; padding: 9px 12px; border-radius: 10px; background: var(--bg-2); border: 1px solid var(--line); font-size: 12.5px; }
+  .sla-row { display: flex; justify-content: space-between; gap: 10px; align-items: center; font-weight: 600; color: var(--text-2); }
+  .sla-row span:first-child { display: inline-flex; align-items: center; gap: 6px; }
+  .sla-row svg { width: 14px; height: 14px; }
+  .sla-bar { height: 5px; border-radius: 99px; background: var(--line); margin-top: 7px; overflow: hidden; }
+  .sla-bar > div { height: 100%; background: var(--urgent); border-radius: 99px; transition: width 1s linear; }
+  .sla.warn .sla-row { color: var(--urgent); }
+  .sla.over { border-color: var(--danger); } .sla.over .sla-row { color: var(--danger); } .sla.over .sla-bar > div { background: var(--danger); }
+  .sla.met { border-color: rgba(34,181,115,.4); } .sla.met .sla-row { color: var(--channel); } .sla.met .sla-bar > div { background: var(--channel); }
+  .sla.late .sla-row { color: var(--danger); } .sla.late .sla-bar > div { background: var(--danger); }
+  .station .sub { display: none; }
+  .lens-tech .station .sub { display: block; }
+  .lens-tech .station .lbl { font-size: 12.5px; }
+  .trust { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .trust div { background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; font-size: 12px; color: var(--text-2); }
+  .trust b { display: block; color: var(--text); font-size: 12.5px; margin-bottom: 2px; }
+  .trust b::before { content: "✓ "; color: var(--channel); }
+  .ev { border: 1px solid var(--line); border-radius: 10px; background: var(--bg-2); margin-top: 8px; overflow: hidden; }
+  .ev-head { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 8px 11px; font-size: 12px; }
+  .ev-verb { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 700; font-size: 11px; padding: 2px 7px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
+  .ev-verb.fail { background: var(--danger-soft); color: var(--danger); }
+  .ev-verb.ok { background: var(--channel-soft); color: var(--channel); }
+  .ev-verb.amber { background: var(--urgent-soft); color: var(--urgent); }
+  .ev-hop { font-weight: 600; }
+  .ev-lat { color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .ev pre { margin: 0; padding: 8px 11px 10px; border-top: 1px solid var(--line); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11.5px; line-height: 1.5; color: var(--text-2); white-space: pre-wrap; word-break: break-word; background: var(--surface); }
+  .ev pre .k { color: var(--accent); } .ev pre .s { color: var(--channel); } .ev pre .n { color: var(--urgent); }
+  .lens-tech #panelSystem .panel-title::after { content: " · event stream"; color: var(--text-3); font-weight: 500; }
+  @media (max-width: 720px) { .trust { grid-template-columns: 1fr; } }
+  .appt { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .appt:last-child { border-bottom: 0; }
+  .date-tile { width: 50px; height: 50px; border-radius: 11px; background: var(--channel-soft); border: 1px solid rgba(34,181,115,.4); color: var(--channel); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; flex-shrink: 0; }
+  .date-tile b { font-size: 18px; font-weight: 800; }
+  .date-tile small { font-size: 10px; font-weight: 700; margin-top: 2px; }
+  .date-tile.faded { background: var(--bg-2); border-color: var(--line); color: var(--text-3); }
+  .date-tile.urgent { background: var(--urgent-soft); border-color: rgba(240,160,48,.5); color: var(--urgent); }
+  .appt-title { font-weight: 700; font-size: 13px; }
+  .appt-sub { font-size: 12px; color: var(--text-3); }
+
+  /* metrics */
+  .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .metric { background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 12px 10px; }
+  .metric-v { font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+  .metric-v small { font-size: 13px; font-weight: 600; color: var(--text-3); margin-left: 2px; }
+  .metric-l { font-size: 12px; color: var(--text-2); margin-top: 3px; }
+  .metric-d { font-size: 11px; font-weight: 700; margin-top: 6px; color: var(--channel); }
+  .metric-d.flat { color: var(--text-3); }
+  .chart-wrap { margin-top: 12px; }
+  .chart-svg { width: 100%; height: auto; display: block; }
+  .bar { transition: height .6s var(--ease), y .6s var(--ease); }
+  .bar-lead { fill: var(--line-strong); }
+  .bar-book { fill: var(--accent); }
+  .chart-lbl { fill: var(--text-3); font-size: 11px; text-anchor: middle; }
+  .chart-lbl.today { fill: var(--text); font-weight: 700; }
+  .legend { display: flex; gap: 14px; font-size: 11.5px; color: var(--text-2); margin-top: 4px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 5px; }
+
+  /* feed */
+  .feed { display: flex; flex-direction: column; gap: 2px; max-height: 340px; overflow-y: auto; scrollbar-width: thin; padding-right: 2px; }
+  .feed-item { display: grid; grid-template-columns: 26px 1fr auto; gap: 9px; align-items: start; padding: 7px 6px; border-radius: 9px; font-size: 12.5px; }
+  .feed-item:hover { background: var(--bg-2); }
+  .feed-ic { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+  .feed-ic svg { width: 14px; height: 14px; }
+  .feed-ic.green { background: var(--channel-soft); color: var(--channel); }
+  .feed-ic.amber { background: var(--urgent-soft); color: var(--urgent); }
+  .feed-ic.red { background: var(--danger-soft); color: var(--danger); }
+  .feed-ic.grey { background: var(--bg-2); color: var(--text-3); border: 1px solid var(--line); }
+  .feed-t { font-size: 11px; color: var(--text-3); white-space: nowrap; padding-top: 2px; }
+  .feed-item b { font-weight: 700; }
+
+  /* toasts */
+  .toasts { position: fixed; right: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 8px; z-index: 60; width: min(360px, calc(100vw - 36px)); }
+  .toast { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: start; padding: 12px 12px 12px 12px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 12px; box-shadow: var(--shadow-pop); animation: toast-in .35s var(--ease) both; position: relative; overflow: hidden; }
+  .toast.leaving { animation: toast-out .25s var(--ease) both; }
+  .toast .feed-ic { width: 30px; height: 30px; }
+  .toast-title { font-weight: 700; font-size: 13px; }
+  .toast-body { font-size: 12.5px; color: var(--text-2); }
+  .toast-x { background: transparent; border: 0; color: var(--text-3); padding: 2px 4px; border-radius: 6px; }
+  .toast-x:hover { color: var(--text); background: var(--surface-2); }
+  .toast::after { content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--accent); transform-origin: left; animation: toast-bar var(--toast-ms, 4200ms) linear forwards; }
+  .toast.green::after { background: var(--channel); } .toast.amber::after { background: var(--urgent); } .toast.red::after { background: var(--danger); }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes toast-out { to { opacity: 0; transform: translateX(16px); } }
+  @keyframes toast-bar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+  /* loader */
+  .loader { position: fixed; inset: 0; background: var(--bg); z-index: 100; display: grid; place-items: center; transition: opacity .45s var(--ease); }
+  .loader.out { opacity: 0; pointer-events: none; }
+  .loader-box { width: min(520px, 92vw); }
+  .loader-title { font-weight: 800; font-size: 18px; letter-spacing: -.01em; margin-bottom: 14px; }
+  .sk { border-radius: 8px; background: linear-gradient(90deg, var(--skeleton) 25%, var(--skeleton-hi) 50%, var(--skeleton) 75%); background-size: 200% 100%; animation: shimmer 1.2s linear infinite; }
+  @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  .loader-rows { display: grid; gap: 10px; margin-bottom: 18px; }
+  .loader-rows .sk { height: 46px; }
+  .loader-status { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--text-2); }
+  .loader-status div { display: flex; align-items: center; gap: 8px; opacity: .45; transition: opacity .3s; }
+  .loader-status div.on { opacity: 1; color: var(--text); }
+  .loader-status div.ok { opacity: 1; }
+  .loader-status .dotp { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
+  .loader-status .on .dotp { background: var(--accent); animation: blink .8s infinite; }
+  .loader-status .ok .dotp { background: var(--channel); animation: none; }
+  @keyframes blink { 50% { opacity: .3; } }
+
+  /* tour */
+  .tour { position: fixed; inset: 0; z-index: 80; display: none; }
+  .tour.open { display: block; }
+  .tour-spot { position: absolute; border-radius: 14px; box-shadow: 0 0 0 9999px rgba(8,12,22,.66); transition: all .35s var(--ease); pointer-events: none; border: 2px solid var(--accent); }
+  .tour-card { position: absolute; width: min(380px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line-strong); border-radius: 14px; padding: 16px 16px 14px; box-shadow: var(--shadow-pop); transition: top .35s var(--ease), left .35s var(--ease); }
+  .tour-step { font-size: 12px; color: var(--text-3); font-weight: 600; margin-bottom: 4px; }
+  .tour-title { font-weight: 800; font-size: 16px; margin: 0 0 6px; letter-spacing: -.01em; }
+  .tour-body { color: var(--text-2); font-size: 13.5px; margin: 0 0 10px; }
+  .tour-nav { display: flex; gap: 8px; align-items: center; }
+  .tour-nav .spacer { flex: 1; }
+
+  .foot { margin-top: 24px; font-size: 12px; color: var(--text-3); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  @media (max-width: 1080px) {
+    .work { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+    .work .panel:nth-child(3) { grid-column: 1 / -1; }
+    .panel:nth-child(3) .panel-body { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .panel:nth-child(3) .chart-wrap { margin-top: 0; }
+  }
+  @media (max-width: 720px) {
+    .app { padding: 12px 12px 48px; }
+    .work { grid-template-columns: 1fr; }
+    .panel:nth-child(3) .panel-body { grid-template-columns: 1fr; }
+    .controls { position: static; }
+    .rail { padding: 16px 14px 8px; }
+    .rail-scroll { margin: 6px -14px 0; padding: 0 14px; }
+    .rail-title { font-size: 18px; }
+    .rail-lead { text-align: left; }
+    #kbdHint { display: none; }
+    .tour-card { left: 12px !important; right: 12px; bottom: 12px; top: auto !important; width: auto; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+    .step { min-width: 62px; font-size: 10.5px; }
+    .phone-screen { height: 500px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition-duration: .001s !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-live="polite">
+  <div class="loader-box">
+    <div class="loader-title" id="loaderTitle">Starting demo environment</div>
+    <div class="loader-rows"><div class="sk"></div><div class="sk"></div><div class="sk" style="width:70%"></div></div>
+    <div class="loader-status" id="loaderStatus"></div>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" id="brandMark">N</div>
+      <div>
+        <div class="brand-name" id="brandName">Lead to appointment</div>
+        <div class="brand-for" id="brandFor"></div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="panel-hint" id="kbdHint"><kbd>Space</kbd> play <kbd>R</kbd> reset <kbd>U</kbd> under the hood <kbd>?</kbd> guide</span>
+      <div class="seg" id="lensSeg" role="group" aria-label="View">
+        <button type="button" id="lensBusiness" aria-pressed="true">Business view</button>
+        <button type="button" id="lensTech" aria-pressed="false">Under the hood</button>
+      </div>
+      <button class="btn" id="btnTour" type="button">Presenter guide</button>
+      <button class="btn btn-icon" id="btnTheme" type="button" aria-label="Switch to light theme" title="Switch theme"></button>
+    </div>
+  </header>
+
+  <section class="rail" id="rail" aria-label="Message pipeline">
+    <div class="rail-head">
+      <div>
+        <h1 class="rail-title" id="stepTitle">Ready when you are</h1>
+        <p class="rail-desc" id="stepDesc">Press Play to watch WhatsApp leads flow through the system, or switch to Step through and drive it yourself.</p>
+      </div>
+      <div class="rail-lead" id="railLead"></div>
+    </div>
+    <div class="score" id="score" hidden></div>
+    <div class="turn" id="turn" hidden><span class="turn-dot"></span><span id="turnText"></span></div>
+    <div class="rail-scroll"><svg class="rail-svg" id="railSvg" viewBox="0 0 1040 150" role="img" aria-labelledby="railTitle"><title id="railTitle">Pipeline stations from customer to calendar</title></svg></div>
+  </section>
+
+  <section class="controls" id="controls" aria-label="Demo controls">
+    <div class="seg" role="group" aria-label="Mode">
+      <button type="button" id="modeDemo" aria-pressed="true">Watch it run</button>
+      <button type="button" id="modeHands" aria-pressed="false">Try it yourself</button>
+      <button type="button" id="modeStep" aria-pressed="false">Step through</button>
+    </div>
+    <div class="control-group" id="demoControls">
+      <button class="btn btn-primary" id="btnPlay" type="button"></button>
+      <button class="btn" id="btnReset" type="button">Reset</button>
+      <select class="select" id="speedSel" aria-label="Playback speed"><option value="0.55">Relaxed</option><option value="1" selected>Normal</option><option value="1.8">Brisk</option></select>
+      <div class="mode-block" id="approvalModeWrap">
+        <div class="seg mode-seg" role="group" aria-label="Approval mode">
+          <button type="button" id="modeManual" aria-pressed="true">Manual</button>
+          <button type="button" id="modeHybrid" aria-pressed="false">Hybrid</button>
+          <button type="button" id="modeAuto" aria-pressed="false">Auto</button>
+        </div>
+        <div class="mode-hint" id="modeHint">Hybrid and Auto speed up routine replies once you trust the tone.</div>
+      </div>
+      <button class="btn btn-primary" id="btnNextLead" type="button">Bring in the next customer</button>
+    </div>
+    <div class="control-group hidden" id="stepControls">
+      <div class="seg" role="group" aria-label="Lead type">
+        <button type="button" id="urgNormal" aria-pressed="true">Normal lead</button>
+        <button type="button" id="urgUrgent" aria-pressed="false">Urgent lead</button>
+      </div>
+      <button class="btn" id="btnBack" type="button">Back</button>
+      <button class="btn btn-primary" id="btnNext" type="button">Next step</button>
+      <button class="btn btn-ghost" id="btnRestart" type="button">Restart</button>
+    </div>
+    <div class="grow" id="progressWrap">
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="progress-lbl"><span id="progressLbl">Not started</span><span id="progressLeads" class="num"></span></div>
+    </div>
+    <div class="steps" id="track" role="group" aria-label="Steps"></div>
+  </section>
+
+  <main class="work">
+    <section class="panel" id="panelChat" aria-label="Conversation">
+      <div class="panel-head"><h2 class="panel-title">The customer’s phone</h2><span class="panel-hint">Exactly what they see</span></div>
+      <div class="panel-body">
+        <div class="inbox" id="inbox" role="listbox" aria-label="Leads"></div>
+        <div class="phone" aria-label="Customer's phone">
+          <div class="phone-screen">
+            <div class="phone-status"><span id="phoneClock" class="num">9:41</span><span class="island"></span><span>LTE 84%</span></div>
+            <div class="wa-head" id="waHead"></div>
+            <div class="wa-body" id="thread"></div>
+            <div class="wa-quick" id="waQuick"></div>
+            <div class="wa-input"><div class="wa-field">Message</div><div class="wa-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div></div>
+          </div>
+        </div>
+        <div class="captured" id="captured"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panelSystem" aria-label="System">
+      <div class="panel-head"><h2 class="panel-title">Inside the system</h2><span class="panel-hint" id="hostHint"></span></div>
+      <div class="panel-body stack">
+        <div id="techBanner" hidden style="position:sticky;top:76px;z-index:15;background:var(--urgent-soft);border:1px solid rgba(240,160,48,.5);color:var(--urgent);border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:700;backdrop-filter:blur(6px)">Technical view. Click “Business view” above to return to what the customer sees.</div>
+        <div id="trust" hidden></div>
+        <div id="record"></div>
+        <div id="draft"></div>
+        <div id="stream" hidden></div>
+        <div id="calendar"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panelInsights" aria-label="Today">
+      <div class="panel-head"><h2 class="panel-title">Today at a glance</h2><span class="panel-hint num" id="clock"></span></div>
+      <div class="panel-body">
+        <div>
+          <div class="metrics" id="metrics"></div>
+          <div class="chart-wrap" id="chart"></div>
+        </div>
+        <div>
+          <div class="panel-head" style="padding:16px 0 8px"><h2 class="panel-title">Activity</h2><span class="panel-hint">Every action, logged</span></div>
+          <div class="feed" id="feed" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <p class="foot"><span id="footNote"></span><span>Demo data only. Customers and conversations are fictional. <b id="buildStamp">Build 2026-09-05.3</b></span></p>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<div class="tour" id="tour" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+  <div class="tour-spot" id="tourSpot"></div>
+  <div class="tour-card" id="tourCard">
+    <div class="tour-step" id="tourStep"></div>
+    <h3 class="tour-title" id="tourTitle"></h3>
+    <p class="tour-body" id="tourBody"></p>
+    <div class="tour-nav">
+      <button class="btn" id="tourPrev" type="button">Previous</button>
+      <button class="btn btn-primary" id="tourNext" type="button">Next</button>
+      <span class="spacer"></span>
+      <button class="btn btn-ghost" id="tourClose" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIG — edit this block per client. Everything below reads from it.
+   ===================================================================== */
+const CONFIG = {
+  brand: {
+    agency: "HumanIA",     // your company (shown in the footer)
+    client: "ConectaFibra",             // the prospect's business name
+    product: "Lead to appointment",     // page title
+    mark: "N",                          // 1–2 letters for the logo tile
+    hostLine: "Runs on the system we build and host for you",
+  },
+  colors: {
+    accent:  "#4D7CFE",                 // the system's color (rail, buttons)
+    channel: "#22B573",                 // anything the customer sees (WhatsApp)
+    urgent:  "#F0A030",                 // urgency
+    defaultTheme: "dark",               // "dark" | "light"
+  },
+  business: {
+    service: "fiber installation",      // used in reply text
+    apptMinutes: 45,
+    slots: ["10:00 AM", "2:00 PM"],     // offered to normal leads, on the date they asked for
+    // Reserved emergency capacity offered to urgent leads instead of the requested date
+    urgentSlots: [ { label: "today at 4:00 PM", time: "4:00 PM", dayOffset: 0 }, { label: "tomorrow at 8:00 AM", time: "8:00 AM", dayOffset: 1 } ],
+  },
+  // What "urgent" changes operationally. Every item here is visible in the demo.
+  urgency: {
+    ack: "Got it, {name}. This is flagged as urgent and a person is looking at it right now. You’ll hear from us in a few minutes.",
+    interrupt: true,                    // urgent leads jump ahead of a normal lead you're still reading
+    interruptAfterMs: 7000,             // how long after a normal lead pauses for approval the urgent one arrives
+    targetSec: 90,                      // demo clock: urgent must be answered within this. Production value: 300
+    normalTarget: "by end of day",      // shown for normal leads, no countdown
+    backup: "Carlos (backup tech lead)", // who gets it if the clock runs out
+  },
+  // Baseline numbers so the dashboard doesn't start at zero
+  baseline: {
+    leadsToday: 14,
+    bookedToday: 9,
+    medianReplySec: 58,
+    beforeReply: "about 4 hours",       // how long first replies took before the system
+    week: [ // last 6 days + today (today is computed live)
+      { day: "Thu", leads: 21, booked: 12 },
+      { day: "Fri", leads: 26, booked: 15 },
+      { day: "Sat", leads: 12, booked: 7 },
+      { day: "Sun", leads: 6,  booked: 3 },
+      { day: "Mon", leads: 24, booked: 14 },
+      { day: "Tue", leads: 27, booked: 17 },
+    ],
+    upcoming: [ // appointments already on the calendar
+      { name: "Diego Pardo", date: "2026-09-03", time: "9:00 AM", what: "Router replacement" },
+      { name: "Juliana Ortiz", date: "2026-09-04", time: "11:00 AM", what: "New install" },
+    ],
+  },
+  // Leads that flow in Demo mode, in order. `urgent` triggers the alert path,
+  // `failFirstSend` shows the automatic retry. `pick` is the slot the customer chooses.
+  leads: [
+    { name: "Sofía Ramírez",   phone: "+57 300 555 0142", intent: "New install",     date: "2026-09-15", text: "Hi, I’m interested in installing internet on the 15th of September.", pick: 0 },
+    { name: "Andrés Molina",   phone: "+57 310 555 0187", intent: "Service outage",  date: "2026-09-03", text: "Our office has had no internet since 8am and we can’t work. Can someone come today or tomorrow?", pick: 1, urgent: true },
+    { name: "Valentina Ríos",  phone: "+57 320 555 0233", intent: "Plan upgrade",    date: "2026-09-18", text: "Hola! I want to move up to the 500 Mbps plan. Could a technician come on the 18th?", pick: 0 },
+    { name: "Camilo Herrera",  phone: "+57 301 555 0419", intent: "Address change",  date: "2026-09-22", text: "We’re moving to Chapinero on the 22nd and need the service moved over the same day.", pick: 1, failFirstSend: true },
+    { name: "Laura Castaño",   phone: "+57 315 555 0764", intent: "New install",     date: "2026-09-04", text: "I start working from home Friday and have no connection yet. Can you install before then??", pick: 0, urgent: true },
+    { name: "Mateo Quintero",  phone: "+57 311 555 0908", intent: "Router replacement", date: "2026-09-25", text: "The router you gave us keeps dropping the wifi. Can we get a new one on the 25th?", pick: 1, lowConfidence: true },  // ambiguous enough that Hybrid mode still asks you
+  ],
+  // Step-through mode uses this lead; the Normal/Urgent switch changes only its urgency.
+  stepLead: { name: "Sofía Ramírez", phone: "+57 300 555 0142", intent: "New install", date: "2026-09-15", text: "Hi, I’m interested in installing internet on the 15th of September.", pick: 0 },
+  // Reply copy. {name} {service} {date} {slot1} {slot2} {pick} are replaced.
+  copy: {
+    reply: "Hi {name}! Thanks for reaching out. We can schedule your {service} for {date}. Does {slot1} or {slot2} work better for you?",
+    replyUrgent: "Hi {name}, we’re on it. We’re holding an emergency slot for you: {slot1} or {slot2}. Which one works?",
+    customerPick: "{pick} works for me, thanks!",
+    confirm: "You’re confirmed for {date} at {pick}. See you then!",
+  },
+  // Milliseconds per step at Normal speed
+  timing: { steps: [3200, 2600, 2200, 3000, 3000, 2200, 3400, 3200, 2800, 2600, 2400], betweenLeads: 4500, retryWait: 3200 },
+  // "Under the hood" lens. Generic names for now; replace with your real stack when you're ready.
+  tech: {
+    hostLine: "Hosted and operated by {agency}: ingestion, models, database, audit log",
+    dataResidency: "a private database in your region, managed by us",
+    components: {
+      customer: { label: "Customer’s phone", sub: "WhatsApp app" },
+      whatsapp: { label: "Messaging API", sub: "webhook in, send out" },
+      capture:  { label: "Extraction model", sub: "reads the message" },
+      database: { label: "Database", sub: "customers, leads, log" },
+      draft:    { label: "Drafting model", sub: "writes the reply" },
+      you:      { label: "Approval app", sub: "owner’s phone, push alert" },
+      calendar: { label: "Calendar API", sub: "creates the event" },
+    },
+    trust: [
+      { title: "The model never sends", body: "Approval is a hard gate in the code path, not a setting." },
+      { title: "Every action is logged", body: "Who, what, when, and the payload, for every hop." },
+      { title: "Failures retry themselves", body: "Delivery errors back off and retry before anyone is bothered." },
+      { title: "Your data stays yours", body: "Stored in {residency}." },
+    ],
+    steps: [
+      { title: "Inbound webhook received",              desc: "The messaging API posts the new message to our ingestion endpoint within a second of the customer sending it." },
+      { title: "Extraction model reads the message",    desc: "One model call returns structured fields: name, phone, intent, requested date, urgency hint. Confidence is stored with each field." },
+      { title: "Lead row written to the database",      desc: "Customer and lead records are created or matched on phone number. The full conversation is attached." },
+      { title: "Drafting model writes the reply",       desc: "Prompted with your tone guide, the extracted fields and your open slots. Output is a draft, never a send." },
+      { title: "Triage rule evaluates urgency",         desc: "Intent, keywords and the urgency hint decide priority. Urgent triggers a push alert, an automatic acknowledgement and a reply timer." },
+      { title: "Approval event recorded",               desc: "The owner’s decision, edits and elapsed time are written to the audit log. Only now does the send path unlock." },
+      { title: "Outbound message sent via the API",     desc: "Delivery and read receipts come back as webhooks and update the message state." },
+      { title: "Second inbound webhook",                desc: "The customer’s answer is matched to the open conversation and parsed for a slot choice." },
+      { title: "Confirmation sent automatically",       desc: "A confirmation of an already-approved offer doesn’t need a second approval. That rule is configurable." },
+      { title: "Calendar event created via the API",    desc: "Title, duration and attendee are set from the record. The event id is stored back on the lead." },
+      { title: "Lead closed and audit trail completed", desc: "Status updated, timers stopped, every hop is queryable later." },
+    ],
+  },
+  // "Try it yourself" mode
+  handsOn: {
+    minutesSavedPerLead: 4,             // rough manual effort per lead (read, re-type into CRM, write reply, book, update)
+    autoArriveMs: 0,                    // 0 = the prospect brings in each customer; otherwise next one texts in after this many ms
+  },
+};
+
+/* ===================================================================== */
+
+const STEPS = [
+  { key: "in",        label: "Lead in",     title: "A message arrives on WhatsApp",            desc: "The customer writes in the app they already use. Nothing to download, no form to fill." },
+  { key: "captured",  label: "Captured",    title: "The system reads it and pulls out what matters", desc: "Name, phone, what they want and when. No one re-types anything." },
+  { key: "stored",    label: "Stored",      title: "A customer record is created",             desc: "Every lead lands in your database the moment it arrives, with the full conversation attached." },
+  { key: "drafted",   label: "Drafted",     title: "A reply is written for you",               desc: "Using your tone, your available slots and the customer's request." },
+  { key: "triaged",   label: "Triaged",     title: "Urgency is checked",                       desc: "Urgent leads interrupt you right away. Normal ones wait quietly for review." },
+  { key: "approved",  label: "Approved",    title: "You approve with one tap",                 desc: "Edit if you like, then approve. Nothing goes out without you." },
+  { key: "sent",      label: "Sent",        title: "The reply reaches the customer",           desc: "Sent on WhatsApp with delivery and read receipts." },
+  { key: "picked",    label: "Time picked", title: "The customer chooses a slot",              desc: "Their answer is read the same way the first message was." },
+  { key: "confirmed", label: "Confirmed",   title: "Confirmation goes out automatically",      desc: "No approval needed for a confirmation you already agreed to." },
+  { key: "booked",    label: "Booked",      title: "The appointment lands on your calendar",   desc: "With the customer's name, the job and the duration you set." },
+  { key: "filed",     label: "Filed",       title: "The record is updated and closed",         desc: "Status, slot and history are stored. Ready for the next lead." },
+];
+
+const STATIONS = [
+  { id: "customer", label: "Customer", icon: "user" },
+  { id: "whatsapp", label: "WhatsApp", icon: "chat" },
+  { id: "capture",  label: "Capture",  icon: "filter" },
+  { id: "database", label: "Database", icon: "db" },
+  { id: "draft",    label: "Draft reply", icon: "pen" },
+  { id: "you",      label: "You approve", icon: "check" },
+  { id: "calendar", label: "Calendar", icon: "cal" },
+];
+const HOST_RANGE = ["capture", "draft"];
+
+const ICONS = {
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
+  chat: '<path d="M4 12a8 8 0 1 1 3 6.2L4 20l1.4-3.8A8 8 0 0 1 4 12Z"/>',
+  filter: '<path d="M4 4h16l-6 8v6l-4 2v-8L4 4Z"/>',
+  db: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
+  pen: '<path d="M4 20l1-4 12-12 3 3-12 12-4 1Z"/><path d="M14 5l3 3"/>',
+  check: '<path d="M5 12l4 4L19 6"/>',
+  cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>',
+  bell: '<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4l2-2Z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>',
+  send: '<path d="M21 3 3 10l8 3 3 8 7-18Z"/>',
+  retry: '<path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/>',
+  play: '<path d="M7 4v16l13-8L7 4Z" fill="currentColor" stroke="none"/>',
+  pause: '<rect x="6" y="4" width="4" height="16" fill="currentColor" stroke="none"/><rect x="14" y="4" width="4" height="16" fill="currentColor" stroke="none"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  back: '<path d="M15 5l-7 7 7 7"/>',
+};
+const svgIcon = (name, cls = "") => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+
+/* ---------- state ---------- */
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const state = {
+  theme: CONFIG.colors.defaultTheme,
+  mode: "demo",             // "demo" | "step"
+  playing: false,
+  speed: 1,
+  approvalMode: "manual",  // "manual" | "hybrid" | "auto"
+  awaiting: null,           // lead waiting for manual approval
+  awaitingReply: null,      // lead waiting for the prospect to answer as the customer (hands-on)
+  awaitingLead: false,      // hands-on: waiting for the prospect to bring in the next customer
+  taps: 0, handsStart: null,
+  timer: null,
+  leads: [],                // runtime demo leads
+  stepLead: null,
+  stepUrgent: false,
+  activeId: null,
+  finished: false,
+  tourIndex: 0,
+  lens: "business",       // "business" | "tech"
+};
+const $ = id => document.getElementById(id);
+const AVATAR_COLORS = ["#4D7CFE", "#22B573", "#F0A030", "#A855F7", "#EC4899", "#14B8A6"];
+const initials = n => n.split(" ").map(s => s[0]).join("").slice(0, 2).toUpperCase();
+const fmtDate = iso => { const d = new Date(iso + "T12:00:00"); return d.toLocaleDateString("en-US", { month: "short", day: "numeric" }); };
+const fmtDateYear = iso => { const d = new Date(iso + "T12:00:00"); return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); };
+const fmtDateLong = iso => { const d = new Date(iso + "T12:00:00"); return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }); };
+const nowTime = () => new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+const isoPlus = days => { const d = new Date(); d.setDate(d.getDate() + days); return d.toISOString().slice(0, 10); };
+const apptDate = lead => lead.urgent ? isoPlus(CONFIG.business.urgentSlots[lead.pick].dayOffset) : lead.date;
+const slotTime = lead => lead.urgent ? CONFIG.business.urgentSlots[lead.pick].time : CONFIG.business.slots[lead.pick];
+const slotLabel = (lead, i) => lead.urgent ? CONFIG.business.urgentSlots[i].label : CONFIG.business.slots[i];
+const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+const fill = (tpl, lead) => tpl.replace("{name}", lead.name.split(" ")[0]).replace("{service}", lead.intent === "New install" ? CONFIG.business.service : lead.intent.toLowerCase()).replace("{date}", fmtDateLong(apptDate(lead))).replace("{slot1}", slotLabel(lead, 0)).replace("{slot2}", slotLabel(lead, 1)).replace("{pick}", lead.urgent ? (tpl.startsWith("{pick}") ? cap(slotLabel(lead, lead.pick)) : slotTime(lead)) : slotTime(lead));
+
+function makeLead(src, i) {
+  return { ...src, id: "lead" + i, color: AVATAR_COLORS[i % AVATAR_COLORS.length], progress: -1, approvedText: null, retryUsed: false, retryAt: null, replySec: null, times: [], ackAt: null, slaStart: null, slaEnd: null, escalatedAt: null, parkedAt: null };
+}
+function resetLeads() {
+  state.leads = CONFIG.leads.map(makeLead);
+  state.stepLead = makeLead(CONFIG.stepLead, 0);
+  state.stepLead.id = "steplead";
+  state.stepLead.urgent = state.stepUrgent;
+  state.awaiting = null; state.awaitingReply = null; state.awaitingLead = false; state.taps = 0; state.handsStart = null; state.finished = false;
+  state.activeId = state.mode === "demo" ? null : state.stepLead.id;
+}
+const isDemoLike = () => state.mode === "demo" || state.mode === "hands";
+const visibleLeads = () => isDemoLike() ? state.leads : [state.stepLead];
+const activeLead = () => visibleLeads().find(l => l.id === state.activeId) || null;
+const draftText = lead => lead.approvedText || fill(lead.urgent ? CONFIG.copy.replyUrgent : CONFIG.copy.reply, lead);
+
+/* ---------- rail ---------- */
+const RAIL = { y: 66, x0: 70, gap: 150 };
+const stationX = id => RAIL.x0 + STATIONS.findIndex(s => s.id === id) * RAIL.gap;
+function buildRail() {
+  const svg = $("railSvg");
+  const hx1 = stationX(HOST_RANGE[0]) - 52, hx2 = stationX(HOST_RANGE[1]) + 52;
+  let html = `<rect class="host-band" x="${hx1}" y="14" width="${hx2 - hx1}" height="128" rx="16"/>
+    <text class="host-lbl" x="${(hx1 + hx2) / 2}" y="139">${CONFIG.brand.hostLine}</text>
+    <line class="track-line" x1="${RAIL.x0}" y1="${RAIL.y}" x2="${stationX("calendar")}" y2="${RAIL.y}"/>`;
+  STATIONS.forEach(s => {
+    const x = stationX(s.id);
+    html += `<g class="station" id="st-${s.id}" transform="translate(${x},${RAIL.y})">
+      <circle class="halo" r="34"/>
+      <circle class="ring" r="27"/>
+      <g class="icon" transform="translate(-12,-12)"><svg width="24" height="24" viewBox="0 0 24 24" overflow="visible">${ICONS[s.icon]}</svg></g>
+      <text class="lbl" y="52">${s.label}</text>
+      <text class="sub" y="67"></text>
+    </g>`;
+  });
+  html = html.replace('class="host-lbl"', 'class="host-lbl" id="hostLbl"');
+  html += `<g class="packet" id="packet" transform="translate(${RAIL.x0},${RAIL.y})"><circle class="glow" r="14"/><circle class="core" r="7"/></g>`;
+  svg.innerHTML += html;
+}
+let packetAnim = null;
+function movePacket(fromId, toId, ms, tone) {
+  const p = $("packet");
+  if (packetAnim) cancelAnimationFrame(packetAnim);
+  p.setAttribute("class", "packet" + (tone ? " " + tone : ""));
+  const x1 = stationX(fromId), x2 = stationX(toId);
+  if (REDUCED) { p.setAttribute("transform", `translate(${x2},${RAIL.y})`); p.style.opacity = 1; setTimeout(() => p.style.opacity = 0, 400); return; }
+  const t0 = performance.now();
+  p.style.opacity = 1;
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const frame = now => {
+    const t = Math.min(1, (now - t0) / ms);
+    const x = x1 + (x2 - x1) * ease(t);
+    p.setAttribute("transform", `translate(${x},${RAIL.y})`);
+    if (t < 1) packetAnim = requestAnimationFrame(frame); else { p.style.opacity = 0; packetAnim = null; }
+  };
+  packetAnim = requestAnimationFrame(frame);
+}
+// stations lit per step
+const STEP_STATIONS = [["customer", "whatsapp"], ["whatsapp", "capture"], ["capture", "database"], ["database", "draft"], ["draft"], ["you"], ["draft", "whatsapp", "customer"], ["customer", "whatsapp", "capture"], ["draft", "whatsapp", "customer"], ["draft", "calendar"], ["draft", "database"]];
+function renderRail(lead) {
+  const p = lead ? lead.progress : -1;
+  const active = new Set(p >= 0 ? STEP_STATIONS[p] : []);
+  if (p === 4 && lead.urgent) active.add("you");
+  if (state.awaiting === lead) active.add("you");
+  const done = new Set();
+  for (let i = 0; i < p; i++) STEP_STATIONS[i].forEach(id => done.add(id));
+  if (p > 4 && lead.urgent) done.add("you");
+  STATIONS.forEach(s => {
+    const el = $("st-" + s.id);
+    el.classList.remove("active", "done", "alert", "ok");
+    if (active.has(s.id)) {
+      el.classList.add("active");
+      if (s.id === "you" && p === 4 && lead.urgent) el.classList.add("alert");
+      if (s.id === "you" && p === 5) el.classList.add("ok");
+    } else if (done.has(s.id)) el.classList.add("done");
+  });
+  const t = $("stepTitle"), d = $("stepDesc");
+  const turn = $("turn");
+  if (!(state.finished && state.mode === "hands")) $("score").hidden = true;
+  let turnText = "";
+  if (state.mode === "hands" && !state.finished) {
+    if (state.awaiting) turnText = state.awaiting.urgent ? "Your turn: this one is urgent. Read the draft, then approve it before the clock runs out." : "Your turn: read the draft in the middle column. Edit it if you like, then approve it.";
+    else if (state.awaitingReply) turnText = "Your turn: you are the customer now. Tap a time on the phone.";
+    else if (state.awaitingLead || !state.leads.some(l => l.progress >= 0)) turnText = state.leads.some(l => l.progress >= 0) ? "Your turn: bring in the next customer." : "Press “Bring in the next customer” to start. The system does its part; you do yours.";
+  }
+  turn.hidden = !turnText; $("turnText").textContent = turnText;
+  if (p < 0) {
+    t.textContent = state.mode === "hands" ? "Try it yourself" : state.mode === "demo" ? (state.finished ? "Demo complete" : "Ready when you are") : "Step through one lead";
+    d.textContent = state.mode === "hands" ? "Six customers are about to message you. Everything automatic stays automatic. Every decision is yours." : state.mode === "demo" ? (state.finished ? `${state.leads.length} leads handled, from first message to calendar. Reset to run it again.` : "Press Play to watch WhatsApp leads flow through the system, or switch to Step through and drive it yourself.") : "Use Next step to walk a single lead through the pipeline at your own pace.";
+  } else if (state.finished && state.mode === "hands") {
+    const sc = handsScore();
+    t.textContent = "You handled every lead";
+    d.textContent = "Everything the customer saw, you approved. Everything else, the system did. Reset to go again.";
+    $("score").hidden = false;
+    $("score").innerHTML = `<div><b>${state.leads.length}</b><span>customers handled</span></div><div><b>${sc.taps}</b><span>taps from you</span></div><div><b class="num">${fmtClock(sc.secs)}</b><span>of your time</span></div><div><b>~${sc.manual} min</b><span>doing it by hand</span></div>`;
+  } else if (state.finished && state.mode === "demo") {
+    t.textContent = "Demo complete";
+    d.textContent = `${state.leads.length} leads handled, from first message to calendar. Reset to run it again.`;
+  } else if (state.awaiting === lead) {
+    t.textContent = lead.urgent ? "Urgent: waiting for your approval" : "Waiting for your approval";
+    d.textContent = lead.urgent ? "The customer already has a holding message. Approve the emergency-slot offer before the clock runs out." : "Read the draft in the middle column. Edit it if you want, then press Approve and send.";
+  } else {
+    t.textContent = stepTitle(p);
+    d.textContent = state.lens === "tech" ? stepDesc(p) : p === 4 ? (lead.urgent ? `Flagged urgent: the customer got an automatic acknowledgement, your phone was alerted, and a ${fmtClock(CONFIG.urgency.targetSec)} reply clock started.` : `Normal priority. Held for your review ${CONFIG.urgency.normalTarget}, no alert.`) : stepDesc(p);
+  }
+  // keep the furthest-along lit station in view when the rail scrolls (phones)
+  const sc = document.querySelector(".rail-scroll");
+  if (sc && sc.scrollWidth > sc.clientWidth + 4 && active.size) {
+    const ids = STATIONS.map(s => s.id).filter(id => active.has(id));
+    const xs = ids.map(stationX), scale = sc.scrollWidth / 1040;
+    const target = ((Math.min(...xs) + Math.max(...xs)) / 2) * scale - sc.clientWidth / 2;
+    sc.scrollTo({ left: Math.max(0, target), behavior: REDUCED ? "auto" : "smooth" });
+  }
+  $("railLead").innerHTML = lead && p >= 0 ? `<span>${isDemoLike() ? `Lead ${state.leads.indexOf(lead) + 1} of ${state.leads.length}` : "Sample lead"}</span><strong>${lead.name}</strong>` : "";
+}
+
+function setLens(l) {
+  state.lens = l;
+  document.body.classList.toggle("lens-tech", l === "tech");
+  $("lensBusiness").setAttribute("aria-pressed", String(l !== "tech"));
+  $("lensTech").setAttribute("aria-pressed", String(l === "tech"));
+  STATIONS.forEach(s => {
+    const g = $("st-" + s.id), c = CONFIG.tech.components[s.id];
+    g.querySelector(".lbl").textContent = l === "tech" ? c.label : s.label;
+    g.querySelector(".sub").textContent = l === "tech" ? c.sub : "";
+  });
+  $("hostLbl").textContent = l === "tech" ? CONFIG.tech.hostLine.replace("{agency}", CONFIG.brand.agency) : CONFIG.brand.hostLine;
+  $("hostLbl").setAttribute("y", l === "tech" ? "27" : "139");
+  render(); if (!activeLead() || activeLead().progress < 0) renderRail(null);
+}
+const stepTitle = p => state.lens === "tech" ? CONFIG.tech.steps[p].title : STEPS[p].title;
+const stepDesc = p => state.lens === "tech" ? CONFIG.tech.steps[p].desc : STEPS[p].desc;
+
+/* ---------- step engine ---------- */
+const PACKET_MOVES = {
+  0: ["customer", "whatsapp"], 1: ["whatsapp", "capture"], 2: ["capture", "database"], 3: ["database", "draft"],
+  6: ["draft", "customer", "green"], 7: ["customer", "capture"], 8: ["draft", "customer", "green"], 9: ["draft", "calendar"], 10: ["draft", "database"],
+};
+function stepDuration(i) { return CONFIG.timing.steps[i] / state.speed; }
+
+// Advances one lead by one step and fires side effects. Returns false if it should not advance yet (retry).
+function advance(lead, animate = true) {
+  const next = lead.progress + 1;
+  if (next > STEPS.length - 1) return false;
+
+  // Simulated delivery failure with automatic retry
+  if (next === 6 && lead.failFirstSend && !lead.retryUsed) {
+    lead.retryUsed = true; lead.retryAt = nowTime();
+    if (animate) movePacket("draft", "whatsapp", stepDuration(6) * .6, "amber");
+    toast({ tone: "red", icon: "retry", title: "Delivery failed", body: `WhatsApp didn't accept the message to ${lead.name}. Retrying automatically.` });
+    render();
+    return false;
+  }
+
+  lead.progress = next;
+  lead.times[next] = nowTime();
+  if (next === 6) lead.replySec = 30 + Math.floor(Math.random() * 60);
+  state.activeId = lead.id;
+
+  if (animate) {
+    const mv = PACKET_MOVES[next];
+    if (mv) movePacket(mv[0], mv[1], stepDuration(next) * .8, mv[2]);
+    else if (next === 4 && lead.urgent) movePacket("draft", "you", stepDuration(4) * .7, "amber");
+  }
+  if (next === 4 && lead.urgent) {
+    lead.ackAt = nowTime(); lead.slaStart = performance.now();
+    toast({ tone: "amber", icon: "bell", title: "Urgent lead", body: `${lead.name}: ${lead.intent.toLowerCase()}. Customer acknowledged automatically. You have ${fmtClock(CONFIG.urgency.targetSec)} to reply.` });
+  }
+  if (next === 5 && lead.slaStart && !lead.slaEnd) lead.slaEnd = performance.now();
+  if (next === 9) toast({ tone: "green", icon: "cal", title: "Appointment booked", body: `${lead.name}, ${fmtDate(apptDate(lead))} at ${slotTime(lead)}.` });
+  render();
+  return true;
+}
+
+function currentDemoLead() {
+  const open = l => l.progress < STEPS.length - 1;
+  return state.leads.find(l => l.urgent && l.progress >= 0 && open(l))   // urgent work first
+      || state.leads.find(l => l.progress >= 0 && open(l))               // then anything parked
+      || state.leads.find(l => open(l)) || null;                          // then the next arrival
+}
+function armInterrupt(lead) {
+  const nx = nextArrival();
+  if (CONFIG.urgency.interrupt && !lead.urgent && nx && nx.urgent) { clearTimeout(state.timer); state.timer = setTimeout(() => interrupt(nx, lead), CONFIG.urgency.interruptAfterMs / state.speed); }
+}
+function nextArrival() { return state.leads.find(l => l.progress < 0) || null; }
+function interrupt(urgent, parked) {
+  if (!state.playing || state.awaiting !== parked) return;
+  parked.parkedAt = nowTime();
+  state.awaiting = null;
+  toast({ tone: "amber", icon: "bolt", title: "Urgent lead jumping the queue", body: `${parked.name.split(" ")[0]} is parked. ${urgent.name} comes first.` });
+  advance(urgent);
+  scheduleTick(stepDuration(0));
+}
+function scheduleTick(ms) { clearTimeout(state.timer); state.timer = setTimeout(demoTick, ms); }
+// Manual: every first reply waits for a tap. Auto: every first reply sends itself. Hybrid: auto,
+// except urgent leads and ones the extraction model wasn't confident about, which still wait for you.
+// "Try it yourself" always waits, so the person practising the approval actually gets to do it.
+function shouldAutoSend(lead) {
+  if (state.mode === "hands") return false;
+  if (lead.urgent) return false; // urgent always needs a human, in every mode
+  if (state.approvalMode === "manual") return false;
+  if (state.approvalMode === "auto") return true;
+  return !lead.lowConfidence; // hybrid: auto unless the extraction was unsure
+}
+function autoApprove(lead) {
+  lead.autoApproved = true; lead.autoMode = state.approvalMode;
+  while (lead.progress < 5) { if (!advance(lead, lead.progress === 4)) break; }
+  toast({ tone: "green", icon: "send", title: "Sent automatically", body: `${lead.name}: no approval needed under ${state.approvalMode === "auto" ? "Auto" : "Hybrid"} mode.` });
+}
+function demoTick() {
+  if (!state.playing || !isDemoLike()) return;
+  const lead = currentDemoLead();
+  if (!lead) { finishDemo(); return; }
+  const next = lead.progress + 1;
+  if (state.mode === "hands" && next === 0) {
+    if (CONFIG.handsOn.autoArriveMs && state.leads.some(l => l.progress >= 0)) { state.awaitingLead = false; }
+    else { state.awaitingLead = true; render(); return; }
+  }
+  if (state.mode === "hands" && next === 7) { state.awaitingReply = lead; state.activeId = lead.id; render(); return; }
+  if (next === 5) {
+    if (shouldAutoSend(lead)) { autoApprove(lead); scheduleTick(stepDuration(5)); return; }
+    state.awaiting = lead; state.activeId = lead.id;
+    render();
+    armInterrupt(lead);
+    return;
+  }
+  const moved = advance(lead);
+  if (!moved) { scheduleTick(CONFIG.timing.retryWait / state.speed); return; }
+  if (lead.progress === STEPS.length - 1) scheduleTick((state.mode === "hands" && CONFIG.handsOn.autoArriveMs ? CONFIG.handsOn.autoArriveMs : CONFIG.timing.betweenLeads) / state.speed);
+  else scheduleTick(stepDuration(lead.progress));
+}
+function finishDemo() {
+  state.playing = false; state.finished = true; state.activeId = state.leads[state.leads.length - 1].id;
+  if (state.mode === "hands") toast({ tone: "green", icon: "check", title: "All done", body: `You handled ${state.leads.length} leads with ${state.taps} taps.`, ms: 6000 });
+  else toast({ tone: "green", icon: "check", title: "Demo complete", body: `${state.leads.length} leads handled without anyone re-typing a thing.` });
+  render();
+}
+function bringNextLead() {
+  if (state.mode !== "hands" || state.finished) return;
+  const lead = nextArrival(); if (!lead) return;
+  if (!state.handsStart) state.handsStart = performance.now();
+  state.taps++; state.awaitingLead = false; state.playing = true;
+  advance(lead);
+  scheduleTick(stepDuration(0));
+}
+function handsScore() {
+  const secs = Math.round((performance.now() - state.handsStart) / 1000);
+  const manual = state.leads.length * CONFIG.handsOn.minutesSavedPerLead;
+  return { secs, manual, taps: state.taps };
+}
+function play() {
+  if (state.mode === "hands") { if (state.awaitingLead || !state.leads.some(l => l.progress >= 0)) bringNextLead(); else if (!state.playing && !state.finished) { state.playing = true; render(); if (!state.awaiting && !state.awaitingReply) scheduleTick(250); } return; }
+  if (state.mode !== "demo" || state.playing || state.finished) return;
+  state.playing = true;
+  if (state.awaiting) { render(); armInterrupt(state.awaiting); return; }
+  render();
+  scheduleTick(250);
+}
+function pause() { state.playing = false; clearTimeout(state.timer); render(); }
+function togglePlay() { state.playing ? pause() : play(); }
+function setApprovalMode(mode) {
+  state.approvalMode = mode;
+  ["Manual", "Hybrid", "Auto"].forEach(m => $("mode" + m).setAttribute("aria-pressed", String(m.toLowerCase() === mode)));
+  if (state.awaiting && shouldAutoSend(state.awaiting)) {
+    const l = state.awaiting; state.awaiting = null; clearTimeout(state.timer);
+    autoApprove(l);
+    if (state.playing) scheduleTick(stepDuration(5));
+  }
+  render();
+}
+function resetDemo() {
+  pause(); clearTimeout(state.timer); resetLeads(); $("packet").style.opacity = 0;
+  $("feed").scrollTop = 0;
+  render(); renderRail(null);
+}
+function approve(lead) {
+  if (state.mode === "hands") state.taps++;
+  const el = document.querySelector("#draft .draft-text");
+  if (el && el.isContentEditable) { lead.approvedText = el.textContent.trim() || draftText(lead); }
+  if (isDemoLike()) {
+    if (state.awaiting !== lead) return;
+    state.awaiting = null; clearTimeout(state.timer);
+    while (lead.progress < 5) { if (!advance(lead, lead.progress === 4)) break; }
+    if (state.playing) scheduleTick(stepDuration(5));
+  } else {
+    while (lead.progress < 5) { if (!advance(lead, lead.progress === 4)) break; }
+  }
+  toast({ tone: "green", icon: "send", title: "Approved", body: `Reply to ${lead.name} is on its way.` });
+}
+
+/* ---------- urgency clock ---------- */
+const fmtClock = sec => `${Math.floor(Math.abs(sec) / 60)}:${String(Math.abs(sec) % 60).padStart(2, "0")}`;
+function slaElapsed(lead) { return Math.round(((lead.slaEnd || performance.now()) - lead.slaStart) / 1000); }
+function slaHtml(lead) {
+  if (!lead.urgent || !lead.slaStart) return "";
+  const el = slaElapsed(lead), left = CONFIG.urgency.targetSec - el, pct = Math.min(100, el / CONFIG.urgency.targetSec * 100);
+  const frozen = !!lead.slaEnd;
+  const state_ = frozen ? (lead.escalatedAt ? "late" : "met") : left < 0 ? "over" : left < CONFIG.urgency.targetSec * .33 ? "warn" : "";
+  const text = frozen ? (lead.escalatedAt ? `Answered after ${fmtClock(el)}, past the ${fmtClock(CONFIG.urgency.targetSec)} target` : `Answered in ${fmtClock(el)}, inside the ${fmtClock(CONFIG.urgency.targetSec)} target`)
+    : left > 0 ? `Reply within ${fmtClock(left)}` : `${fmtClock(left)} over target. ${CONFIG.urgency.backup} was alerted.`;
+  return `<div class="sla ${state_}" data-sla="${lead.id}"><div class="sla-row"><span>${svgIcon("clock")} ${text}</span><span class="num">${fmtClock(el)}</span></div><div class="sla-bar"><div style="width:${pct}%"></div></div></div>`;
+}
+function slaTick() {
+  let needRender = false;
+  visibleLeads().forEach(l => {
+    if (!l.urgent || !l.slaStart || l.slaEnd) return;
+    if (!l.escalatedAt && slaElapsed(l) >= CONFIG.urgency.targetSec) {
+      l.escalatedAt = nowTime(); needRender = true;
+      toast({ tone: "red", icon: "bell", title: "Escalated", body: `${l.name} waited ${fmtClock(CONFIG.urgency.targetSec)} with no reply. ${CONFIG.urgency.backup} has been alerted.`, ms: 6000 });
+    }
+    const box = document.querySelector(`[data-sla="${l.id}"]`);
+    if (box) box.outerHTML = slaHtml(l);
+  });
+  if (needRender && !(document.activeElement && document.activeElement.isContentEditable)) render();
+}
+setInterval(slaTick, 1000);
+
+/* ---------- renderers ---------- */
+function render() {
+  const lead = activeLead();
+  renderRail(lead);
+  renderControls();
+  renderInbox();
+  renderThread(lead);
+  const tech = state.lens === "tech";
+  $("record").hidden = tech; $("calendar").hidden = tech; $("stream").hidden = !tech; $("trust").hidden = !tech; $("techBanner").hidden = !tech;
+  if (tech) { renderTrust(); renderStream(lead); } else { renderRecord(lead); renderCalendar(); }
+  renderDraft(lead);
+  renderMetrics();
+  renderChart();
+  renderFeed();
+}
+
+function renderControls() {
+  const demo = isDemoLike(), hands = state.mode === "hands";
+  $("modeDemo").setAttribute("aria-pressed", state.mode === "demo");
+  $("modeHands").setAttribute("aria-pressed", hands);
+  $("modeStep").setAttribute("aria-pressed", state.mode === "step");
+  $("demoControls").classList.toggle("hidden", !demo);
+  $("stepControls").classList.toggle("hidden", demo);
+  $("track").style.display = demo ? "none" : "";
+  $("approvalModeWrap").style.display = hands ? "none" : "";
+  const needLead = hands && !state.finished && (state.awaitingLead || !state.leads.some(l => l.progress >= 0));
+  const nl = $("btnNextLead");
+  nl.style.display = hands && !state.finished ? "" : "none"; nl.disabled = !needLead; nl.classList.toggle("pulse", needLead);
+  const play = $("btnPlay");
+  play.style.display = hands ? "none" : "";
+  play.innerHTML = (state.playing ? svgIcon("pause") : svgIcon("play")) + (state.playing ? "Pause" : state.finished ? "Finished" : state.leads.some(l => l.progress >= 0) ? "Resume" : "Play demo");
+  play.disabled = state.finished;
+  play.setAttribute("aria-label", state.playing ? "Pause demo" : "Play demo");
+  $("btnReset").disabled = !state.leads.some(l => l.progress >= 0);
+
+  // progress
+  const leads = visibleLeads();
+  const total = leads.length * STEPS.length;
+  const done = leads.reduce((a, l) => a + (l.progress + 1), 0);
+  $("progressBar").style.width = (done / total * 100) + "%";
+  const cur = activeLead();
+  $("progressLbl").textContent = state.awaitingReply ? "Waiting for the customer (you)" : state.awaitingLead ? "Waiting for the next customer (you)" : state.awaiting ? (hands ? "Waiting for your approval" : "Paused, waiting for approval") : cur && cur.progress >= 0 ? `Step ${cur.progress + 1} of ${STEPS.length}: ${STEPS[cur.progress].label}` : state.finished ? "Complete" : "Not started";
+  $("progressLeads").textContent = demo ? `${state.leads.filter(l => l.progress === STEPS.length - 1).length} of ${state.leads.length} leads done` : "";
+
+  // step-through
+  if (!demo) {
+    const l = state.stepLead;
+    $("urgNormal").setAttribute("aria-pressed", !state.stepUrgent);
+    $("urgUrgent").setAttribute("aria-pressed", state.stepUrgent);
+    $("btnBack").disabled = l.progress < 0;
+    $("btnNext").disabled = l.progress >= STEPS.length - 1;
+    $("btnNext").textContent = l.progress < 0 ? "Start" : l.progress >= STEPS.length - 1 ? "End of flow" : l.progress === 4 ? "Approve and send" : "Next step";
+    $("btnRestart").disabled = l.progress < 0;
+    const track = $("track");
+    track.innerHTML = STEPS.map((s, i) => `<button type="button" class="step ${i < l.progress ? "past" : ""}" data-i="${i}" ${i === l.progress ? 'aria-current="step"' : ""}><em>${i < l.progress ? "✓" : i + 1}</em>${s.label}</button>`).join("");
+  }
+}
+
+function renderInbox() {
+  const leads = visibleLeads();
+  const started = leads.filter(l => l.progress >= 0);
+  const box = $("inbox");
+  if (!started.length) { box.innerHTML = ""; return; }
+  const open = l => l.progress < STEPS.length - 1;
+  started.sort((a, b) => Number(!!(open(b) && b.urgent)) - Number(!!(open(a) && a.urgent)));
+  box.innerHTML = started.map(l => {
+    const parked = isDemoLike() && l.progress === 4 && state.awaiting !== l && !l.urgent && state.leads.some(x => x.urgent && x.progress >= 0 && open(x));
+    const pill = l.progress >= STEPS.length - 1 ? '<span class="pill pill-ok">Booked</span>' : l.progress >= 6 ? '<span class="pill pill-new">In conversation</span>' : parked ? '<span class="pill pill-idle">Parked</span>' : l.progress >= 3 ? `<span class="pill pill-wait">${l.progress >= 5 ? "Approved" : "Needs approval"}</span>` : '<span class="pill pill-new">New</span>';
+    return `<button type="button" class="lead-row" role="option" data-id="${l.id}" aria-selected="${l.id === state.activeId}">
+      <span class="avatar" style="background:${l.color}">${initials(l.name)}</span>
+      <span><span class="lead-name">${l.name}${l.urgent ? ' <span class="pill pill-wait" style="margin-left:4px">Urgent</span>' : ""}</span><br><span class="lead-sub">${l.intent}, ${fmtDate(l.date)}</span></span>
+      ${pill}</button>`;
+  }).join("");
+}
+
+const typed = new Set();
+function typeInto(el, text, done) {
+  let i = 0; const ms = REDUCED ? 0 : Math.max(10, Math.min(45, 2200 / text.length)) / (state.mode === "step" ? 1 : state.speed);
+  const caret = document.createElement("span"); caret.className = "caret"; el.after(caret);
+  const tick = () => {
+    if (!el.isConnected) { caret.remove(); return; }
+    i++; el.textContent = text.slice(0, i); el.parentElement.parentElement.scrollTop = 1e6;
+    if (i < text.length) setTimeout(tick, ms); else { caret.remove(); if (done) done(); }
+  };
+  ms ? setTimeout(tick, 350) : (el.textContent = text, caret.remove(), done && done());
+}
+function renderThread(lead) {
+  const body = $("thread"), head = $("waHead"), quick = $("waQuick"), capEl = $("captured");
+  quick.innerHTML = ""; capEl.innerHTML = "";
+  if (!lead || lead.progress < 0) {
+    head.innerHTML = `<span class="avatar" style="background:var(--channel)">${svgIcon("chat")}</span><div><div class="wa-name">WhatsApp Business</div><div class="wa-sub">${CONFIG.brand.client}</div></div>`;
+    body.innerHTML = `<div class="wa-empty"><strong>Waiting for a message</strong>${state.mode === "hands" ? "Bring in the next customer and their message will type in here." : state.mode === "demo" ? "Press Play and the first lead will text in here." : "Press Start to bring in the sample lead."}</div>`;
+    body.dataset.key = ""; return;
+  }
+  const p = lead.progress;
+  head.innerHTML = `<span style="opacity:.9">${svgIcon("back")}</span><span class="avatar" style="background:${lead.color}">${initials(lead.name)}</span><div><div class="wa-name">${CONFIG.brand.client}</div><div class="wa-sub">${p >= 3 && p < 6 ? "typing…" : "online"}</div></div>`;
+  const msgs = [];
+  const m = (dir, key, text, time, extra = "") => msgs.push({ dir, key, text, html: `<div class="msg ${dir}" data-k="${key}"><span class="tx">${text}</span><div class="msg-time">${extra}${time || ""}${dir === "out" ? ` <span class="ticks ${p >= 7 || key === "m3" ? "" : "grey"}">✓✓</span>` : ""}</div></div>` });
+  m("in", "m0", lead.text, lead.times[0]);
+  if (lead.urgent && p >= 4) m("out", "ack", fill(CONFIG.urgency.ack, lead), lead.ackAt, '<span class="auto">Sent automatically</span> ');
+  if (p >= 6) m("out", "m1", draftText(lead), lead.times[6]);
+  if (p >= 7) m("in", "m2", fill(CONFIG.copy.customerPick, lead), lead.times[7]);
+  if (p >= 8) m("out", "m3", fill(CONFIG.copy.confirm, lead), lead.times[8]);
+  const prevKey = body.dataset.key || "", key = lead.id + ":" + p;
+  body.innerHTML = `<div class="wa-day">Today</div>` + msgs.map(x => x.html).join("") + (p >= 3 && p < 6 ? `<div class="typing" aria-label="Reply being prepared"><i></i><i></i><i></i></div>` : "");
+  // customer messages type themselves in the first time they appear
+  const last = msgs[msgs.length - 1];
+  const tkey = lead.id + ":" + last.key;
+  if (last.dir === "in" && (p === 0 || p === 7) && !typed.has(tkey) && prevKey !== key) {
+    typed.add(tkey);
+    const tx = body.querySelector(`[data-k="${last.key}"] .tx`); tx.textContent = "";
+    typeInto(tx, last.text);
+  } else if (prevKey !== key && body.lastElementChild) body.lastElementChild.classList.add("enter");
+  body.dataset.key = key;
+  body.scrollTop = 1e6;
+  // customer picks a slot: real buttons, either answer works
+  if (p === 6 && (state.mode === "step" || state.playing || state.awaiting || state.awaitingReply === lead)) {
+    quick.innerHTML = [0, 1].map(i => `<button type="button" class="qchip" data-pick="${i}">${cap(slotLabel(lead, i))}</button>`).join("");
+    quick.querySelectorAll(".qchip").forEach(b => { if (state.awaitingReply === lead) b.classList.add("pulse"); b.onclick = () => { lead.pick = +b.dataset.pick; if (isDemoLike()) { if (state.mode === "hands") { state.taps++; state.awaitingReply = null; } clearTimeout(state.timer); advance(lead); if (state.playing) scheduleTick(stepDuration(7)); } else advance(lead); }; });
+  }
+  if (p >= 1) capEl.innerHTML = `<div class="captured-lbl">What the system read from that message</div><div class="chips ${p === 1 ? "enter" : ""}"><span class="chip">${lead.name}</span><span class="chip">${lead.phone}</span><span class="chip">${lead.intent}</span><span class="chip">${lead.urgent && p >= 4 ? "As soon as possible" : fmtDate(lead.date)}</span>${lead.urgent && p >= 4 ? '<span class="chip" style="background:var(--urgent-soft);color:var(--urgent);border-color:rgba(240,160,48,.4)">Urgent</span>' : ""}</div>`;
+}
+
+function renderRecord(lead) {
+  const el = $("record");
+  if (!lead || lead.progress < 2) {
+    el.innerHTML = `<div class="card"><div class="card-head"><span class="card-title">${svgIcon("db")} Customer record</span></div><div class="empty"><strong>No record yet</strong>Created automatically once a message is captured.</div></div>`;
+    return;
+  }
+  const p = lead.progress;
+  const badge = p >= 10 ? '<span class="pill pill-ok">Confirmed</span>' : p >= 5 ? '<span class="pill pill-new">Reply approved</span>' : '<span class="pill pill-new">New</span>';
+  el.innerHTML = `<div class="card ${p === 2 || p === 10 ? "enter" : ""}"><div class="card-head"><span class="card-title">${svgIcon("db")} Customer record</span>${badge}</div>
+    <div class="field"><span>Name</span><span>${lead.name}</span></div>
+    <div class="field"><span>Phone</span><span>${lead.phone}</span></div>
+    <div class="field"><span>Channel</span><span>WhatsApp</span></div>
+    <div class="field"><span>Request</span><span>${lead.intent}</span></div>
+    <div class="field"><span>Requested date</span><span>${lead.urgent && p >= 4 ? "As soon as possible" : fmtDateYear(lead.date)}</span></div>
+    ${p >= 4 ? `<div class="field"><span>Priority</span><span style="color:${lead.urgent ? "var(--urgent)" : "inherit"}">${lead.urgent ? "Urgent" : "Normal"}</span></div>` : ""}
+    ${p >= 5 ? `<div class="field"><span>Approval</span><span>${lead.autoApproved ? `Auto-sent (${lead.autoMode === "auto" ? "Auto" : "Hybrid"})` : "Approved by you"}</span></div>` : ""}
+    ${p >= 10 ? `<div class="field"><span>Status</span><span>Appointment confirmed</span></div><div class="field"><span>Slot</span><span>${fmtDate(apptDate(lead))}, ${slotTime(lead)}</span></div>` : ""}
+  </div>`;
+}
+
+function renderDraft(lead) {
+  const el = $("draft");
+  const head = (badge) => `<div class="card-head"><span class="card-title">${svgIcon("pen")} Reply draft</span>${badge || ""}</div>`;
+  if (!lead || lead.progress < 3) {
+    el.innerHTML = `<div class="card">${head()}<div class="empty"><strong>Nothing to approve</strong>Drafts appear here the moment a lead is stored.</div></div>`;
+    return;
+  }
+  const p = lead.progress;
+  const canAct = (state.mode === "step" && p < 5) || (isDemoLike() && state.awaiting === lead);
+  const editing = el.dataset.editing === lead.id;
+  let triage = "";
+  if (p >= 4) triage = lead.urgent
+    ? `<div class="triage urgent">${svgIcon("bell")} <span>Flagged urgent. Customer acknowledged automatically${lead.ackAt ? " at " + lead.ackAt : ""}, you were alerted, emergency slots offered — urgent always waits for you, even in ${state.approvalMode === "auto" ? "Auto" : state.approvalMode === "hybrid" ? "Hybrid" : "Manual"} mode.${lead.escalatedAt ? ` Escalated to ${CONFIG.urgency.backup} at ${lead.escalatedAt}.` : ""}</span></div>${slaHtml(lead)}`
+    : lead.lowConfidence
+    ? `<div class="triage normal">${svgIcon("clock")} <span>Flagged for review: this request wasn't clear enough to send on its own.</span></div>`
+    : `<div class="triage normal">${svgIcon("clock")} Normal priority. Waiting quietly for your review ${CONFIG.urgency.normalTarget}.</div>`;
+  const badge = p >= 6 ? (lead.autoApproved ? '<span class="pill pill-ok">Auto-sent</span>' : '<span class="pill pill-ok">Sent</span>') : p >= 5 ? '<span class="pill pill-ok">Approved</span>' : '<span class="pill pill-wait">Waiting for approval</span>';
+  const actions = canAct ? `<div class="draft-actions">
+      <button type="button" class="btn btn-channel ${state.awaiting === lead ? "pulse" : ""}" id="btnApprove">${svgIcon("send")} Approve and send</button>
+      <button type="button" class="btn" id="btnEdit">${editing ? "Done editing" : "Edit"}</button>
+    </div><div class="draft-note">${editing ? "Change anything you like, then approve." : state.mode === "step" && p === 3 ? "Approve now, or press Next step to see urgency triage first." : "Nothing goes out until you approve it."}</div>`
+    : p >= 6 ? `<div class="draft-note">${lead.autoApproved ? `Sent automatically ${lead.times[6] || ""}, no approval needed under ${lead.autoMode === "auto" ? "Auto" : "Hybrid"} mode.<span class="auto-note">You can still follow up any time.</span>` : `Sent ${lead.times[6] || ""}${lead.retryUsed ? ", after one automatic retry" : ""}.`}</div>` : p >= 5 ? `<div class="draft-note">${lead.autoApproved ? "Approved automatically. Sending now." : `Approved ${lead.times[5] || ""}. Sending now.`}</div>` : "";
+  el.innerHTML = `<div class="card ${p === 3 ? "enter" : ""}">${head(badge)}${triage ? triage + '<div style="height:10px"></div>' : ""}
+    <div class="draft-text" ${editing ? 'contenteditable="true" role="textbox" aria-label="Reply text"' : ""}>${draftText(lead)}</div>${actions}</div>`;
+  if (canAct) {
+    $("btnApprove").onclick = () => { el.dataset.editing = ""; approve(lead); };
+    $("btnEdit").onclick = () => {
+      if (editing) { lead.approvedText = el.querySelector(".draft-text").textContent.trim() || null; el.dataset.editing = ""; }
+      else el.dataset.editing = lead.id;
+      renderDraft(lead);
+      if (!editing) { const t = el.querySelector(".draft-text"); t.focus(); }
+    };
+  }
+}
+
+function renderCalendar() {
+  const el = $("calendar");
+  const booked = visibleLeads().filter(l => l.progress >= 9).map(l => ({ name: l.name, date: apptDate(l), time: slotTime(l), what: l.intent, urgent: l.urgent, fresh: l.progress === 9 && l.id === state.activeId }));
+  const all = [...CONFIG.baseline.upcoming.map(a => ({ ...a, base: true })), ...booked].sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time));
+  const rows = all.map(a => { const d = new Date(a.date + "T12:00:00"); return `<div class="appt ${a.fresh ? "enter" : ""}"><div class="date-tile ${a.base ? "faded" : a.urgent ? "urgent" : ""}"><b>${d.getDate()}</b><small>${d.toLocaleDateString("en-US", { month: "short" })}</small></div><div><div class="appt-title">${a.what}, ${a.name}${a.urgent ? ' <span class="pill pill-wait">Urgent</span>' : ""}</div><div class="appt-sub">${a.time}, ${CONFIG.business.apptMinutes} min${a.urgent ? ", emergency slot" : ""}</div></div></div>`; }).join("");
+  el.innerHTML = `<div class="card"><div class="card-head"><span class="card-title">${svgIcon("cal")} Calendar</span><span class="panel-hint">${booked.length ? `${booked.length} booked this session` : "Upcoming"}</span></div>${rows || `<div class="empty"><strong>No appointments yet</strong>Confirmed slots show up here.</div>`}</div>`;
+}
+
+function renderTrust() {
+  const el = $("trust");
+  if (el.children.length) return;
+  el.innerHTML = `<div class="trust">${CONFIG.tech.trust.map(t => `<div><b>${t.title}</b>${t.body.replace("{residency}", CONFIG.tech.dataResidency)}</div>`).join("")}</div>`;
+}
+const hash = str => { let h = 7; for (const c of str) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; };
+const lat = (lead, step, base, spread) => base + (hash(lead.id + step) % spread);
+const J = obj => JSON.stringify(obj, null, 2).replace(/"([^"]+)":/g, '<span class="k">"$1"</span>:').replace(/: "([^"]*)"/g, ': <span class="s">"$1"</span>').replace(/: (\d+(\.\d+)?|true|false|null)/g, ': <span class="n">$1</span>');
+function eventsFor(lead) {
+  const p = lead.progress, id = "ld_" + (hash(lead.id) % 9000 + 1000), f = lead.name.split(" ")[0];
+  const e = [];
+  const ev = (s, verb, cls, hop, ms, body) => { if (p >= s) e.push({ o: s, verb, cls, hop, ms, body, t: lead.times[s] || "" }); };
+  ev(0, "POST", "", "messaging API → /webhooks/inbound", lat(lead, 0, 180, 240), { event: "message.received", from: lead.phone, text: lead.text, message_id: "wamid." + (hash(lead.id + "m0") % 1e6) });
+  ev(1, "MODEL", "", "extraction model", lat(lead, 1, 620, 700), { name: lead.name, phone: lead.phone, intent: lead.intent, requested_date: lead.date, urgency_hint: !!lead.urgent, confidence: 0.9 + (hash(lead.id) % 9) / 100 });
+  ev(2, "INSERT", "", "database → leads", lat(lead, 2, 12, 30), { lead_id: id, customer: "matched by phone", status: "new", conversation: "attached" });
+  ev(3, "MODEL", "", "drafting model", lat(lead, 3, 900, 900), { inputs: ["tone_guide", "extracted_fields", "open_slots"], draft: draftText(lead), sent: false });
+  ev(4, lead.urgent ? "ALERT" : "RULE", lead.urgent ? "amber" : "", "triage rule", lat(lead, 4, 3, 8), lead.urgent ? { priority: "urgent", push_alert: "owner’s phone", auto_ack: "sent", reply_timer_sec: CONFIG.urgency.targetSec, escalate_to: CONFIG.urgency.backup } : { priority: "normal", push_alert: false, queue: "review " + CONFIG.urgency.normalTarget });
+  if (lead.escalatedAt) e.push({ o: 4.5, verb: "ALERT", cls: "fail", hop: "escalation", ms: 4, t: lead.escalatedAt, body: { reason: "reply timer expired", notified: CONFIG.urgency.backup } });
+  if (p >= 5) {
+    if (lead.autoApproved) e.push({ o: 5, verb: "ROUTE", cls: "ok", hop: "approval-mode router", ms: lat(lead, 5, 5, 15), t: lead.times[5] || "", body: { mode: lead.autoMode, reason: (lead.urgent || lead.lowConfidence) ? "n/a, always manual" : "confidence above threshold", gate: "unlocked automatically" } });
+    else e.push({ o: 5, verb: "EVENT", cls: "ok", hop: "approval app → audit log", ms: lat(lead, 5, 40, 60), t: lead.times[5] || "", body: { approved_by: "owner", edited: !!lead.approvedText, elapsed_sec: lead.slaStart ? slaElapsed(lead) : null, gate: "unlocked" } });
+  }
+  if (lead.retryAt && p >= 5) e.push({ o: 5.5, verb: "POST", cls: "fail", hop: "messaging API → /messages", ms: lat(lead, 55, 300, 200), t: lead.retryAt, body: { status: 429, error: "rate_limited", action: "retry in 2s" } });
+  ev(6, "POST", "ok", "messaging API → /messages", lat(lead, 6, 220, 300), { to: lead.phone, status: "delivered", attempt: lead.retryUsed ? 2 : 1 });
+  ev(7, "POST", "", "messaging API → /webhooks/inbound", lat(lead, 7, 180, 240), { event: "message.received", text: fill(CONFIG.copy.customerPick, lead), parsed_slot: slotTime(lead) });
+  ev(8, "POST", "ok", "messaging API → /messages", lat(lead, 8, 220, 300), { to: lead.phone, template: "confirmation", approval_required: false });
+  ev(9, "POST", "ok", "calendar API → /events", lat(lead, 9, 260, 400), { title: `${lead.intent}, ${lead.name}`, start: `${apptDate(lead)} ${slotTime(lead)}`, duration_min: CONFIG.business.apptMinutes, event_id: "evt_" + (hash(lead.id + "c") % 1e5) });
+  ev(10, "UPDATE", "", "database → leads", lat(lead, 10, 10, 25), { lead_id: id, status: "confirmed", audit_entries: e.length + 1 });
+  return e.sort((a, b) => b.o - a.o);
+}
+function renderStream(lead) {
+  const el = $("stream");
+  const head = `<div class="card-head"><span class="card-title">${svgIcon("db")} Event stream${lead && lead.progress >= 0 ? `, ${lead.name.split(" ")[0]}` : ""}</span><span class="panel-hint">newest first</span></div>`;
+  if (!lead || lead.progress < 0) { el.innerHTML = `<div class="card">${head}<div class="empty"><strong>No events yet</strong>Each hop the message takes will appear here with its payload and latency.</div></div>`; el.dataset.n = 0; return; }
+  const evs = eventsFor(lead);
+  const grew = evs.length > +(el.dataset.n || 0) && el.dataset.lead === lead.id;
+  el.innerHTML = `<div class="card">${head}${evs.map((x, i) => `<div class="ev ${i === 0 && grew ? "enter" : ""}"><div class="ev-head"><span class="ev-verb ${x.cls}">${x.verb}</span><span class="ev-hop">${x.hop}</span><span class="ev-lat">${x.ms} ms${x.t ? ", " + x.t : ""}</span></div><pre>${J(x.body)}</pre></div>`).join("")}</div>`;
+  el.dataset.n = evs.length; el.dataset.lead = lead.id;
+}
+const counters = {};
+function animateNumber(el, to, suffix = "") {
+  const key = el.dataset.k, from = counters[key] ?? to;
+  counters[key] = to;
+  if (from === to || REDUCED) { el.textContent = to + suffix; return; }
+  const t0 = performance.now(), ms = 600;
+  const step = now => { const t = Math.min(1, (now - t0) / ms); const v = Math.round(from + (to - from) * (1 - Math.pow(1 - t, 3))); el.textContent = v + suffix; if (t < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function metricsData() {
+  const leads = visibleLeads();
+  const started = leads.filter(l => l.progress >= 0).length;
+  const booked = leads.filter(l => l.progress >= 9).length;
+  const pending = leads.filter(l => l.progress >= 3 && l.progress < 5).length;
+  const pendingUrgent = leads.filter(l => l.urgent && l.progress >= 4 && l.progress < 5).length;
+  const secs = leads.filter(l => l.replySec).map(l => l.replySec);
+  const median = secs.length ? Math.round((secs.reduce((a, b) => a + b, 0) + CONFIG.baseline.medianReplySec * 3) / (secs.length + 3)) : CONFIG.baseline.medianReplySec;
+  return { pendingUrgent, leads: CONFIG.baseline.leadsToday + started, booked: CONFIG.baseline.bookedToday + booked, pending, median, started, bookedNew: booked };
+}
+function renderMetrics() {
+  const m = metricsData();
+  const el = $("metrics");
+  if (!el.children.length) {
+    el.innerHTML = [
+      { k: "leads", l: "Leads today" }, { k: "booked", l: "Appointments booked" }, { k: "median", l: "Median time to first reply", s: "s" }, { k: "pending", l: "Waiting for approval" },
+    ].map(x => `<div class="metric"><div class="metric-v num"><span data-k="${x.k}">0</span>${x.s ? `<small>${x.s}</small>` : ""}</div><div class="metric-l">${x.l}</div><div class="metric-d" data-d="${x.k}"></div></div>`).join("");
+  }
+  animateNumber(el.querySelector('[data-k="leads"]'), m.leads);
+  animateNumber(el.querySelector('[data-k="booked"]'), m.booked);
+  animateNumber(el.querySelector('[data-k="median"]'), m.median);
+  animateNumber(el.querySelector('[data-k="pending"]'), m.pending);
+  const d = (k, txt, flat) => { const e = el.querySelector(`[data-d="${k}"]`); e.textContent = txt; e.classList.toggle("flat", !!flat); };
+  d("leads", m.started ? `+${m.started} in this session` : "Since 8:00 AM", !m.started);
+  d("booked", m.bookedNew ? `+${m.bookedNew} in this session` : `${Math.round(m.booked / m.leads * 100)}% of leads`, !m.bookedNew);
+  d("median", `Before: ${CONFIG.baseline.beforeReply}`, false);
+  d("pending", m.pendingUrgent ? `${m.pendingUrgent} urgent` : m.pending ? "Needs you" : "All clear", !m.pending);
+  el.querySelector('[data-d="pending"]').style.color = m.pendingUrgent ? "var(--urgent)" : "";
+}
+function renderChart() {
+  const el = $("chart");
+  const m = metricsData();
+  const days = [...CONFIG.baseline.week, { day: "Today", leads: m.leads, booked: m.booked }];
+  const W = 300, H = 120, pad = 22, bw = 12, max = Math.max(...days.map(d => d.leads)) * 1.1;
+  const gx = i => pad + i * ((W - pad * 2) / (days.length - 1));
+  const bars = days.map((d, i) => {
+    const x = gx(i), hl = d.leads / max * (H - 30), hb = d.booked / max * (H - 30);
+    return `<rect class="bar bar-lead" x="${x - bw - 1}" y="${H - 22 - hl}" width="${bw}" height="${hl}" rx="3"/><rect class="bar bar-book" x="${x + 1}" y="${H - 22 - hb}" width="${bw}" height="${hb}" rx="3"/><text class="chart-lbl ${i === days.length - 1 ? "today" : ""}" x="${x}" y="${H - 6}">${d.day}</text>`;
+  }).join("");
+  if (!el.children.length) el.innerHTML = `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Leads and bookings for the last seven days"><g id="chartBars"></g></svg><div class="legend"><span><i style="background:var(--line-strong)"></i>Leads</span><span><i style="background:var(--accent)"></i>Booked</span></div>`;
+  const g = $("chartBars");
+  if (g.innerHTML === "") g.innerHTML = bars;
+  else { // update only today's bars so the transition animates
+    const tmp = document.createElementNS("http://www.w3.org/2000/svg", "g"); tmp.innerHTML = bars;
+    const rects = g.querySelectorAll("rect"), nrects = tmp.querySelectorAll("rect");
+    rects.forEach((r, i) => { r.setAttribute("y", nrects[i].getAttribute("y")); r.setAttribute("height", nrects[i].getAttribute("height")); });
+  }
+}
+
+function feedEntries(lead) {
+  const f = lead.name.split(" ")[0];
+  const e = [];
+  const push = (s, icon, tone, html) => { if (lead.progress >= s) e.push({ t: lead.times[s] || "", icon, tone, html, o: s }); };
+  push(0, "chat", "green", `New WhatsApp message from <b>${lead.name}</b>`);
+  push(1, "filter", "", `Captured name, phone, request and date for ${f}`);
+  push(2, "db", "", `Customer record created for ${f}`);
+  push(3, "pen", "", `Reply drafted for ${f}, waiting for approval`);
+  push(4, lead.urgent ? "bell" : "clock", lead.urgent ? "amber" : "grey", lead.urgent ? `<b>Urgent:</b> alert sent to your phone for ${f}, ${fmtClock(CONFIG.urgency.targetSec)} reply clock started` : `Normal priority, ${f} queued for review ${CONFIG.urgency.normalTarget}`);
+  if (lead.urgent && lead.progress >= 4) e.push({ t: lead.ackAt || "", icon: "send", tone: "green", html: `Holding message sent to ${f} automatically`, o: 4.1 });
+  if (lead.parkedAt && lead.progress >= 4) e.push({ t: lead.parkedAt, icon: "clock", tone: "grey", html: `${f} parked while an urgent lead is handled`, o: 4.2 });
+  if (lead.escalatedAt) e.push({ t: lead.escalatedAt, icon: "bell", tone: "red", html: `<b>Escalated:</b> ${f} waited past ${fmtClock(CONFIG.urgency.targetSec)}, ${CONFIG.urgency.backup} alerted`, o: 4.3 });
+  push(5, "check", "green", lead.autoApproved ? `Sent automatically for ${f}, ${lead.autoMode} mode, no approval needed` : `Reply approved${lead.approvedText ? " with edits" : ""}${lead.urgent && lead.slaEnd ? `, ${fmtClock(slaElapsed(lead))} after the alert` : ""}`);
+  if (lead.retryAt && lead.progress >= 5) e.push({ t: lead.retryAt, icon: "retry", tone: "red", html: `Delivery to ${f} failed, retrying automatically`, o: 5.5 });
+  push(6, "send", "green", `Reply delivered to ${f}${lead.retryUsed ? " on second attempt" : ""}, ${lead.replySec}s after first message`);
+  push(7, "chat", "green", `${f} chose ${slotLabel(lead, lead.pick)}`);
+  push(8, "send", "green", `Confirmation sent to ${f}`);
+  push(9, "cal", "", `Appointment booked: ${fmtDate(apptDate(lead))}, ${slotTime(lead)}${lead.urgent ? " (emergency slot)" : ""}`);
+  push(10, "db", "", `Record for ${f} marked confirmed`);
+  return e;
+}
+function renderFeed() {
+  const el = $("feed");
+  const items = [];
+  visibleLeads().forEach((l, li) => feedEntries(l).forEach(x => items.push({ ...x, order: li * 100 + x.o })));
+  if (!items.length) { el.innerHTML = `<div class="empty"><strong>Nothing has happened yet</strong>${isDemoLike() ? "Start and every step will be logged here in real time." : "Each step you take will be logged here."}</div>`; el.dataset.n = 0; return; }
+  items.sort((a, b) => b.order - a.order);
+  const grew = items.length > (+el.dataset.n || 0);
+  el.innerHTML = items.slice(0, 80).map((x, i) => `<div class="feed-item ${i === 0 && grew ? "enter" : ""}"><span class="feed-ic ${x.tone}">${svgIcon(x.icon)}</span><span>${x.html}</span><span class="feed-t num">${x.t}</span></div>`).join("");
+  el.dataset.n = items.length;
+  el.scrollTop = 0;
+}
+
+/* ---------- toasts ---------- */
+function toast({ tone = "", icon = "check", title, body, ms = 4200 }) {
+  const box = $("toasts");
+  const t = document.createElement("div");
+  t.className = "toast " + tone; t.style.setProperty("--toast-ms", ms + "ms");
+  t.innerHTML = `<span class="feed-ic ${tone}">${svgIcon(icon)}</span><div><div class="toast-title">${title}</div><div class="toast-body">${body}</div></div><button class="toast-x" type="button" aria-label="Dismiss">✕</button>`;
+  const close = () => { if (!t.isConnected) return; t.classList.add("leaving"); setTimeout(() => t.remove(), 240); };
+  t.querySelector(".toast-x").onclick = close;
+  box.appendChild(t);
+  while (box.children.length > 4) box.firstElementChild.remove();
+  setTimeout(close, ms);
+}
+
+/* ---------- theme ---------- */
+function setTheme(t) {
+  state.theme = t;
+  document.documentElement.setAttribute("data-theme", t);
+  const b = $("btnTheme");
+  b.innerHTML = svgIcon(t === "dark" ? "sun" : "moon");
+  b.setAttribute("aria-label", t === "dark" ? "Switch to light theme" : "Switch to dark theme");
+}
+
+/* ---------- presenter tour ---------- */
+const TOUR = [
+  { target: "#rail", title: "The pipeline", body: "Every WhatsApp message travels this rail. The blue band is the part we host for you; the two ends are the customer and your calendar." },
+  { target: "#controls", title: "Three ways to run it", body: "Watch it run plays six leads back to back (keep “Pause for my approval” on). Try it yourself hands the whole thing to the prospect: they bring in customers, approve drafts and answer as the customer, and get a scorecard at the end. Step through walks one lead a click at a time." },
+  { target: "#panelChat", title: "The customer’s side", body: "This is the customer’s actual phone: what they see, nothing more. The chips below it are what the system read from the message. When the reply lands, two quick-reply buttons appear so you can answer as the customer, and either slot works." },
+  { target: "#record", title: "The record", body: "Created the moment the message is read. No copy-paste from WhatsApp into a spreadsheet." },
+  { target: "#draft", title: "You stay in control", body: "Every first reply waits for approval. Edit the text, then Approve and send. For urgent leads this card also shows the reply clock: the customer already got a holding message, and if the clock runs out the backup person is alerted." },
+  { target: "#calendar", title: "It lands on your calendar", body: "Once the customer picks a slot, the appointment is created with name, job and duration." },
+  { target: "#metrics", title: "The numbers", body: "Leads, bookings, time to first reply and what is waiting on you. They update as the demo runs." },
+  { target: "#feed", title: "Everything is logged", body: "An audit trail of every step, including the delivery that failed and retried on its own." },
+  { target: "#lensSeg", title: "Under the hood", body: "Flip this when someone asks how it works or a technical person is in the room. The rail becomes the architecture, the middle column becomes the event stream with payloads and latency, and four trust points sit at the top. The demo keeps running underneath." },
+  { target: "#btnTheme", title: "Dark or light", body: "Switch to whatever reads best in the room. Press ? any time to reopen this guide." },
+];
+function openTour(i = 0) { state.tourIndex = i; $("tour").classList.add("open"); positionTour(); $("tourNext").focus(); }
+function closeTour() { $("tour").classList.remove("open"); $("btnTour").focus(); }
+function positionTour() {
+  const step = TOUR[state.tourIndex];
+  const target = document.querySelector(step.target);
+  if (!target) return;
+  target.scrollIntoView({ block: "center", behavior: REDUCED ? "auto" : "smooth" });
+  const place = () => {
+    const r = target.getBoundingClientRect();
+    const spot = $("tourSpot"), card = $("tourCard");
+    spot.style.left = (r.left - 6) + "px"; spot.style.top = (r.top - 6) + "px"; spot.style.width = (r.width + 12) + "px"; spot.style.height = (r.height + 12) + "px";
+    $("tourStep").textContent = `${state.tourIndex + 1} of ${TOUR.length}`;
+    $("tourTitle").textContent = step.title; $("tourBody").textContent = step.body;
+    $("tourPrev").disabled = state.tourIndex === 0;
+    $("tourNext").textContent = state.tourIndex === TOUR.length - 1 ? "Finish" : "Next";
+    if (window.innerWidth > 720) {
+      const cw = card.offsetWidth, ch = card.offsetHeight;
+      let top = r.bottom + 14, left = Math.min(Math.max(12, r.left), window.innerWidth - cw - 12);
+      if (top + ch > window.innerHeight - 12) top = Math.max(12, r.top - ch - 14);
+      if (r.height > window.innerHeight * .7) { top = Math.max(12, Math.min(window.innerHeight - ch - 12, r.top + 40)); left = Math.min(window.innerWidth - cw - 12, r.right + 14); }
+      card.style.top = top + "px"; card.style.left = left + "px";
+    }
+  };
+  setTimeout(place, REDUCED ? 0 : 320);
+}
+
+/* ---------- loader ---------- */
+function runLoader(done) {
+  const stages = ["Connecting to WhatsApp Business account", "Opening customer database", "Syncing calendar", "Loading today’s numbers"];
+  const box = $("loaderStatus");
+  box.innerHTML = stages.map(s => `<div><span class="dotp"></span>${s}</div>`).join("");
+  const rows = box.children;
+  let i = 0;
+  const tick = () => {
+    if (i > 0) { rows[i - 1].classList.remove("on"); rows[i - 1].classList.add("ok"); }
+    if (i === stages.length) { $("loaderTitle").textContent = "Ready"; setTimeout(() => { $("loader").classList.add("out"); done(); }, 300); return; }
+    rows[i].classList.add("on"); i++;
+    setTimeout(tick, REDUCED ? 60 : 380);
+  };
+  tick();
+}
+
+/* ---------- wiring ---------- */
+function init() {
+  document.documentElement.style.setProperty("--accent", CONFIG.colors.accent);
+  document.documentElement.style.setProperty("--channel", CONFIG.colors.channel);
+  document.documentElement.style.setProperty("--urgent", CONFIG.colors.urgent);
+  document.title = `${CONFIG.brand.product} — demo for ${CONFIG.brand.client}`;
+  $("brandMark").textContent = CONFIG.brand.mark;
+  $("brandName").textContent = CONFIG.brand.product;
+  $("brandFor").textContent = `Prepared for ${CONFIG.brand.client}`;
+  $("hostHint").textContent = "Hosted by " + CONFIG.brand.agency;
+  $("footNote").textContent = `${CONFIG.brand.agency} builds and hosts this for ${CONFIG.brand.client}.`;
+  setTheme(state.theme);
+  buildRail();
+  resetLeads();
+  setLens("business");
+  render();
+  const tickClock = () => { $("clock").textContent = nowTime(); $("phoneClock").textContent = nowTime().replace(/ [AP]M/, ""); };
+  tickClock(); setInterval(tickClock, 15000);
+
+  $("btnPlay").onclick = togglePlay;
+  $("btnReset").onclick = resetDemo;
+  $("speedSel").onchange = e => { state.speed = +e.target.value; };
+  $("modeManual").onclick = () => setApprovalMode("manual");
+  $("modeHybrid").onclick = () => setApprovalMode("hybrid");
+  $("modeAuto").onclick = () => setApprovalMode("auto");
+  $("modeDemo").onclick = () => setMode("demo");
+  $("modeStep").onclick = () => setMode("step");
+  $("modeHands").onclick = () => setMode("hands");
+  $("btnNextLead").onclick = bringNextLead;
+  $("urgNormal").onclick = () => setUrgent(false);
+  $("urgUrgent").onclick = () => setUrgent(true);
+  $("btnNext").onclick = stepNext;
+  $("btnBack").onclick = stepBack;
+  $("btnRestart").onclick = () => { const l = state.stepLead; l.progress = -1; l.approvedText = null; l.times = []; l.replySec = null; l.ackAt = l.slaStart = l.slaEnd = l.escalatedAt = null; $("draft").dataset.editing = ""; render(); };
+  $("track").addEventListener("click", e => { const b = e.target.closest(".step"); if (!b) return; jumpTo(+b.dataset.i); });
+  $("inbox").addEventListener("click", e => { const b = e.target.closest(".lead-row"); if (!b) return; state.activeId = b.dataset.id; render(); });
+  $("btnTheme").onclick = () => setTheme(state.theme === "dark" ? "light" : "dark");
+  $("lensBusiness").onclick = () => setLens("business");
+  $("lensTech").onclick = () => setLens("tech");
+  $("btnTour").onclick = () => openTour(0);
+  $("tourNext").onclick = () => { if (state.tourIndex === TOUR.length - 1) closeTour(); else { state.tourIndex++; positionTour(); } };
+  $("tourPrev").onclick = () => { if (state.tourIndex > 0) { state.tourIndex--; positionTour(); } };
+  $("tourClose").onclick = closeTour;
+  $("tour").addEventListener("click", e => { if (e.target === $("tour")) closeTour(); });
+  window.addEventListener("resize", () => { if ($("tour").classList.contains("open")) positionTour(); });
+
+  document.addEventListener("keydown", e => {
+    const tag = (e.target.tagName || "").toLowerCase();
+    if (e.target.isContentEditable || tag === "input" || tag === "textarea" || tag === "select") return;
+    const tourOpen = $("tour").classList.contains("open");
+    if (e.key === "Escape") { if (tourOpen) closeTour(); return; }
+    if (tourOpen) { if (e.key === "ArrowRight") $("tourNext").click(); if (e.key === "ArrowLeft") $("tourPrev").click(); return; }
+    if (e.key === "?") { e.preventDefault(); openTour(0); }
+    else if (e.key === " " && isDemoLike() && tag !== "button") { e.preventDefault(); state.mode === "hands" ? play() : togglePlay(); }
+    else if (e.key.toLowerCase() === "r") { isDemoLike() ? resetDemo() : $("btnRestart").click(); }
+    else if (e.key.toLowerCase() === "u") setLens(state.lens === "tech" ? "business" : "tech");
+    else if (e.key.toLowerCase() === "t") setTheme(state.theme === "dark" ? "light" : "dark");
+    else if (e.key === "ArrowRight" && state.mode === "step") stepNext();
+    else if (e.key === "ArrowLeft" && state.mode === "step") stepBack();
+    else if (e.key === "Enter" && state.awaiting && tag !== "button") { const b = $("btnApprove"); if (b) b.click(); }
+  });
+
+  runLoader(() => { $("btnPlay").focus(); });
+}
+function setMode(m) {
+  if (state.mode === m) return;
+  pause(); clearTimeout(state.timer);
+  const wasDemoLike = isDemoLike();
+  state.mode = m;
+  $("draft").dataset.editing = "";
+  if (isDemoLike() && (!wasDemoLike || true)) { resetLeads(); }   // demo-style modes always start clean
+  state.activeId = isDemoLike() ? null : state.stepLead.id;
+  render(); if (!activeLead() || activeLead().progress < 0) renderRail(null);
+}
+function setUrgent(u) {
+  const l = state.stepLead; state.stepUrgent = u; l.urgent = u; l.approvedText = null;
+  if (u && l.progress >= 4 && !l.slaStart) { l.ackAt = nowTime(); l.slaStart = performance.now(); if (l.progress >= 5) l.slaEnd = performance.now(); }
+  if (!u) { l.ackAt = l.slaStart = l.slaEnd = l.escalatedAt = null; }
+  render();
+  if (state.stepLead.progress === 4) { if (u) movePacket("draft", "you", stepDuration(4) * .7, "amber"); }
+}
+function stepNext() { const l = state.stepLead; if (l.progress >= STEPS.length - 1) return; advance(l); }
+function stepBack() { const l = state.stepLead; if (l.progress < 0) return; l.progress--; if (l.progress < 4) { l.ackAt = l.slaStart = l.slaEnd = l.escalatedAt = null; } if (l.progress < 5) l.slaEnd = null; $("draft").dataset.editing = ""; render(); if (l.progress >= 0) { const mv = PACKET_MOVES[l.progress]; if (mv) movePacket(mv[1], mv[0], 500, mv[2]); } }
+function jumpTo(i) { const l = state.stepLead; if (i === l.progress) return; if (i > l.progress) { while (l.progress < i) { if (!advance(l, l.progress === i - 1)) break; } } else { l.progress = i; if (i < 4) l.ackAt = l.slaStart = l.slaEnd = l.escalatedAt = null; else if (i < 5) l.slaEnd = null; render(); } }
+
+init();
+</script>
+</body>
+</html>
