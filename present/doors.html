@@ -57,6 +57,15 @@ html.js .steps li{animation:none!important}
  .proof .pc::before{background:var(--dim)}
  .proof .pl .arrow{color:var(--dim)}}
 /* d27:focus:end */</style>
+<style>/* d29b:doors:start */
+.js .dp:not(.on)>.dp-h .dp-t{color:var(--mu)}
+.js .dp:not(.on)>.dp-h .dp-t:hover,.js .dp:not(.on)>.dp-h .dp-t:focus-visible{color:var(--tx)}
+@media (min-width:761px){
+ .js .dframe.ov .lead{opacity:0;transition:opacity .15s}
+ .js .dframe.ov .dp:hover .lead,.js .dframe.ov .dp:focus-within .lead{opacity:1}}
+@media (max-width:760px){
+ .js .dp:not(.on):not(:focus-within) .lead{position:absolute;width:1px;height:1px;margin:0;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}}
+/* d29b:doors:end */</style>
 <script>/* d25:later: the index, the call note and the photo join the left column once the visitor scrolls (or
    presses Tab); arriving at an #anchor or without scripts they show at once */
 (function(){var H=document.documentElement;if(location.hash)return;H.classList.add('calm-top');

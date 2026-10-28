@@ -57,6 +57,26 @@ html.js .steps li{animation:none!important}
 .qs .qw3{font-size:15px;line-height:1.5;color:var(--dim);margin-top:18px}
 @media (max-width:760px){.qs .qw1{font-size:21px;margin-top:12px}.qs .qw3{font-size:14.5px;margin-top:14px}}
 /* d28:whynow:end */</style>
+<style>/* d29b:start:start */
+.steps details.more{margin-top:6px}
+.steps details.more>summary{display:inline-flex;align-items:center;gap:8px;min-height:32px;font-size:14px;color:var(--dim);cursor:pointer;list-style:none}
+.steps details.more>summary::-webkit-details-marker{display:none}
+.steps details.more>summary::before{content:"+";font-family:var(--mono);font-size:14px;width:12px}
+.steps details.more[open]>summary::before{content:"\2212"}
+.steps details.more>summary:hover{color:var(--tx)}
+.steps details.more>p.get{margin-top:4px}
+.steps h3{color:var(--mu)}
+@media (max-width:760px){.steps details.more{grid-column:2}}
+@media (min-width:761px){
+ .steps{margin-top:18px}
+ .steps::before{top:22px;left:22px}
+ .steps .n{width:44px;height:44px;font-size:12.5px}
+ .steps .who{margin:16px 0 6px}
+ .steps h3{font-size:17px}
+ .steps p{font-size:14.5px}}
+@media (min-width:761px) and (max-width:1060px){
+ #steps{min-height:calc(100vh - 470px)}}
+/* d29b:start:end */</style>
 <script>/* d25:later: the index, the call note and the photo join the left column once the visitor scrolls (or
    presses Tab); arriving at an #anchor or without scripts they show at once */
 (function(){var H=document.documentElement;if(location.hash)return;H.classList.add('calm-top');
@@ -114,12 +134,13 @@ Crossland AI
 <span class="n">01</span>
 <div class="a"><h2>After you book a call</h2>
 <ol class="steps">
-<li><span class="n" aria-hidden="true">01</span><span class="who mono">A short call</span><h3>A short first call.</h3><p>A first conversation about what you need, and which door fits you.</p><p class="get"><b>You get:</b> a first view of which door fits you.</p><p class="lad">On this call we place your company on the AI ladder together.</p></li>
-<li><span class="n" aria-hidden="true">02</span><span class="who mono">A plain plan</span><h3>A plain plan.</h3><p>In plain words: which repetitive work to take off people first, and which decisions stay with them.</p><p class="get"><b>You get:</b> a plan in plain words, naming which repetitive work comes off people first and which decisions stay with them.</p></li>
-<li><span class="n" aria-hidden="true">03</span><span class="who mono">A fixed first step</span><h3>A fixed first step.</h3><p>One first piece of work, fixed and agreed with you before it starts.</p><p class="get"><b>You get:</b> one first piece of work, fixed and agreed with you before it starts.</p></li>
+<li><span class="n" aria-hidden="true">01</span><span class="who mono">A short call</span><h3>A short first call.</h3><p>A first conversation about what you need, and which door fits you.</p><details class="more" open><summary>Read more</summary><p class="get"><b>You get:</b> a first view of which door fits you.</p><p class="lad">On this call we place your company on the AI ladder together.</p></details></li>
+<li><span class="n" aria-hidden="true">02</span><span class="who mono">A plain plan</span><h3>A plain plan.</h3><p>In plain words: which repetitive work to take off people first, and which decisions stay with them.</p></li>
+<li><span class="n" aria-hidden="true">03</span><span class="who mono">A fixed first step</span><h3>A fixed first step.</h3><p>One first piece of work, fixed and agreed with you before it starts.</p></li>
 </ol>
 </div>
 </article>
+<script>/* d29b: Read more starts closed when scripts run */[].forEach.call(document.querySelectorAll('details.more'),function(d){d.open=false});</script>
 <article class="qs" id="where">
 <span class="n">02</span>
 <div class="a"><h2>Where we start</h2>
