@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pregúntenos · demostración</title>
+<style>
+:root{--bg:#0B1220;--s1:#0F1828;--s2:#141E31;--s3:#1B263B;--line:#222D42;--line2:#34415B;--tx:#F4EFE8;--mu:#B7BDC9;--dim:#8D96A8;--ac:#E2A93B;--ac2:#EEBE60;--acink:#1A1203;
+ --font:"Archivo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx);font:16px/1.5 var(--font);padding:24px 16px 120px}
+main{max-width:900px;margin:0 auto}
+h1{font-size:30px;line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
+.note{color:var(--mu);margin-bottom:20px;max-width:60ch}
+.note a{color:var(--tx)}
+.after{margin-top:28px;padding:16px;border:1px dashed var(--line2);border-radius:6px;color:var(--mu)}
+.after button{margin-top:10px;min-height:44px;padding:0 16px;border:1px solid var(--line2);border-radius:5px;background:var(--s2);color:var(--tx);font:inherit}
+</style>
+<link rel="stylesheet" href="../client/ask-us.css">
+<script>
+(function(){var m=/[?&]endpoint=([^&]+)/.exec(location.search);if(m)window.ASK_US_CONFIG={endpoint:decodeURIComponent(m[1])}})();
+</script>
+</head>
+<body>
+<main>
+<h1>Pregúntenos: página de demostración</h1>
+<p class="note">Esta página muestra el cuadro de chat solo, con los colores del sitio. Sin un servicio de chat funciona en modo demostración con respuestas de ejemplo. <a href="index.html" lang="en" hreflang="en">English</a></p>
+<div class="ask-us" data-lang="es" data-data-page="../../l7-positioning/es/data.html"><p>¿Preguntas? Escríbanos a info@humaniasoluciones.com.</p></div>
+<section class="after" id="after"><p>Contenido debajo del cuadro (en lugar de un cuestionario). El cuadro se abre en la página y nunca lo tapa.</p><button type="button" id="below">Un botón debajo del cuadro</button></section>
+</main>
+<script src="../client/ask-us.js" defer></script>
+</body>
+</html>
