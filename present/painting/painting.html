@@ -291,7 +291,6 @@ svg.map.three .node rect.face{fill:url(#glass)}
     <div class="tabs" role="tablist" aria-label="Ask the map">
       <button role="tab" data-mode="error" aria-selected="true">Decode</button>
       <button role="tab" data-mode="goals" aria-selected="false">Goals</button>
-      <button role="tab" data-mode="paint" aria-selected="false">Project</button>
       <button role="tab" data-mode="compare" aria-selected="false">Compare</button>
       <button role="tab" data-mode="index" aria-selected="false">All</button>
     </div>
@@ -307,15 +306,6 @@ svg.map.three .node rect.face{fill:url(#glass)}
       <div class="status" id="decstatus"></div>
       <h3>Try one</h3>
       <div class="pairs" id="samples"></div>
-    </div>
-    <div class="mode paint" data-mode="paint" id="paint">
-      <h3>Paint your project onto the map</h3>
-      <p class="lead" style="margin-bottom:8px">Describe it, or paste package.json, requirements.txt, or a folder listing. Uses your Claude account; asks permission the first time.</p>
-      <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin:0 0 6px;font-size:13px"><label><input type="radio" name="projkind" value="real" checked> This is the project itself</label><label><input type="radio" name="projkind" value="demo"> This is a demo or mockup of a solution</label></div>
-      <textarea id="proj" placeholder="A FastAPI server with an index.html, deployed on Render"></textarea>
-      <div class="row" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 2px"><label class="filepick"><input type="file" id="projfiles" multiple accept=".html,.htm,.js,.jsx,.ts,.tsx,.py,.json,.yaml,.yml,.toml,.txt,.md,.env,.sh,.csv,.sql,.css,Dockerfile,.gitignore" hidden>Or pick files…</label><span class="status" id="filestatus" style="margin:0"></span></div>
-      <button class="decode" id="paintbtn" disabled>Paint it</button><button class="stop" id="paintstop">Stop</button>
-      <div class="status" id="paintstatus">Connecting to Claude…</div>
     </div>
     <div class="mode" data-mode="compare">
       <h3>Which one?</h3>
@@ -340,7 +330,6 @@ svg.map.three .node rect.face{fill:url(#glass)}
       <div class="steps" id="t-steps"></div>
       <div id="t-gapswrap" style="display:none"><h3>Worth adding</h3><div class="steps gaps" id="t-gaps"></div></div>
       <p id="t-foot" style="margin-top:12px;color:var(--ink-2);font-size:13.5px"></p>
-      <div id="t-advise" style="display:none"><button class="back" id="advisebtn">Ask the advisor</button><span class="status" id="advisestatus" style="margin-left:8px"></span></div>
     </div>
     <div id="cmpview" class="cmp" style="display:none">
       <div class="layer" id="k-kicker" style="color:var(--focus)">Which one?</div>
@@ -349,17 +338,6 @@ svg.map.three .node rect.face{fill:url(#glass)}
       <div class="col" id="k-a"><b></b><p></p></div>
       <div class="col" id="k-b"><b></b><p></p></div>
       <h3>The usual mistake</h3><p id="k-mistake"></p>
-    </div>
-    <div id="adviceview" class="advice" style="display:none">
-      <div class="layer" style="color:var(--focus)">The advisor's take</div>
-      <h2 id="a-name"></h2>
-      <p class="verdict" id="a-verdict"></p>
-      <h3>What's strong</h3><div class="alist" id="a-strong"></div>
-      <h3>Risks</h3><div class="alist" id="a-risks"></div>
-      <h3>What's missing</h3><div class="alist" id="a-missing"></div>
-      <h3>Ask the customer first</h3><div class="alist" id="a-questions"></div>
-      <h3>Build in this order</h3><div class="alist ordered" id="a-order"></div>
-      <button class="back" id="backpaint">Back to the painting</button>
     </div>
     <div id="nodeview">
     <div class="layer" id="c-layer"></div>
@@ -373,7 +351,7 @@ svg.map.three .node rect.face{fill:url(#glass)}
     <h3>Connected to</h3><div class="chips" id="c-links"></div>
     <button class="back" id="backtrace" style="display:none">Back to the route</button>
     </div>
-    <div class="share"><button id="sharebtn">Copy link to this</button><button id="notebtn" style="display:none">Leave a note on this</button><span id="sharenote"></span></div>
+    <div class="share"><button id="sharebtn">Copy link to this</button><span id="sharenote"></span></div>
   </aside>
 </div>
 </div>
@@ -430,7 +408,7 @@ const NODES = [
   links:[{to:"claudecode",rel:"is one chat in"},{to:"context",rel:"has its own"},{to:"permmodes",rel:"runs in one of the"}]},
  {id:"permmodes", layer:"tools", name:"Permission modes", kind:"how much Claude asks first",
   what:"A setting next to the send button. It decides how often Claude stops and asks before it changes a file or runs a command.",
-  why:"Manual asks before each change or command. The cockpit has you pick it first. Accept edits and Auto ask less, Plan changes nothing until you say so, and Bypass permissions skips almost every question.",
+  why:"Manual asks before each change or command. Accept edits and Auto ask less, Plan changes nothing until you say so, and Bypass permissions skips almost every question.",
   ai:"When the AI says 'I'll need your permission' or 'switch to accept edits', it's talking about this setting. Pick it on purpose, not to make the questions stop.",
   links:[{to:"claudecode",rel:"set how much asking happens in"},{to:"planmode",rel:"include"},{to:"denyrule",rel:"never switch off a"}]},
  {id:"planmode", layer:"tools", name:"Plan mode", kind:"look first, change nothing",
@@ -752,7 +730,7 @@ const NODES = [
  {id:"ghpages", layer:"infra", name:"GitHub Pages", kind:"website hosting from GitHub",
   what:"A GitHub service that takes the HTML, CSS and JavaScript files saved on GitHub and publishes them as a website.",
   why:"Your site goes online without renting a server. What it shows is public on the internet, so read it before it goes up.",
-  ai:"When the AI says 'it's live on GitHub Pages', anyone with the address can see it. In this course nothing goes up without your typed yes. Pages publishes whatever is pushed to main.",
+  ai:"When the AI says 'it's live on GitHub Pages', anyone with the address can see it. Pages publishes whatever is pushed to main.",
   links:[{to:"github",rel:"is a service of"},{to:"html",rel:"puts online your"},{to:"git",rel:"publishes what you saved with"}]},
 ];
 
@@ -1482,7 +1460,7 @@ function clear(){
   NODES.forEach(n=>nodeEls[n.id].classList.remove("cold","sel","gap","hit"));
   edgeEls.forEach(p=>p.classList.remove("hot","cold"));
 }
-function showView(which){ ["traceview","nodeview","cmpview","adviceview"].forEach(v=>document.getElementById(v).style.display = v===which ? "" : "none"); }
+function showView(which){ ["traceview","nodeview","cmpview"].forEach(v=>document.getElementById(v).style.display = v===which ? "" : "none"); }
 let cmp=null; // current comparison {a,b}
 function select(id, pan=true){
   const n=byId[id]; selected=id; highlight(id); cmp=null; setHash({node:id});
@@ -1532,7 +1510,7 @@ function drawTrace(){
   }
 }
 function showTrace(t){
-  trace=t; selected=null; cmp=null; drawTrace(); document.getElementById("t-advise").style.display="none";
+  trace=t; selected=null; cmp=null; drawTrace();
   showView("traceview");
   document.getElementById("t-kicker").textContent=t.kicker; document.getElementById("t-kicker").style.color="var(--focus)";
   document.getElementById("t-name").textContent=t.name;
@@ -1549,7 +1527,7 @@ function showTrace(t){
     d.innerHTML=`<span class="n"></span><span><div class="sname">${n.name}</div><div class="snote">${note}</div></span>`; d.onclick=()=>select(id); gs.append(d); }); }
   else gw.style.display="none";
   card.classList.add("open"); if(window.innerWidth<700) closeAsk();
-  if(t.id) setHash({goal:t.id}); else if(t.kicker==="Your project") setHash({paint:b64e(JSON.stringify({t:t.name,s:t.verdict,p:t.steps,g:t.gaps||[]}))}); else setHash(null);
+  if(t.id) setHash({goal:t.id}); else setHash(null);
   frameTrace(t);
 }
 function frameTrace(t){
@@ -1603,33 +1581,10 @@ async function decodeSentence(txt){
     setHash({decode:b64e(txt.slice(0,600))});
   };
   // deterministic first: the pieces it names, in the order they appear, each with its one-line meaning
-  if(ids.length && !sampleRef){
+  if(ids.length){
     show(txt.length>60 ? txt.slice(0,57)+"…" : txt, ids.length===1 ? "It's talking about one piece on the map." : `It's talking about ${ids.length} pieces on the map, shown in the order they're mentioned.`, ids.map(id=>[id, firstSentence(byId[id].what)]), "", true); return;
   }
-  if(!ids.length && !sampleRef){ decstatus.textContent="I don't recognize any pieces in that. Try naming the file, tool, or platform it's about."; return; }
-  // Claude for the translation and the sequence
-  decstatus.textContent="Asking Claude…"; document.getElementById("decode").disabled=true;
-  const catalog=NODES.map(n=>`${n.id} = ${n.name} (${n.kind})`).join("\n");
-  const prompt=`You explain what an AI coding assistant just said to someone who uses AI well but is not a developer. Map pieces are listed as id = name (kind). Deterministic matching already found these ids in the sentence: ${ids.join(", ")||"(none)"}.
-
-Reply with ONLY a JSON object: {"title": string, "translation": string, "steps": [{"id": string, "note": string}], "ask": string}
-"title": 3-7 words naming what the AI is proposing or saying. "translation": 1-3 plain sentences, second person, what this means and why the AI would say it. "steps": the pieces involved, in the order things would happen, ids only from the catalog, each note one short sentence about that piece's role in THIS sentence (include the deterministic ids unless clearly irrelevant; 2-8 steps). "ask": one sentence on what, if anything, the person needs to do or decide; empty string if nothing. No buzzwords, no filler.
-
-CATALOG
-${catalog}
-
-THE AI SAID
-${txt.slice(0,1500)}`;
-  try{
-    const r=await sampleRef.json(prompt,{cache:true});
-    const steps=(Array.isArray(r.steps)?r.steps:[]).filter(x=>x&&byId[x.id]).map(x=>[String(x.id),String(x.note||"")]);
-    ids.forEach(id=>{ if(!steps.some(st=>st[0]===id)) steps.push([id, firstSentence(byId[id].what)]); });
-    if(!steps.length){ decstatus.textContent="Claude didn't find map pieces in that. Try a sentence that names a file, tool, or platform."; return; }
-    show(String(r.title||"What that means"), String(r.translation||""), steps, String(r.ask||""), true); decstatus.textContent="";
-  }catch(e){
-    if(ids.length){ show(txt.length>60 ? txt.slice(0,57)+"…" : txt, "Claude couldn't add a translation just now; here are the pieces it names.", ids.map(id=>[id, firstSentence(byId[id].what)]), "", true); }
-    else decstatus.textContent = (e&&e.code==="cancelled") ? "Stopped." : "Couldn't decode that just now. Try again, or name the file, tool, or platform.";
-  }finally{ document.getElementById("decode").disabled=false; }
+  if(!ids.length){ decstatus.textContent="I don't recognize any pieces in that. Try naming the file, tool, or platform it's about."; return; }
 }
 const samples=document.getElementById("samples");
 SAMPLE_SENTENCES.forEach(t=>{ const b=document.createElement("button"); b.textContent=t; b.style.whiteSpace="normal"; b.style.textAlign="left"; b.onclick=()=>{ document.getElementById("err").value=t; decode(); }; samples.append(b); });
@@ -1645,91 +1600,6 @@ function closeAsk(){ ask.classList.remove("open"); askbtn.setAttribute("aria-exp
 askbtn.setAttribute("aria-expanded","true");
 askbtn.onclick=()=>ask.classList.contains("open")?closeAsk():openAsk();
 document.getElementById("askclose").onclick=closeAsk;
-
-// ---- paint my project (asks Claude via the sample capability)
-(async()=>{
-  const wrap=document.getElementById("paint"), btn=document.getElementById("paintbtn"), stop=document.getElementById("paintstop"), status=document.getElementById("paintstatus"), ta=document.getElementById("proj");
-  // files stay on the person's machine; only a distilled summary goes to Claude
-  const fileStatus=document.getElementById("filestatus"), filesInput=document.getElementById("projfiles");
-  function distill(name, text){
-    const lower=name.toLowerCase(); const out=[`### ${name} (${text.length.toLocaleString()} chars)`];
-    const uniq=a=>[...new Set(a)].slice(0,25);
-    if(/\.html?$/.test(lower)){
-      const title=(text.match(/<title>([^<]*)<\/title>/i)||[])[1]; if(title) out.push(`title: ${title.trim()}`);
-      const scripts=uniq([...text.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)].map(m=>m[1])); if(scripts.length) out.push(`external scripts: ${scripts.join(", ")}`);
-      const styles=uniq([...text.matchAll(/<link[^>]+href=["']([^"']+\.css[^"']*)["']/gi)].map(m=>m[1])); if(styles.length) out.push(`stylesheets: ${styles.join(", ")}`);
-      const inlineJs=(text.match(/<script(?![^>]*src)[^>]*>[\s\S]*?<\/script>/gi)||[]).join("\n"); if(inlineJs) out.push(`inline script: ${inlineJs.length.toLocaleString()} chars`);
-      const forms=(text.match(/<form/gi)||[]).length, inputs=(text.match(/<(input|select|textarea)/gi)||[]).length; if(forms||inputs) out.push(`forms: ${forms}, fields: ${inputs}`);
-    }
-    const urls=uniq([...text.matchAll(/https?:\/\/[^\s"'<>)]+/g)].map(m=>m[0].replace(/[?#].*$/,""))); if(urls.length) out.push(`urls: ${urls.join(", ")}`);
-    const fetches=uniq([...text.matchAll(/\b(fetch|axios\.\w+|XMLHttpRequest|requests\.\w+|httpx\.\w+)\s*\(/g)].map(m=>m[1])); if(fetches.length) out.push(`network calls: ${fetches.join(", ")}`);
-    const imports=uniq([...text.matchAll(/^\s*(?:import\s+.*?from\s+["']([^"']+)["']|import\s+([\w.]+)|from\s+([\w.]+)\s+import|const\s+\w+\s*=\s*require\(["']([^"']+)["']\))/gm)].map(m=>m[1]||m[2]||m[3]||m[4])); if(imports.length) out.push(`imports: ${imports.join(", ")}`);
-    const visible=text.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi," ").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
-    if(visible.length>40) out.push(`visible text: ${visible.slice(0,900)}`);
-    const strs=[...new Set([...text.matchAll(/["'`]([^"'`\n]{18,140})["'`]/g)].map(m=>m[1]).filter(x=>!/^(https?:|[\w-]+\.(js|css|png|svg|html))/.test(x) && !/[<>=;\/]/.test(x) && /[a-z]{3}/i.test(x) && /\s/.test(x)))].slice(0,30); if(strs.length) out.push(`strings in the script: ${strs.join(" | ").slice(0,1200)}`);
-    const tells=[]; [["localStorage","localStorage"],["sessionStorage","sessionStorage"],["indexedDB","IndexedDB"],["api.anthropic.com","Anthropic API"],["api.openai.com","OpenAI API"],["supabase","Supabase"],["firebase","Firebase"],["stripe","Stripe"],["webhook","webhook"],["websocket|socket.io","WebSocket"],["process\\.env|os\\.environ|dotenv","environment variables"],["express\\(|app\\.get\\(|app\\.post\\(","Express routes"],["FastAPI|@app\\.(get|post)","FastAPI routes"],["flask","Flask"],["\\bReact\\b|useState\\(|ReactDOM","React"],["tailwind","Tailwind"],["chart\\.js|recharts|d3\\.","charts"],["three\\.","three.js"],["postgres|sqlite|mysql|mongodb|prisma","database"],["jwt|passport|next-auth|clerk","auth"],["cron|schedule","scheduling"],["telegram|discord|slack","chat platform"]].forEach(([re,label])=>{ if(new RegExp(re,"i").test(text)) tells.push(label); }); if(tells.length) out.push(`signals: ${tells.join(", ")}`);
-    return out.join("\n");
-  }
-  filesInput.addEventListener("change",async()=>{
-    const files=[...filesInput.files].slice(0,8); if(!files.length) return;
-    fileStatus.textContent="Reading…"; const parts=[];
-    for(const f of files){ try{ const text=await f.text(); parts.push(distill(f.name, text.slice(0,400000))); }catch(e){ parts.push(`### ${f.name} (couldn't read)`); } }
-    const head=files.length===1 && /\.(html?|py|js|ts|jsx|tsx|json|ya?ml|toml|md|txt|sh|sql)$/i.test(files[0].name) ? "\n\n### first lines of "+files[0].name+"\n"+(await files[0].text()).slice(0,1500) : "";
-    ta.value=(`Files from my project (summarized on my machine):\n\n${parts.join("\n\n")}${head}`).slice(0,6000);
-    if(/demo|mock|prototype|simulat/i.test(files.map(f=>f.name).join(" ")+" "+parts.join(" ").slice(0,600))) document.querySelector('input[name=projkind][value=demo]').checked=true;
-    fileStatus.textContent=`${files.length} file${files.length>1?"s":""} read. Nothing left your machine. Press Paint it.`;
-    filesInput.value="";
-  });
-  const unavailable=msg=>{ btn.disabled=true; status.textContent=msg; };
-  if(!window.claude || typeof window.claude.use!=="function"){ unavailable("Painting needs the page opened from its claude.ai link; this copy can't reach Claude."); return; }
-  let sample=null;
-  try{ sample=await window.claude.use("sample"); }catch(e){ sample=null; }
-  if(!sample){ unavailable("Claude isn't available in this view. Open the artifact link in claude.ai and reload."); return; }
-  btn.disabled=false; status.textContent=""; sampleRef=sample;
-  const catalog=NODES.map(n=>`${n.id} = ${n.name} (${n.kind})`).join("\n");
-  const copyFor={not_granted:"", sampling_disabled:"", rate_limited:"Too many requests right now. Try again in a minute.", prompt_too_large:"That's too much text. Paste less.", refused:"That input can't be painted. Try describing the project in your own words.", invalid_json:"The answer didn't come back in a shape I could draw. Try again, or describe the project more plainly.", empty_completion:"Nothing came back. Try rephrasing.", session_expired:"You've been signed out. Sign in and try again.", upstream_error:"Something interrupted the request. Try again."};
-  let ctl=null;
-  stop.onclick=()=>ctl&&ctl.abort();
-  btn.onclick=async()=>{
-    const txt=ta.value.trim().slice(0,6000); if(!txt){ status.textContent="Paste or describe something first."; return; }
-    ctl=new AbortController(); btn.disabled=true; stop.style.display="inline-block"; status.textContent="Thinking…";
-    const demo=document.querySelector('input[name=projkind]:checked').value==="demo";
-    const rules = demo ? `Below is a catalog of map pieces (id = name (kind)), then material describing a DEMO or MOCKUP: a simulation of a solution the person wants to build. The demo's own code does not matter. Read what the demo DEPICTS (its visible text, its story, the systems and people it mentions) and paint the REAL system that would make it work.
-
-Reply with ONLY a JSON object of this shape:
-{"title": string (a 3-6 word name for the SOLUTION, not the file), "summary": string (2-3 sentences, plain language, second person: what the solution does and what it is made of when real), "present": [{"id": string, "note": string}], "gaps": [{"id": string, "note": string}]}
-
-Rules: use only ids from the catalog. "present" = the pieces the real version is built from, inferred from what the demo shows (a chat platform the demo mimics needs a webhook and a server; reading screenshots needs the model and the API; matching invoices needs a database; approvals on Telegram need a webhook; reminders need scheduling); note is one short sentence on that piece's job in THIS solution, using the demo's own words (WhatsApp, invoices, offices) where possible. 6-12 pieces. "gaps" = up to 4 pieces the demo gives no hint of but a working version will need (secrets, logs, tests, environments); one-sentence note each. Never describe the demo file's HTML or scripts as the solution.` : `Below is a catalog of map pieces (id = name (kind)), then a description of the person's project: a plain description, or pasted files such as a folder listing, package.json, or requirements.txt.
-
-Reply with ONLY a JSON object of this shape:
-{"title": string (a 3-6 word name for the project), "summary": string (2 sentences, plain language, second person, what this project is made of), "present": [{"id": string, "note": string}], "gaps": [{"id": string, "note": string}]}
-
-Rules: use only ids from the catalog. "present" = pieces the project clearly uses or contains; note is one short sentence saying what role it plays HERE (name the actual file or library from their input when you can). "gaps" = up to 4 pieces the project will probably need next and does not show yet; note says why, one sentence. Never invent files. If the input is not a software project, present may be empty and summary should say so kindly.`;
-    const prompt=`You are labeling a map of software concepts for someone who uses AI well but is not a developer. ${rules}
-
-CATALOG
-${catalog}
-
-${demo?"THE DEMO":"PROJECT"}
-${txt}`;
-    try{
-      const r=await sample.json(prompt,{signal:ctl.signal, cache:false});
-      const present=(Array.isArray(r.present)?r.present:[]).filter(x=>x&&byId[x.id]).map(x=>[String(x.id),String(x.note||"")]);
-      const gaps=(Array.isArray(r.gaps)?r.gaps:[]).filter(x=>x&&byId[x.id]&&!present.some(p=>p[0]===x.id)).map(x=>[String(x.id),String(x.note||"")]).slice(0,4);
-      status.textContent=present.length?"":"Nothing built yet, so the map shows what you'll need.";
-      showTrace({kicker: demo?"Your solution":"Your project", name:String(r.title||"Your project"), ordered:false, nodes:present.map(p=>p[0]), steps:present, verdict:String(r.summary||""), gaps, foot:present.length?(demo?"Solid pieces are what the real version is made of. Dashed pieces are what it will also need.":"Solid pieces are what you have. Dashed pieces are what's probably next."):""});
-      document.getElementById("t-stepshead").textContent= demo ? "What the real version is made of" : "What you have";
-      lastPaint={txt, demo, title:String(r.title||""), summary:String(r.summary||""), present, gaps}; document.getElementById("t-advise").style.display=""; document.getElementById("advisestatus").textContent="";
-      document.querySelector("#t-gapswrap h3").textContent = demo ? "It will also need" : "Worth adding";
-    }catch(e){
-      const code=e&&e.code||"upstream_error";
-      if(code==="cancelled"){ status.textContent="Stopped."; }
-      else if(code==="not_granted"){ unavailable("Permission was declined for this view. Reload the page to be asked again."); }
-      else if(code==="sampling_disabled"||code==="not_declared"||code==="capability_disabled"){ unavailable("Claude isn't available for this page on your account."); }
-      else status.textContent=copyFor[code]||copyFor.upstream_error;
-    }finally{ btn.disabled=false; stop.style.display="none"; ctl=null; }
-  };
-})();
 
 // ---- compare
 function highlightPair(a,b){
@@ -1757,24 +1627,11 @@ const cmpA=document.getElementById("cmpA"), cmpB=document.getElementById("cmpB")
 [...NODES].sort((x,y)=>x.name.localeCompare(y.name)).forEach(n=>{ [cmpA,cmpB].forEach(sel=>{ const o=document.createElement("option"); o.value=n.id; o.textContent=`${n.name} · ${layerOf[n.layer].name}`; sel.append(o); }); });
 cmpA.value="python"; cmpB.value="js";
 const curated=(a,b)=>COMPARES.find(c=>(c.a===a&&c.b===b)||(c.a===b&&c.b===a));
-let sampleRef=null; // set by the paint block once Claude is reachable
 async function compare(a,b){
   if(a===b){ cmpstatus.textContent="Pick two different pieces."; return; }
   const c=curated(a,b);
   if(c){ const flipped=c.a!==a; renderCompare(a,b, flipped?{same:c.same,pickA:c.pickB,pickB:c.pickA,mistake:c.mistake}:c); cmpstatus.textContent=""; return; }
-  if(!sampleRef){ cmpstatus.textContent="I don't have a written comparison for that pair, and Claude isn't reachable in this view to write one. Try one of the common questions below."; return; }
-  cmpstatus.textContent="Asking Claude…"; document.getElementById("cmpbtn").disabled=true;
-  const na=byId[a], nb=byId[b];
-  const prompt=`You explain software concepts to someone who uses AI well but is not a developer. Compare two pieces from a concept map.
-
-A: ${na.name} (${na.kind}). ${na.what}
-B: ${nb.name} (${nb.kind}). ${nb.what}
-
-Reply with ONLY a JSON object: {"same": string, "pickA": string, "pickB": string, "mistake": string}
-"same": one or two sentences on how they relate (same job? different layers? one contains the other?). "pickA"/"pickB": when to reach for each, second person, one or two sentences, concrete. "mistake": the usual confusion between them, one or two sentences. Plain language, no jargon that isn't in the descriptions above. No buzzwords, no filler adverbs, no marketing tone.`;
-  try{ const r=await sampleRef.json(prompt,{cache:true}); renderCompare(a,b,{same:String(r.same||""),pickA:String(r.pickA||""),pickB:String(r.pickB||""),mistake:String(r.mistake||"")}); cmpstatus.textContent=""; }
-  catch(e){ cmpstatus.textContent = (e&&e.code==="cancelled") ? "Stopped." : "Couldn't get a comparison just now. Try again, or pick a common question below."; }
-  finally{ document.getElementById("cmpbtn").disabled=false; }
+  cmpstatus.textContent="I don't have a written comparison for that pair yet. Try one of the common questions below.";
 }
 document.getElementById("cmpbtn").onclick=()=>compare(cmpA.value,cmpB.value);
 const pairs=document.getElementById("pairs");
@@ -1805,22 +1662,10 @@ function applyHash(){
     if(o.goal){ const g=GOALS.find(x=>x.id===o.goal); if(g){ showTrace({kicker:"I want to", name:g.name, ordered:true, nodes:g.steps.map(s=>s[0]), steps:g.steps, foot:g.foot, id:g.id}); return true; } }
     if(o.cmp){ const [a,b]=o.cmp.split(","); if(byId[a]&&byId[b]){ compare(a,b); return true; } }
     if(o.decode){ const t=b64d(o.decode); if(t){ document.getElementById("err").value=t; decode(); return true; } }
-    if(o.paint){ const r=JSON.parse(b64d(o.paint)); const present=(r.p||[]).filter(x=>byId[x[0]]), gaps=(r.g||[]).filter(x=>byId[x[0]]);
-      showTrace({kicker:"Your project", name:String(r.t||"Your project"), ordered:false, nodes:present.map(p=>p[0]), steps:present, verdict:String(r.s||""), gaps, foot:present.length?"Solid pieces are what you have. Dashed pieces are what's probably next.":""});
-      document.getElementById("t-stepshead").textContent="What you have"; return true; }
   }catch(e){}
   return false;
 }
 window.addEventListener("hashchange",()=>{ if(!hashLock) applyHash(); });
-
-// ---- feedback notes (the viewer's own comment box, anchored to the card)
-(async()=>{
-  if(!window.claude || typeof window.claude.use!=="function") return;
-  let comments=null; try{ comments=await window.claude.use("comments"); }catch(e){}
-  if(!comments) return;
-  const btn=document.getElementById("notebtn"); btn.style.display="";
-  btn.onclick=async()=>{ try{ const r=await comments.openComposer({element:card}); if(r && r.opened===false) document.getElementById("sharenote").textContent="Click the page first, then try again."; }catch(e){ document.getElementById("sharenote").textContent="Notes aren't available in this view."; } };
-})();
 
 // ---- first-visit walkthrough
 const TOUR=[
@@ -1828,7 +1673,7 @@ const TOUR=[
  {t:"Click any box.", b:"You get what it is, why it exists, what it looks like, and what the AI means when it says it.", do:()=>{ select("file-env"); }},
  {t:"Or start from what you want.", b:"Pick a goal and the route lights up across the map, with a note at each stop.", do:()=>{ const g=GOALS[0]; showTrace({kicker:"I want to", name:g.name, ordered:true, nodes:g.steps.map(x=>x[0]), steps:g.steps, foot:g.foot, id:g.id}); }},
  {t:"Same pieces, three arrangements.", b:"Stack shows what's underneath you. City groups by kind. Subway follows the journeys.", do:()=>{ setView("subway"); }},
- {t:"That's it.", b:"Paste anything the AI said to decode it, describe your project to paint it, or compare any two pieces. Everything you find has a link you can share.", do:()=>{ clear(); setView("stack"); openAsk(); }},
+ {t:"That's it.", b:"Paste anything the AI said to decode it, or compare any two pieces. Everything you find has a link you can share.", do:()=>{ clear(); setView("stack"); openAsk(); }},
 ];
 let tourStep=-1;
 const tourEl=document.getElementById("tour");
@@ -1993,7 +1838,7 @@ const GL=(()=>{
     sw.style.display="";
     const good=await load(); if(view!=="3d"||!wanted) return;
     if(good && !ok){ try{ build(); }catch(err){ ok=false; console.warn("Glass view unavailable:", err); } }
-    if(!ok){ wanted=false; sw.style.display="none"; document.getElementById("hint").textContent="Drag to orbit · shift-drag to pan · scroll to zoom · (glass view unavailable here)"; return; }
+    if(!ok){ wanted=false; sw.style.display="none"; document.getElementById("hint").textContent="Drag to orbit · shift-drag to pan · scroll to zoom"; return; }
     on=true; host.classList.add("on"); host.setAttribute("aria-hidden","false"); svg.classList.add("hidden"); document.getElementById("stage").classList.add("glass"); resize(); sync(); tPrev=0; cancelAnimationFrame(raf); raf=requestAnimationFrame(frame);
     document.getElementById("hint").textContent="Drag to orbit · shift-drag to pan · scroll to zoom";
   }
@@ -2026,58 +1871,6 @@ function startOrbitLoop(){
   };
   requestAnimationFrame(tick);
 }
-
-// ---- the advisor: a structured second opinion on a painted project or solution
-let lastPaint=null, lastAdvice=null;
-function chipRow(ids){ const d=document.createElement("div"); d.className="chips"; (ids||[]).filter(id=>byId[id]).forEach(id=>{ const b=document.createElement("button"); b.className="chip"; b.innerHTML=`<b>${byId[id].name}</b>`; b.style.borderColor=layerOf[byId[id].layer].color; b.onclick=e=>{ e.stopPropagation(); select(id); document.getElementById("backtrace").style.display="none"; }; d.append(b); }); return d; }
-function renderAdvice(a){
-  lastAdvice=a; selected=null; cmp=null;
-  // light everything the advice touches
-  const ids=[...new Set([...a.strengths,...a.risks,...a.order].flatMap(x=>x.ids||[]).concat(a.missing.map(m=>m.id)).filter(id=>byId[id]))];
-  trace={kicker:"Advice", name:a.title, ordered:false, nodes:ids, steps:[], gaps:[]}; drawTrace(); showView("adviceview");
-  document.getElementById("a-name").textContent=a.title; document.getElementById("a-verdict").textContent=a.verdict;
-  const fill=(id, items, render)=>{ const el=document.getElementById(id); el.innerHTML=""; if(!items.length){ el.innerHTML='<div class="aitem" style="color:var(--ink-3)">Nothing to flag.</div>'; return; } items.forEach(it=>{ const d=document.createElement("div"); d.className="aitem"; render(d,it); el.append(d); }); };
-  fill("a-strong", a.strengths, (d,it)=>{ d.textContent=it.text; if(it.ids&&it.ids.length) d.append(chipRow(it.ids)); });
-  fill("a-risks", a.risks, (d,it)=>{ const sv=document.createElement("span"); sv.className="sev "+(it.severity||"medium"); sv.textContent=(it.severity||"medium"); d.append(sv, document.createTextNode(it.text)); if(it.ids&&it.ids.length) d.append(chipRow(it.ids)); });
-  fill("a-missing", a.missing, (d,it)=>{ d.innerHTML=`<b>${byId[it.id]?byId[it.id].name:""}</b> · `; d.append(document.createTextNode(it.note)); d.append(chipRow([it.id])); });
-  fill("a-questions", a.questions.map(q=>({text:q})), (d,it)=>{ d.textContent=it.text; });
-  fill("a-order", a.order, (d,it)=>{ d.append(document.createTextNode(it.text)); if(it.ids&&it.ids.length) d.append(chipRow(it.ids)); });
-  card.classList.add("open"); card.scrollTop=0; if(window.innerWidth<700) closeAsk();
-}
-document.getElementById("backpaint").onclick=()=>{ if(!lastPaint) return; const lp=lastPaint; showTrace({kicker: lp.demo?"Your solution":"Your project", name:lp.title, ordered:false, nodes:lp.present.map(p=>p[0]), steps:lp.present, verdict:lp.summary, gaps:lp.gaps, foot:lp.demo?"Solid pieces are what the real version is made of. Dashed pieces are what it will also need.":"Solid pieces are what you have. Dashed pieces are what's probably next."}); document.getElementById("t-stepshead").textContent= lp.demo ? "What the real version is made of" : "What you have"; document.querySelector("#t-gapswrap h3").textContent = lp.demo ? "It will also need" : "Worth adding"; document.getElementById("t-advise").style.display=""; };
-document.getElementById("advisebtn").onclick=async()=>{
-  if(!lastPaint) return; const st=document.getElementById("advisestatus"), btn=document.getElementById("advisebtn");
-  if(!sampleRef){ st.textContent="The advisor needs Claude, which isn't reachable in this view."; return; }
-  if(lastAdvice && lastAdvice.for===lastPaint){ renderAdvice(lastAdvice); return; }
-  btn.disabled=true; st.textContent="Thinking it over…";
-  const lp=lastPaint; const catalog=NODES.map(n=>`${n.id} = ${n.name} (${n.kind})`).join("\n");
-  const prompt=`You are a seasoned technical advisor talking to someone who builds solutions with AI but is not a developer. Be direct, specific, and kind; no buzzwords, no filler. Below: a catalog of map pieces (id = name (kind)), the material describing their ${lp.demo?"solution (from a demo/mockup)":"project"}, and the painting already made of it (what it's made of, and what's missing).
-
-Reply with ONLY a JSON object:
-{"title": string (4-8 words: the advice in a phrase), "verdict": string (2-3 sentences: is this sound, what's the one thing that matters most), "strengths": [{"text": string, "ids": [string]}], "risks": [{"text": string, "severity": "high"|"medium"|"low", "ids": [string]}], "missing": [{"id": string, "note": string}], "questions": [string], "order": [{"text": string, "ids": [string]}]}
-
-Rules: ids only from the catalog; 2-4 strengths; 2-5 risks (security, cost, reliability, the customer's data, what breaks at 10× volume, what depends on a third party); 0-4 missing pieces the painting did not already list, each with a one-sentence reason; 3-5 questions to ask the customer before building; exactly 3 "order" items: the first three things to build, each one sentence with the pieces involved. Every text field is one or two plain sentences, second person where natural. If the material is too thin to advise on, say so in the verdict and keep the lists short.
-
-CATALOG
-${catalog}
-
-MATERIAL
-${lp.txt.slice(0,5000)}
-
-THE PAINTING
-title: ${lp.title}
-summary: ${lp.summary}
-made of: ${lp.present.map(p=>`${p[0]} (${p[1]})`).join("; ")}
-missing: ${lp.gaps.map(g=>`${g[0]} (${g[1]})`).join("; ")||"none listed"}`;
-  try{
-    const r=await sampleRef.json(prompt,{cache:true});
-    const arr=x=>Array.isArray(x)?x:[]; const strs=x=>arr(x).map(v=>String(v)).filter(Boolean);
-    const items=x=>arr(x).filter(i=>i&&i.text).map(i=>({text:String(i.text), ids:strs(i.ids).filter(id=>byId[id]), severity:["high","medium","low"].includes(i.severity)?i.severity:"medium"}));
-    const a={for:lp, title:String(r.title||"The advisor's take"), verdict:String(r.verdict||""), strengths:items(r.strengths), risks:items(r.risks), missing:arr(r.missing).filter(m=>m&&byId[m.id]).map(m=>({id:String(m.id),note:String(m.note||"")})), questions:strs(r.questions).slice(0,6), order:items(r.order).slice(0,3)};
-    renderAdvice(a); st.textContent="";
-  }catch(e){ st.textContent = (e&&e.code==="cancelled") ? "Stopped." : "Couldn't get advice just now. Try again."; }
-  finally{ btn.disabled=false; }
-};
 
 // ---- pan / zoom via viewBox
 let vb={x:0,y:0,w:W,h:H};
