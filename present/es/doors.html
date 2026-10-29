@@ -77,6 +77,61 @@ addEventListener('scroll',on,{capture:true,passive:true});addEventListener('keyd
 <style>/* d31:es: 1361 to 1420 px the Spanish header row (name, the longer menu, English, Agendar llamada) needed up to 1401 px and the page scrolled sideways (the old Spanish site did too, by 1 px at 1366); a little less space between the items, nothing wraps */@media (min-width:1361px) and (max-width:1420px){header.top{gap:14px}.top .nav a{padding-left:8px;padding-right:8px}}</style>
 <style>/* d34:fit: when bigger text does not fit, the header wraps or turns into the Menu button and the boxes give way; at normal text size nothing changes */@media (max-width:760px){html .pbar.fit-bar{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.pbar.fit-bar .pb{grid-column:1/-1}.pbar.fit-bar a,.pbar.fit-bar .btn{white-space:normal;text-align:center;min-width:0}.pbar.fit-bar .pb small{white-space:normal;max-width:none}html.fit-bar body{padding-bottom:var(--fit-bar)}html.fit-bar{scroll-padding-bottom:calc(var(--fit-bar) + 16px)}}.fit-col{grid-template-columns:minmax(0,1fr)!important}.steps.fit-col::before{display:none}.line5.fit-col li{padding:0 0 14px 28px}.line5.fit-col li::before{top:14px;bottom:-1px;left:6px;right:auto;width:1px;height:auto}.line5.fit-col li::after{top:2px}.line5.fit-col li:last-child{padding-bottom:0}.proof .ph{flex-wrap:wrap}.btn.fit-btn{white-space:normal;height:auto;min-height:48px;padding-top:8px;padding-bottom:8px;text-align:center}.hintro h1{overflow-wrap:break-word}html.fit-probe .hintro h1{overflow-wrap:normal}@media (max-width:1060px) and (min-width:761px){.home,.after{grid-template-columns:minmax(0,1fr)}}@media (min-width:761px){.home.fit-stack{grid-template-columns:minmax(0,1fr);grid-template-rows:auto}.home.fit-stack .hintro{display:block;padding:12px 0 0}.home.fit-stack .frame{height:780px}.home.fit-stack .after{grid-template-columns:minmax(0,1fr)}}.js .top.fit-menu{row-gap:8px}.js .top.fit-menu .right .ghost{display:none}.js .top.fit-menu .mbtn{display:inline-flex;align-items:center;gap:8px;height:auto;min-height:44px;padding:0 13px;border:1px solid var(--line2);border-radius:5px;background:var(--s2);font-size:15px;font-weight:600;flex:none}.js .top.fit-menu .mbtn svg{flex:none}.js .top.fit-menu .nav{display:none;order:0;position:absolute;left:0;right:0;top:100%;margin:0;width:auto;background:var(--bg);border-bottom:1px solid var(--line2);padding:4px 16px 16px;z-index:40;box-shadow:0 30px 40px -20px color-mix(in srgb,var(--shadow) 90%,transparent)}.js .top.fit-menu.mopen .nav{display:block}.js .top.fit-menu .nav ul{display:flex;flex-direction:column;flex-wrap:nowrap}.js .top.fit-menu .nav a{padding:13px 4px;font-size:17px;border-bottom:1px solid var(--line);border-radius:0;white-space:normal}.js .top.fit-menu .nav a[aria-current="page"]::after{left:auto;right:4px;top:50%;bottom:auto;width:7px;height:7px;margin-top:-3px}.js .top.fit-menu .m-es{display:block}.qintro.fit-unstick,.wintro.fit-unstick{position:static}@media (min-width:1061px){.js .dpage.fit-tall{grid-template-rows:var(--fit-h) auto}.js .apage.fit-tall{height:var(--fit-h)}}.xw.fit-week .xw-tasks{height:auto}.xw.fit-week .xw-task,.xw.fit-week .xw-task.xw-r.xw-auto{flex:none;transition:none}.xw.fit-week .xw-tag,.xw.fit-week .xw-task.xw-r.xw-auto .xw-tl{white-space:normal}.xw.fit-week .xw-tl{overflow-wrap:break-word}.xw.fit-week .xw-open.xw-on{flex:none;padding:6px 4px}h1,h2{overflow-wrap:break-word}.skip:not(:focus){transform:translateY(-100%)}.top{flex-wrap:wrap;height:auto;min-height:var(--top)}.no-js .nav ul{flex-wrap:wrap}@media (max-width:760px){.js .top{flex-wrap:wrap;height:auto;min-height:60px}}</style>
 <script>/* d34:fit */addEventListener('DOMContentLoaded',function(){var D=document,H=D.documentElement,top=D.querySelector('header.top');if(!top||!window.matchMedia||!window.ResizeObserver)return;var nav=top.querySelector('.nav'),mb=top.querySelector('.mbtn'),brand=top.querySelector('.brand'),right=top.querySelector('.right'),home=D.querySelector('main.home'),hi=home&&home.querySelector('.hintro'),h1=hi&&hi.querySelector('h1'),bar=D.querySelector('.pbar'),phone=matchMedia('(max-width:760px)'),wide=matchMedia('(min-width:1061px)'),tiny=matchMedia('(max-width:900px)'),wkey='';function cl(e,c,on){if(e)e.classList.toggle(c,!!on)}function navFits(){var t=top.getBoundingClientRect(),li=nav.querySelectorAll('li'),rows=[],i,r,y;for(i=0;i<li.length;i++){r=li[i].getBoundingClientRect();if(!r.width)continue;y=Math.round(r.top);if(!rows.some(function(v){return Math.abs(v-y)<3}))rows.push(y);if(r.right>t.right+1||r.left<t.left-1)return false}var b=brand.getBoundingClientRect(),g=right.getBoundingClientRect();if(g.top>=b.bottom-2)return false;if(getComputedStyle(nav).order!=='3'?(rows.length>1||(rows.length&&rows[0]>=b.bottom-2)):rows.length>2)return false;return top.scrollWidth<=top.clientWidth+1}function menu(){if(!nav||!mb||!brand||!right)return;var was=top.classList.contains('fit-menu'),open=top.classList.contains('mopen');cl(top,'fit-menu',0);var need=!phone.matches&&!navFits();cl(top,'fit-menu',need);if(was&&!need&&open)mb.click()}function stack(){if(!h1)return;cl(home,'fit-stack',0);if(!wide.matches)return;H.classList.add('fit-probe');var over=h1.scrollWidth>h1.clientWidth+1||hi.scrollHeight>hi.clientHeight+1;H.classList.remove('fit-probe');cl(home,'fit-stack',over)}function wider(e){if(!e.offsetWidth)return false;var L=0,Rt=H.clientWidth,a,b,n,q,i,R=D.createRange(),w=D.createTreeWalker(e,4);for(a=e.parentElement;a&&a!==D.body;a=a.parentElement)if(getComputedStyle(a).overflowX!=='visible'){b=a.getBoundingClientRect();L=Math.max(L,b.left);Rt=Math.min(Rt,b.right);break}while((n=w.nextNode())){if(!n.data.trim())continue;R.selectNodeContents(n);q=R.getClientRects();for(i=0;i<q.length;i++)if(q[i].width&&(q[i].right>Rt-10||q[i].left<L+10))return true}return false}function cols(){var L=D.querySelectorAll('.pw,.route,.steps,.line5,.sf-nav ul'),B=D.querySelectorAll('main .btn,footer .btn'),i,o=[],p=[];for(i=0;i<L.length;i++)cl(L[i],'fit-col',0);for(i=0;i<B.length;i++)cl(B[i],'fit-btn',0);for(i=0;i<L.length;i++)if(wider(L[i]))o.push(L[i]);for(i=0;i<B.length;i++)if(wider(B[i]))p.push(B[i]);o.forEach(function(e){cl(e,'fit-col',1)});p.forEach(function(e){cl(e,'fit-btn',1)})}function tall(){[['main.dpage','.dintro',0],['main.apage','.aintro',1]].forEach(function(p){var m=D.querySelector(p[0]),c=m&&m.querySelector(p[1]);if(!c)return;cl(m,'fit-tall',0);m.style.removeProperty('--fit-h');if(!wide.matches)return;var o=c.scrollHeight-c.clientHeight;if(o>1){m.style.setProperty('--fit-h',Math.ceil((p[2]?m.getBoundingClientRect().height:c.getBoundingClientRect().height)+o)+'px');cl(m,'fit-tall',1)}})}function unstick(){var L=D.querySelectorAll('.qintro,.wintro'),i,e,s;for(i=0;i<L.length;i++){e=L[i];cl(e,'fit-unstick',0);s=getComputedStyle(e);if(s.position==='sticky'&&(parseFloat(s.top)||0)+e.offsetHeight>innerHeight+1)cl(e,'fit-unstick',1)}}function week(){var x=D.querySelector('.xw'),t=x&&x.querySelector('.xw-tl'),g=x&&x.querySelector('.xw-tag');if(!t)return;var k=innerWidth+'|'+getComputedStyle(t).fontSize+'|'+(g?getComputedStyle(g).fontSize:'');if(k===wkey)return;wkey=k;cl(x,'fit-week',0);if(!(parseFloat(getComputedStyle(t).fontSize)>14||(g&&parseFloat(getComputedStyle(g).fontSize)>12.5)))return;var T=x.querySelectorAll('.xw-task'),over=false,i,e,a,lim=tiny.matches?24:30;for(i=0;i<T.length&&!over;i++){e=T[i];a=e.querySelector('.xw-tag');if(a&&a.offsetWidth&&a.scrollWidth>a.clientWidth+1)over=true;else if(!(e.getAnimations&&e.getAnimations().length)&&e.scrollHeight>e.clientHeight+1)over=true;else if(e.classList.contains('xw-r')&&parseFloat(getComputedStyle(e.querySelector('.xw-tl')).fontSize)*1.2>lim-2)over=true}cl(x,'fit-week',over)}function pbar(){if(!bar)return;cl(bar,'fit-bar',0);cl(H,'fit-bar',0);H.style.removeProperty('--fit-bar');if(!phone.matches)return;var A=bar.querySelectorAll('a'),i,over=bar.scrollWidth>bar.clientWidth+1;for(i=0;i<A.length;i++)if(A[i].offsetWidth&&A[i].scrollWidth>A[i].clientWidth+1)over=true;if(!over)return;cl(bar,'fit-bar',1);cl(H,'fit-bar',1);H.style.setProperty('--fit-bar',Math.ceil(bar.getBoundingClientRect().height)+'px')}var q=0;function run(){q=0;menu();stack();cols();tall();unstick();week();pbar()}function later(){if(!q)q=requestAnimationFrame(run)}run();var ro=new ResizeObserver(later);[top,brand,right,mb,nav,hi,h1,bar,D.body,D.querySelector('.xw-week')].forEach(function(e){if(e)ro.observe(e)});[].forEach.call(D.querySelectorAll('.dintro *,.aintro *,.hintro *,.qintro,.qintro *,.wintro,.wintro *'),function(e){ro.observe(e)});addEventListener('resize',later);addEventListener('load',later);if(D.fonts&&D.fonts.ready)D.fonts.ready.then(later)});</script>
+<style>/* l8:quiz: the 2-minute quiz on the ladder; the site's own colour tokens; nothing changes until it is opened */
+.qz-ow{margin-top:18px;display:grid;gap:8px;justify-items:start;min-width:0}
+.qz-ow .btn{height:auto;min-height:46px;padding:10px 22px;font-size:15.5px;white-space:normal;text-align:center;font-family:inherit;border:0;cursor:pointer;max-width:100%}
+.qz-ow p{font-size:14.5px;line-height:1.5;color:var(--mu);max-width:40ch}
+.qz{min-width:0;max-width:760px;border:1px solid var(--line2);border-radius:8px;background:var(--s1);padding:18px 22px 22px;scroll-margin-top:calc(var(--top) + var(--way) + 12px)}
+.qz-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-bottom:14px;min-width:0}
+.qz-x{display:inline-flex;align-items:center;gap:10px;min-height:44px;max-width:100%;padding:8px 16px 8px 12px;border:1px solid var(--line2);border-radius:5px;background:var(--s2);color:var(--tx);font:inherit;font-size:15px;font-weight:600;line-height:1.3;cursor:pointer;text-align:left}
+.qz-x:hover{border-color:var(--mu);background:var(--s3)}
+.qz-x .ba{color:var(--ac);font-size:18px;line-height:1;flex:none}
+.qz-t{color:var(--dim);min-width:0}
+.qz-intro{font-size:15px;line-height:1.5;color:var(--mu);margin:0 0 14px;max-width:60ch}
+.qz-bar{height:4px;border-radius:2px;background:var(--line);overflow:hidden;margin-bottom:16px}
+.qz-bar i{display:block;height:100%;width:14.3%;background:var(--ac);transition:width .25s var(--ease)}
+.qz-s{border:0;min-width:0;margin:0;padding:0}
+.qz-s legend{padding:0;width:100%;max-width:100%}
+.qz-q{font-size:21px;line-height:1.3;letter-spacing:-.01em;font-weight:600;max-width:34ch}
+.qz-q:focus,.qz-rh:focus{outline:none}
+.qz-n{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:400;margin-bottom:8px}
+.qz-as{display:grid;gap:10px;margin-top:16px;min-width:0}
+.qz-a{display:flex;align-items:center;gap:12px;min-height:52px;min-width:0;padding:12px 16px;border:1px solid var(--line2);border-radius:6px;background:var(--s2);color:var(--tx);font-size:16px;line-height:1.4;cursor:pointer;transition:border-color .15s,background .15s}
+.qz-a:hover{border-color:var(--mu)}
+.qz-a input{flex:none;width:20px;height:20px;margin:0;accent-color:var(--ac);cursor:pointer}
+.qz-a.on{border-color:var(--ac);background:var(--s3)}
+.qz-a:focus-within{border-color:var(--ac)}
+.qz-at{min-width:0;overflow-wrap:anywhere}
+.qz-nav,.qz-rnav,.qz-btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center;min-width:0}
+.qz-nav{margin-top:18px}
+.qz .btn{height:auto;min-height:46px;max-width:100%;padding:10px 20px;font-size:15.5px;line-height:1.3;white-space:normal;text-align:center;font-family:inherit;border:0;cursor:pointer}
+.qz .btn.ghost{border:1px solid var(--line2);background:transparent;color:var(--tx)}
+.qz-msg{margin-top:10px;font-size:15px;color:var(--ac2)}
+.qz-k{color:var(--ac);margin-bottom:8px}
+.qz-rh{font-size:clamp(24px,2.2vw,30px);line-height:1.15;letter-spacing:-.02em;font-weight:600}
+.qz-st{margin-top:8px;font-size:15.5px;line-height:1.45;font-weight:600;color:var(--tx)}
+.qz-d{margin-top:8px;font-size:15.5px;line-height:1.5;color:var(--mu);max-width:60ch}
+.qz-door{display:inline-flex;align-items:center;gap:8px;min-height:44px;max-width:100%;margin-top:6px;font-size:15.5px;font-weight:600;color:var(--ac);text-decoration:none}
+.qz-door:hover{text-decoration:underline}
+.qz-lv .mh{margin-top:16px}
+.qz-tips{list-style:none;display:grid;gap:10px;margin-top:12px;min-width:0}
+.qz-tips li{position:relative;padding-left:36px;font-size:15.5px;line-height:1.5;color:var(--tx);max-width:62ch;min-width:0}
+.qz-tips .qz-tn{position:absolute;left:0;top:0;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1px solid var(--disc);background:var(--s3);font-size:12px;color:var(--tx)}
+.qz-sb{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);display:grid;gap:8px;min-width:0}
+.qz-score{font-size:15.5px;color:var(--tx)}
+.qz-score b{font-size:28px;font-weight:600;letter-spacing:-.02em;color:var(--ac)}
+.qz-how,.qz-note,.qz-small{font-size:14.5px;line-height:1.5;color:var(--mu);max-width:64ch}
+.qz-cta{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:grid;gap:10px;justify-items:start;min-width:0}
+.qz-addr{color:var(--tx);font-weight:600;overflow-wrap:anywhere;-webkit-user-select:all;user-select:all}
+.qz-cs{font-size:14.5px;color:var(--ac2)}
+.qz-rnav{margin-top:18px}
+.qz-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+@keyframes qzin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+html.js:not(.still) .qz-in{animation:qzin .22s cubic-bezier(.2,.7,.2,1) both}
+@media (prefers-reduced-motion:reduce){.qz-in{animation:none!important}.qz-bar i,.qz-a{transition:none!important}}
+@media (max-width:760px){.qz{padding:16px 14px 18px;scroll-margin-top:calc(var(--top) + 12px)}.qz-q{font-size:19px}.qz-a{font-size:15.5px;padding:12px 14px}
+.qz-nav .btn,.qz-btns .btn,.qz-rnav .btn{flex:1 1 auto}.qz-ow .btn{width:100%}}
+</style>
 </head>
 <body>
 <svg class="gs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
@@ -148,7 +203,7 @@ Crossland AI
 <li><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="5" cy="5" r="1.8"/><circle cx="12" cy="5" r="1.8"/><circle cx="19" cy="5" r="1.8"/><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/><circle cx="5" cy="19" r="1.8"/><circle cx="12" cy="19" r="1.8"/><circle cx="19" cy="19" r="1.8"/></g></svg><b>Toda una empresa</b><span>Cursos para todos, a su propio ritmo o en vivo.</span></li>
 </ul>
 <p class="ownjob"><a href="who.html#own-job">Usted, en su propio trabajo <span class="arrow" aria-hidden="true">→</span></a></p></div>
-<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada sobre los cursos</a><span class="call">Una primera conversación sobre qué puerta le sirve.</span><a class="nextdoor" href="#trained" data-door="trained"><svg class="dg" viewBox="0 0 120 64" aria-hidden="true"><use href="#g-trained"/></svg>Siguiente: 02 Capacítese <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada sobre los cursos</a><span class="call">Una primera conversación sobre qué puerta le sirve.</span></div>
 </div>
 </article>
 <article class="dp" id="trained" data-door="trained">
@@ -166,7 +221,7 @@ Crossland AI
 <li><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="5" cy="5" r="1.8"/><circle cx="12" cy="5" r="1.8"/><circle cx="19" cy="5" r="1.8"/><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/><circle cx="5" cy="19" r="1.8"/><circle cx="12" cy="19" r="1.8"/><circle cx="19" cy="19" r="1.8"/></g></svg><b>Toda una empresa</b><span>Equipo por equipo, en toda la empresa.</span></li>
 </ul>
 <p class="ownjob"><a href="who.html#own-job">Usted, en su propio trabajo <span class="arrow" aria-hidden="true">→</span></a></p></div>
-<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada sobre la capacitación</a><span class="call">Una primera conversación sobre qué puerta le sirve.</span><a class="nextdoor" href="#plan" data-door="plan"><svg class="dg" viewBox="0 0 120 64" aria-hidden="true"><use href="#g-plan"/></svg>Siguiente: 03 Obtenga un plan <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada sobre la capacitación</a><span class="call">Una primera conversación sobre qué puerta le sirve.</span></div>
 </div>
 </article>
 <div class="hub" aria-hidden="true"><i></i><span><b>CROSSLAND</b><span>Donde las personas y la IA se encuentran</span></span></div>
@@ -185,7 +240,7 @@ Crossland AI
 <li><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="5" cy="5" r="1.8"/><circle cx="12" cy="5" r="1.8"/><circle cx="19" cy="5" r="1.8"/><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/><circle cx="5" cy="19" r="1.8"/><circle cx="12" cy="19" r="1.8"/><circle cx="19" cy="19" r="1.8"/></g></svg><b>Toda una empresa</b><span>Un plan para toda la empresa.</span></li>
 </ul>
 </div>
-<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada sobre un plan</a><span class="call">Una primera conversación sobre qué puerta le sirve.</span><a class="nextdoor" href="#built" data-door="built"><svg class="dg" viewBox="0 0 120 64" aria-hidden="true"><use href="#g-built"/></svg>Siguiente: 04 Mándelo a construir <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada sobre un plan</a><span class="call">Una primera conversación sobre qué puerta le sirve.</span></div>
 </div>
 </article>
 <article class="dp" id="built" data-door="built">
@@ -204,7 +259,7 @@ Crossland AI
 </ul>
 </div>
 <div class="spb"><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="8" fill="none" stroke-width="1.6" stroke-dasharray="3 2.2" style="stroke:var(--ac)"/><circle cx="11" cy="11" r="2.4" style="fill:var(--ac)"/></svg><h3 class="mono">Soporte</h3><p><b>Nos quedamos, y nos encargamos de la parte difícil.</b> Al empezar, acordamos con usted qué cubre.</p></div>
-<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada sobre un desarrollo</a><span class="call">Una primera conversación sobre qué puerta le sirve.</span><a class="nextdoor" href="#partners" data-door="partners"><svg class="dg" viewBox="0 0 120 64" aria-hidden="true"><use href="#g-partners"/></svg>Siguiente: 05 Construya con nosotros <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada sobre un desarrollo</a><span class="call">Una primera conversación sobre qué puerta le sirve.</span></div>
 </div>
 </article>
 <p class="side-tag ai"><a class="sd" href="about.html#ai" title="Nosotros: cómo usamos la IA" aria-label="Lado de la IA: Cómo usamos la IA">Lado de la IA<span class="chev" aria-hidden="true">›</span></a></p>
@@ -225,7 +280,7 @@ Crossland AI
 </ul>
 </div>
 <div class="spb"><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="8" fill="none" stroke-width="1.6" stroke-dasharray="3 2.2" style="stroke:var(--ac)"/><circle cx="11" cy="11" r="2.4" style="fill:var(--ac)"/></svg><h3 class="mono">Soporte</h3><p><b>Nos quedamos, y nos encargamos de la parte difícil.</b> Al empezar, acordamos con usted qué cubre.</p></div>
-<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada para construir con nosotros</a><span class="call">Una primera conversación sobre su idea.</span><a class="nextdoor" href="partners.html">Los tres pasos, en detalle <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Agende una llamada para construir con nosotros</a><span class="call">Una primera conversación sobre su idea.</span></div>
 </div>
 </article>
 </div>
@@ -251,13 +306,80 @@ Crossland AI
 <section class="dband dstd" id="ladder" aria-labelledby="lad-h">
 <div class="dstd-h"><h2 class="dstd-t" id="lad-h">¿En qué paso de la escalera de la IA está su empresa?</h2>
 <p class="dstd-p">Cinco pasos, en palabras sencillas. Busque el que se parece a su empresa.</p>
-<p class="dstd-p lad-link">Los pasos 3, 4 y 5 son los tres tipos de herramienta que construimos: una Herramienta inteligente, un Asistente y el Control remoto. El paso 3 empieza con un plan.</p></div>
+<p class="dstd-p lad-link">Los pasos 3, 4 y 5 son los tres tipos de herramienta que construimos: una Herramienta inteligente, un Asistente y el Control remoto. El paso 3 empieza con un plan.</p><div class="qz-ow" id="qz-ow" hidden><button type="button" class="btn ac qz-open" aria-controls="qz">Haga el cuestionario de 2 minutos</button><p>¿No sabe cuál es su paso? Siete preguntas rápidas, sin escribir.</p></div></div>
 <ol class="lad">
 <li><span class="lv-n mono" aria-hidden="true">1</span><h3>Probamos un chat de IA de vez en cuando.</h3><p>Algunas personas lo usan por su cuenta, para una carta o una idea. En la empresa nada ha cambiado.</p><a class="lv-go" href="#course">Su puerta: Tome un curso <span class="arrow" aria-hidden="true">→</span></a></li>
 <li><span class="lv-n mono" aria-hidden="true">2</span><h3>Algunos lo usamos cada semana.</h3><p>Ayuda a escribir y a buscar. Cada persona lo usa a su manera, y el trabajo sigue igual que antes.</p><a class="lv-go" href="#trained">Su puerta: Capacítese <span class="arrow" aria-hidden="true">→</span></a></li>
 <li><span class="lv-n mono" aria-hidden="true">3</span><h3>Una tarea funciona con IA integrada.</h3><p>Un trabajo repetitivo, como leer facturas o responder las mismas preguntas, lo hace una herramienta. Una persona revisa el resultado.</p><a class="lv-go" href="#plan">Su puerta: Obtenga un plan <span class="arrow" aria-hidden="true">→</span></a></li>
 <li><span class="lv-n mono" aria-hidden="true">4</span><h3>La IA es parte del trabajo diario.</h3><p>Varias tareas están conectadas. Las listas, los plazos y los seguimientos se llevan para el equipo, y las personas aprueban lo importante.</p><a class="lv-go" href="#built">Su puerta: Mándelo a construir <span class="arrow" aria-hidden="true">→</span></a></li>
 <li><span class="lv-n mono" aria-hidden="true">5</span><h3>El trabajo de rutina funciona solo.</h3><p>Las personas atienden las excepciones y toman las decisiones. Cuando algo se sale de lo normal, se le avisa a una persona.</p><a class="lv-go" href="#built">Su puerta: Mándelo a construir <span class="arrow" aria-hidden="true">→</span></a></li></ol>
+<div class="qz" id="qz" role="region" aria-labelledby="qz-t" data-part="quiz" hidden>
+<div class="qz-top"><button type="button" class="qz-x qz-exit"><span class="ba" aria-hidden="true">←</span><span>Volver a la escalera</span></button><p class="qz-t mono" id="qz-t">El cuestionario de 2 minutos</p></div>
+<p class="qz-intro">Siete preguntas. Toque la respuesta que más se parece a su empresa.</p>
+<form class="qz-f" novalidate>
+<div class="qz-bar" aria-hidden="true"><i></i></div>
+<fieldset class="qz-s" data-q="1"><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Pregunta 1 de 7</span> <span class="qz-qt">¿Alguien en su empresa usa un chat de IA para trabajar?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz1" value="0"><span class="qz-at">No, todavía no.</span></label><label class="qz-a"><input type="radio" name="qz1" value="1"><span class="qz-at">Unas pocas personas, cada una a su manera.</span></label><label class="qz-a"><input type="radio" name="qz1" value="3"><span class="qz-at">Sí, y acordamos cómo usarlo.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="2" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Pregunta 2 de 7</span> <span class="qz-qt">Copiar datos, escribir la misma respuesta, perseguir los mismos papeles: ¿quién hace ese trabajo?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz2" value="0"><span class="qz-at">Las personas, a mano, cada semana.</span></label><label class="qz-a"><input type="radio" name="qz2" value="1"><span class="qz-at">Las personas, con una herramienta que ayuda un poco.</span></label><label class="qz-a"><input type="radio" name="qz2" value="3"><span class="qz-at">Una herramienta hace la mayor parte, y una persona revisa.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="3" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Pregunta 3 de 7</span> <span class="qz-qt">Cuando necesita el historial de un cliente, ¿dónde lo busca?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz3" value="0"><span class="qz-at">En varios lados: hojas de cálculo, correos, chats o la memoria de alguien.</span></label><label class="qz-a"><input type="radio" name="qz3" value="1"><span class="qz-at">En un sistema, pero no se conecta con los demás.</span></label><label class="qz-a"><input type="radio" name="qz3" value="3"><span class="qz-at">En un solo lugar, conectado con lo demás.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="4" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Pregunta 4 de 7</span> <span class="qz-qt">Un cliente escribe a las 9 de la noche. ¿Qué pasa?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz4" value="0"><span class="qz-at">El mensaje espera hasta que alguien vuelva.</span></label><label class="qz-a"><input type="radio" name="qz4" value="1"><span class="qz-at">Recibe un mensaje automático de “recibimos su mensaje”.</span></label><label class="qz-a"><input type="radio" name="qz4" value="3"><span class="qz-at">Recibe una respuesta que le sirve, y una persona revisa lo importante.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="5" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Pregunta 5 de 7</span> <span class="qz-qt">Si pudieran mejorar una sola tarea primero, ¿el equipo está de acuerdo en cuál?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz5" value="0"><span class="qz-at">No, no lo hemos hablado.</span></label><label class="qz-a"><input type="radio" name="qz5" value="1"><span class="qz-at">Tenemos algunas ideas, pero todavía no elegimos.</span></label><label class="qz-a"><input type="radio" name="qz5" value="3"><span class="qz-at">Sí, ya la elegimos y sabemos por qué.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="6" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Pregunta 6 de 7</span> <span class="qz-qt">¿Su equipo sabe qué información puede y no puede poner en una herramienta de IA?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz6" value="0"><span class="qz-at">No, nadie lo ha dicho.</span></label><label class="qz-a"><input type="radio" name="qz6" value="1"><span class="qz-at">Algunas personas lo saben, pero no hay nada acordado.</span></label><label class="qz-a"><input type="radio" name="qz6" value="3"><span class="qz-at">Sí, hay una regla clara y todos la conocen.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="7" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Pregunta 7 de 7</span> <span class="qz-qt">Si mañana se perdiera un portátil del trabajo, ¿qué pasaría con su información?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz7" value="0"><span class="qz-at">No estamos seguros.</span></label><label class="qz-a"><input type="radio" name="qz7" value="1"><span class="qz-at">Hay contraseñas y algunas copias de seguridad.</span></label><label class="qz-a"><input type="radio" name="qz7" value="3"><span class="qz-at">Cada persona ve solo lo que necesita, y revisamos las copias de seguridad.</span></label></div></fieldset>
+<div class="qz-nav"><button type="button" class="btn ghost qz-back" hidden>Atrás</button><button type="submit" class="btn ac qz-next">Siguiente</button></div>
+<p class="qz-msg" aria-live="polite"></p>
+</form>
+<div class="qz-r" hidden>
+<p class="qz-k mono">Su resultado</p>
+<div class="qz-lv" data-lv="1" data-door="course" data-name="Primeros pasos" data-mail="Paso 1 de 5, Tome un curso (puerta 01)" hidden>
+<h3 class="qz-rh" tabindex="-1">Primeros pasos</h3>
+<p class="qz-st">Su paso: 1 de 5. Su puerta: 01 Tome un curso.</p>
+<p class="qz-d">La mayor parte del trabajo sigue como antes, y la IA todavía es nueva para el equipo.</p>
+<a class="qz-door" href="#course">Ir a la puerta 01: Tome un curso <span class="arrow" aria-hidden="true">→</span></a>
+<h4 class="mh">Tres cosas para hacer ahora</h4>
+<ol class="qz-tips"><li><span class="qz-tn mono" aria-hidden="true">1</span>Pida a una persona que pruebe un chat de IA con una tarea real esta semana, como una carta o un resumen.</li><li><span class="qz-tn mono" aria-hidden="true">2</span>Acuerde con su equipo una regla sencilla: los datos de los clientes y del dinero no van a un chat de IA público.</li><li><span class="qz-tn mono" aria-hidden="true">3</span>Empiece con un curso corto, para que todos aprendan las mismas bases.</li></ol>
+</div>
+<div class="qz-lv" data-lv="2" data-door="trained" data-name="Probando" data-mail="Paso 2 de 5, Capacítese (puerta 02)" hidden>
+<h3 class="qz-rh" tabindex="-1">Probando</h3>
+<p class="qz-st">Su paso: 2 de 5. Su puerta: 02 Capacítese.</p>
+<p class="qz-d">Algunas personas usan IA, cada una a su manera. El trabajo en sí todavía no ha cambiado.</p>
+<a class="qz-door" href="#trained">Ir a la puerta 02: Capacítese <span class="arrow" aria-hidden="true">→</span></a>
+<h4 class="mh">Tres cosas para hacer ahora</h4>
+<ol class="qz-tips"><li><span class="qz-tn mono" aria-hidden="true">1</span>Anote las tres tareas que su equipo repite más cada semana.</li><li><span class="qz-tn mono" aria-hidden="true">2</span>Acuerde por escrito con su equipo qué información puede ir a una herramienta de IA y cuál no.</li><li><span class="qz-tn mono" aria-hidden="true">3</span>Reserve una capacitación en vivo, para que el equipo aprenda una sola forma de trabajar y no cada quien la suya.</li></ol>
+</div>
+<div class="qz-lv" data-lv="3" data-door="plan" data-name="Momento de un plan" data-mail="Paso 3 de 5, Obtenga un plan (puerta 03)" hidden>
+<h3 class="qz-rh" tabindex="-1">Momento de un plan</h3>
+<p class="qz-st">Su paso: 3 de 5. Su puerta: 03 Obtenga un plan.</p>
+<p class="qz-d">Las bases ya están. El siguiente paso es elegir una tarea y planearla bien.</p>
+<a class="qz-door" href="#plan">Ir a la puerta 03: Obtenga un plan <span class="arrow" aria-hidden="true">→</span></a>
+<h4 class="mh">Tres cosas para hacer ahora</h4>
+<ol class="qz-tips"><li><span class="qz-tn mono" aria-hidden="true">1</span>Elija un trabajo repetitivo para empezar, como leer facturas o responder las mismas preguntas.</li><li><span class="qz-tn mono" aria-hidden="true">2</span>Decida quién revisa el resultado antes de que algo salga.</li><li><span class="qz-tn mono" aria-hidden="true">3</span>Pida un plan que diga qué automatizar primero, qué queda en manos de las personas y cuánto cuesta.</li></ol>
+</div>
+<div class="qz-lv" data-lv="4" data-door="built" data-name="Momento de construir" data-mail="Pasos 4 y 5 de 5, Mándelo a construir (puerta 04)" hidden>
+<h3 class="qz-rh" tabindex="-1">Momento de construir</h3>
+<p class="qz-st">Sus pasos: 4 y 5 de 5. Su puerta: 04 Mándelo a construir.</p>
+<p class="qz-d">La IA ya es parte del trabajo. El siguiente paso es conectar las tareas, y que las personas sigan tomando las decisiones.</p>
+<a class="qz-door" href="#built">Ir a la puerta 04: Mándelo a construir <span class="arrow" aria-hidden="true">→</span></a>
+<h4 class="mh">Tres cosas para hacer ahora</h4>
+<ol class="qz-tips"><li><span class="qz-tn mono" aria-hidden="true">1</span>Haga una lista de las tareas que ya funcionan con IA y de cómo se conectan entre sí.</li><li><span class="qz-tn mono" aria-hidden="true">2</span>Asegúrese de que una persona apruebe lo importante: el dinero, los clientes y todo lo que se salga de lo normal.</li><li><span class="qz-tn mono" aria-hidden="true">3</span>Hable con nosotros sobre construir y operar la siguiente parte, para que su equipo siga tomando las decisiones.</li></ol>
+</div>
+<div class="qz-sb"><p class="qz-score"><b class="qz-sc">0</b><span> de 100</span></p><p class="qz-how">Cómo se calcula: 7 preguntas, cada respuesta vale 0, 1 o 3 puntos, así que el máximo es 21. Usted tiene <span class="qz-pts">0</span> puntos: <span class="qz-pts">0</span> ÷ 21 × 100, redondeado, da <span class="qz-sc">0</span>. Los cuatro niveles: de 0 a 24, de 25 a 49, de 50 a 74 y de 75 a 100.</p><p class="qz-note">Esto es una autoevaluación corta, no una auditoría. Solo conoce sus siete respuestas.</p></div>
+<div class="qz-cta"><p class="qz-small">Sus respuestas se quedan en su navegador hasta que usted las envíe por correo.</p>
+<div class="qz-btns"><a class="btn ac qz-mail" href="mailto:info@humaniasoluciones.com">Agende la primera llamada</a><button type="button" class="btn ghost qz-copy">Copiar las respuestas</button></div>
+<p class="qz-small">Abre un correo para nosotros con sus respuestas. Usted lo revisa y lo envía.</p>
+<p class="qz-cs" aria-live="polite"></p>
+<p class="qz-small">Si prefiere, escríbanos a: <span class="qz-addr">info@humaniasoluciones.com</span></p></div>
+<div class="qz-rnav"><button type="button" class="btn ghost qz-rback">Atrás</button><button type="button" class="btn ghost qz-again">Empezar de nuevo</button><button type="button" class="btn ghost qz-exit">Volver a la escalera</button></div>
+</div>
+<p class="qz-live qz-sr" aria-live="polite"></p>
+<script type="application/json" class="qz-strings">{"to": "info@humaniasoluciones.com", "subject": "Cuestionario Encuentre su paso: {level}, {score} de 100", "hello": "Hola:", "intro": "Hice el cuestionario de 2 minutos en su página Encuentre su paso. Estas son mis respuestas.", "level": "Nivel: {level}", "score": "Puntaje: {score} de 100 (7 preguntas, cada respuesta vale 0, 1 o 3 puntos)", "step": "Paso recomendado: {step}", "ask": "Quisiera agendar la primera llamada.", "company": "Mi empresa:", "when": "Mejor día y hora para llamarme:", "bye": "Gracias.", "pick": "Elija una respuesta para seguir.", "copied": "Copiadas. Péguelas donde quiera.", "nocopy": "Este navegador no permitió copiar. Use el botón de correo o escriba a la dirección de abajo.", "live": "Su resultado: {level}. {step}. Puntaje: {score} de 100."}</script>
+</div>
 </section>
 <section class="dband dstd" id="tried" aria-labelledby="try-h">
 <div class="dstd-h"><h2 class="dstd-t" id="try-h">Lo que la gente suele probar primero</h2>
@@ -272,7 +394,7 @@ Crossland AI
 </div>
 </section>
 <div class="dafter">
-<p class="dstart"><span class="mono">Por dónde empezamos</span><span>Auditoría, calidad y papeleo legal.</span></p>
+<p class="dstart"><span class="mono">Por dónde empezamos</span><span>Primero miramos cómo trabaja usted y luego buscamos dónde encaja la IA.</span></p>
 <section class="how" id="how" aria-labelledby="how-h">
 <h2 class="mh" id="how-h">Cómo trabajamos</h2>
 <ol class="route">
@@ -714,6 +836,71 @@ if(document.readyState==='complete')start();else addEventListener('load',start);
 var d=a.getAttribute('href').slice(1),t=document.getElementById('tab-'+d),p=document.getElementById(d);if(!t||!p)return;e.preventDefault();t.click();
 setTimeout(function(){var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;p.scrollIntoView({behavior:r?'auto':'smooth',block:'start'});
 try{history.replaceState(null,'','#'+d)}catch(x){}},30)},false)})();
+</script>
+<script>/* l8:quiz: the 2-minute quiz. Everything runs here in the browser: nothing is stored and nothing is sent. */
+(function(){
+var R=document.getElementById('qz'),W=document.getElementById('qz-ow');if(!R||!W)return;
+var T;try{T=JSON.parse(R.querySelector('.qz-strings').textContent)}catch(e){return}
+var D=document,H=D.documentElement,B=W.querySelector('.qz-open'),LAD=D.querySelector('#ladder .lad'),F=R.querySelector('.qz-f'),
+S=[].slice.call(R.querySelectorAll('.qz-s')),N=S.length,RES=R.querySelector('.qz-r'),LV=[].slice.call(R.querySelectorAll('.qz-lv')),
+BACK=R.querySelector('.qz-back'),MSG=R.querySelector('.qz-msg'),BAR=R.querySelector('.qz-bar i'),LIVE=R.querySelector('.qz-live'),
+MAIL=R.querySelector('.qz-mail'),CS=R.querySelector('.qz-cs'),INTRO=R.querySelector('.qz-intro'),cur=0,ptr=0,tok=0,copyText='';
+function each(sel,f){[].forEach.call(R.querySelectorAll(sel),f)}
+function still(){return H.classList.contains('still')||!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)}
+function fill(s,o){return s.replace(/\{(\w+)\}/g,function(m,k){return o[k]})}
+function into(){var r=R.getBoundingClientRect();if(r.top<0||r.top>Math.max(140,innerHeight*0.2))R.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'})}
+function focusH(h){try{h.focus({preventScroll:true})}catch(e){h.focus()}}
+function anim(el){if(still())return;el.classList.remove('qz-in');void el.offsetWidth;el.classList.add('qz-in')}
+function mark(s){[].forEach.call(s.querySelectorAll('.qz-a'),function(l){l.classList.toggle('on',l.querySelector('input').checked)})}
+function picked(i){return S[i]&&S[i].querySelector('input:checked')}
+function show(i){
+cur=i;tok++;MSG.textContent='';var res=i>=N;F.hidden=res;RES.hidden=!res;INTRO.hidden=res;
+if(res){result();return}
+S.forEach(function(s,j){s.hidden=j!==i});BACK.hidden=i===0;BAR.style.width=((i+1)/N*100)+'%';
+anim(S[i]);into();focusH(S[i].querySelector('.qz-q'));
+}
+function next(){var c=picked(cur);if(!c){MSG.textContent=T.pick;var f=S[cur].querySelector('input');if(f)f.focus();return}show(cur+1)}
+function tally(){var pts=0,qa=[];S.forEach(function(s){var c=s.querySelector('input:checked');pts+=c?+c.value:0;
+qa.push([s.querySelector('.qz-qt').textContent,c?c.parentNode.querySelector('.qz-at').textContent:'-'])});
+var score=Math.round(pts/21*100);return {pts:pts,score:score,lv:score<25?1:score<50?2:score<75?3:4,qa:qa}}
+function result(){
+var d=tally(),el=null;LV.forEach(function(x){var on=+x.getAttribute('data-lv')===d.lv;x.hidden=!on;if(on)el=x});
+each('.qz-sc',function(x){x.textContent=d.score});each('.qz-pts',function(x){x.textContent=d.pts});
+var o={level:el.getAttribute('data-name'),score:d.score,step:el.getAttribute('data-mail')},L=[T.hello,'',T.intro,''];
+d.qa.forEach(function(x,i){L.push((i+1)+'. '+x[0]);L.push('   '+x[1])});
+L.push('',fill(T.level,o),fill(T.score,o),fill(T.step,o),'',T.ask,T.company+' ',T.when+' ','',T.bye);
+var subj=fill(T.subject,o);
+MAIL.setAttribute('href','mailto:'+T.to+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(L.join('\r\n')));
+copyText=subj+'\n\n'+L.join('\n');CS.textContent='';LIVE.textContent='';
+var msg=fill(T.live,o);setTimeout(function(){LIVE.textContent=msg},80);
+anim(RES);into();focusH(el.querySelector('.qz-rh'));
+}
+function open(){W.hidden=true;LAD.hidden=true;R.hidden=false;show(cur)}
+function close(){R.hidden=true;LAD.hidden=false;W.hidden=false;B.focus();var r=B.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)B.scrollIntoView({block:'center'})}
+W.hidden=false;
+B.addEventListener('click',open);
+each('.qz-exit',function(x){x.addEventListener('click',close)});
+BACK.addEventListener('click',function(){if(cur>0)show(cur-1)});
+R.querySelector('.qz-rback').addEventListener('click',function(){show(N-1)});
+R.querySelector('.qz-again').addEventListener('click',function(){each('.qz-f input',function(x){x.checked=false});S.forEach(mark);show(0)});
+F.addEventListener('submit',function(e){e.preventDefault();next()});
+F.addEventListener('change',function(e){var s=e.target.closest&&e.target.closest('.qz-s');if(s)mark(s);if(picked(cur))MSG.textContent=''});
+F.addEventListener('pointerdown',function(){ptr=Date.now()},true);
+F.addEventListener('keydown',function(){ptr=0},true);
+// a tap or click on an answer moves on by itself; the keyboard (arrows, Space) only chooses, and Enter or Next moves on
+F.addEventListener('click',function(e){var t=e.target;if(!t||t.type!=='radio'||!ptr||Date.now()-ptr>1500)return;ptr=0;
+var i=cur,k=tok;setTimeout(function(){if(cur===i&&tok===k&&picked(i))show(i+1)},160)});
+// Escape leaves the quiz (back to the ladder), not the page; the page's number and letter shortcuts stay out of the quiz
+R.addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close();return}
+if(/^[1-5spa]$/i.test(e.key||''))e.stopPropagation()});
+R.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.qz-door');if(!a)return;
+var d=a.getAttribute('href').slice(1),t=D.getElementById('tab-'+d),p=D.getElementById(d);if(!t||!p)return;e.preventDefault();t.click();
+setTimeout(function(){p.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'})},30)});
+R.querySelector('.qz-copy').addEventListener('click',function(){var s=copyText;
+function fb(){var ta=D.createElement('textarea'),ok=false;ta.value=s;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';
+D.body.appendChild(ta);ta.select();try{ok=D.execCommand('copy')}catch(x){}D.body.removeChild(ta);CS.textContent=ok?T.copied:T.nocopy}
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(s).then(function(){CS.textContent=T.copied},fb);else fb()});
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,2155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Painting — how it all fits together</title>
+<!-- Fonts: Fraunces and Work Sans are not bundled in this copy; the page uses its own fallbacks (Georgia, system sans). -->
+<style>
+:root{
+  --paper:#EDEFE9; --paper-2:#E2E5DE; --ink:#1F2A31; --ink-2:#4C5A63; --ink-3:#8A959C; --line:#C9CEC6;
+  --panel:#F7F8F5; --focus:#2C5E8A;
+  --l-infra:#7A5C3E; --l-runtime:#4F6E7A; --l-lang:#6A5B8E; --l-files:#A8842F; --l-frame:#4C8C6A; --l-ai:#B0553F; --l-tools:#3E6FA8;
+  --subway-a:#3E6FA8; --subway-b:#B0553F; --subway-c:#4C8C6A; --subway-d:#A8842F; --subway-e:#6A5B8E;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1B2329; --paper-2:#222C33; --ink:#E7EAE4; --ink-2:#B4BCB8; --ink-3:#7B868C; --line:#33404A;
+    --panel:#232D34; --focus:#7FB3E6;
+    --l-infra:#B08B69; --l-runtime:#7FA3B2; --l-lang:#A697CC; --l-files:#D4AC55; --l-frame:#7DBA9A; --l-ai:#DE8A73; --l-tools:#7FA9DE;
+    --subway-a:#7FA9DE; --subway-b:#DE8A73; --subway-c:#7DBA9A; --subway-d:#D4AC55; --subway-e:#A697CC;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1B2329; --paper-2:#222C33; --ink:#E7EAE4; --ink-2:#B4BCB8; --ink-3:#7B868C; --line:#33404A;
+  --panel:#232D34; --focus:#7FB3E6;
+  --l-infra:#B08B69; --l-runtime:#7FA3B2; --l-lang:#A697CC; --l-files:#D4AC55; --l-frame:#7DBA9A; --l-ai:#DE8A73; --l-tools:#7FA9DE;
+  --subway-a:#7FA9DE; --subway-b:#DE8A73; --subway-c:#7DBA9A; --subway-d:#D4AC55; --subway-e:#A697CC;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.5;overflow:hidden}
+button,input{font:inherit;color:inherit}
+
+.app{display:grid;grid-template-rows:auto auto auto 1fr;height:100%}
+.cbar{display:flex;align-items:center;justify-content:space-between;gap:8px 14px;flex-wrap:wrap;padding:6px 18px;background:var(--ink);color:var(--paper);font-size:13px;line-height:1.35}
+.cbar a{display:inline-block;padding:4px 0;color:var(--paper);font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.cbar a:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+@media (max-width:700px){ .cbar{padding:3px 10px;gap:0 12px;font-size:12.5px} }
+[hidden]{display:none!important}
+.viewnote{padding:7px 18px;border-bottom:1px solid var(--line);background:var(--paper-2);font-size:13.5px;color:var(--ink-2);line-height:1.4}
+.viewnote b{color:var(--ink);font-weight:600;margin-right:6px}
+@media (max-width:700px){ .viewnote{padding:6px 10px;font-size:12.5px} }
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--paper)}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:22px;margin:0;letter-spacing:-.01em;font-variation-settings:"opsz" 40}
+h1 small{display:block;font-family:"Work Sans",sans-serif;font-weight:400;font-size:13px;color:var(--ink-2);letter-spacing:0;margin-top:1px}
+.views{display:flex;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;background:var(--paper-2)}
+.views button{border:0;background:transparent;padding:6px 14px;border-radius:999px;cursor:pointer;color:var(--ink-2);font-weight:500}
+.views button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.views button:focus-visible,.search input:focus-visible,.chip:focus-visible,.close:focus-visible,.reset:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.search{position:relative;flex:1 1 200px;max-width:320px}
+.search input{width:100%;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 14px}
+.search input::placeholder{color:var(--ink-3)}
+.results{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px;z-index:20;display:none;max-height:260px;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.results button{display:block;width:100%;text-align:left;border:0;background:none;padding:7px 10px;border-radius:8px;cursor:pointer}
+.results button:hover,.results button:focus-visible{background:var(--paper-2)}
+.results button span{color:var(--ink-3);font-size:13px;margin-left:8px}
+.reset{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 12px;cursor:pointer;color:var(--ink-2)}
+
+.stage{position:relative;overflow:hidden}
+svg.map{width:100%;height:100%;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+svg.map.dragging{cursor:grabbing}
+svg.map.three .edge{opacity:.16}
+.band{fill:var(--paper-2);opacity:.55}
+.band-label{font-family:"Fraunces",Georgia,serif;font-size:22px;fill:var(--ink-2);opacity:.9}
+.band-sub{font-size:12px;fill:var(--ink-3)}
+.district{fill:none;stroke:var(--line);stroke-width:2;stroke-dasharray:6 6;rx:18}
+.edge{stroke:var(--ink-3);stroke-width:1.4;fill:none;opacity:.35;transition:opacity .25s}
+.edge.hot{opacity:1;stroke-width:2.6;stroke:var(--ink)}
+.edge.cold{opacity:.06}
+.slab-label{opacity:1;font-weight:600;font-size:20px}
+.slab{opacity:.16}
+.slab-glass{opacity:.9;pointer-events:none}
+.slab-edge{fill:none;stroke:#fff;stroke-opacity:.85;stroke-width:1.5;pointer-events:none}
+.slab-side{opacity:.32}
+.slab-shadow{fill:#0b1a24;opacity:.16}
+svg.map.three .trace-route{filter:url(#glow);stroke-dasharray:none;opacity:.9}
+svg.map.three .edge.hot{filter:url(#glow)}
+.gl{position:absolute;inset:0;display:none;touch-action:none;cursor:grab}
+.gl.on{display:block}
+.gl.dragging{cursor:grabbing}
+svg.map.hidden{visibility:hidden}
+.glswitch{position:absolute;left:14px;bottom:44px;font-size:12px;padding:5px 10px;z-index:3}
+@media (max-width:700px){ .glswitch{bottom:auto;top:8px;left:8px} }
+.stage.glass{background:radial-gradient(120% 100% at 50% 0%, #1b2833 0%, #0e151c 60%, #090e13 100%)!important}
+.stage.glass .legend,.stage.glass .hint{color:#9fb0bd}
+.gl-labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.gl-node{position:absolute;left:0;top:0;pointer-events:auto;cursor:pointer;display:flex;align-items:center;gap:8px;padding:7px 12px 7px 10px;border-radius:9px;border:1.5px solid var(--c);background:rgba(16,24,31,.92);color:#eef2f5;font:inherit;text-align:left;white-space:nowrap;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.45);transform-origin:50% 100%;opacity:var(--fog,1);transition:opacity .2s,border-width .15s}
+.gl-node i{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);flex:none}
+.gl-node b{font-weight:600;font-size:14px;line-height:1.1}
+.gl-node small{display:block;color:#9fb0bd;font-size:10.5px;margin-top:1px}
+.gl-node:hover,.gl-node:focus-visible{border-width:2.5px;outline:none}
+.gl-node.cold{opacity:calc(var(--fog,1) * .22)}
+.gl-node.hit{border-width:2.5px;background:rgba(28,40,52,.98);box-shadow:0 0 0 1px rgba(0,0,0,.4),0 0 22px var(--c),0 6px 18px rgba(0,0,0,.45)}
+.gl-node.gap{border-style:dashed;background:rgba(16,24,31,.75)}
+.gl-layer{position:absolute;left:0;top:0;font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:20px;letter-spacing:-.01em;opacity:.95;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.stage.three{background:radial-gradient(120% 90% at 50% 20%, var(--panel) 0%, var(--paper) 55%, var(--paper-2) 100%)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .slab-edge{stroke-opacity:.35} :root:not([data-theme="light"]) svg.map.three .node rect.face{fill:url(#glassDark)} }
+.rail{fill:none;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.rail-label{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:600}
+.node{cursor:pointer;transition:opacity .25s;opacity:var(--fog,1)}
+.node rect.face{fill:var(--panel);stroke-width:2.5;transition:stroke-width .15s}
+.node rect.block{display:none;opacity:.55}
+svg.map.three .node rect.block{display:block}
+svg.map.three .node rect.face{fill:url(#glass)}
+.node text{fill:var(--ink);font-weight:500;font-size:15px;pointer-events:none}
+.node .kind{fill:var(--ink-3);font-size:10.5px;font-weight:400}
+.node .dot{opacity:.9}
+.node.sel rect{stroke-width:5}
+.node:hover rect{stroke-width:4}
+.node:focus{outline:none}
+.node:focus-visible rect{stroke:var(--focus)}
+.legend{position:absolute;left:14px;bottom:14px;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--ink-2);pointer-events:none;max-width:60%}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:0}
+.hint{position:absolute;right:14px;bottom:14px;font-size:12px;color:var(--ink-3);pointer-events:none}
+
+.card{position:absolute;top:14px;right:14px;width:min(360px,calc(100% - 28px));max-height:calc(100% - 28px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px 22px;box-shadow:0 12px 36px rgba(0,0,0,.18);transform:translateX(16px);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s}
+.card.open{transform:none;opacity:1;pointer-events:auto}
+.card .layer{font-size:12px;font-weight:600;letter-spacing:.02em}
+.card h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:26px;line-height:1.15;margin:2px 0 4px;letter-spacing:-.01em}
+.card .kind{color:var(--ink-3);font-size:13px;margin-bottom:12px}
+.card h3{font-size:12px;font-weight:600;color:var(--ink-2);margin:16px 0 4px}
+.card p{margin:0;color:var(--ink);font-size:14.5px}
+.card .ex{margin:0;background:var(--paper-2);border-radius:10px;padding:10px 12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.5;overflow-x:auto;white-space:pre;color:var(--ink)}
+.card .advice .alist{display:flex;flex-direction:column;gap:6px}
+.card .advice .aitem{background:var(--paper-2);border-radius:10px;padding:8px 10px;font-size:14px}
+.card .advice .aitem .sev{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.02em;padding:1px 7px;border-radius:999px;margin-right:6px;vertical-align:1px}
+.card .advice .sev.high{background:#f3d1c8;color:#7a2a17}.card .advice .sev.medium{background:#f2e8c9;color:#6a4f0a}.card .advice .sev.low{background:#dcecdf;color:#1f5a34}
+.card .advice .aitem .chips{margin-top:6px}
+.card .advice .ordered .aitem{counter-increment:ord}
+.card .advice .ordered{counter-reset:ord}
+.card .advice .ordered .aitem::before{content:counter(ord) ". ";font-family:"Fraunces",Georgia,serif;font-weight:600;color:var(--ink-3)}
+.card .try{background:var(--paper-2);border-radius:10px;padding:12px;font-size:13.5px}
+.try .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.try button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 10px;font-size:12.5px;cursor:pointer;color:var(--ink)}
+.try button:hover,.try button:focus-visible{border-color:var(--focus)}
+.try button.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.try input[type=text],.try textarea{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:6px 8px;font:inherit;font-size:13px;color:var(--ink)}
+.try .note{color:var(--ink-2);font-size:12.5px;margin-top:6px}
+.try .tok{display:inline-block;padding:1px 3px;margin:1px 0;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;white-space:pre}
+.try .tok:nth-child(4n+1){background:#dbe7f3}.try .tok:nth-child(4n+2){background:#f3e2d6}.try .tok:nth-child(4n+3){background:#dcecdf}.try .tok:nth-child(4n){background:#f2e8c9}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .try .tok:nth-child(4n+1){background:#2b3f52}:root:not([data-theme="light"]) .try .tok:nth-child(4n+2){background:#4a3428}:root:not([data-theme="light"]) .try .tok:nth-child(4n+3){background:#27412f}:root:not([data-theme="light"]) .try .tok:nth-child(4n){background:#4a4020} }
+.try .bar{position:relative;height:22px;border-radius:6px;background:var(--paper);border:1px solid var(--line);overflow:hidden;margin-top:8px;display:flex}
+.try .bar span{height:100%;display:block;transition:width .3s}
+.try .stack{display:flex;flex-direction:column;gap:3px;margin-top:8px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+.try .stack div{padding:3px 6px;border-radius:5px;background:var(--paper)}
+.try .stack div.gone{opacity:.45;text-decoration:line-through}
+.try svg{width:100%;height:auto;display:block;margin-top:8px}
+.try .log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;margin-top:8px;min-height:1.4em;white-space:pre-wrap;color:var(--ink)}
+.try .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:var(--paper);border-radius:6px;padding:8px;margin-top:8px;white-space:pre-wrap}
+.card .ai{background:var(--paper-2);border-left:3px solid var(--l-ai);padding:10px 12px;border-radius:0 10px 10px 0;font-style:italic}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer}
+.chip b{font-weight:500}
+.chip small{color:var(--ink-3);margin-left:4px}
+.close{position:absolute;top:12px;right:12px;border:0;background:var(--paper-2);width:30px;height:30px;border-radius:50%;cursor:pointer;color:var(--ink-2);font-size:16px;line-height:1}
+.intro{position:absolute;left:14px;top:14px;max-width:300px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:13.5px;color:var(--ink-2);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.intro b{color:var(--ink);font-weight:600}
+.intro.gone{display:none}
+.ask{position:absolute;left:14px;top:14px;width:min(340px,calc(100% - 28px));max-height:calc(100% - 28px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px 20px;box-shadow:0 12px 36px rgba(0,0,0,.18);display:none}
+.ask.open{display:block}
+.ask h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:22px;margin:0 0 2px;letter-spacing:-.01em}
+.ask .lead{color:var(--ink-2);font-size:13.5px;margin:0 0 14px}
+.ask h3{font-size:12px;font-weight:600;color:var(--ink-2);margin:14px 0 6px}
+.tabs{display:flex;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;background:var(--paper-2);margin:4px 0 12px}
+.tabs button{flex:1;border:0;background:transparent;padding:6px 8px;border-radius:999px;cursor:pointer;color:var(--ink-2);font-weight:500;font-size:13px;white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.tabs button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.mode{display:none}.mode.on{display:block}
+.mode h3{margin-top:0}
+.goals{display:flex;flex-direction:column;gap:4px}
+.goals button{text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:14px}
+.goals button:hover,.goals button:focus-visible{border-color:var(--focus)}
+.ask textarea{width:100%;min-height:74px;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:8px 10px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:var(--ink)}
+.ask textarea::placeholder{color:var(--ink-3);font-family:"Work Sans",sans-serif;font-size:13px}
+.ask .decode{margin-top:6px;border:0;background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 14px;cursor:pointer;font-weight:500}
+.card .steps{display:flex;flex-direction:column;gap:0;counter-reset:step}
+.card .step{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:8px 0;border-top:1px solid var(--line);cursor:pointer}
+.card .step:first-child{border-top:0}
+.card .step:hover .sname,.card .step:focus-visible .sname{text-decoration:underline}
+.card .step .n{counter-increment:step;font-family:"Fraunces",Georgia,serif;font-size:18px;color:var(--ink-3);line-height:1.2}
+.card .step .n::before{content:counter(step)}
+.card .sname{font-weight:600;font-size:14.5px}
+.card .snote{color:var(--ink-2);font-size:13.5px;margin-top:1px}
+.card .back{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:13px;margin-top:14px}
+.card .verdict{background:var(--paper-2);border-radius:10px;padding:10px 12px;font-size:14px}
+.node.hit rect{stroke-width:4;fill:color-mix(in srgb, var(--panel) 80%, currentColor)}
+.node.gap rect{stroke-dasharray:7 5;stroke-width:3;fill:var(--paper-2)}
+.node.gap{opacity:1}
+.node.cold{opacity:calc(var(--fog,1) * .14)}
+.ask .paint .decode:disabled{opacity:.45;cursor:not-allowed}
+.filepick{display:inline-block;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer}
+.filepick:hover{border-color:var(--focus)}
+.ask .status{font-size:13px;color:var(--ink-2);margin-top:8px;min-height:1.2em}
+.ask .stop{margin-left:8px;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px;display:none}
+.card .gaps .step .n::before{content:"+"}
+.card .gaps .step{cursor:pointer}
+.cmp-pick{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.cmp-pick select{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:7px 10px;color:var(--ink)}
+.cmp-vs{text-align:center;color:var(--ink-3);font-size:12px;margin:-2px 0}
+.pairs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pairs button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer}
+.pairs button:hover,.pairs button:focus-visible{border-color:var(--focus)}
+.index{display:flex;flex-direction:column;gap:10px}
+.index .grp b{display:block;font-size:12px;margin-bottom:4px}
+.index .chips{gap:5px}
+.card .cmp h3{margin-top:14px}
+.card .cmp .same{background:var(--paper-2);border-radius:10px;padding:10px 12px;font-size:14px}
+.card .cmp .col{border-left:3px solid var(--line);padding:6px 12px;border-radius:0 10px 10px 0;margin-top:8px}
+.card .cmp .col b{display:block;font-size:14.5px;margin-bottom:2px}
+.card .cmp .col p{font-size:14px}
+.card .share{display:flex;gap:8px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.card .share button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:13px}
+.card .share span{font-size:12.5px;color:var(--ink-3)}
+.tabs button{padding:6px 6px}
+.tour{position:absolute;left:50%;bottom:18px;transform:translate(-50%,12px);width:min(420px,calc(100% - 28px));background:var(--ink);color:var(--paper);border-radius:16px;padding:18px 20px 16px;box-shadow:0 14px 40px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:5}
+.tour.open{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.tour h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:22px;margin:4px 0 4px;letter-spacing:-.01em}
+.tour p{margin:0 0 12px;font-size:14px;opacity:.9}
+.tour .dots{font-size:10px;letter-spacing:2px;opacity:.6;padding-right:40px}
+.tour .close{background:rgba(255,255,255,.12);color:var(--paper);z-index:1}
+.tour .decode{background:var(--paper);color:var(--ink);border:0;border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:500}
+@media (max-width:700px){ .tour{padding:12px 14px 12px;width:calc(100% - 20px)} .tour h2{font-size:18px;margin:2px 0} .tour p{font-size:13px;margin-bottom:8px} }
+@media (max-width:700px){ .tour{bottom:auto;top:12px} }
+.trace-route{fill:none;stroke:var(--focus);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.75;stroke-dasharray:14 10}
+@media (max-width:700px){
+  .ask{top:auto;bottom:0;left:0;right:0;width:100%;max-height:60%;border-radius:16px 16px 0 0;padding:14px 16px 16px}
+  .ask h2{font-size:19px}
+  .ask textarea{min-height:56px}
+  .ask .lead{font-size:13px;margin-bottom:10px}
+  .tabs{margin:2px 0 10px}
+}
+
+@media (max-width:700px){
+  header{padding:8px 10px;gap:6px 8px}
+  h1{font-size:18px;flex-basis:100%}
+  h1 small{display:inline;margin-left:6px;font-size:12px}
+  h1 small .tag{display:none}
+  #tourbtn{padding:5px 9px}
+  .search input{padding:6px 12px}
+  .views button{padding:5px 9px;font-size:13px}
+  .reset{padding:5px 9px;font-size:13px}
+  #fit{display:none}
+  .search{max-width:none;flex-basis:100%;order:5}
+  .card{top:auto;bottom:0;left:0;right:0;width:100%;max-height:62%;border-radius:16px 16px 0 0;transform:translateY(20px)}
+  .legend{display:none}
+  .hint{display:none}
+  .intro{max-width:calc(100% - 28px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .card,.node,.edge,.node g{transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="cbar"><span>Crossland AI · The Painting, a map of the AI stack</span><a href="../work.html#painting">Back to our work</a></div>
+<header>
+  <h1>The Painting<small><span class="tag">Everything underneath the prompt, in one picture</span> <span style="opacity:.6">· v2.1</span></small></h1>
+  <div class="views" role="group" aria-label="Layout">
+    <button data-view="stack" aria-pressed="true">Stack</button>
+    <button data-view="city" aria-pressed="false">City</button>
+    <button data-view="subway" aria-pressed="false">Subway</button>
+    <button data-view="3d" aria-pressed="false">3-D</button>
+  </div>
+  <div class="search">
+    <input id="q" type="search" placeholder="Find a thing… (.env, tokens, Render)" autocomplete="off" aria-label="Search the map">
+    <div class="results" id="results"></div>
+  </div>
+  <button class="reset" id="askbtn" aria-expanded="false">Ask the map</button>
+  <button class="reset" id="fit">Fit to screen</button>
+  <button class="reset" id="tourbtn">Tour</button>
+</header>
+<div class="viewnote" id="viewnote" aria-live="polite"></div>
+<div class="stage" id="stage">
+  <svg class="map" id="map" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="gl" id="gl" aria-hidden="true"></div>
+  <button class="reset glswitch" id="glswitch" style="display:none">Sketch view</button>
+  <div class="legend" id="legend"></div>
+  <div class="hint" id="hint">Scroll to zoom · drag to pan</div>
+  <div class="tour" id="tour" role="dialog" aria-label="Walkthrough">
+    <button class="close" id="tour-x" aria-label="Skip">×</button>
+    <div class="dots" id="tour-dots"></div>
+    <h2 id="tour-t"></h2><p id="tour-b"></p>
+    <button class="decode" id="tour-n">Next</button>
+  </div>
+  <div id="intro" hidden></div>
+  <aside class="ask open" id="ask">
+    <button class="close" id="askclose" aria-label="Close">×</button>
+    <h2>Ask the map</h2>
+    <p class="lead"><b style="color:var(--ink)">Click any piece</b> to see what it is and what the AI means by it. Or paste what the AI just said and let the map explain it.</p>
+    <div class="tabs" role="tablist" aria-label="Ask the map">
+      <button role="tab" data-mode="error" aria-selected="true">Decode</button>
+      <button role="tab" data-mode="goals" aria-selected="false">Goals</button>
+      <button role="tab" data-mode="paint" aria-selected="false">Project</button>
+      <button role="tab" data-mode="compare" aria-selected="false">Compare</button>
+      <button role="tab" data-mode="index" aria-selected="false">All</button>
+    </div>
+    <div class="mode" data-mode="goals">
+      <h3>I want to…</h3>
+      <div class="goals" id="goals"></div>
+    </div>
+    <div class="mode on" data-mode="error">
+      <h3>Paste anything the AI said</h3>
+      <p class="lead" style="margin-bottom:8px">A sentence, a plan, an error. The map lights what it touches and says what it means.</p>
+      <textarea id="err" placeholder="I'll add a migration and update the schema, then redeploy."></textarea>
+      <button class="decode" id="decode">Decode it</button>
+      <div class="status" id="decstatus"></div>
+      <h3>Try one</h3>
+      <div class="pairs" id="samples"></div>
+    </div>
+    <div class="mode paint" data-mode="paint" id="paint">
+      <h3>Paint your project onto the map</h3>
+      <p class="lead" style="margin-bottom:8px">Describe it, or paste package.json, requirements.txt, or a folder listing. Uses your Claude account; asks permission the first time.</p>
+      <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin:0 0 6px;font-size:13px"><label><input type="radio" name="projkind" value="real" checked> This is the project itself</label><label><input type="radio" name="projkind" value="demo"> This is a demo or mockup of a solution</label></div>
+      <textarea id="proj" placeholder="A FastAPI server with an index.html, deployed on Render"></textarea>
+      <div class="row" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 2px"><label class="filepick"><input type="file" id="projfiles" multiple accept=".html,.htm,.js,.jsx,.ts,.tsx,.py,.json,.yaml,.yml,.toml,.txt,.md,.env,.sh,.csv,.sql,.css,Dockerfile,.gitignore" hidden>Or pick files…</label><span class="status" id="filestatus" style="margin:0"></span></div>
+      <button class="decode" id="paintbtn" disabled>Paint it</button><button class="stop" id="paintstop">Stop</button>
+      <div class="status" id="paintstatus">Connecting to Claude…</div>
+    </div>
+    <div class="mode" data-mode="compare">
+      <h3>Which one?</h3>
+      <div class="cmp-pick"><select id="cmpA" aria-label="First piece"></select><div class="cmp-vs">versus</div><select id="cmpB" aria-label="Second piece"></select></div>
+      <button class="decode" id="cmpbtn">Compare</button>
+      <div class="status" id="cmpstatus"></div>
+      <h3>Common questions</h3>
+      <div class="pairs" id="pairs"></div>
+    </div>
+    <div class="mode" data-mode="index">
+      <h3>Everything on the map</h3>
+      <div class="index" id="index"></div>
+    </div>
+  </aside>
+  <aside class="card" id="card" aria-live="polite">
+    <button class="close" id="close" aria-label="Close">×</button>
+    <div id="traceview" style="display:none">
+      <div class="layer" id="t-kicker"></div>
+      <h2 id="t-name"></h2>
+      <p class="verdict" id="t-verdict" style="display:none"></p>
+      <h3 id="t-stepshead">The route</h3>
+      <div class="steps" id="t-steps"></div>
+      <div id="t-gapswrap" style="display:none"><h3>Worth adding</h3><div class="steps gaps" id="t-gaps"></div></div>
+      <p id="t-foot" style="margin-top:12px;color:var(--ink-2);font-size:13.5px"></p>
+      <div id="t-advise" style="display:none"><button class="back" id="advisebtn">Ask the advisor</button><span class="status" id="advisestatus" style="margin-left:8px"></span></div>
+    </div>
+    <div id="cmpview" class="cmp" style="display:none">
+      <div class="layer" id="k-kicker" style="color:var(--focus)">Which one?</div>
+      <h2 id="k-name"></h2>
+      <p class="same" id="k-same"></p>
+      <div class="col" id="k-a"><b></b><p></p></div>
+      <div class="col" id="k-b"><b></b><p></p></div>
+      <h3>The usual mistake</h3><p id="k-mistake"></p>
+    </div>
+    <div id="adviceview" class="advice" style="display:none">
+      <div class="layer" style="color:var(--focus)">The advisor's take</div>
+      <h2 id="a-name"></h2>
+      <p class="verdict" id="a-verdict"></p>
+      <h3>What's strong</h3><div class="alist" id="a-strong"></div>
+      <h3>Risks</h3><div class="alist" id="a-risks"></div>
+      <h3>What's missing</h3><div class="alist" id="a-missing"></div>
+      <h3>Ask the customer first</h3><div class="alist" id="a-questions"></div>
+      <h3>Build in this order</h3><div class="alist ordered" id="a-order"></div>
+      <button class="back" id="backpaint">Back to the painting</button>
+    </div>
+    <div id="nodeview">
+    <div class="layer" id="c-layer"></div>
+    <h2 id="c-name"></h2>
+    <div class="kind" id="c-kind"></div>
+    <h3>What it is</h3><p id="c-what"></p>
+    <h3>Why it exists</h3><p id="c-why"></p>
+    <h3>When the AI mentions it</h3><p class="ai" id="c-ai"></p>
+    <div id="c-exwrap"><h3 id="c-exlabel"></h3><pre class="ex" id="c-ex"></pre></div>
+    <div id="c-trywrap" style="display:none"><h3 id="c-trylabel">Try it</h3><div class="try" id="c-try"></div></div>
+    <h3>Connected to</h3><div class="chips" id="c-links"></div>
+    <button class="back" id="backtrace" style="display:none">Back to the route</button>
+    </div>
+    <div class="share"><button id="sharebtn">Copy link to this</button><button id="notebtn" style="display:none">Leave a note on this</button><span id="sharenote"></span></div>
+  </aside>
+</div>
+</div>
+
+<script>
+// ---------- THE DATA: edit this, not the drawing code ----------
+const LAYERS = [
+  {id:"tools",   name:"Where you sit",       sub:"The tools you actually type into",           color:"var(--l-tools)"},
+  {id:"ai",      name:"The AI layer",        sub:"Models, prompts, and how they plug in",      color:"var(--l-ai)"},
+  {id:"frame",   name:"Frameworks & packages",sub:"Pre-built parts, so nobody starts from zero", color:"var(--l-frame)"},
+  {id:"files",   name:"Files",               sub:"What the AI is writing into your folder",     color:"var(--l-files)"},
+  {id:"lang",    name:"Languages",           sub:"How instructions get written down",      color:"var(--l-lang)"},
+  {id:"runtime", name:"Runtimes",            sub:"The engines that run the files",color:"var(--l-runtime)"},
+  {id:"infra",   name:"Infrastructure",      sub:"The computers it lives on",  color:"var(--l-infra)"},
+];
+
+// rel words are written from THIS node's point of view: "<node> <rel> <to>"
+const NODES = [
+ // ---- tools
+ {id:"claude", layer:"tools", name:"Claude.ai", kind:"chat interface",
+  what:"The chat window. You type, a model answers. No files, no folders, unless you attach or publish them.",
+  why:"Most people never need more than a conversation. This is the front door to everything below it.",
+  ai:"When the AI says 'in this chat' or 'I can't see your files,' it means the conversation is the only thing it has. Anything on your computer is invisible unless you hand it over.",
+  links:[{to:"prompt",rel:"sends a"},{to:"llm",rel:"talks to a"},{to:"mcp",rel:"gets tools through"}]},
+ {id:"claudecode", layer:"tools", name:"Claude Code", kind:"agentic coding tool",
+  what:"The model, given a terminal and your project folder. It reads files, edits them, runs commands, and reports back.",
+  why:"Chat can only suggest code. This can actually do the work in your real project and see what breaks.",
+  ai:"When it says 'I ran the tests' or 'I edited three files,' those are real actions on your machine, not a description. Check the diff before you trust it.",
+  links:[{to:"terminal",rel:"lives in the"},{to:"git",rel:"commits with"},{to:"agent",rel:"is an"},{to:"file-py",rel:"writes"},{to:"file-js",rel:"writes"}]},
+ {id:"cowork", layer:"tools", name:"Cowork", kind:"agentic desktop app",
+  what:"Claude Code's cousin for non-code work: documents, spreadsheets, browser tasks, connected apps.",
+  why:"Most knowledge work isn't code. This gives the same 'go do it' power to files and apps instead of repos.",
+  ai:"When it says 'I'll use the connector,' it means it's reaching into an app you authorized through MCP, not the open web.",
+  links:[{to:"mcp",rel:"reaches apps through"},{to:"agent",rel:"runs as an"},{to:"file-md",rel:"produces"}]},
+ {id:"cursor", layer:"tools", name:"Cursor / VS Code", kind:"code editor",
+  what:"A text editor built for code. Cursor is VS Code with a model wired into every keystroke.",
+  why:"Code is text, but text that has to be exactly right. Editors color it, check it, and jump you around a project.",
+  ai:"When the AI says 'open it in your editor,' it means any of these. The file is the same; the editor is just the window.",
+  links:[{to:"file-py",rel:"edits"},{to:"file-js",rel:"edits"},{to:"terminal",rel:"has a built-in"},{to:"git",rel:"shows changes from"}]},
+ {id:"github", layer:"tools", name:"GitHub", kind:"code hosting",
+  what:"A website that holds copies of Git repositories. Where code lives when it isn't only on your laptop.",
+  why:"Backup, sharing, and a place deploy services can pull from. Also where most open-source code is found.",
+  ai:"When it says 'push to GitHub,' it means upload your Git history there. 'Clone' is the reverse: download someone's repo.",
+  links:[{to:"git",rel:"stores"},{to:"render",rel:"feeds code to"}]},
+ {id:"terminal", layer:"tools", name:"Terminal", kind:"command line",
+  what:"A text window where you type commands to the operating system instead of clicking.",
+  why:"Every tool below can be run by typing its name. It's the universal remote for a computer.",
+  ai:"When it says 'run this in your terminal,' it wants you to paste a line and press Enter. The output it asks for is what the terminal prints back.",
+  links:[{to:"bash",rel:"speaks"},{to:"node",rel:"launches"},{to:"pyrun",rel:"launches"},{to:"pip",rel:"runs"},{to:"npm",rel:"runs"}]},
+ {id:"session", layer:"tools", name:"Session", kind:"one chat about one folder",
+  what:"In the Code tab, a chat is called a session. It's one conversation, with its own context and its own changes.",
+  why:"You can run several at once, each on its own job. Starting a fresh one is how you get a clean start.",
+  ai:"When the AI says 'in this session', it means this one chat. A new session starts with a fresh chat. It only knows your rules file, CLAUDE.md, and what's in your folder.",
+  links:[{to:"claudecode",rel:"is one chat in"},{to:"context",rel:"has its own"},{to:"permmodes",rel:"runs in one of the"}]},
+ {id:"permmodes", layer:"tools", name:"Permission modes", kind:"how much Claude asks first",
+  what:"A setting next to the send button. It decides how often Claude stops and asks before it changes a file or runs a command.",
+  why:"Manual asks before each change or command. The cockpit has you pick it first. Accept edits and Auto ask less, Plan changes nothing until you say so, and Bypass permissions skips almost every question.",
+  ai:"When the AI says 'I'll need your permission' or 'switch to accept edits', it's talking about this setting. Pick it on purpose, not to make the questions stop.",
+  links:[{to:"claudecode",rel:"set how much asking happens in"},{to:"planmode",rel:"include"},{to:"denyrule",rel:"never switch off a"}]},
+ {id:"planmode", layer:"tools", name:"Plan mode", kind:"look first, change nothing",
+  what:"One of the permission modes. Claude reads your files, works out what it would do, and writes a plan. It changes nothing until you say so.",
+  why:"On a job bigger than one sentence, you read the plan before anything happens. Fixing a plan is cheaper than undoing work.",
+  ai:"If you're in Plan mode, the AI writes a plan and waits for your go-ahead. Read the plan, change what's wrong, then tell it to go.",
+  links:[{to:"permmodes",rel:"is one of the"},{to:"subagent",rel:"can send research to a"}]},
+ {id:"diff", layer:"tools", name:"The diff", kind:"the change, shown line by line",
+  what:"When Claude changes a file, the app shows you the lines taken out and the lines put in, usually red and green. A count like +12 -1 opens it.",
+  why:"It's how you see what really changed before you keep it. You don't need to read code to spot your own words in the green lines.",
+  ai:"When the AI says 'I edited three files', the diff is the proof. Open it before you trust the summary.",
+  links:[{to:"claudecode",rel:"shows each edit from"},{to:"git",rel:"is also how you read changes in"}]},
+ {id:"browserpane", layer:"tools", name:"Browser pane", kind:"the Claude app's own browser",
+  what:"A browser inside the Claude app. It starts clean, with none of your saved logins or history.",
+  why:"Claude can open the page it just built and check it, without touching your own accounts. Use it for your site and for pages that don't need you signed in.",
+  ai:"When the AI says 'I'll open it in the preview' or 'I checked the page', it used this pane. When you want Claude to act as you, signed in to your accounts, the Chrome extension is the tool.",
+  links:[{to:"browser",rel:"is kept apart from your own"},{to:"html",rel:"opens your"},{to:"localhost",rel:"can show a site running on"}]},
+ {id:"usagelimit", layer:"tools", name:"Usage limit", kind:"your plan's allowance",
+  what:"How much you can use Claude before you wait for a reset. On a paid plan, one limit resets every five hours and one every week.",
+  why:"The chat, the Claude app and Claude Code all draw from the same limit. Long chats, strong models and high effort use it faster.",
+  ai:"When the AI says you've reached your limit, stop. Carry on from the same step after it resets.",
+  links:[{to:"claude",rel:"is shared by"},{to:"claudecode",rel:"is shared by"},{to:"llm",rel:"runs out faster on a stronger"}]},
+ {id:"memory", layer:"tools", name:"Memory", kind:"Claude's own notes",
+  what:"Notes Claude keeps from your chats and carries into new ones. It's on by default on most plans, and Claude picks what to keep. You can read and change it in Settings.",
+  why:"A new chat isn't blank, but memory may not keep the thing you need. A rule you write keeps it on purpose.",
+  ai:"When the AI says 'I remember you prefer…', that's memory. Claude Code has something similar, called auto memory. The rules you write yourself go in CLAUDE.md.",
+  links:[{to:"claude",rel:"carries things between chats in"},{to:"context",rel:"is different from the"},{to:"claudecode",rel:"has a similar feature, auto memory, in"}]},
+
+ 
+ {id:"toolcall", layer:"ai", name:"Tool calling", kind:"model uses functions",
+  what:"You tell the model what functions exist (search, send email, look up a customer). It replies with 'call this one, with these inputs.' Your code runs it and hands the result back.",
+  why:"A model can only produce text. Tool calling is how text turns into action without the model touching anything directly.",
+  ai:"When it says 'define a tool' or 'function calling,' it means describing a capability in JSON so the model can ask for it. MCP is tool calling with a shared standard.",
+  links:[{to:"agent",rel:"is how an"},{to:"mcp",rel:"is standardized by"},{to:"file-json",rel:"is described in"}]},
+ {id:"streaming", layer:"ai", name:"Streaming", kind:"tokens as they arrive",
+  what:"Instead of waiting for the full answer, the model sends tokens as it produces them. That's the typing effect you see in chat.",
+  why:"A long answer can take thirty seconds. Showing it as it forms makes the wait feel like reading instead of loading.",
+  ai:"When it says 'stream the response,' it means your code handles the answer in pieces. Slightly harder to write; much better to use.",
+  links:[{to:"api",rel:"is an option on the"},{to:"tokens",rel:"delivers"},{to:"browser",rel:"shows up in the"}]},
+ {id:"finetune", layer:"ai", name:"Fine-tuning", kind:"training a variant",
+  what:"Adjusting a model's weights on your own examples so it behaves a certain way by default. Expensive, slow, and usually unnecessary.",
+  why:"Occasionally a prompt can't get the style or format reliably. Fine-tuning bakes it in.",
+  ai:"When it says 'you probably don't need fine-tuning,' believe it. Prompting, examples, and retrieval solve most things. Fine-tuning is for when those have been tried.",
+  links:[{to:"llm",rel:"produces a variant of the"},{to:"prompt",rel:"replaces a lot of"},{to:"rag",rel:"is often confused with"}]},
+
+// ---- frameworks
+ {id:"llm", layer:"ai", name:"The model", kind:"large language model",
+  what:"The thing that actually answers. A very large statistical system trained on text, running on someone's servers.",
+  why:"Everything in this layer exists to feed the model input and use its output. It is the engine; the rest is plumbing.",
+  ai:"When it says 'as a model' or names a version, it's telling you which engine you're using. Different versions differ in speed, price, and how much they can hold.",
+  links:[{to:"tokens",rel:"reads and writes"},{to:"context",rel:"has a"},{to:"api",rel:"is reached through an"}]},
+ {id:"prompt", layer:"ai", name:"Prompt", kind:"your message + the system prompt",
+  what:"What you send the model. The system prompt is the standing instructions set before you say anything; your message is the prompt.",
+  why:"The model has no memory of its own. Everything it knows about the task has to be in the prompt.",
+  ai:"When it says 'add that to the system prompt,' it means put it in the permanent instructions, not the next message.",
+  links:[{to:"tokens",rel:"is measured in"},{to:"context",rel:"fills the"}]},
+ {id:"tokens", layer:"ai", name:"Tokens", kind:"unit of text",
+  what:"Chunks of text, roughly three-quarters of a word each. Models read, write, and bill in tokens.",
+  why:"Models don't see letters or words. Tokens are the atoms of everything they process.",
+  ai:"When it says 'that's about 2,000 tokens,' it's estimating size and cost. When something 'exceeds the token limit,' it didn't fit.",
+  links:[{to:"context",rel:"fill the"},{to:"api",rel:"are billed by the"}]},
+ {id:"context", layer:"ai", name:"Context window", kind:"working memory",
+  what:"How much text the model can hold at once: the system prompt, the conversation, attached files, everything.",
+  why:"There's a hard ceiling. Beyond it, things fall off, and the model behaves as if they never happened.",
+  ai:"When it says 'the context is getting long' or 'I no longer have that file,' it's telling you it's near or past the ceiling.",
+  links:[{to:"rag",rel:"is extended by"}]},
+ {id:"api", layer:"ai", name:"API", kind:"programmatic access",
+  what:"A way for code to talk to the model, or any service, over the internet. Send a structured request, get a structured reply.",
+  why:"Chat windows are for people. APIs are for programs, so apps can use the model without a human typing.",
+  ai:"When it says 'call the API,' it means write code that sends a request. When it 'hits a rate limit,' the service said 'slow down.'",
+  links:[{to:"apikey",rel:"is unlocked by an"},{to:"llm",rel:"reaches the"},{to:"file-py",rel:"is called from"},{to:"file-js",rel:"is called from"}]},
+ {id:"apikey", layer:"ai", name:"API key", kind:"credential",
+  what:"A long secret string that proves your code is allowed to use a service and that the bill goes to you.",
+  why:"Services need to know who's calling. The key is a password for programs.",
+  ai:"When it says 'set your API key in the environment,' it means put it in a .env file, never in the code itself. A leaked key is a leaked credit card.",
+  links:[{to:"file-env",rel:"lives in"},{to:"api",rel:"unlocks the"}]},
+ {id:"mcp", layer:"ai", name:"MCP", kind:"connector standard",
+  what:"Model Context Protocol. A shared way of describing tools so any model can use any app: your calendar, a database, Render.",
+  why:"Before MCP every integration was custom. Now an app describes itself once and every AI tool can plug in.",
+  ai:"When it says 'connect the MCP server,' it means authorize an app so the model gets its tools. 'Server' here is just the app's adapter, not a machine you run.",
+  links:[{to:"agent",rel:"gives tools to an"},{to:"database",rel:"can expose a"},{to:"render",rel:"can expose"}]},
+ {id:"agent", layer:"ai", name:"Agent", kind:"model in a loop",
+  what:"A model that can take actions, see the result, and decide the next step. Repeat until done.",
+  why:"A single answer can't fix a bug, because fixing means trying things. Agents turn a model into a worker.",
+  ai:"When it says 'I'll work on this agentically' or 'let me try that,' expect multiple steps and real actions before you hear back.",
+  links:[{to:"llm",rel:"is a"},{to:"terminal",rel:"acts through the"},{to:"mcp",rel:"uses tools from"}]},
+ {id:"rag", layer:"ai", name:"RAG / embeddings", kind:"retrieval",
+  what:"Turn documents into numbers (embeddings), find the ones closest to the question, hand only those to the model.",
+  why:"Your documents won't fit in the context window. Retrieval picks the relevant pages instead of sending the whole library.",
+  ai:"When it says 'we'd need RAG for that' or 'a vector database,' it means the knowledge is too big to paste in and needs a lookup step.",
+  links:[{to:"database",rel:"stores vectors in a"},{to:"context",rel:"feeds the"}]},
+ {id:"subagent", layer:"ai", name:"Subagent", kind:"a helper with its own chat",
+  what:"A helper Claude starts for one side job. It gets a fresh, empty context of its own and hands back only a short report.",
+  why:"Your main chat stays clean, and a helper that didn't do the work checks it with fresh eyes.",
+  ai:"When the AI says 'I'll have a subagent check this', a helper is starting. It uses the same usage limit as your chat.",
+  links:[{to:"agent",rel:"is a helper"},{to:"context",rel:"has its own"},{to:"usagelimit",rel:"counts toward the same"}]},
+ {id:"injection", layer:"ai", name:"Prompt injection", kind:"hidden orders",
+  what:"Orders for the AI hidden in a web page, an email or a document. Claude reads it for you, and someone has written instructions for Claude inside it.",
+  why:"It's the biggest risk when the AI reads pages and acts for you. The text can even be invisible to you.",
+  ai:"When the AI says 'this page is telling me to…' and stops to ask you, that's the right move. Only you give it orders.",
+  links:[{to:"agent",rel:"tries to trick an"},{to:"prompt",rel:"sneaks in a fake"},{to:"browser",rel:"can arrive through the"}]},
+
+ // ---- frameworks
+ {id:"react", layer:"frame", name:"React", kind:"UI framework (JavaScript)",
+  what:"A way of building web interfaces out of reusable pieces called components. Most modern web apps use it.",
+  why:"Raw HTML doesn't update itself when data changes. React redraws the screen for you.",
+  ai:"When it says 'a React component,' it means one reusable chunk of interface in a .jsx file. 'State' is the data that makes it change.",
+  links:[{to:"js",rel:"is written in"},{to:"html",rel:"produces"},{to:"npm",rel:"is installed with"},{to:"browser",rel:"runs in the"}]},
+ {id:"fastapi", layer:"frame", name:"FastAPI / Flask", kind:"web framework (Python)",
+  what:"Python libraries for building a server: something that listens for requests and answers them.",
+  why:"Listening to the internet by hand is hundreds of lines. These make it five.",
+  ai:"When it says 'an endpoint' or 'a route,' it means one address the server answers at, like /chat. When it says 'the backend,' this is usually it.",
+  links:[{to:"python",rel:"is written in"},{to:"pip",rel:"is installed with"},{to:"server",rel:"becomes a"},{to:"api",rel:"exposes an"}]},
+ {id:"express", layer:"frame", name:"Express / Next.js", kind:"web framework (JavaScript)",
+  what:"The JavaScript equivalents of FastAPI. Express is a bare server; Next.js is React plus a server in one package.",
+  why:"Same reason as FastAPI, for teams that want one language front and back.",
+  ai:"When it says 'full-stack,' it usually means Next.js: the page and the server in the same project.",
+  links:[{to:"js",rel:"is written in"},{to:"npm",rel:"is installed with"},{to:"server",rel:"becomes a"},{to:"react",rel:"bundles"}]},
+ {id:"npm", layer:"frame", name:"npm", kind:"package manager (JavaScript)",
+  what:"The tool and the store for JavaScript packages. 'npm install' downloads other people's code into your project.",
+  why:"Nobody writes a date-formatter from scratch. Packages are shared parts; npm is the warehouse.",
+  ai:"When it says 'install the dependency,' it means run npm install. The node_modules folder it creates is huge and never yours to edit.",
+  links:[{to:"file-pkg",rel:"reads"},{to:"node",rel:"runs on"}]},
+ {id:"pip", layer:"frame", name:"pip", kind:"package manager (Python)",
+  what:"npm, for Python. 'pip install' fetches a library from the Python package index.",
+  why:"Same warehouse idea, different language.",
+  ai:"When it says 'pip install -r requirements.txt,' it means install every library the project lists. A 'virtual environment' is a private shelf so projects don't fight.",
+  links:[{to:"file-req",rel:"reads"},{to:"pyrun",rel:"runs on"}]},
+
+ 
+ {id:"auth", layer:"frame", name:"Auth / login", kind:"who is this user",
+  what:"Sign-up, log-in, sessions, password resets, 'log in with Google.' The part of an app that knows who's using it.",
+  why:"Anything with accounts needs it, and it's the part most dangerous to get wrong. Nobody should write it from scratch.",
+  ai:"When it says 'add authentication,' it will reach for a library or service (Clerk, Auth0, Supabase Auth) rather than hand-rolling. A 'session' or 'JWT' is the proof-of-login your app passes around.",
+  links:[{to:"database",rel:"stores users in a"},{to:"baas",rel:"often comes with"},{to:"apikey",rel:"is the human version of an"}]},
+ {id:"baas", layer:"frame", name:"Supabase / Firebase", kind:"backend as a service",
+  what:"A hosted database, auth, file storage, and API in one account. Your app talks to it directly; you write far less server code.",
+  why:"Most small apps need the same backend. These sell it pre-built.",
+  ai:"When it suggests Supabase, it's choosing to skip writing a backend. You'll get a URL and a key to put in .env, and the database is Postgres underneath.",
+  links:[{to:"database",rel:"is a hosted"},{to:"auth",rel:"includes"},{to:"file-env",rel:"puts its keys in"},{to:"api",rel:"exposes an"}]},
+ {id:"webhook", layer:"frame", name:"Webhook", kind:"a service calls you",
+  what:"The reverse of an API call. You give a service a URL, and it sends a request to that URL whenever something happens: a payment lands, a message arrives, a form is submitted.",
+  why:"Polling ('anything new? anything new?') is wasteful. Webhooks mean the other side tells you.",
+  ai:"When it says 'set up a webhook endpoint,' it means make a route on your server that the other service can hit, then paste that route's public URL into their settings. Telegram bots, Stripe, and GitHub all work this way.",
+  links:[{to:"fastapi",rel:"lands on a route in"},{to:"http",rel:"is an incoming"},{to:"domain",rel:"needs a public"},{to:"file-json",rel:"delivers"}]},
+ {id:"tests", layer:"frame", name:"Tests", kind:"code that checks code",
+  what:"Small programs that run your program with known inputs and complain if the output changes. pytest for Python, Jest or Vitest for JavaScript.",
+  why:"They let you change things without re-checking everything by hand. And they're how an AI agent knows whether its edit worked.",
+  ai:"When Claude Code says 'I ran the tests and they pass,' this is what ran. When it says 'no tests exist,' it's flying blind; ask it to write some first.",
+  links:[{to:"claudecode",rel:"are run by"},{to:"terminal",rel:"run from the"},{to:"file-py",rel:"live beside"}]},
+
+// ---- files
+ {id:"file-py", layer:"files", name:".py", kind:"Python source file",
+  what:"A text file of Python code. The Python interpreter reads it top to bottom.",
+  why:"Code has to live somewhere the runtime can find it. This is that somewhere.",
+  ai:"When it says 'main.py' or 'app.py,' that's the starting file. 'Run it' means: python main.py in the terminal.",
+  links:[{to:"python",rel:"contains"},{to:"pyrun",rel:"is read by the"}]},
+ {id:"file-js", layer:"files", name:".js / .ts / .jsx", kind:"JavaScript source file",
+  what:"JavaScript code. .ts adds types; .jsx is JavaScript with HTML-like tags for React.",
+  why:"Same idea as .py. The extension tells editors and runtimes what's inside.",
+  ai:"When it says 'the .tsx file,' that's a React component with types. Don't worry about the letters; it's all JavaScript by the time it runs.",
+  links:[{to:"js",rel:"contains"},{to:"node",rel:"is read by"},{to:"browser",rel:"is read by the"}]},
+ {id:"file-json", layer:"files", name:".json", kind:"data file",
+  what:"Structured data in curly braces: names and values, lists, nested. Human-readable, machine-strict.",
+  why:"Programs need to pass data around in a shape they all agree on. JSON is that shape.",
+  ai:"When it says 'return JSON,' it wants data, not prose. When something 'isn't valid JSON,' a comma or quote is missing.",
+  links:[{to:"api",rel:"carries data for the"},{to:"file-pkg",rel:"is the format of"}]},
+ {id:"file-yaml", layer:"files", name:".yaml / .toml", kind:"config file",
+  what:"Settings files. YAML uses indentation; TOML uses sections. Both are for humans to read and programs to obey.",
+  why:"Behavior you want to change without editing code goes in config.",
+  ai:"When it says 'the config,' it means one of these. Indentation in YAML is meaning, not decoration; one wrong space breaks it.",
+  links:[{to:"render",rel:"tells settings to"},{to:"docker",rel:"configures"}]},
+ {id:"file-env", layer:"files", name:".env", kind:"secrets file",
+  what:"A plain list of KEY=value lines: API keys, passwords, database addresses. Loaded into the program at start.",
+  why:"Secrets must never be in code, because code gets shared. This file stays on your machine.",
+  ai:"When it says 'add it to your .env,' paste the key there. When it says 'don't commit .env,' it means keep it out of Git, which .gitignore does.",
+  links:[{to:"apikey",rel:"holds the"},{to:"file-gitignore",rel:"is hidden by"},{to:"render",rel:"is re-entered on"}]},
+ {id:"file-md", layer:"files", name:".md", kind:"Markdown document",
+  what:"Plain text with light formatting marks: # for headings, * for bullets. What READMEs and most AI-written docs are.",
+  why:"Documents that live next to code should be text, so Git can track them and any editor can open them.",
+  ai:"When it writes a README.md or CLAUDE.md, it's writing instructions for humans and for future AI sessions. CLAUDE.md is how you give Claude Code standing orders.",
+  links:[{to:"git",rel:"is tracked by"},{to:"claudecode",rel:"instructs"}]},
+ {id:"file-pkg", layer:"files", name:"package.json", kind:"JavaScript project manifest",
+  what:"The ID card of a JavaScript project: its name, its scripts, and every package it depends on.",
+  why:"Someone else, or a server, needs to rebuild your project from scratch. This is the shopping list.",
+  ai:"When it says 'add a script to package.json,' it's creating a named shortcut like npm run dev. 'Dependencies' is the list npm installs.",
+  links:[{to:"npm",rel:"is read by"},{to:"file-json",rel:"is written in"}]},
+ {id:"file-req", layer:"files", name:"requirements.txt", kind:"Python dependency list",
+  what:"One library per line, with versions. package.json for Python, minus the extras.",
+  why:"Same shopping-list reason.",
+  ai:"When it says 'pin the version,' it means write fastapi==0.110 instead of just fastapi, so it doesn't change under you later.",
+  links:[{to:"pip",rel:"is read by"}]},
+ {id:"file-gitignore", layer:"files", name:".gitignore", kind:"exclusion list",
+  what:"A list of files and folders Git should pretend don't exist: .env, node_modules, temp files.",
+  why:"Some things must not be shared, and some are too big to bother.",
+  ai:"When it says 'that's gitignored,' the file is real on your machine but invisible to GitHub and to anyone who clones.",
+  links:[{to:"git",rel:"instructs"},{to:"file-env",rel:"hides"}]},
+ {id:"docker", layer:"files", name:"Dockerfile", kind:"environment recipe",
+  what:"Step-by-step instructions to build a sealed box (a container) with the exact runtime, libraries, and code your app needs.",
+  why:"'Works on my machine' is the oldest bug. A container makes every machine your machine.",
+  ai:"When it says 'containerize it' or 'the image,' it means package the whole environment so a server runs it identically.",
+  links:[{to:"render",rel:"is built by"},{to:"cloud",rel:"runs on the"}]},
+
+ 
+ {id:"file-csv", layer:"files", name:".csv / data files", kind:"tabular data",
+  what:"Rows and columns as plain text. What a spreadsheet becomes when it leaves Excel. Parquet and SQLite are the heavier cousins.",
+  why:"Data has to move between tools, and the tools don't share a format. CSV is the one everyone reads.",
+  ai:"When it says 'load the CSV,' it's reading the file into a table it can work with (pandas in Python). If columns come out wrong, the delimiter or the header row is the usual culprit.",
+  links:[{to:"python",rel:"is read with"},{to:"database",rel:"is imported into a"},{to:"file-json",rel:"is the flat cousin of"}]},
+ {id:"denyrule", layer:"files", name:"Deny rule", kind:"a block on Claude's own tools",
+  what:"A line in Claude Code's settings that blocks Claude from a file, a folder or a command.",
+  why:"A rule in CLAUDE.md is a request. A deny rule blocks Claude's own tools in every permission mode. It doesn't block every program on your computer.",
+  ai:"When the AI says 'I'm not allowed to read that' or 'that's blocked by a deny rule', the block is working. Don't remove it to get past the moment.",
+  links:[{to:"claudecode",rel:"blocks a file or command in"},{to:"permmodes",rel:"holds in all the"},{to:"file-json",rel:"is written in a"}]},
+ {id:"hook", layer:"files", name:"Hook", kind:"a check that always runs",
+  what:"A small command Claude Code runs on its own at set moments, like just before Claude runs a command. It can stop the action.",
+  why:"Claude can forget a rule. A hook doesn't depend on Claude choosing to follow it: it runs every time.",
+  ai:"When the AI says 'a hook blocked that', your own check stopped it. Read why before you try again.",
+  links:[{to:"claudecode",rel:"is run by"},{to:"toolcall",rel:"can stop a"},{to:"file-json",rel:"is set up in a"}]},
+
+// ---- languages
+ {id:"python", layer:"lang", name:"Python", kind:"language",
+  what:"The most readable mainstream language. Dominant for AI, data, scripts, and backends.",
+  why:"Reads almost like English, and nearly every AI library was written for it first.",
+  ai:"When the AI defaults to Python for a script, it's because that's where the AI tooling lives. 'Pythonic' means written the way Python people expect.",
+  links:[{to:"pyrun",rel:"runs on the"},{to:"file-py",rel:"is saved as"},{to:"fastapi",rel:"powers"}]},
+ {id:"js", layer:"lang", name:"JavaScript", kind:"language (TypeScript adds types)",
+  what:"The language of the browser, and since Node, of servers too. TypeScript is JavaScript with type-checking added.",
+  why:"It's the only language browsers run natively. Everything interactive on the web goes through it.",
+  ai:"When it says 'the frontend,' it's JavaScript. When it suggests TypeScript, it wants the editor to catch mistakes before you run.",
+  links:[{to:"browser",rel:"runs in the"},{to:"node",rel:"runs on"},{to:"file-js",rel:"is saved as"},{to:"react",rel:"powers"}]},
+ {id:"html", layer:"lang", name:"HTML & CSS", kind:"markup & styling",
+  what:"HTML is the structure of a page (this is a heading, this is a button). CSS is how it looks (this color, this spacing).",
+  why:"A page needs bones and skin. Behavior comes from JavaScript.",
+  ai:"When it says 'markup,' that's HTML. When it says 'a class' in this context, it's a CSS label, not an object.",
+  links:[{to:"browser",rel:"is rendered by the"},{to:"react",rel:"is generated by"}]},
+ {id:"sql", layer:"lang", name:"SQL", kind:"query language",
+  what:"The language for asking databases questions: SELECT these rows WHERE this is true.",
+  why:"Data at scale can't be scanned by eye. SQL is how you ask for exactly what you need.",
+  ai:"When it says 'a query,' it usually means a SQL statement. 'A table' is a spreadsheet-like grid inside the database.",
+  links:[{to:"database",rel:"talks to a"}]},
+ {id:"bash", layer:"lang", name:"Bash / shell", kind:"command language",
+  what:"The language the terminal speaks. Short commands that move files, run programs, and chain them together.",
+  why:"Automation glue. A shell script is a list of terminal commands run in order.",
+  ai:"When it gives you a line starting with cd, ls, or ./, that's shell. When it says 'a script,' in this layer it means a .sh file.",
+  links:[{to:"terminal",rel:"runs in the"}]},
+
+ // ---- runtimes
+ {id:"pyrun", layer:"runtime", name:"Python interpreter", kind:"runtime",
+  what:"The program named 'python' on your machine. It reads .py files and does what they say.",
+  why:"Code is just text until something executes it.",
+  ai:"When it says 'which Python version,' it means this program. When it says 'not found,' the interpreter isn't installed or isn't on the path.",
+  links:[{to:"terminal",rel:"is launched from the"},{to:"server",rel:"runs on a"}]},
+ {id:"node", layer:"runtime", name:"Node.js", kind:"runtime",
+  what:"JavaScript outside the browser. The engine from Chrome, packaged as a program you run from the terminal.",
+  why:"Once JavaScript could run on servers, one language could do the whole app.",
+  ai:"When it says 'you need Node installed,' it means this. 'npx' is Node running a package without permanently installing it.",
+  links:[{to:"terminal",rel:"is launched from the"},{to:"server",rel:"runs on a"},{to:"npm",rel:"comes with"}]},
+ {id:"browser", layer:"runtime", name:"Browser", kind:"runtime",
+  what:"Chrome, Safari, Firefox. The runtime for HTML, CSS, and JavaScript that every person already has.",
+  why:"The most widely installed program in the world. Anything that runs here needs no install.",
+  ai:"When it says 'client-side,' it means this: code running on the visitor's machine, not your server.",
+  links:[{to:"server",rel:"asks the"},{to:"domain",rel:"is pointed by a"}]},
+ {id:"git", layer:"runtime", name:"Git", kind:"version control",
+  what:"A history of every change to every file, with the ability to go back. Runs locally; GitHub is where copies live.",
+  why:"Undo for whole projects, and the way multiple people (or AIs) work on one thing without overwriting each other.",
+  ai:"When it says 'commit,' it's saving a checkpoint with a message. 'Branch' is a parallel version; 'merge' folds it back. 'Diff' is what changed.",
+  links:[{to:"github",rel:"pushes to"},{to:"file-gitignore",rel:"obeys"},{to:"terminal",rel:"is run from the"}]},
+
+ 
+ {id:"http", layer:"runtime", name:"HTTP", kind:"how things talk over the web",
+  what:"The request-and-response rules every browser, API, and webhook uses. GET fetches, POST sends; the reply carries a status code (200 fine, 404 missing, 500 broke).",
+  why:"Two programs on different machines need one agreed way to talk. This is it, for nearly everything.",
+  ai:"When it says 'make a request' or 'the endpoint returned 401,' it's speaking HTTP. The three-digit codes are the fastest diagnosis you'll get.",
+  links:[{to:"api",rel:"carries every"},{to:"browser",rel:"is spoken by the"},{to:"server",rel:"is answered by the"},{to:"webhook",rel:"delivers a"}]},
+ {id:"localhost", layer:"runtime", name:"localhost & ports", kind:"your machine as a server",
+  what:"localhost is your own computer's address. A port is a numbered door on it. http://localhost:3000 means 'the program listening on door 3000, here.'",
+  why:"You need to run and see the app before anyone else can. This is the private preview.",
+  ai:"When it says 'open localhost:8000 in your browser,' the app is running on your machine and only you can see it. 'Port already in use' means a door is taken.",
+  links:[{to:"server",rel:"is a private"},{to:"browser",rel:"is opened in the"},{to:"terminal",rel:"is started from the"}]},
+ {id:"logs", layer:"runtime", name:"Logs", kind:"what the program said while running",
+  what:"Lines a program prints as it works: what it did, what it received, what went wrong. In the terminal locally; in a dashboard on Render.",
+  why:"When something breaks you weren't watching. Logs are the recording.",
+  ai:"When it says 'check the logs' or 'add some logging,' it wants the program to narrate itself so the failure has a trail. The first error line is usually the cause; the last is where it gave up.",
+  links:[{to:"terminal",rel:"print to the"},{to:"render",rel:"are collected by"},{to:"tests",rel:"are the second opinion after"}]},
+
+// ---- infra
+ {id:"server", layer:"infra", name:"Server", kind:"always-on computer",
+  what:"A computer that stays on and answers requests from the internet. Your laptop can be one; usually it's rented.",
+  why:"Your app has to be somewhere when you close the lid.",
+  ai:"When it says 'the server' it may mean the machine or the program listening on it. Both are 'the backend.'",
+  links:[{to:"cloud",rel:"is rented from the"},{to:"database",rel:"reads a"},{to:"domain",rel:"is reached by a"}]},
+ {id:"render", layer:"infra", name:"Render", kind:"deploy platform",
+  what:"A service that takes your GitHub repo, builds it, runs it on a server, and gives it a web address. Vercel, Railway, and Fly are the same idea.",
+  why:"Running your own server is a job. These platforms make 'deploy' a button.",
+  ai:"When it says 'deploy to Render,' it means connect the repo, set the environment variables (your .env, re-entered), and let it build. 'A deploy failed' means the build step broke.",
+  links:[{to:"github",rel:"pulls from"},{to:"cloud",rel:"runs on the"},{to:"file-env",rel:"needs values from"},{to:"domain",rel:"gives you a"}]},
+ {id:"cloud", layer:"infra", name:"Cloud", kind:"AWS, GCP, Azure: rented computers",
+  what:"Giant warehouses of computers you rent by the minute. Render, and most of the internet, sit on top of these.",
+  why:"Nobody wants to own hardware. The cloud is buying compute like electricity.",
+  ai:"When it says 'provision' or 'spin up,' it means rent a machine. If it starts talking about IAM or VPCs, you're a layer deeper than most people need.",
+  links:[{to:"server",rel:"provides a"}]},
+ {id:"database", layer:"infra", name:"Database", kind:"Postgres: structured storage",
+  what:"A program built to store and find data reliably: tables, rows, indexes. Postgres is the common default.",
+  why:"Files don't scale and don't survive crashes well. Databases do.",
+  ai:"When it says 'persist it,' it means save it somewhere that outlives the program: this. 'Schema' is the shape of the tables. 'Migration' is a change to that shape.",
+  links:[{to:"sql",rel:"is queried with"},{to:"server",rel:"is read by the"}]},
+ {id:"domain", layer:"infra", name:"Domain & DNS", kind:"address",
+  what:"The name people type (yourapp.com) and the lookup system that turns it into the server's number.",
+  why:"Servers have numeric addresses. Names are for humans.",
+  ai:"When it says 'point your DNS at it,' it means change a record at your domain registrar so the name resolves to the new server.",
+  links:[{to:"server",rel:"points at a"},{to:"browser",rel:"is typed into the"}]},
+
+ {id:"envs", layer:"infra", name:"Environments", kind:"dev / staging / prod",
+  what:"Dev is the copy you break on purpose, on your machine. Prod (production) is the copy real people use. Staging sits between, when it exists.",
+  why:"You can't test on the live version without users seeing your mistakes.",
+  ai:"When it says 'that's a production setting' or 'only in dev,' it's telling you which copy. Each has its own .env; a dev key in prod is a classic leak.",
+  links:[{to:"file-env",rel:"each has its own"},{to:"localhost",rel:"dev usually means"},{to:"render",rel:"prod usually means"}]},
+ {id:"ghpages", layer:"infra", name:"GitHub Pages", kind:"website hosting from GitHub",
+  what:"A GitHub service that takes the HTML, CSS and JavaScript files saved on GitHub and publishes them as a website.",
+  why:"Your site goes online without renting a server. What it shows is public on the internet, so read it before it goes up.",
+  ai:"When the AI says 'it's live on GitHub Pages', anyone with the address can see it. In this course nothing goes up without your typed yes. Pages publishes whatever is pushed to main.",
+  links:[{to:"github",rel:"is a service of"},{to:"html",rel:"puts online your"},{to:"git",rel:"publishes what you saved with"}]},
+];
+
+// Subway lines: named journeys through the same nodes.
+const LINES = [
+ {id:"a", name:"Ship a web app",  color:"var(--subway-a)", stops:["claudecode","python","file-py","file-req","fastapi","git","github","render","domain"]},
+ {id:"b", name:"Talk to a model", color:"var(--subway-b)", stops:["claude","prompt","tokens","context","llm","api","apikey","file-env"]},
+ {id:"c", name:"Give the AI hands", color:"var(--subway-c)", stops:["cowork","mcp","agent","terminal","bash","database","sql"]},
+ {id:"d", name:"Build a screen",  color:"var(--subway-d)", stops:["cursor","html","js","file-js","react","npm","file-pkg","node","browser"]},
+ {id:"e", name:"React to an event", color:"var(--subway-e)", stops:["webhook","http","domain","fastapi","file-json","logs","envs"]},
+];
+
+// Goals: a route through the map with a note at each stop.
+const GOALS = [
+ {id:"chatbot", name:"put a chatbot on a website", foot:"The whole trip, top to bottom. Most people's first real project touches every layer, which is why it feels like a lot.",
+  steps:[["claude","Prototype the conversation here first. Get the prompt right before writing any code."],["prompt","The instructions you settled on become the system prompt inside the app."],["api","The app reaches the model the same way, but from code instead of a chat box."],["apikey","Your code needs a key to prove it's you. Get one from the provider's console."],["file-env","The key goes here, not in the code."],["python","Pick a language. Python is the default for anything AI-shaped."],["fastapi","The server: one endpoint that takes a message and returns the model's reply."],["file-py","Where that server code lives. Usually app.py or main.py."],["html","The page people see: a text box and a send button."],["js","The bit that sends the box's contents to your server and shows the answer."],["git","Checkpoint the project so you can undo."],["github","Push it up so a deploy platform can see it."],["render","Connect the repo, re-enter the key from your .env as an environment variable, deploy."],["domain","Point a name at it. Done."]]},
+ {id:"screen", name:"build an app people use in their browser", foot:"Everything here is the JavaScript world. You never leave one language.",
+  steps:[["cursor","Your workbench. Open the project folder here."],["html","The bones of the page."],["js","The behavior. Buttons do things."],["react","Once the page has more than a few moving parts, React keeps them in sync."],["npm","Installs React and everything else."],["file-pkg","The list npm reads. Your project's ID card."],["file-js","Where components live, usually as .jsx or .tsx."],["node","Runs the build tools on your machine."],["browser","Where it actually runs for the person using it."],["render","Static sites deploy here too, for free in most cases."]]},
+ {id:"hands", name:"let the AI work inside my files and apps", foot:"No code involved. This is the operator's route.",
+  steps:[["cowork","Start here for documents, spreadsheets, and apps. Claude Code for repos."],["mcp","Connect the apps you want it to reach. Each one is an MCP server."],["agent","Now it can act, check the result, and act again."],["context","Everything it reads lands here. Big folders fill it fast; point it at what matters."],["file-md","Ask it to leave notes as it goes. A CLAUDE.md gives the next session its bearings."]]},
+ {id:"inherit", name:"understand a project someone sent me", foot:"Read in this order and you'll know what it is, what it needs, and what's missing before you run anything.",
+  steps:[["github","Where it probably came from. Clone it."],["git","Look at the history. Recent commits tell you what's alive."],["file-md","README first. It's the author telling you what this is."],["file-pkg","If this exists, it's a JavaScript project. Read the scripts and dependencies."],["file-req","If this exists instead, it's Python."],["file-gitignore","Shows what was deliberately left out."],["file-env","Usually missing, because it's ignored. You'll need to make your own from a .env.example."],["cursor","Open the folder here and ask the AI to walk you through it."]]},
+ {id:"persist", name:"save data so it survives restarts", foot:"Anything in memory dies when the program stops. This is how it doesn't.",
+  steps:[["fastapi","Your server is where writes happen."],["database","Add one. Postgres is the safe default; Render will host it."],["sql","The server talks to it in SQL, or through a library that writes SQL for you."],["file-env","The database address and password go here."],["render","Provision the database next to the app and give it the connection string."]]},
+ {id:"keys", name:"keep my API keys from leaking", foot:"Four files, one rule: secrets live outside the code and outside Git.",
+  steps:[["apikey","Treat it like a card number. Anyone with it spends your money."],["file-env","It goes here and only here."],["file-gitignore","Add .env to this list so Git never sees it."],["git","Check: git status should not show .env. If it ever did, rotate the key."],["render","On the server, re-enter it as an environment variable. Same name, same value, never in a file."]]},
+ {id:"schedule", name:"run a script automatically on a schedule", foot:"A cron job is the oldest automation there is: 'every day at 6, run this.'",
+  steps:[["claudecode","Describe the job. Let it write and test the script in your folder."],["python","Scripts are Python's home turf."],["file-py","The script itself."],["file-req","Whatever libraries it pulled in."],["terminal","Run it by hand once. If it works here, it can work anywhere."],["bash","Wrap the run in a one-line shell command."],["render","Render, and most platforms, have a 'cron job' service type. Give it the command and a schedule."]]},
+ {id:"hook", name:"make an app react when something happens elsewhere", foot:"Telegram messages, Stripe payments, form submissions, GitHub pushes: all the same shape. They call you.",
+  steps:[["webhook","The other service needs a URL to hit when the event happens."],["fastapi","Make a route on your server to receive it. Usually a POST."],["http","What arrives is an HTTP request with a JSON body describing the event."],["file-json","Read the fields you care about out of that body."],["localhost","You can't test this on localhost; the outside world can't reach it. Tools like ngrok make a temporary public tunnel."],["domain","For real, the route needs a public address. Deploying gives you one."],["logs","Print every incoming event at first. Webhooks fail silently otherwise."]]},
+ {id:"login", name:"add accounts and login to my app", foot:"Never write the password handling yourself. Every AI will steer you to a library or service, and it's right.",
+  steps:[["auth","Pick a provider or library. Supabase Auth, Clerk, or your framework's built-in one."],["baas","If you're already on Supabase, auth is included and this gets short."],["database","Users are rows in a table. The provider usually creates it."],["file-env","Its keys go here."],["http","Logged-in requests carry a token; the server checks it on every protected route."],["envs","Use separate keys for dev and prod so test accounts never touch real users."]]},
+ {id:"machine", name:"fix 'it works on my machine'", foot:"The bug isn't in the code. It's in the difference between two computers.",
+  steps:[["pyrun","Check versions first. Your Python 3.12 and their 3.9 are not the same program."],["file-req","Pin versions so everyone installs the same libraries."],["docker","When pinning isn't enough, describe the whole machine in a Dockerfile."],["file-yaml","Platform config goes here: build command, start command, region."],["render","Build from the Dockerfile so the server and your laptop are identical."]]},
+];
+
+
+// "What it looks like": one small, real example per piece. Keyed by id.
+const EXAMPLES = {
+ claude:{label:"A message that gets a better answer",code:`I'm building a Telegram bot in Python.
+Here's my app.py (pasted below) and the error I get.
+Tell me the cause first, then the fix, then why.`},
+ claudecode:{label:"A session, from the terminal",code:`$ claude
+> add tests for app.py and make them pass
+
+  Reading app.py…
+  Wrote tests/test_app.py (4 tests)
+  Ran pytest → 3 passed, 1 failed
+  Fixed handle_message() → 4 passed`},
+ cowork:{label:"A task, in plain words",code:`Go through Q3-expenses.xlsx, flag anything
+over $500 without a receipt column value,
+and put the flagged rows in a new sheet.`},
+ cursor:{label:"What the editor shows",code:`app.py   ●  (unsaved)
+ 12  def handle(msg):
+ 13      reply = model.ask(msg.text)
+ 14      return reply       ← Cursor: "msg.text may be None"`},
+ github:{label:"A repo address, and what the parts mean",code:`https://github.com/your-name/telegram-bot
+        └ site    └ owner     └ repository
+$ git clone https://github.com/your-name/telegram-bot`},
+ terminal:{label:"Three commands you'll type a hundred times",code:`$ cd telegram-bot        # go into the folder
+$ ls                     # what's here?
+$ python app.py          # run it`},
+ llm:{label:"Same question, different engines",code:`model: claude-haiku-4-5   fast, cheap, good for short tasks
+model: claude-sonnet-5    the default; balanced
+model: claude-opus-5      slowest, strongest reasoning`},
+ prompt:{label:"System prompt vs message",code:`system:  You are a support agent for Acme.
+         Answer in two sentences. Never promise refunds.
+user:    My order is late, what do I do?`},
+ tokens:{label:"A sentence, as the model sees it",code:`"The quick brown fox jumped"
+ The| quick| brown| fox| jumped      → 5 tokens
+"Anthropic's"
+ Anth|ropic|'s                       → 3 tokens`},
+ context:{label:"What's in the window right now",code:`system prompt        1,200 tokens
+conversation so far 18,400 tokens
+attached PDF        41,000 tokens
+                    ──────────────
+                    60,600 of 200,000`},
+ api:{label:"One request, one reply",code:`POST https://api.anthropic.com/v1/messages
+{ "model": "claude-sonnet-5",
+  "messages": [{"role":"user","content":"Hi"}] }
+
+← { "content": [{"type":"text","text":"Hello!"}] }`},
+ apikey:{label:"What one looks like (fake)",code:`sk-ant-api03-Xk8P…2vQ   ← never in code, never in chat
+                        ← lives in .env, re-entered on Render`},
+ mcp:{label:"How a server describes a tool",code:`{ "name": "create_task",
+  "description": "Add a task to Asana",
+  "inputSchema": { "title": "string", "due": "date" } }`},
+ agent:{label:"The loop, in plain view",code:`think → act (run tests) → observe (1 failed)
+think → act (edit line 14) → observe (4 passed)
+think → done`},
+ rag:{label:"What retrieval does before the model sees anything",code:`question: "What's our refund window?"
+search 1,200 pages → top 3 matches:
+  policy.pdf p.4  (0.91)
+  faq.md          (0.84)
+  onboarding.md   (0.62)
+prompt = those 3 pages + the question`},
+ toolcall:{label:"The model asking for a function",code:`model → { "tool": "get_weather",
+          "input": { "city": "Denver" } }
+you run get_weather("Denver") → 71°F
+model ← "It's 71°F in Denver right now."`},
+ streaming:{label:"The answer arriving in pieces",code:`data: {"delta":"The "}
+data: {"delta":"answer "}
+data: {"delta":"is "}
+data: {"delta":"42."}`},
+ finetune:{label:"Training data looks like this",code:`{"input": "Summarize: …", "output": "• point\n• point\n• point"}
+{"input": "Summarize: …", "output": "• point\n• point"}
+… hundreds more, same shape`},
+ react:{label:"A component",code:`function Greeting({ name }) {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>
+    Hi {name}, clicked {count}
+  </button>;
+}`},
+ fastapi:{label:"A whole server",code:`from fastapi import FastAPI
+app = FastAPI()
+
+@app.post("/chat")
+def chat(msg: dict):
+    return {"reply": ask_model(msg["text"])}`},
+ express:{label:"The same server in JavaScript",code:`const app = require("express")();
+app.use(express.json());
+app.post("/chat", (req, res) => {
+  res.json({ reply: askModel(req.body.text) });
+});
+app.listen(3000);`},
+ npm:{label:"Install, then run a script",code:`$ npm install            # everything in package.json
+$ npm install openai     # add one more
+$ npm run dev            # a script named "dev"`},
+ pip:{label:"Install, into a private shelf",code:`$ python -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt`},
+ auth:{label:"What a logged-in request carries",code:`GET /api/orders
+Authorization: Bearer eyJhbGciOi…   ← the session token
+← 200 [your orders]      or   ← 401 (not logged in)`},
+ baas:{label:"Talking to it from code",code:`const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+const { data } = await sb.from("orders").select("*");`},
+ webhook:{label:"What arrives when a Telegram message lands",code:`POST https://yourapp.com/telegram   ← Telegram calls you
+{ "message": { "chat": {"id": 8123},
+               "text": "hello" } }`},
+ tests:{label:"A test",code:`def test_reply_is_short():
+    reply = handle("hi")
+    assert len(reply) < 200
+
+$ pytest      →  1 passed in 0.02s`},
+ "file-py":{label:"The smallest useful one",code:`# app.py
+import os
+from anthropic import Anthropic
+
+client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+print(client.messages.create(model="claude-sonnet-5",
+      max_tokens=100, messages=[{"role":"user","content":"Hi"}]))`},
+ "file-js":{label:"Same idea, three extensions",code:`app.js      plain JavaScript
+app.ts      TypeScript: let x: number = 5
+App.jsx     React: return <h1>Hi</h1>`},
+ "file-json":{label:"Names and values, nested",code:`{
+  "name": "telegram-bot",
+  "version": "1.0.0",
+  "tags": ["bot", "python"],
+  "author": { "name": "Your Name" }
+}`},
+ "file-yaml":{label:"Indentation is the structure",code:`services:
+  - type: web
+    name: telegram-bot
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py`},
+ "file-env":{label:"The whole file",code:`ANTHROPIC_API_KEY=sk-ant-api03-…
+TELEGRAM_TOKEN=7431…:AAF…
+DATABASE_URL=postgres://user:pass@host/db`},
+ "file-md":{label:"A README, and a CLAUDE.md",code:`# Telegram bot
+Replies to messages using Claude.
+## Run
+    pip install -r requirements.txt
+    python app.py
+
+# CLAUDE.md
+- Run tests before saying done.
+- Never edit .env.`},
+ "file-pkg":{label:"The parts you'll touch",code:`{ "name": "my-app",
+  "scripts": { "dev": "next dev", "build": "next build" },
+  "dependencies": { "next": "15.1.0", "react": "19.0.0" } }`},
+ "file-req":{label:"One per line, pinned",code:`fastapi==0.115.0
+anthropic==0.40.0
+python-telegram-bot==21.6`},
+ "file-gitignore":{label:"The usual four",code:`.env
+node_modules/
+__pycache__/
+.venv/`},
+ docker:{label:"A machine, described",code:`FROM python:3.12-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "app.py"]`},
+ "file-csv":{label:"A spreadsheet without the spreadsheet",code:`date,customer,amount
+2026-09-01,Acme,1200.00
+2026-09-02,Globex,340.50`},
+ python:{label:"Reads like a sentence",code:`for order in orders:
+    if order.total > 500 and not order.receipt:
+        flagged.append(order)`},
+ js:{label:"The same loop",code:`for (const order of orders) {
+  if (order.total > 500 && !order.receipt) {
+    flagged.push(order);
+  }
+}`},
+ html:{label:"Bones, then skin",code:`<button class="send">Send</button>
+
+.send { background: #2C5E8A; color: white;
+        padding: 8px 16px; border-radius: 8px; }`},
+ sql:{label:"A question, in SQL",code:`SELECT customer, SUM(amount)
+FROM orders
+WHERE date >= '2026-09-01'
+GROUP BY customer;`},
+ bash:{label:"Commands, chained",code:`cd telegram-bot && source .venv/bin/activate && python app.py
+# && means "and if that worked, then…"`},
+ pyrun:{label:"Which one is running?",code:`$ python --version
+Python 3.12.4
+$ which python
+/Users/you/telegram-bot/.venv/bin/python   ← the venv one, good`},
+ node:{label:"Run a file, or a one-off tool",code:`$ node --version
+v22.4.0
+$ node app.js
+$ npx create-next-app my-site    # run without installing`},
+ browser:{label:"What the browser asks for",code:`you type:  yourapp.com/chat
+browser →  GET /chat            (HTML)
+browser →  GET /app.js          (behavior)
+browser →  GET /style.css       (looks)`},
+ git:{label:"The daily four",code:`$ git status          # what changed?
+$ git add .           # stage it
+$ git commit -m "add webhook route"
+$ git push            # send to GitHub`},
+ http:{label:"Request, response, code",code:`GET /api/orders/42 HTTP/1.1
+Host: yourapp.com
+
+HTTP/1.1 200 OK        ← 404 = no such order
+{ "id": 42, "total": 1200 }`},
+ localhost:{label:"Where the app is while you build",code:`$ python app.py
+INFO: Uvicorn running on http://127.0.0.1:8000
+                        └ localhost  └ port
+open http://localhost:8000 in your browser`},
+ logs:{label:"A program narrating itself",code:`INFO  09:14:02  webhook received chat=8123
+INFO  09:14:02  asking model (312 tokens)
+ERROR 09:14:07  KeyError: 'text'   ← here's your bug
+      at app.py line 41`},
+ server:{label:"What it does all day",code:`listening on :8000
+09:14:02  POST /telegram   200   5.1s
+09:14:40  POST /telegram   200   2.3s
+09:15:11  GET  /health     200   0.0s`},
+ render:{label:"What a deploy looks like",code:`==> Cloning from GitHub…
+==> Running build: pip install -r requirements.txt
+==> Starting: python app.py
+==> Live at https://telegram-bot-x7k2.onrender.com`},
+ cloud:{label:"The bill is the point",code:`t3.small   2 vCPU   2 GB   $0.0208 / hour
+                            ≈ $15 / month, if left on`},
+ database:{label:"A table",code:`orders
+ id | customer | amount  | date
+ 41 | Acme     | 1200.00 | 2026-09-01
+ 42 | Globex   |  340.50 | 2026-09-02`},
+ domain:{label:"Name to number",code:`yourapp.com  →  A record  →  216.24.57.1
+bot.yourapp.com  →  CNAME  →  telegram-bot-x7k2.onrender.com`},
+ envs:{label:"Two copies, two .env files",code:`dev   localhost:8000       .env        test keys, fake data
+prod  yourapp.com          Render env  real keys, real users`},
+};
+
+// Explorables: small things to play with, mounted inside a piece's card. Each returns a DOM node.
+const EXPLORABLES = {
+ tokens(){
+  const root=document.createElement("div");
+  root.innerHTML=`<div>Type a sentence and watch it split the way a model reads it (an approximation; real tokenizers vary).</div><textarea rows="2">The quick brown fox jumped over Anthropic's lazy dog.</textarea><div class="out" style="margin-top:8px;line-height:1.9"></div><div class="note"></div>`;
+  const ta=root.querySelector("textarea"), out=root.querySelector(".out"), note=root.querySelector(".note");
+  const split=str=>{ const toks=[]; (str.match(/\s*[A-Za-z]+|\s*\d+|\s*[^\sA-Za-z\d]|\s+/g)||[]).forEach(w=>{ const core=w.trim(); if(core.length<=5||!/^[A-Za-z]+$/.test(core)){ toks.push(w); return; } let lead=w.slice(0,w.length-core.length); for(let i=0;i<core.length;i+=4){ toks.push(lead+core.slice(i,i+4)); lead=""; } }); return toks; };
+  const run=()=>{ const toks=split(ta.value); out.innerHTML=""; toks.forEach(t=>{ const sp=document.createElement("span"); sp.className="tok"; sp.textContent=t; out.append(sp); }); const words=(ta.value.trim().match(/\S+/g)||[]).length; note.textContent=`${toks.length} tokens for ${words} words. Long or unusual words cost more; short common ones are one token each.`; };
+  ta.addEventListener("input",run); run(); return root;
+ },
+ context(){
+  const root=document.createElement("div"); const CAP=200000; let items=[];
+  root.innerHTML=`<div>The window holds 200,000 tokens. Add things and watch it fill; when it overflows, the oldest thing falls off and the model behaves as if it never existed.</div>
+   <div class="row"><button data-n="System prompt" data-t="1200">+ system prompt (1.2k)</button><button data-n="A page of chat" data-t="2500">+ a page of chat (2.5k)</button><button data-n="A PDF" data-t="40000">+ a 40-page PDF (40k)</button><button data-n="A whole repo" data-t="120000">+ a whole repo (120k)</button><button data-reset="1">reset</button></div>
+   <div class="bar"></div><div class="note"></div><div class="stack"></div>`;
+  const bar=root.querySelector(".bar"), note=root.querySelector(".note"), stack=root.querySelector(".stack");
+  const cols=["var(--l-ai)","var(--l-tools)","var(--l-files)","var(--l-frame)","var(--l-lang)","var(--l-runtime)","var(--l-infra)"];
+  const draw=()=>{ let used=items.reduce((a,i)=>a+i.t,0); let dropped=0; while(used>CAP && items.length){ const d=items.shift(); d.gone=true; used-=d.t; dropped++; stack.prepend(Object.assign(document.createElement("div"),{textContent:`${d.n} · ${d.t.toLocaleString()} — fell off`,className:"gone"})); }
+    bar.innerHTML=""; items.forEach((i,k)=>{ const sp=document.createElement("span"); sp.style.width=(i.t/CAP*100)+"%"; sp.style.background=cols[k%cols.length]; sp.title=i.n; bar.append(sp); });
+    note.textContent=`${used.toLocaleString()} of ${CAP.toLocaleString()} tokens used (${Math.round(used/CAP*100)}%).`+(dropped?` ${dropped} thing${dropped>1?"s":""} just fell off the front.`:"");
+    [...stack.querySelectorAll("div:not(.gone)")].forEach(d=>d.remove()); items.forEach(i=>stack.append(Object.assign(document.createElement("div"),{textContent:`${i.n} · ${i.t.toLocaleString()} tokens`}))); };
+  root.querySelectorAll("button").forEach(b=>b.onclick=()=>{ if(b.dataset.reset){ items=[]; stack.innerHTML=""; } else items.push({n:b.dataset.n,t:+b.dataset.t}); draw(); });
+  draw(); return root;
+ },
+ webhook(){
+  const root=document.createElement("div");
+  root.innerHTML=`<div>Press send on the fake phone. Watch who calls whom.</div>
+   <svg viewBox="0 0 520 120" aria-hidden="true">
+    <g font-size="12" fill="var(--ink)" font-family="Work Sans, sans-serif" text-anchor="middle">
+     <rect x="10" y="30" width="110" height="46" rx="10" fill="var(--panel)" stroke="var(--l-tools)" stroke-width="2"/><text x="65" y="50">Phone</text><text x="65" y="66" fill="var(--ink-3)" font-size="10">Telegram app</text>
+     <rect x="200" y="30" width="120" height="46" rx="10" fill="var(--panel)" stroke="var(--l-ai)" stroke-width="2"/><text x="260" y="50">Telegram</text><text x="260" y="66" fill="var(--ink-3)" font-size="10">their servers</text>
+     <rect x="400" y="30" width="110" height="46" rx="10" fill="var(--panel)" stroke="var(--l-frame)" stroke-width="2"/><text x="455" y="50">Your server</text><text x="455" y="66" fill="var(--ink-3)" font-size="10">POST /telegram</text>
+     <line x1="120" y1="53" x2="200" y2="53" stroke="var(--ink-3)" stroke-width="1.5"/><line x1="320" y1="53" x2="400" y2="53" stroke="var(--ink-3)" stroke-width="1.5"/>
+     <circle class="dot" cx="65" cy="53" r="7" fill="var(--focus)" opacity="0"/>
+    </g></svg>
+   <div class="row"><button class="primary">send "hello" from the phone</button></div><div class="log"></div>`;
+  const dot=root.querySelector(".dot"), log=root.querySelector(".log"), btn=root.querySelector("button");
+  const steps=[[65,'phone → Telegram:  "hello"'],[260,"Telegram looks up your bot's webhook URL"],[455,"Telegram → your server:  POST /telegram  {\"message\":{\"text\":\"hello\"}}   ← they called you"],[455,"your code runs: reply = ask_model(\"hello\")"],[260,"your server → Telegram:  sendMessage(chat_id, reply)"],[65,'phone shows the reply.  Nothing polled; the event came to you.']];
+  btn.onclick=async()=>{ btn.disabled=true; log.textContent=""; dot.setAttribute("opacity","1"); for(const [x,line] of steps){ dot.setAttribute("cx",x); log.textContent+=line+"\n"; await new Promise(r=>setTimeout(r,650)); } dot.setAttribute("opacity","0"); btn.disabled=false; };
+  return root;
+ },
+ git(){
+  const root=document.createElement("div"); let main=["a1","b2","c3"], feat=null, merged=false, n=4;
+  root.innerHTML=`<div>Commits are checkpoints. A branch is a parallel line of them. Merge folds it back.</div><svg viewBox="0 0 520 110"></svg><div class="row"><button data-a="commit">commit</button><button data-a="branch">branch</button><button data-a="merge">merge</button><button data-a="reset">reset</button></div><div class="log"></div>`;
+  const svg=root.querySelector("svg"), log=root.querySelector(".log");
+  const draw=()=>{ let x=30; const node=(cx,cy,label,col)=>`<circle cx="${cx}" cy="${cy}" r="9" fill="${col}"/><text x="${cx}" y="${cy+24}" font-size="10" text-anchor="middle" fill="var(--ink-2)" font-family="ui-monospace,monospace">${label}</text>`;
+    let out=`<text x="8" y="36" font-size="11" fill="var(--ink-3)">main</text>`; const mainY=32, featY=78; const pts=main.map((c,i)=>({x:60+i*52,c}));
+    pts.forEach((p,i)=>{ if(i) out+=`<line x1="${pts[i-1].x}" y1="${mainY}" x2="${p.x}" y2="${mainY}" stroke="var(--ink-3)" stroke-width="2"/>`; });
+    if(feat){ const bx=pts[feat.from].x; const fp=feat.c.map((c,i)=>({x:bx+52*(i+1),c})); out+=`<text x="8" y="82" font-size="11" fill="var(--ink-3)">feature</text><line x1="${bx}" y1="${mainY}" x2="${fp[0]?fp[0].x:bx+52}" y2="${featY}" stroke="var(--l-frame)" stroke-width="2"/>`;
+      fp.forEach((p,i)=>{ if(i) out+=`<line x1="${fp[i-1].x}" y1="${featY}" x2="${p.x}" y2="${featY}" stroke="var(--l-frame)" stroke-width="2"/>`; });
+      if(merged){ const last=fp[fp.length-1]||{x:bx+52}; const mx=Math.max(last.x, pts[pts.length-1].x)+52; out+=`<line x1="${last.x}" y1="${featY}" x2="${mx}" y2="${mainY}" stroke="var(--l-frame)" stroke-width="2"/><line x1="${pts[pts.length-1].x}" y1="${mainY}" x2="${mx}" y2="${mainY}" stroke="var(--ink-3)" stroke-width="2"/>`+node(mx,mainY,"merge","var(--l-frame)"); }
+      fp.forEach(p=>out+=node(p.x,featY,p.c,"var(--l-frame)")); }
+    pts.forEach(p=>out+=node(p.x,mainY,p.c,"var(--l-tools)")); svg.innerHTML=out; };
+  root.querySelectorAll("button").forEach(b=>b.onclick=()=>{ const a=b.dataset.a; const id=()=>String.fromCharCode(96+n)+(n++);
+    if(a==="reset"){ main=["a1","b2","c3"]; feat=null; merged=false; n=4; log.textContent=""; }
+    else if(a==="commit"){ if(feat&&!merged){ feat.c.push(id()); log.textContent=`git commit -m "…"   → saved on the feature branch`; } else { main.push(id()); log.textContent=`git commit -m "…"   → saved on main`; } }
+    else if(a==="branch"){ if(feat&&!merged){ log.textContent="already on a branch; merge it first"; } else { feat={from:main.length-1,c:[]}; merged=false; log.textContent="git checkout -b feature   → a parallel line, starting from here"; } }
+    else if(a==="merge"){ if(!feat||merged){ log.textContent="nothing to merge"; } else { merged=true; log.textContent="git merge feature   → its commits fold back into main"; } }
+    draw(); });
+  draw(); return root;
+ },
+ http(){
+  const root=document.createElement("div");
+  root.innerHTML=`<div>Build a request, send it, read the status code. The three digits are the fastest diagnosis you'll ever get.</div>
+   <div class="row"><select class="m"><option>GET</option><option>POST</option></select><input type="text" class="path" value="/api/orders/42" aria-label="path"><label style="font-size:12.5px"><input type="checkbox" class="auth" checked> send login token</label><button class="primary">send</button></div>
+   <div class="code req"></div><div class="code res"></div><div class="note"></div>`;
+  const m=root.querySelector(".m"), path=root.querySelector(".path"), auth=root.querySelector(".auth"), req=root.querySelector(".req"), res=root.querySelector(".res"), note=root.querySelector(".note");
+  const send=()=>{ const p=path.value.trim()||"/"; const method=m.value;
+    req.textContent=`${method} ${p} HTTP/1.1\nHost: yourapp.com${auth.checked?"\nAuthorization: Bearer eyJhbGciOi…":""}${method==="POST"?"\nContent-Type: application/json\n\n{ \"text\": \"hello\" }":""}`;
+    let code, body, why;
+    if(!/^\/api\/(orders(\/\d+)?|chat)$/.test(p)){ code="404 Not Found"; body='{ "error": "no route matches" }'; why="Nothing is listening at that exact path. Typo, or wrong server."; }
+    else if(!auth.checked){ code="401 Unauthorized"; body='{ "error": "missing token" }'; why="The server wants proof of who you are. Log in, or send the key."; }
+    else if(p==="/api/chat" && method==="GET"){ code="405 Method Not Allowed"; body='{ "error": "use POST" }'; why="Right address, wrong verb. This route only accepts POST."; }
+    else if(p==="/api/orders/500"){ code="500 Internal Server Error"; body='{ "error": "something broke" }'; why="Your code threw an error mid-request. The real message is in the server logs."; }
+    else { code="200 OK"; body= p==="/api/chat" ? '{ "reply": "Hello! How can I help?" }' : '{ "id": 42, "total": 1200.00 }'; why="Worked. The body is the answer."; }
+    res.textContent=`HTTP/1.1 ${code}\nContent-Type: application/json\n\n${body}`; note.textContent=why; };
+  root.querySelector("button").onclick=send; send(); return root;
+ },
+};
+const EXPLORABLE_LABELS={tokens:"Try it · split a sentence", context:"Try it · fill the window", webhook:"Try it · send a message", git:"Try it · commit, branch, merge", http:"Try it · send a request"};
+
+// Curated comparisons. Any other pair is asked of Claude.
+const COMPARES = [
+ {a:"python", b:"js", same:"Both are general languages that can do almost anything. The difference is where each is at home.",
+  pickA:"Anything involving AI, data, scripts, or automation. The libraries are here and the AI defaults to it.", pickB:"Anything with a screen in a browser. It's the only language browsers run, and it can do the server too.",
+  mistake:"Treating it as a real decision. Most projects end up with Python on the back and JavaScript on the front, and that's fine."},
+ {a:"rag", b:"finetune", same:"Both are ways to make a model 'know' your stuff. They solve different problems.",
+  pickA:"Your knowledge changes, or it's large, or you need to cite where an answer came from. This is nearly always the answer.", pickB:"You need a consistent style, format, or behavior that prompting can't hold, and you've already tried prompting hard.",
+  mistake:"Reaching for fine-tuning to teach facts. It's bad at facts and great at habits. Retrieval is for facts."},
+ {a:"mcp", b:"toolcall", same:"Same idea, one is the standard. Tool calling is the mechanism; MCP is the shared way of describing tools so any client can use them.",
+  pickA:"You're connecting existing apps to Claude, Cursor, or Cowork. Someone has already built the MCP server; you just connect it.", pickB:"You're writing your own app that calls the API and want the model to trigger your own functions.",
+  mistake:"Thinking you have to choose. An MCP server is tool calling underneath; MCP just means you didn't have to write the plumbing."},
+ {a:"claudecode", b:"cowork", same:"Same engine, same agent loop. They differ in what's on the workbench.",
+  pickA:"The work is a repo: code, tests, git, terminal. It lives where developers live.", pickB:"The work is documents, spreadsheets, browsers, and connected apps. It lives where everyone else lives.",
+  mistake:"Using Claude Code for a spreadsheet job because it feels more powerful. Power isn't the question; the material is."},
+ {a:"claudecode", b:"cursor", same:"Both put a model inside your project. One is a conversation that acts; the other is an editor that suggests.",
+  pickA:"You want to describe an outcome and let it run: 'add tests and make them pass.' You review the result.", pickB:"You want to stay in the code yourself and have suggestions appear as you type. You steer every line.",
+  mistake:"Fighting Cursor's autocomplete when you wanted delegation, or delegating to Claude Code when you wanted to learn the code. Match the tool to how much you want to hold the pen."},
+ {a:"fastapi", b:"express", same:"Same job: a server that listens and answers. Different language.",
+  pickA:"The rest of the project is Python, or it talks to AI libraries, or you're not sure. FastAPI is the modern default.", pickB:"The project is JavaScript end to end and you want one language. Next.js if there's a React frontend too.",
+  mistake:"Picking the framework before the language. Choose the language for the project, and the framework falls out of it."},
+ {a:"render", b:"cloud", same:"Render runs on the cloud. It's the cloud with the hard parts hidden.",
+  pickA:"You want to deploy from GitHub with a button and not think about servers. Almost every small project.", pickB:"You need something Render can't do: specific hardware, strict compliance, huge scale, or a bill that's been optimized to the cent.",
+  mistake:"Starting on raw AWS because it's 'real.' It's real, and it's a full-time job. Graduate to it when Render is actually in the way."},
+ {a:"file-json", b:"file-yaml", same:"Both hold structured data as text. One is for machines, one is for people.",
+  pickA:"Data that programs pass around: API responses, package manifests, anything a script writes and reads.", pickB:"Settings a human edits by hand: deploy config, CI pipelines, app options. Comments are allowed, which JSON forbids.",
+  mistake:"Editing YAML with tabs or inconsistent indentation. It looks fine and it's broken. Spaces only, same depth."},
+ {a:"api", b:"webhook", same:"Same wire, opposite direction. API: you call them. Webhook: they call you.",
+  pickA:"You need something now: 'get this customer,' 'generate this reply.' You ask, it answers.", pickB:"You need to know when something happens: a payment, a message, a push. They tell you, when it happens.",
+  mistake:"Polling an API every few seconds to check for new events. If the service offers a webhook, use it; that's exactly what it's for."},
+ {a:"git", b:"github", same:"Git is the tool; GitHub is a website that hosts what the tool produces. You can use Git without GitHub.",
+  pickA:"Always. Every project gets Git on day one, even ones that never leave your laptop. It's undo.", pickB:"When the code needs to be somewhere other than your machine: for backup, for sharing, or so Render can pull it.",
+  mistake:"Saying 'push to Git.' You push to GitHub. Git is what you commit to. Small thing, but it's how the AI will hear you."},
+ {a:"localhost", b:"server", same:"Both are 'a computer running your app.' One is yours and private; the other is rented and public.",
+  pickA:"While building. Run it here, look at it here, break it here. Nobody else can see it.", pickB:"When anyone else needs to reach it, including webhooks from other services. That means deploying.",
+  mistake:"Wondering why a friend can't open localhost:3000. Localhost means 'this machine.' On their machine, it's theirs."},
+ {a:"tests", b:"logs", same:"Both tell you whether the code works. Tests ask before; logs tell after.",
+  pickA:"Anything you'll change again. Tests catch the break the moment you make it, and they're how an AI agent checks its own work.", pickB:"Anything that runs where you can't watch it: servers, cron jobs, webhooks. Logs are the recording of what happened.",
+  mistake:"Skipping both because it's 'just a small script.' The small script is the one that runs at 3 a.m. and fails silently."},
+ {a:"npm", b:"pip", same:"Identical job in two languages: fetch libraries someone else wrote and put them in your project.",
+  pickA:"JavaScript projects. Reads package.json, fills node_modules.", pickB:"Python projects. Reads requirements.txt, installs into your Python (ideally a virtual environment).",
+  mistake:"Running one in the other's project. If there's a package.json, it's npm. If there's a requirements.txt, it's pip."},
+ {a:"prompt", b:"finetune", same:"Both shape how the model behaves. One is instructions; the other is training.",
+  pickA:"First, always. Instructions and examples in the prompt get you 95% of the way, and you can change them in a minute.", pickB:"Only after prompting has failed on something specific and repeatable, and the cost of that failure justifies days of work.",
+  mistake:"Assuming 'the model isn't doing what I want' means it needs training. Nearly always it means the prompt is unclear. Ask the AI to critique your prompt first."},
+ {a:"database", b:"file-csv", same:"Both store rows of data. One is a program that guards it; the other is just a file.",
+  pickA:"Data that changes, that multiple things read and write, or that has to survive a crash. Anything an app depends on.", pickB:"Data that moves: an export, an import, a one-time analysis, something you'll open in a spreadsheet.",
+  mistake:"Running an app off a CSV. It works until two writes collide or the file gets half-written. That's the day you needed a database."},
+];
+
+// Phrases the AI uses for each piece. Lowercase; matched on word boundaries, longest first.
+const ALIASES = {
+ claude:["claude.ai","the chat","this chat","in chat"],
+ claudecode:["claude code","the agent","coding agent"],
+ cowork:["cowork"],
+ cursor:["cursor","vs code","vscode","your editor","the editor","ide"],
+ github:["github","the repo","repository","clone","pull request","pr"],
+ terminal:["terminal","command line","shell prompt","run this command","cli"],
+ llm:["model","llm","sonnet","opus","haiku","gpt"],
+ prompt:["system prompt","prompt","instructions","your message"],
+ tokens:["tokens","token"],
+ context:["context window","context","working memory"],
+ api:["api call","api","endpoint","rest","request"],
+ apikey:["api key","apikey","secret key","access token","credentials","bearer token"],
+ mcp:["mcp","mcp server","connector","connectors"],
+ agent:["agentic","agent loop","autonomously","in a loop"],
+ rag:["rag","retrieval","embeddings","embedding","vector database","vector db","vector store","semantic search"],
+ toolcall:["tool call","tool calling","function calling","tool use","define a tool","tools"],
+ streaming:["stream","streaming","streamed"],
+ finetune:["fine-tune","fine tune","fine-tuning","finetune","training data"],
+ react:["react","component","components","jsx","hooks","state"],
+ fastapi:["fastapi","flask","the backend","backend","the server code","route","routes"],
+ express:["express","next.js","nextjs","next js","full-stack","fullstack"],
+ npm:["npm","npm install","node_modules","yarn","pnpm","dependency","dependencies","package"],
+ pip:["pip","pip install","virtual environment","venv","virtualenv"],
+ auth:["auth","authentication","login","log in","sign in","sign-in","session","jwt","oauth","accounts"],
+ baas:["supabase","firebase","backend as a service"],
+ webhook:["webhook","webhooks","callback url","polling","poll"],
+ tests:["test","tests","unit test","pytest","jest","test suite","passing tests"],
+ "file-py":["app.py","main.py",".py","python file","script"],
+ "file-js":["app.js",".js",".ts",".tsx",".jsx","typescript file"],
+ "file-json":["json","package.json","the json","json file"],
+ "file-yaml":["yaml","yml",".yaml","toml","config file","render.yaml","the config"],
+ "file-env":[".env","env file","environment variable","environment variables","env var","env vars","dotenv","secrets"],
+ "file-md":["readme","readme.md","claude.md","markdown",".md"],
+ "file-pkg":["package.json","scripts section","npm run"],
+ "file-req":["requirements.txt","requirements"],
+ "file-gitignore":[".gitignore","gitignore","gitignored","ignore file"],
+ docker:["docker","dockerfile","container","containerize","image"],
+ "file-csv":["csv",".csv","spreadsheet","parquet","sqlite"],
+ python:["python","pythonic","pandas"],
+ js:["javascript","typescript","js","ts","frontend","front-end","client-side"],
+ html:["html","css","markup","stylesheet","tailwind","the page","web page"],
+ sql:["sql","query","queries","select statement","table","tables"],
+ bash:["bash","shell script","shell",".sh","cd ","chmod"],
+ pyrun:["python version","python 3","interpreter","which python"],
+ node:["node","node.js","nodejs","npx","node version"],
+ browser:["browser","chrome","safari","devtools","the page loads"],
+ git:["git","commit","commits","branch","merge","push","pull","diff","stash","rebase","version control"],
+ http:["http","https","get request","post request","status code","200","401","404","500","headers","cors"],
+ localhost:["localhost","local server","port","ports","3000","8000","run it locally","locally"],
+ logs:["logs","log","logging","console output","stack trace","traceback"],
+ server:["server","the machine","host","hosting","always-on"],
+ render:["render","deploy","deployed","redeploy","deployment","vercel","railway","fly.io","heroku","build command","start command"],
+ cloud:["aws","gcp","azure","cloud","ec2","s3","lambda"],
+ database:["database","postgres","postgresql","db","persist","persistence","store the data","save to the database","schema","migration","migrations"],
+ domain:["domain","dns","subdomain","custom domain","url","public url","https address"],
+ envs:["production","prod","staging","dev environment","development","in dev","environment"],
+ session:["code session","new session in the code tab","start a new session"],
+ permmodes:["permission mode","permission modes","accept edits","bypass permissions","claude asks before"],
+ planmode:["plan mode","switch to plan"],
+ diff:["the diff view","diff view","diff viewer","open the diff","diff stats"],
+ browserpane:["browser pane"],
+ denyrule:["deny rule","deny rules","blocked by a deny rule","permissions.deny"],
+ hook:["a hook","hook blocked","claude code hook","pretooluse"],
+ subagent:["subagent","subagents","sub-agent","a helper agent"],
+ injection:["prompt injection","injected instructions"],
+ usagelimit:["usage limit","usage limits","reached your usage limit","limit resets"],
+ memory:["claude's memory","auto memory","memory is on"],
+ ghpages:["github pages","github"+".io"],
+};
+const SAMPLE_SENTENCES=[
+ "I'll add a migration and update the schema, then redeploy.",
+ "You need to set the API key as an environment variable on Render.",
+ "Let's use a webhook instead of polling the API.",
+ "Run pip install -r requirements.txt inside a virtual environment first.",
+ "The context is getting long, so I'll summarize the conversation before continuing.",
+ "Push to GitHub and I'll connect the repo to the deploy.",
+];
+
+// Error decoder: first matching pattern wins.
+const ERRORS = [
+ {re:/ModuleNotFoundError|No module named|ImportError/i, name:"Python can't find a library", nodes:["pip","file-req","pyrun"], verdict:"The code imports something that isn't installed in this Python. Either it was never installed, or it's installed in a different Python than the one running.", fix:"Run pip install -r requirements.txt. If it's already there, you have two Pythons; check which one 'python' means."},
+ {re:/Cannot find module|MODULE_NOT_FOUND|Module not found/i, name:"Node can't find a package", nodes:["npm","file-pkg","node"], verdict:"Same as the Python version, in JavaScript. The import points at a package that isn't in node_modules.", fix:"Run npm install. If the name is a local file, the path is wrong."},
+ {re:/npm ERR|ERESOLVE|peer dep/i, name:"npm couldn't resolve packages", nodes:["npm","file-pkg"], verdict:"Two packages disagree about what version of a third they need.", fix:"Try npm install --legacy-peer-deps first. If that fails, the version in package.json needs changing; paste the whole error to the AI."},
+ {re:/401|Unauthorized|invalid.{0,10}api.?key|authentication.{0,10}(failed|error)|invalid x-api-key/i, name:"The service rejected your key", nodes:["apikey","file-env","api"], verdict:"The request reached the service, but the key was missing, wrong, or not loaded from .env.", fix:"Print the key's first few characters at startup to confirm it loaded. Check for a trailing space in .env. On Render, confirm the environment variable exists."},
+ {re:/429|rate.?limit|too many requests/i, name:"You're sending too fast", nodes:["api","tokens"], verdict:"The service is throttling you. Nothing is broken; you hit a ceiling on requests or tokens per minute.", fix:"Wait and retry with a delay that grows each time. If it keeps happening, your plan's limits are the real constraint."},
+ {re:/context.?(length|window)|maximum.{0,10}tokens|too (many|long).{0,10}tokens|prompt is too long/i, name:"It didn't fit in the context window", nodes:["context","tokens","prompt"], verdict:"Your prompt plus attached text is bigger than the model can hold.", fix:"Send less: trim the history, summarize old turns, or retrieve only the relevant pages instead of the whole document."},
+ {re:/CORS|Access-Control-Allow-Origin|cross.?origin/i, name:"The browser blocked a cross-site request", nodes:["browser","server","api"], verdict:"Your page on one address asked a server on another, and the server didn't say that's allowed. It's a browser safety rule, not a bug in your code.", fix:"Tell the server to allow your page's origin. Every web framework has a CORS setting; the AI can add it in one line."},
+ {re:/ENOENT|No such file or directory|FileNotFoundError/i, name:"A file or folder isn't where the code thinks", nodes:["terminal","bash","file-py"], verdict:"Paths are relative to where the command ran, not where the file lives.", fix:"Run pwd (or cd) to see where you are, then cd into the project folder and try again."},
+ {re:/command not found|is not recognized as an internal|not recognized as the name of a cmdlet/i, name:"The terminal doesn't know that command", nodes:["terminal","pyrun","node"], verdict:"The program isn't installed, or it's installed but the terminal can't find it (not on the PATH).", fix:"Install it, then close and reopen the terminal. If it's still missing, the install location needs adding to PATH; ask the AI for your OS."},
+ {re:/EADDRINUSE|address already in use|port.{0,10}in use/i, name:"Something is already using that port", nodes:["server","node","pyrun"], verdict:"A previous run of your app is still alive in the background, or another program owns the port.", fix:"Find and stop the old process, or start this one on a different port."},
+ {re:/CONFLICT|merge conflict|Automatic merge failed/i, name:"Git can't merge two versions", nodes:["git","github"], verdict:"Two changes touched the same lines and Git won't guess which wins.", fix:"Open the file; the conflict is marked with <<<<<<< and >>>>>>>. Pick the right version, delete the markers, commit."},
+ {re:/Permission denied|EACCES|EPERM/i, name:"Not allowed to touch that", nodes:["terminal","bash"], verdict:"The file or folder belongs to another user, or to the system.", fix:"Usually a sign you're in the wrong folder. Avoid sudo unless you understand why; it's a sledgehammer."},
+ {re:/ECONNREFUSED|connection refused|could not connect|getaddrinfo|ENOTFOUND/i, name:"Nothing answered at that address", nodes:["server","database","domain"], verdict:"Your code tried to reach a server or database that isn't running, or the address is wrong.", fix:"Check the thing you're calling is actually up. For a database, confirm the connection string in .env."},
+ {re:/YAML|yaml.{0,20}(indent|mapping|scanner)/i, name:"The YAML file is malformed", nodes:["file-yaml"], verdict:"Indentation is meaning in YAML. One space off and the whole file is invalid.", fix:"Paste it into any YAML validator. Tabs are never allowed; use spaces."},
+ {re:/JSON\.parse|Unexpected (token|end) .{0,20}JSON|not valid JSON|JSONDecodeError/i, name:"That wasn't valid JSON", nodes:["file-json","api"], verdict:"Something expected data and got text, or the data has a missing comma or quote. Often the AI returned prose around the JSON.", fix:"Look at the raw text before parsing. Strip any markdown fences or explanation, then parse."},
+ {re:/SyntaxError|Unexpected token|IndentationError|invalid syntax/i, name:"The code itself is malformed", nodes:["file-py","file-js","cursor"], verdict:"The runtime couldn't even read the file. Usually a missing bracket, quote, or, in Python, wrong indentation.", fix:"The error gives a line number. Look at that line and the one above it. Your editor probably already underlined it."},
+ {re:/Build failed|Deploy failed|exited with (code|status) 1|build error/i, name:"The deploy platform couldn't build it", nodes:["render","file-req","file-pkg","docker"], verdict:"It worked locally but the build on the server hit something your machine already had.", fix:"Read the build log from the top; the first red line is the cause, not the last. Nine times out of ten it's a missing dependency or environment variable."},
+ {re:/\b404\b|Not Found/i, name:"That address doesn't exist on the server", nodes:["http","fastapi","domain"], verdict:"The request reached a server, but nothing is listening at that exact path. A typo in the route, or the app isn't the one you think.", fix:"Compare the URL you're calling with the routes your server defines. Trailing slashes and capital letters count."},
+ {re:/\b500\b|Internal Server Error/i, name:"The server crashed while answering", nodes:["server","logs","fastapi"], verdict:"Your code threw an error mid-request. The browser only sees 500; the real message is in the server's logs.", fix:"Open the logs (terminal locally, Render dashboard in prod) and find the traceback that happened at the same moment."},
+ {re:/ETIMEDOUT|timed out|timeout/i, name:"The other side never answered", nodes:["http","server","api"], verdict:"The request went out and nothing came back in time. The service is down, slow, or blocked by a network rule.", fix:"Try the same URL from your browser or curl. If that also hangs, it isn't your code."},
+ {re:/TypeError|KeyError|AttributeError|undefined is not|is not a function|NoneType/i, name:"The code ran, then tripped over a value", nodes:["file-py","file-js"], verdict:"A variable held something other than what the code expected: nothing, a string where a number was needed, a missing field.", fix:"The line number is in the error. Print the value right before that line and see what it actually holds."},
+];
+
+// ---------- DRAWING ----------
+const byId = Object.fromEntries(NODES.map(n=>[n.id,n]));
+const layerOf = Object.fromEntries(LAYERS.map((l,i)=>[l.id,{...l,index:i}]));
+const NH=44;
+const widthOf=n=>Math.min(230, Math.max(150, Math.round(Math.max(n.name.length*8.4, n.kind.length*5.7)+40)));
+NODES.forEach(n=>n.w=widthOf(n));
+const NW=Math.max(...NODES.map(n=>n.w)); // widest, used only where a single width is needed
+const W=1700, H=1080;
+let world={w:W,h:H}; // current layout's canvas; layouts set it
+
+// undirected edge list (dedupe)
+const EDGES=[]; const seen=new Set();
+NODES.forEach(n=>n.links.forEach(l=>{ if(!byId[l.to]) return; const k=[n.id,l.to].sort().join("|"); if(seen.has(k)) return; seen.add(k); EDGES.push({a:n.id,b:l.to,rel:l.rel}); }));
+
+const svg=document.getElementById("map");
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={})=>{const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); return e;};
+
+const defs=el("defs"); defs.innerHTML=`
+  <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".95"/><stop offset="1" stop-color="#ffffff" stop-opacity=".78"/></linearGradient>
+  <linearGradient id="slabGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".55"/><stop offset=".5" stop-color="#ffffff" stop-opacity=".18"/><stop offset="1" stop-color="#ffffff" stop-opacity=".42"/></linearGradient>
+  <filter id="soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="22"/></filter>
+  <linearGradient id="glassDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3640" stop-opacity=".96"/><stop offset="1" stop-color="#1d272e" stop-opacity=".9"/></linearGradient>
+  <filter id="glow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+svg.append(defs);
+const gBack=el("g",{id:"back"}), gRail=el("g",{id:"rails"}), gEdge=el("g",{id:"edges"}), gTrace=el("g",{id:"trace"}), gNode=el("g",{id:"nodes"});
+svg.append(gBack,gRail,gEdge,gTrace,gNode);
+
+// ---- layouts return {id:{x,y}} in world coords (centers)
+function layoutStack(){
+  world={w:W,h:H};
+  const pos={}; const padX=40, top=24, rowH=(H-top-24)/LAYERS.length;
+  LAYERS.forEach((L,i)=>{
+    const items=NODES.filter(n=>n.layer===L.id);
+    const usable=W-padX*2-250, left=padX+250; // leave room for band label
+    const G=18; // pack rows greedily by real widths
+    const rowsArr=[[]]; let used=0;
+    items.forEach(n=>{ if(used+n.w+(rowsArr.at(-1).length?G:0)>usable && rowsArr.at(-1).length){ rowsArr.push([]); used=0; } used+=n.w+(rowsArr.at(-1).length?G:0); rowsArr.at(-1).push(n); });
+    rowsArr.forEach((row,r)=>{
+      const totalW=row.reduce((a,n)=>a+n.w,0); const extra=Math.min(60, (usable-totalW)/Math.max(row.length,1)); const g=G+extra;
+      let x=left+(usable-(totalW+g*(row.length-1)))/2;
+      const dy = rowsArr.length===1 ? 0 : (r-(rowsArr.length-1)/2)*(NH+14);
+      row.forEach(n=>{ pos[n.id]={x:x+n.w/2, y:top+rowH*i+rowH/2+dy}; x+=n.w+g; }); });
+  });
+  return pos;
+}
+const CITY={w:2100,h:1150};
+function layoutCity(){
+  world={w:CITY.w,h:CITY.h};
+  // districts on a 4x2 grid: tools, ai, frame, files / lang, runtime, infra
+  const pos={}; const cols=4, cellW=CITY.w/cols, cellH=(CITY.h-80)/2;
+  const order=["tools","ai","frame","files","lang","runtime","infra"];
+  order.forEach((lid,i)=>{
+    const items=NODES.filter(n=>n.layer===lid);
+    const cx=(i%cols)*cellW+cellW/2, cy=Math.floor(i/cols)*cellH+cellH/2+60;
+    const perRow=2, gx=Math.max(...items.map(n=>n.w))+20, gy=items.length>8 ? NH+18 : NH+40;
+    const rows=Math.ceil(items.length/perRow);
+    items.forEach((n,j)=>{ const r=Math.floor(j/perRow), c=j%perRow; const rowCount=Math.min(perRow, items.length-r*perRow);
+      pos[n.id]={x:cx+(c-(rowCount-1)/2)*gx, y:cy+(r-(rows-1)/2)*gy}; });
+  });
+  return pos;
+}
+function layoutSubway(){
+  const pos={}; const placed=new Set(LINES.flatMap(L=>L.stops));
+  const maxW=Math.max(...NODES.map(n=>n.w)); const left=260;
+  const SW=Math.max(W, left+80+Math.max(...LINES.map(L=>(L.stops.length-1)*(maxW+16)))+maxW/2);
+  world={w:SW,h:H};
+  // depot for nodes not on any line: packed rows along the bottom
+  const rest=NODES.filter(n=>!placed.has(n.id)); const G=16, usable=SW-160;
+  const rowsArr=[[]]; let used=0;
+  rest.forEach(n=>{ if(used+n.w+(rowsArr.at(-1).length?G:0)>usable && rowsArr.at(-1).length){ rowsArr.push([]); used=0; } used+=n.w+(rowsArr.at(-1).length?G:0); rowsArr.at(-1).push(n); });
+  const depotH=rowsArr.length*(NH+12); const depotTop=H-20-depotH;
+  rowsArr.forEach((row,r)=>{ let x=80; row.forEach(n=>{ pos[n.id]={x:x+n.w/2, y:depotTop+r*(NH+12)+NH/2}; x+=n.w+G; }); });
+  const laneTop=100, laneBottom=depotTop-70; const laneH=(laneBottom-laneTop)/LINES.length;
+  LINES.forEach((L,i)=>{
+    const y=laneTop+laneH*i+laneH/2;
+    const gap=(SW-left-80)/Math.max(L.stops.length-1,1);
+    const seen=new Set(); L.stops.forEach((id,j)=>{ if(pos[id]&&!seen.has(id)&&placedBefore(id,i)) return; pos[id]={x:left+j*gap,y}; seen.add(id); });
+  });
+  function placedBefore(id,i){ return LINES.slice(0,i).some(L=>L.stops.includes(id)); }
+  return pos;
+}
+// ---- 3-D: layers as slabs in space, orbit by dragging
+const CAM={yaw:-0.5, pitch:0.55, F:3200, vy:0, idle:0};
+const S3={slabW:1500, slabD:330, gapY:250, rowZ:105, slabT:16, blockT:14};
+let pos3={}, OFF={x:0,y:0};
+function build3(){
+  pos3={}; const G=18;
+  LAYERS.forEach((L,i)=>{
+    const items=NODES.filter(n=>n.layer===L.id); const y=((LAYERS.length-1)/2-i)*S3.gapY;
+    const rowsArr=[[]]; let used=0; const usable=S3.slabW-120;
+    items.forEach(n=>{ if(used+n.w+(rowsArr.at(-1).length?G:0)>usable && rowsArr.at(-1).length){ rowsArr.push([]); used=0; } used+=n.w+(rowsArr.at(-1).length?G:0); rowsArr.at(-1).push(n); });
+    rowsArr.forEach((row,r)=>{ const totalW=row.reduce((a,n)=>a+n.w,0); const extra=Math.min(60,(usable-totalW)/Math.max(row.length,1)); const g=G+extra;
+      let x=-(totalW+g*(row.length-1))/2; const z=(r-(rowsArr.length-1)/2)*S3.rowZ;
+      row.forEach(n=>{ pos3[n.id]={x:x+n.w/2,y,z}; x+=n.w+g; }); });
+  });
+}
+function projectRaw(p){
+  const ca=Math.cos(CAM.yaw), sa=Math.sin(CAM.yaw), cb=Math.cos(CAM.pitch), sb=Math.sin(CAM.pitch);
+  const x1=p.x*ca-p.z*sa, z1=p.x*sa+p.z*ca;
+  const yc=p.y*cb-z1*sb, zc=p.y*sb+z1*cb;           // camera space: yc up, zc toward the viewer
+  const s=CAM.F/(CAM.F-zc);                            // perspective: nearer is bigger
+  return {x:x1*s, y:-yc*s, d:zc, s};
+}
+function project(p){ const q=projectRaw(p); return {x:q.x+OFF.x, y:q.y+OFF.y, d:q.d, s:q.s}; }
+function slabCorners(i){ const hw=S3.slabW/2, hd=S3.slabD/2, y=((LAYERS.length-1)/2-i)*S3.gapY-NH/2-14; return [{x:-hw,y,z:-hd},{x:hw,y,z:-hd},{x:hw,y,z:hd},{x:-hw,y,z:hd}]; }
+function layout3d(){
+  if(!Object.keys(pos3).length) build3();
+  // size the canvas to what the slabs actually project to at this camera angle
+  const pts=LAYERS.flatMap((_,i)=>slabCorners(i)).map(projectRaw);
+  const minX=Math.min(...pts.map(p=>p.x))-40, maxX=Math.max(...pts.map(p=>p.x))+40, minY=Math.min(...pts.map(p=>p.y))-60, maxY=Math.max(...pts.map(p=>p.y))+40;
+  OFF={x:-minX, y:-minY}; world={w:maxX-minX, h:maxY-minY};
+  const pos={}; NODES.forEach(n=>{ pos[n.id]=project(pos3[n.id]); }); return pos;
+}
+const LAYOUTS={stack:layoutStack, city:layoutCity, subway:layoutSubway, "3d":layout3d};
+
+// ---- build nodes once
+const nodeEls={};
+NODES.forEach(n=>{
+  const g=el("g",{class:"node",tabindex:"0",role:"button","aria-label":n.name,"data-id":n.id});
+  const col=layerOf[n.layer].color; g.style.color=col;
+  const w=n.w;
+  g.append(el("rect",{class:"block",x:-w/2,y:-NH/2,width:w,height:NH,rx:10,fill:col}));   // the block's underside, visible only in 3-D
+  g.append(el("rect",{class:"face",x:-w/2,y:-NH/2,width:w,height:NH,rx:10,stroke:col}));
+  g.append(el("circle",{class:"dot",cx:-w/2+14,cy:0,r:5,fill:col}));
+  const t=el("text",{x:-w/2+26,y:-2}); t.textContent=n.name; g.append(t);
+  const k=el("text",{class:"kind",x:-w/2+26,y:14}); k.textContent=n.kind; g.append(k);
+  g.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault(); select(n.id);} });
+  gNode.append(g); nodeEls[n.id]=g;
+});
+const edgeEls=EDGES.map(e=>{ const p=el("path",{class:"edge"}); gEdge.append(p); return p; });
+
+let pos={}, view="stack", selected=null;
+function setPositions(){
+  if(view==="3d"){
+    const ds=NODES.map(n=>pos[n.id].d), dmin=Math.min(...ds), dmax=Math.max(...ds);
+    const cb=Math.cos(CAM.pitch);
+    NODES.forEach(n=>{ const p=pos[n.id]; const g=nodeEls[n.id];
+      g.setAttribute("transform",`translate(${p.x},${p.y}) scale(${p.s})`);
+      const fog=0.45+0.55*((p.d-dmin)/Math.max(1,dmax-dmin));           // back rows fade
+      g.style.setProperty("--fog", fog.toFixed(3));
+      g.querySelector(".block").setAttribute("transform",`translate(0,${S3.blockT*cb})`); });
+  } else {
+    NODES.forEach(n=>{ const p=pos[n.id]; const g=nodeEls[n.id]; g.setAttribute("transform",`translate(${p.x},${p.y})`); g.style.removeProperty("--fog"); });
+  }
+  if(view==="3d"){
+    EDGES.forEach((e,i)=>{ const a=pos[e.a], b=pos[e.b]; edgeEls[i].setAttribute("d",`M${a.x},${a.y} L${b.x},${b.y}`); });
+    [...NODES].sort((a,b)=>pos[a.id].d-pos[b.id].d).forEach(n=>gNode.append(nodeEls[n.id])); // nearer drawn last
+  } else {
+    EDGES.forEach((e,i)=>{ const a=pos[e.a], b=pos[e.b];
+      const my=(a.y+b.y)/2; edgeEls[i].setAttribute("d",`M${a.x},${a.y} C${a.x},${my} ${b.x},${my} ${b.x},${b.y}`); });
+  }
+}
+function drawBackdrop(){
+  gBack.innerHTML=""; gRail.innerHTML="";
+  if(view==="stack"){
+    const top=24, rowH=(H-top-24)/LAYERS.length;
+    LAYERS.forEach((L,i)=>{
+      if(i%2===0) gBack.append(el("rect",{class:"band",x:0,y:top+rowH*i,width:W,height:rowH}));
+      const t=el("text",{class:"band-label",x:30,y:top+rowH*i+rowH/2-4}); t.textContent=L.name; gBack.append(t);
+      const s=el("text",{class:"band-sub",x:30,y:top+rowH*i+rowH/2+16}); s.textContent=L.sub; gBack.append(s);
+    });
+  } else if(view==="city"){
+    const cols=4, cellW=CITY.w/cols, cellH=(CITY.h-80)/2;
+    const order=["tools","ai","frame","files","lang","runtime","infra"];
+    order.forEach((lid,i)=>{ const L=layerOf[lid];
+      const x=(i%cols)*cellW+18, row=Math.floor(i/cols);
+      gBack.append(el("rect",{class:"district",x, y:row*cellH+74, width:cellW-36,height:cellH-28,rx:18}));
+      const t=el("text",{class:"band-label",x:x+22,y:Math.floor(i/cols)*cellH+92}); t.textContent=L.name; gBack.append(t);
+      const s=el("text",{class:"band-sub",x:x+22,y:Math.floor(i/cols)*cellH+112}); s.textContent=L.sub; gBack.append(s);
+    });
+  } else if(view==="3d"){
+    const cb=Math.cos(CAM.pitch), t=S3.slabT*cb;
+    const pts=c=>c.map(p=>`${p.x},${p.y}`).join(" ");
+    const slabs=LAYERS.map((L,i)=>{ const c=slabCorners(i).map(project); return {L,c,d:Math.min(...c.map(p=>p.d))}; });
+    slabs.sort((a,b)=>a.d-b.d).forEach(({L,c},k)=>{
+      // shadow cast onto whatever is below, then the slab's thickness, then the glass top, then an edge highlight
+      gBack.append(el("polygon",{class:"slab-shadow",points:pts(c.map(p=>({x:p.x+10,y:p.y+34}))),filter:"url(#soft)"}));
+      const front=[...c].map((p,i)=>({...p,i})).sort((a,b)=>b.d-a.d).slice(0,2).sort((a,b)=>a.i-b.i);
+      const sideCorners=[c[front[0].i],c[front[1].i],{x:c[front[1].i].x,y:c[front[1].i].y+t},{x:c[front[0].i].x,y:c[front[0].i].y+t}];
+      gBack.append(el("polygon",{class:"slab-side",points:pts(sideCorners),fill:L.color}));
+      gBack.append(el("polygon",{class:"slab",points:pts(c),fill:L.color}));
+      gBack.append(el("polygon",{class:"slab-glass",points:pts(c),fill:"url(#slabGlass)"}));
+      gBack.append(el("polygon",{class:"slab-edge",points:pts(c)}));
+      const back=[...c].sort((a,b)=>a.d-b.d).slice(0,2).sort((a,b)=>a.x-b.x)[0];
+      const tx=el("text",{class:"band-label slab-label",x:back.x+6,y:back.y-10,fill:L.color}); tx.textContent=L.name; gBack.append(tx);
+    });
+    gEdge.style.display=""; gRail.innerHTML="";
+  } else {
+    LINES.forEach(L=>{
+      const pts=L.stops.map(id=>pos[id]);
+      let d=`M${pts[0].x},${pts[0].y}`;
+      for(let i=1;i<pts.length;i++){ const a=pts[i-1], b=pts[i]; const mx=(a.x+b.x)/2; d+=` C${mx},${a.y} ${mx},${b.y} ${b.x},${b.y}`; }
+      gRail.append(el("path",{class:"rail",d,stroke:L.color}));
+      const t=el("text",{class:"rail-label",x:40,y:pts[0].y+6,fill:L.color}); t.textContent=L.name; gRail.append(t);
+    });
+    const rest=NODES.filter(n=>!LINES.some(L=>L.stops.includes(n.id))); const topY=Math.min(...rest.map(n=>pos[n.id].y))-NH/2-14;
+    const t=el("text",{class:"band-sub",x:80,y:topY}); t.textContent="Not on a line yet — still part of the picture"; gRail.append(t);
+  }
+  gEdge.style.display = view==="subway" ? "none" : "";
+}
+function render3(){ pos=layout3d(); drawBackdrop(); setPositions(); if(trace) drawTrace(); else if(cmp) highlightPair(cmp.a,cmp.b); else if(selected) highlight(selected); }
+const VIEWNOTES={
+  stack:["Stack.","Seven layers, from the tools you type into at the top down to the computers it all runs on. Use it to see what sits underneath the thing you're working with."],
+  city:["City.","The same pieces grouped into districts by what kind of thing they are. Use it when you know the category and want to see the neighbors."],
+  subway:["Subway.","Five journeys drawn as lines, with the pieces as stops in order. Use it when you have a goal and want to know what happens in what sequence."],
+  "3d":["3-D.","All seven layers as planes in space, connections threading between them. Use it to take in the whole thing at once, or to show someone what \"the stack\" actually means."],
+};
+function setView(v){
+  document.getElementById("viewnote").innerHTML=`<b>${VIEWNOTES[v][0]}</b>${VIEWNOTES[v][1]}`;
+  view=v; pos=LAYOUTS[v]();
+  document.querySelectorAll(".views button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.view===v)));
+  svg.classList.toggle("three", v==="3d"); document.getElementById("stage").classList.toggle("three", v==="3d");
+  if(v==="3d") startOrbitLoop(); else CAM.vy=0;
+  GL.apply();
+  document.getElementById("hint").textContent = v==="3d" ? "Drag to orbit · shift-drag to pan · scroll to zoom" : "Scroll to zoom · drag to pan";
+  drawBackdrop(); setPositions(); if(trace) drawTrace(); else if(cmp) highlightPair(cmp.a,cmp.b); else if(selected) highlight(selected); fit();
+}
+
+// ---- selection
+const card=document.getElementById("card");
+function highlight(id){
+  const near=new Set([id]); EDGES.forEach(e=>{ if(e.a===id) near.add(e.b); if(e.b===id) near.add(e.a); });
+  NODES.forEach(n=>{ const g=nodeEls[n.id]; g.classList.toggle("cold",!near.has(n.id)); g.classList.toggle("sel",n.id===id); g.classList.remove("gap","hit"); });
+  EDGES.forEach((e,i)=>{ const hot=e.a===id||e.b===id; edgeEls[i].classList.toggle("hot",hot); edgeEls[i].classList.toggle("cold",!hot); });
+}
+function clear(){
+  selected=null; trace=null; cmp=null; gTrace.innerHTML=""; card.classList.remove("open"); setHash(null);
+  NODES.forEach(n=>nodeEls[n.id].classList.remove("cold","sel","gap","hit"));
+  edgeEls.forEach(p=>p.classList.remove("hot","cold"));
+}
+function showView(which){ ["traceview","nodeview","cmpview","adviceview"].forEach(v=>document.getElementById(v).style.display = v===which ? "" : "none"); }
+let cmp=null; // current comparison {a,b}
+function select(id, pan=true){
+  const n=byId[id]; selected=id; highlight(id); cmp=null; setHash({node:id});
+  showView("nodeview");
+  document.getElementById("backtrace").style.display = trace ? "" : "none";
+  if(window.innerWidth<700) closeAsk();
+  const L=layerOf[n.layer];
+  const lay=document.getElementById("c-layer"); lay.textContent=L.name; lay.style.color=L.color;
+  document.getElementById("c-name").textContent=n.name;
+  document.getElementById("c-kind").textContent=n.kind;
+  document.getElementById("c-what").textContent=n.what;
+  document.getElementById("c-why").textContent=n.why;
+  document.getElementById("c-ai").textContent=n.ai;
+  const tw=document.getElementById("c-trywrap"), tc=document.getElementById("c-try"); tc.innerHTML="";
+  if(EXPLORABLES[id]){ tw.style.display=""; document.getElementById("c-trylabel").textContent=EXPLORABLE_LABELS[id]||"Try it"; try{ tc.append(EXPLORABLES[id]()); }catch(err){ tw.style.display="none"; } } else tw.style.display="none";
+  const ex=EXAMPLES[id]; document.getElementById("c-exwrap").style.display = ex ? "" : "none";
+  if(ex){ document.getElementById("c-exlabel").textContent="What it looks like · "+ex.label; document.getElementById("c-ex").textContent=ex.code; }
+  const chips=document.getElementById("c-links"); chips.innerHTML="";
+  const outs=n.links.map(l=>({id:l.to,rel:l.rel,dir:"out"}));
+  const ins=NODES.filter(m=>m.id!==id && m.links.some(l=>l.to===id) && !n.links.some(l=>l.to===m.id))
+    .map(m=>({id:m.id,rel:m.links.find(l=>l.to===id).rel,dir:"in"}));
+  [...outs,...ins].forEach(c=>{ const m=byId[c.id]; if(!m) return; const b=document.createElement("button"); b.className="chip";
+    b.innerHTML = c.dir==="out" ? `<small>${c.rel}</small> <b>${m.name}</b>` : `<b>${m.name}</b><small>${c.rel} this</small>`;
+    b.style.borderColor=layerOf[m.layer].color; b.onclick=()=>select(m.id); chips.append(b); });
+  card.classList.add("open");
+  if(pan) panTo(pos[id]);
+}
+document.getElementById("close").onclick=clear;
+// selection happens on pointerup (a press-and-release with no drag), because the pan handler
+// captures the pointer and a captured pointer's click lands on the svg, not the piece
+
+// ---- tracing
+let trace=null; // {name,kicker,nodes:[ids],steps:[[id,note]],verdict,foot}
+function drawTrace(){
+  gTrace.innerHTML=""; if(!trace) return;
+  const ids=trace.nodes;
+  const set=new Set(ids);
+  const gapSet=new Set((trace.gaps||[]).map(g=>g[0]));
+  const all=new Set([...set,...gapSet]);
+  NODES.forEach(n=>{ const g=nodeEls[n.id]; g.classList.toggle("cold",!all.has(n.id)); g.classList.toggle("gap",gapSet.has(n.id)); g.classList.toggle("hit",set.has(n.id)); g.classList.remove("sel"); });
+  EDGES.forEach((e,i)=>{ const hot=!trace.ordered && all.has(e.a) && all.has(e.b); edgeEls[i].classList.toggle("hot",hot); edgeEls[i].classList.toggle("cold",!hot); });
+  let routeIds = trace.ordered ? ids : [...all].sort((a,b)=> (layerOf[byId[a].layer].index-layerOf[byId[b].layer].index) || (pos[a].x-pos[b].x));
+  if(routeIds.length>1){
+    const pts=routeIds.map(id=>pos[id]); let d=`M${pts[0].x},${pts[0].y}`;
+    for(let i=1;i<pts.length;i++){ const a=pts[i-1], b=pts[i]; const my=(a.y+b.y)/2; d+=` C${a.x},${my} ${b.x},${my} ${b.x},${b.y}`; }
+    gTrace.append(el("path",{class:"trace-route",d}));
+  }
+}
+function showTrace(t){
+  trace=t; selected=null; cmp=null; drawTrace(); document.getElementById("t-advise").style.display="none";
+  showView("traceview");
+  document.getElementById("t-kicker").textContent=t.kicker; document.getElementById("t-kicker").style.color="var(--focus)";
+  document.getElementById("t-name").textContent=t.name;
+  const v=document.getElementById("t-verdict"); v.style.display=t.verdict?"":"none"; v.textContent=t.verdict||"";
+  document.getElementById("t-stepshead").textContent=t.ordered?"The route":"Where to look";
+  document.getElementById("t-stepshead").style.display = t.steps.length ? "" : "none";
+  const st=document.getElementById("t-steps"); st.innerHTML="";
+  t.steps.forEach(([id,note])=>{ const n=byId[id]; const d=document.createElement("div"); d.className="step"; d.tabIndex=0;
+    d.innerHTML=`<span class="n"></span><span><div class="sname">${n.name}</div><div class="snote">${note}</div></span>`;
+    d.onclick=()=>select(id); d.onkeydown=e=>{ if(e.key==="Enter") select(id); }; st.append(d); });
+  document.getElementById("t-foot").textContent=t.foot||"";
+  const gw=document.getElementById("t-gapswrap"), gs=document.getElementById("t-gaps"); gs.innerHTML="";
+  if(t.gaps && t.gaps.length){ gw.style.display=""; t.gaps.forEach(([id,note])=>{ const n=byId[id]; const d=document.createElement("div"); d.className="step"; d.tabIndex=0;
+    d.innerHTML=`<span class="n"></span><span><div class="sname">${n.name}</div><div class="snote">${note}</div></span>`; d.onclick=()=>select(id); gs.append(d); }); }
+  else gw.style.display="none";
+  card.classList.add("open"); if(window.innerWidth<700) closeAsk();
+  if(t.id) setHash({goal:t.id}); else if(t.kicker==="Your project") setHash({paint:b64e(JSON.stringify({t:t.name,s:t.verdict,p:t.steps,g:t.gaps||[]}))}); else setHash(null);
+  frameTrace(t);
+}
+function frameTrace(t){
+  // frame the result inside the space the panels leave free
+  const frameIds=t.nodes.concat((t.gaps||[]).map(g=>g[0]));
+  if(!frameIds.length) return;
+  const xs=frameIds.map(id=>pos[id].x), ys=frameIds.map(id=>pos[id].y);
+  const r=svg.getBoundingClientRect(); const mobile=r.width<700;
+  const padL = mobile ? 10 : (ask.classList.contains("open") ? 370 : 20);
+  const padR = mobile ? 10 : 400;
+  const padT = 10, padB = mobile ? r.height*0.62 : 10;
+  const visW=Math.max(200, r.width-padL-padR), visH=Math.max(160, r.height-padT-padB);
+  const cw=Math.max(...xs)-Math.min(...xs)+NW+140, ch=Math.max(...ys)-Math.min(...ys)+NH+120;
+  const scale=Math.max(cw/visW, ch/visH, 0.55); // world units per px; floor keeps small results from zooming absurdly
+  const w=r.width*scale, h=r.height*scale;
+  const cx=(Math.min(...xs)+Math.max(...xs))/2, cy=(Math.min(...ys)+Math.max(...ys))/2;
+  vb={x:cx-(padL+visW/2)*scale, y:cy-(padT+visH/2)*scale, w, h}; applyVB();
+}
+document.getElementById("backtrace").onclick=()=>{ if(trace) showTrace(trace); };
+const goals=document.getElementById("goals");
+GOALS.forEach(g=>{ const b=document.createElement("button"); b.textContent="…"+g.name; b.onclick=()=>showTrace({kicker:"I want to", name:g.name, ordered:true, nodes:g.steps.map(s=>s[0]), steps:g.steps, foot:g.foot, id:g.id}); goals.append(b); });
+// phrase index: every alias, longest first, with the piece it points to
+const PHRASES=Object.entries(ALIASES).flatMap(([id,list])=>list.map(ph=>({id,ph}))).concat(NODES.map(n=>({id:n.id,ph:n.name.toLowerCase()}))).sort((a,b)=>b.ph.length-a.ph.length);
+const esc=str=>str.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+function findPieces(text){
+  // every phrase match with its span, then greedy longest-first non-overlapping selection; earlier position breaks ties
+  const t=" "+text.toLowerCase()+" "; const cands=[];
+  PHRASES.forEach(({id,ph})=>{ const re=new RegExp("(^|[^a-z0-9])("+esc(ph)+")(?=$|[^a-z0-9])","ig"); let m; while((m=re.exec(t))){ cands.push({id, st:m.index+m[1].length, en:m.index+m[1].length+m[2].length}); if(m.index===re.lastIndex) re.lastIndex++; } });
+  cands.sort((a,b)=>(b.en-b.st)-(a.en-a.st) || a.st-b.st);
+  const taken=[]; const found=[]; const used=new Set();
+  cands.forEach(c=>{ if(taken.some(x=>c.st<x.en && x.st<c.en)) return; taken.push(c); if(!used.has(c.id)){ used.add(c.id); found.push({id:c.id, at:c.st}); } });
+  return found.sort((a,b)=>a.at-b.at).map(f=>f.id);
+}
+const decstatus=document.getElementById("decstatus");
+async function decode(){
+  const txt=document.getElementById("err").value.trim(); if(!txt) return;
+  decstatus.textContent="";
+  const hit=ERRORS.find(e=>e.re.test(txt));
+  if(!hit){ await decodeSentence(txt); return; }
+  if(!hit){ showTrace({kicker:"Error", name:"I don't recognize that one yet", ordered:false, nodes:["terminal","cursor"], steps:[["terminal","Copy the whole error, from the first line, not just the last."],["cursor","Paste it to the AI with the file it names. The first line is usually the cause; the last is just where it gave up."]], verdict:"No pattern matched. That's fine; most errors are variations on a few themes, and the layer it comes from is usually visible in the words.", foot:""}); return; }
+  const steps=hit.nodes.map((id,i)=>[id, i===0 ? hit.fix : "Also involved. Open it to see how it connects."]);
+  showTrace({kicker:"This error means", name:hit.name, ordered:false, nodes:hit.nodes, steps, verdict:hit.verdict, foot:"Click a piece to read what it is."});
+  setHash({decode:b64e(txt.slice(0,600))});
+}
+async function decodeSentence(txt){
+  const ids=findPieces(txt);
+  const firstSentence=str=>str.split(/(?<=\.)\s/)[0];
+  const show=(name, verdict, steps, ask, ordered)=>{
+    showTrace({kicker:"The AI said", name, ordered, nodes:steps.map(x=>x[0]), steps, verdict, foot:ask||""});
+    document.getElementById("t-stepshead").textContent = ordered ? "In the order it happens" : "What it touches";
+    setHash({decode:b64e(txt.slice(0,600))});
+  };
+  // deterministic first: the pieces it names, in the order they appear, each with its one-line meaning
+  if(ids.length && !sampleRef){
+    show(txt.length>60 ? txt.slice(0,57)+"…" : txt, ids.length===1 ? "It's talking about one piece on the map." : `It's talking about ${ids.length} pieces on the map, shown in the order they're mentioned.`, ids.map(id=>[id, firstSentence(byId[id].what)]), "", true); return;
+  }
+  if(!ids.length && !sampleRef){ decstatus.textContent="I don't recognize any pieces in that. Try naming the file, tool, or platform it's about."; return; }
+  // Claude for the translation and the sequence
+  decstatus.textContent="Asking Claude…"; document.getElementById("decode").disabled=true;
+  const catalog=NODES.map(n=>`${n.id} = ${n.name} (${n.kind})`).join("\n");
+  const prompt=`You explain what an AI coding assistant just said to someone who uses AI well but is not a developer. Map pieces are listed as id = name (kind). Deterministic matching already found these ids in the sentence: ${ids.join(", ")||"(none)"}.
+
+Reply with ONLY a JSON object: {"title": string, "translation": string, "steps": [{"id": string, "note": string}], "ask": string}
+"title": 3-7 words naming what the AI is proposing or saying. "translation": 1-3 plain sentences, second person, what this means and why the AI would say it. "steps": the pieces involved, in the order things would happen, ids only from the catalog, each note one short sentence about that piece's role in THIS sentence (include the deterministic ids unless clearly irrelevant; 2-8 steps). "ask": one sentence on what, if anything, the person needs to do or decide; empty string if nothing. No buzzwords, no filler.
+
+CATALOG
+${catalog}
+
+THE AI SAID
+${txt.slice(0,1500)}`;
+  try{
+    const r=await sampleRef.json(prompt,{cache:true});
+    const steps=(Array.isArray(r.steps)?r.steps:[]).filter(x=>x&&byId[x.id]).map(x=>[String(x.id),String(x.note||"")]);
+    ids.forEach(id=>{ if(!steps.some(st=>st[0]===id)) steps.push([id, firstSentence(byId[id].what)]); });
+    if(!steps.length){ decstatus.textContent="Claude didn't find map pieces in that. Try a sentence that names a file, tool, or platform."; return; }
+    show(String(r.title||"What that means"), String(r.translation||""), steps, String(r.ask||""), true); decstatus.textContent="";
+  }catch(e){
+    if(ids.length){ show(txt.length>60 ? txt.slice(0,57)+"…" : txt, "Claude couldn't add a translation just now; here are the pieces it names.", ids.map(id=>[id, firstSentence(byId[id].what)]), "", true); }
+    else decstatus.textContent = (e&&e.code==="cancelled") ? "Stopped." : "Couldn't decode that just now. Try again, or name the file, tool, or platform.";
+  }finally{ document.getElementById("decode").disabled=false; }
+}
+const samples=document.getElementById("samples");
+SAMPLE_SENTENCES.forEach(t=>{ const b=document.createElement("button"); b.textContent=t; b.style.whiteSpace="normal"; b.style.textAlign="left"; b.onclick=()=>{ document.getElementById("err").value=t; decode(); }; samples.append(b); });
+document.getElementById("decode").onclick=decode;
+document.getElementById("err").addEventListener("keydown",e=>{ if((e.metaKey||e.ctrlKey)&&e.key==="Enter") decode(); });
+const ask=document.getElementById("ask"), askbtn=document.getElementById("askbtn");
+function openAsk(){ ask.classList.add("open"); askbtn.setAttribute("aria-expanded","true"); if(window.innerWidth<700) card.classList.remove("open"); if(!selected&&!trace&&!cmp) fit(); }
+document.querySelectorAll(".tabs [role=tab]").forEach(t=>t.onclick=()=>{
+  document.querySelectorAll(".tabs [role=tab]").forEach(x=>x.setAttribute("aria-selected",String(x===t)));
+  document.querySelectorAll(".mode").forEach(m=>m.classList.toggle("on",m.dataset.mode===t.dataset.mode));
+});
+function closeAsk(){ ask.classList.remove("open"); askbtn.setAttribute("aria-expanded","false"); if(!selected&&!trace&&!cmp) fit(); }
+askbtn.setAttribute("aria-expanded","true");
+askbtn.onclick=()=>ask.classList.contains("open")?closeAsk():openAsk();
+document.getElementById("askclose").onclick=closeAsk;
+
+// ---- paint my project (asks Claude via the sample capability)
+(async()=>{
+  const wrap=document.getElementById("paint"), btn=document.getElementById("paintbtn"), stop=document.getElementById("paintstop"), status=document.getElementById("paintstatus"), ta=document.getElementById("proj");
+  // files stay on the person's machine; only a distilled summary goes to Claude
+  const fileStatus=document.getElementById("filestatus"), filesInput=document.getElementById("projfiles");
+  function distill(name, text){
+    const lower=name.toLowerCase(); const out=[`### ${name} (${text.length.toLocaleString()} chars)`];
+    const uniq=a=>[...new Set(a)].slice(0,25);
+    if(/\.html?$/.test(lower)){
+      const title=(text.match(/<title>([^<]*)<\/title>/i)||[])[1]; if(title) out.push(`title: ${title.trim()}`);
+      const scripts=uniq([...text.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)].map(m=>m[1])); if(scripts.length) out.push(`external scripts: ${scripts.join(", ")}`);
+      const styles=uniq([...text.matchAll(/<link[^>]+href=["']([^"']+\.css[^"']*)["']/gi)].map(m=>m[1])); if(styles.length) out.push(`stylesheets: ${styles.join(", ")}`);
+      const inlineJs=(text.match(/<script(?![^>]*src)[^>]*>[\s\S]*?<\/script>/gi)||[]).join("\n"); if(inlineJs) out.push(`inline script: ${inlineJs.length.toLocaleString()} chars`);
+      const forms=(text.match(/<form/gi)||[]).length, inputs=(text.match(/<(input|select|textarea)/gi)||[]).length; if(forms||inputs) out.push(`forms: ${forms}, fields: ${inputs}`);
+    }
+    const urls=uniq([...text.matchAll(/https?:\/\/[^\s"'<>)]+/g)].map(m=>m[0].replace(/[?#].*$/,""))); if(urls.length) out.push(`urls: ${urls.join(", ")}`);
+    const fetches=uniq([...text.matchAll(/\b(fetch|axios\.\w+|XMLHttpRequest|requests\.\w+|httpx\.\w+)\s*\(/g)].map(m=>m[1])); if(fetches.length) out.push(`network calls: ${fetches.join(", ")}`);
+    const imports=uniq([...text.matchAll(/^\s*(?:import\s+.*?from\s+["']([^"']+)["']|import\s+([\w.]+)|from\s+([\w.]+)\s+import|const\s+\w+\s*=\s*require\(["']([^"']+)["']\))/gm)].map(m=>m[1]||m[2]||m[3]||m[4])); if(imports.length) out.push(`imports: ${imports.join(", ")}`);
+    const visible=text.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi," ").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+    if(visible.length>40) out.push(`visible text: ${visible.slice(0,900)}`);
+    const strs=[...new Set([...text.matchAll(/["'`]([^"'`\n]{18,140})["'`]/g)].map(m=>m[1]).filter(x=>!/^(https?:|[\w-]+\.(js|css|png|svg|html))/.test(x) && !/[<>=;\/]/.test(x) && /[a-z]{3}/i.test(x) && /\s/.test(x)))].slice(0,30); if(strs.length) out.push(`strings in the script: ${strs.join(" | ").slice(0,1200)}`);
+    const tells=[]; [["localStorage","localStorage"],["sessionStorage","sessionStorage"],["indexedDB","IndexedDB"],["api.anthropic.com","Anthropic API"],["api.openai.com","OpenAI API"],["supabase","Supabase"],["firebase","Firebase"],["stripe","Stripe"],["webhook","webhook"],["websocket|socket.io","WebSocket"],["process\\.env|os\\.environ|dotenv","environment variables"],["express\\(|app\\.get\\(|app\\.post\\(","Express routes"],["FastAPI|@app\\.(get|post)","FastAPI routes"],["flask","Flask"],["\\bReact\\b|useState\\(|ReactDOM","React"],["tailwind","Tailwind"],["chart\\.js|recharts|d3\\.","charts"],["three\\.","three.js"],["postgres|sqlite|mysql|mongodb|prisma","database"],["jwt|passport|next-auth|clerk","auth"],["cron|schedule","scheduling"],["telegram|discord|slack","chat platform"]].forEach(([re,label])=>{ if(new RegExp(re,"i").test(text)) tells.push(label); }); if(tells.length) out.push(`signals: ${tells.join(", ")}`);
+    return out.join("\n");
+  }
+  filesInput.addEventListener("change",async()=>{
+    const files=[...filesInput.files].slice(0,8); if(!files.length) return;
+    fileStatus.textContent="Reading…"; const parts=[];
+    for(const f of files){ try{ const text=await f.text(); parts.push(distill(f.name, text.slice(0,400000))); }catch(e){ parts.push(`### ${f.name} (couldn't read)`); } }
+    const head=files.length===1 && /\.(html?|py|js|ts|jsx|tsx|json|ya?ml|toml|md|txt|sh|sql)$/i.test(files[0].name) ? "\n\n### first lines of "+files[0].name+"\n"+(await files[0].text()).slice(0,1500) : "";
+    ta.value=(`Files from my project (summarized on my machine):\n\n${parts.join("\n\n")}${head}`).slice(0,6000);
+    if(/demo|mock|prototype|simulat/i.test(files.map(f=>f.name).join(" ")+" "+parts.join(" ").slice(0,600))) document.querySelector('input[name=projkind][value=demo]').checked=true;
+    fileStatus.textContent=`${files.length} file${files.length>1?"s":""} read. Nothing left your machine. Press Paint it.`;
+    filesInput.value="";
+  });
+  const unavailable=msg=>{ btn.disabled=true; status.textContent=msg; };
+  if(!window.claude || typeof window.claude.use!=="function"){ unavailable("Painting needs the page opened from its claude.ai link; this copy can't reach Claude."); return; }
+  let sample=null;
+  try{ sample=await window.claude.use("sample"); }catch(e){ sample=null; }
+  if(!sample){ unavailable("Claude isn't available in this view. Open the artifact link in claude.ai and reload."); return; }
+  btn.disabled=false; status.textContent=""; sampleRef=sample;
+  const catalog=NODES.map(n=>`${n.id} = ${n.name} (${n.kind})`).join("\n");
+  const copyFor={not_granted:"", sampling_disabled:"", rate_limited:"Too many requests right now. Try again in a minute.", prompt_too_large:"That's too much text. Paste less.", refused:"That input can't be painted. Try describing the project in your own words.", invalid_json:"The answer didn't come back in a shape I could draw. Try again, or describe the project more plainly.", empty_completion:"Nothing came back. Try rephrasing.", session_expired:"You've been signed out. Sign in and try again.", upstream_error:"Something interrupted the request. Try again."};
+  let ctl=null;
+  stop.onclick=()=>ctl&&ctl.abort();
+  btn.onclick=async()=>{
+    const txt=ta.value.trim().slice(0,6000); if(!txt){ status.textContent="Paste or describe something first."; return; }
+    ctl=new AbortController(); btn.disabled=true; stop.style.display="inline-block"; status.textContent="Thinking…";
+    const demo=document.querySelector('input[name=projkind]:checked').value==="demo";
+    const rules = demo ? `Below is a catalog of map pieces (id = name (kind)), then material describing a DEMO or MOCKUP: a simulation of a solution the person wants to build. The demo's own code does not matter. Read what the demo DEPICTS (its visible text, its story, the systems and people it mentions) and paint the REAL system that would make it work.
+
+Reply with ONLY a JSON object of this shape:
+{"title": string (a 3-6 word name for the SOLUTION, not the file), "summary": string (2-3 sentences, plain language, second person: what the solution does and what it is made of when real), "present": [{"id": string, "note": string}], "gaps": [{"id": string, "note": string}]}
+
+Rules: use only ids from the catalog. "present" = the pieces the real version is built from, inferred from what the demo shows (a chat platform the demo mimics needs a webhook and a server; reading screenshots needs the model and the API; matching invoices needs a database; approvals on Telegram need a webhook; reminders need scheduling); note is one short sentence on that piece's job in THIS solution, using the demo's own words (WhatsApp, invoices, offices) where possible. 6-12 pieces. "gaps" = up to 4 pieces the demo gives no hint of but a working version will need (secrets, logs, tests, environments); one-sentence note each. Never describe the demo file's HTML or scripts as the solution.` : `Below is a catalog of map pieces (id = name (kind)), then a description of the person's project: a plain description, or pasted files such as a folder listing, package.json, or requirements.txt.
+
+Reply with ONLY a JSON object of this shape:
+{"title": string (a 3-6 word name for the project), "summary": string (2 sentences, plain language, second person, what this project is made of), "present": [{"id": string, "note": string}], "gaps": [{"id": string, "note": string}]}
+
+Rules: use only ids from the catalog. "present" = pieces the project clearly uses or contains; note is one short sentence saying what role it plays HERE (name the actual file or library from their input when you can). "gaps" = up to 4 pieces the project will probably need next and does not show yet; note says why, one sentence. Never invent files. If the input is not a software project, present may be empty and summary should say so kindly.`;
+    const prompt=`You are labeling a map of software concepts for someone who uses AI well but is not a developer. ${rules}
+
+CATALOG
+${catalog}
+
+${demo?"THE DEMO":"PROJECT"}
+${txt}`;
+    try{
+      const r=await sample.json(prompt,{signal:ctl.signal, cache:false});
+      const present=(Array.isArray(r.present)?r.present:[]).filter(x=>x&&byId[x.id]).map(x=>[String(x.id),String(x.note||"")]);
+      const gaps=(Array.isArray(r.gaps)?r.gaps:[]).filter(x=>x&&byId[x.id]&&!present.some(p=>p[0]===x.id)).map(x=>[String(x.id),String(x.note||"")]).slice(0,4);
+      status.textContent=present.length?"":"Nothing built yet, so the map shows what you'll need.";
+      showTrace({kicker: demo?"Your solution":"Your project", name:String(r.title||"Your project"), ordered:false, nodes:present.map(p=>p[0]), steps:present, verdict:String(r.summary||""), gaps, foot:present.length?(demo?"Solid pieces are what the real version is made of. Dashed pieces are what it will also need.":"Solid pieces are what you have. Dashed pieces are what's probably next."):""});
+      document.getElementById("t-stepshead").textContent= demo ? "What the real version is made of" : "What you have";
+      lastPaint={txt, demo, title:String(r.title||""), summary:String(r.summary||""), present, gaps}; document.getElementById("t-advise").style.display=""; document.getElementById("advisestatus").textContent="";
+      document.querySelector("#t-gapswrap h3").textContent = demo ? "It will also need" : "Worth adding";
+    }catch(e){
+      const code=e&&e.code||"upstream_error";
+      if(code==="cancelled"){ status.textContent="Stopped."; }
+      else if(code==="not_granted"){ unavailable("Permission was declined for this view. Reload the page to be asked again."); }
+      else if(code==="sampling_disabled"||code==="not_declared"||code==="capability_disabled"){ unavailable("Claude isn't available for this page on your account."); }
+      else status.textContent=copyFor[code]||copyFor.upstream_error;
+    }finally{ btn.disabled=false; stop.style.display="none"; ctl=null; }
+  };
+})();
+
+// ---- compare
+function highlightPair(a,b){
+  const near=new Set([a,b]); EDGES.forEach(e=>{ if(e.a===a||e.a===b) near.add(e.b); if(e.b===a||e.b===b) near.add(e.a); });
+  NODES.forEach(n=>{ const g=nodeEls[n.id]; g.classList.toggle("cold",!near.has(n.id)); g.classList.toggle("hit",n.id===a||n.id===b); g.classList.remove("sel","gap"); });
+  EDGES.forEach((e,i)=>{ const hot=[a,b].includes(e.a)||[a,b].includes(e.b); edgeEls[i].classList.toggle("hot",hot); edgeEls[i].classList.toggle("cold",!hot); });
+  gTrace.innerHTML=""; const pa=pos[a], pb=pos[b]; const my=(pa.y+pb.y)/2;
+  gTrace.append(el("path",{class:"trace-route",d:`M${pa.x},${pa.y} C${pa.x},${my} ${pb.x},${my} ${pb.x},${pb.y}`}));
+}
+function renderCompare(a,b,c){
+  cmp={a,b}; selected=null; trace=null; highlightPair(a,b); showView("cmpview");
+  document.getElementById("k-name").textContent=`${byId[a].name} or ${byId[b].name}`;
+  document.getElementById("k-same").textContent=c.same;
+  const A=document.getElementById("k-a"), B=document.getElementById("k-b");
+  A.querySelector("b").textContent=`Pick ${byId[a].name} when…`; A.querySelector("p").textContent=c.pickA; A.style.borderColor=layerOf[byId[a].layer].color;
+  B.querySelector("b").textContent=`Pick ${byId[b].name} when…`; B.querySelector("p").textContent=c.pickB; B.style.borderColor=layerOf[byId[b].layer].color;
+  document.getElementById("k-mistake").textContent=c.mistake;
+  card.classList.add("open"); if(window.innerWidth<700) closeAsk();
+  setHash({cmp:a+","+b});
+  // frame both
+  showFrame([a,b]);
+}
+function showFrame(ids){ const t={nodes:ids,gaps:[]}; const saved=trace; trace=t; try{ frameTrace(t); } finally { trace=saved; } }
+const cmpA=document.getElementById("cmpA"), cmpB=document.getElementById("cmpB"), cmpstatus=document.getElementById("cmpstatus");
+[...NODES].sort((x,y)=>x.name.localeCompare(y.name)).forEach(n=>{ [cmpA,cmpB].forEach(sel=>{ const o=document.createElement("option"); o.value=n.id; o.textContent=`${n.name} · ${layerOf[n.layer].name}`; sel.append(o); }); });
+cmpA.value="python"; cmpB.value="js";
+const curated=(a,b)=>COMPARES.find(c=>(c.a===a&&c.b===b)||(c.a===b&&c.b===a));
+let sampleRef=null; // set by the paint block once Claude is reachable
+async function compare(a,b){
+  if(a===b){ cmpstatus.textContent="Pick two different pieces."; return; }
+  const c=curated(a,b);
+  if(c){ const flipped=c.a!==a; renderCompare(a,b, flipped?{same:c.same,pickA:c.pickB,pickB:c.pickA,mistake:c.mistake}:c); cmpstatus.textContent=""; return; }
+  if(!sampleRef){ cmpstatus.textContent="I don't have a written comparison for that pair, and Claude isn't reachable in this view to write one. Try one of the common questions below."; return; }
+  cmpstatus.textContent="Asking Claude…"; document.getElementById("cmpbtn").disabled=true;
+  const na=byId[a], nb=byId[b];
+  const prompt=`You explain software concepts to someone who uses AI well but is not a developer. Compare two pieces from a concept map.
+
+A: ${na.name} (${na.kind}). ${na.what}
+B: ${nb.name} (${nb.kind}). ${nb.what}
+
+Reply with ONLY a JSON object: {"same": string, "pickA": string, "pickB": string, "mistake": string}
+"same": one or two sentences on how they relate (same job? different layers? one contains the other?). "pickA"/"pickB": when to reach for each, second person, one or two sentences, concrete. "mistake": the usual confusion between them, one or two sentences. Plain language, no jargon that isn't in the descriptions above. No buzzwords, no filler adverbs, no marketing tone.`;
+  try{ const r=await sampleRef.json(prompt,{cache:true}); renderCompare(a,b,{same:String(r.same||""),pickA:String(r.pickA||""),pickB:String(r.pickB||""),mistake:String(r.mistake||"")}); cmpstatus.textContent=""; }
+  catch(e){ cmpstatus.textContent = (e&&e.code==="cancelled") ? "Stopped." : "Couldn't get a comparison just now. Try again, or pick a common question below."; }
+  finally{ document.getElementById("cmpbtn").disabled=false; }
+}
+document.getElementById("cmpbtn").onclick=()=>compare(cmpA.value,cmpB.value);
+const pairs=document.getElementById("pairs");
+COMPARES.forEach(c=>{ const b=document.createElement("button"); b.textContent=`${byId[c.a].name} vs ${byId[c.b].name}`; b.onclick=()=>{ cmpA.value=c.a; cmpB.value=c.b; compare(c.a,c.b); }; pairs.append(b); });
+
+// ---- index
+const index=document.getElementById("index");
+LAYERS.forEach(L=>{ const grp=document.createElement("div"); grp.className="grp"; const b=document.createElement("b"); b.textContent=L.name; b.style.color=L.color; grp.append(b);
+  const chips=document.createElement("div"); chips.className="chips";
+  NODES.filter(n=>n.layer===L.id).sort((x,y)=>x.name.localeCompare(y.name)).forEach(n=>{ const c=document.createElement("button"); c.className="chip"; c.textContent=n.name; c.style.borderColor=L.color; c.onclick=()=>select(n.id); chips.append(c); });
+  grp.append(chips); index.append(grp); });
+
+// ---- share links (state lives in the URL hash)
+let hashLock=false;
+function setHash(obj){ hashLock=true; try{ if(!obj){ history.replaceState(null,"",location.pathname+location.search); } else { const q=Object.entries(obj).map(([k,v])=>k+"="+encodeURIComponent(v)).join("&"); history.replaceState(null,"","#"+q); } }catch(e){} hashLock=false; }
+function readHash(){ const h=location.hash.replace(/^#/,""); if(!h) return null; const o={}; h.split("&").forEach(kv=>{ const [k,...v]=kv.split("="); if(k) o[k]=decodeURIComponent(v.join("=")); }); return o; }
+function b64e(str){ return btoa(unescape(encodeURIComponent(str))); } function b64d(b){ return decodeURIComponent(escape(atob(b))); }
+document.getElementById("sharebtn").onclick=async()=>{
+  const note=document.getElementById("sharenote");
+  try{ await navigator.clipboard.writeText(location.href); note.textContent="Copied. Anyone with the link sees this exact view."; }
+  catch(e){ note.textContent="Copy this: "+location.href; }
+  setTimeout(()=>note.textContent="",4000);
+};
+function applyHash(){
+  const o=readHash(); if(!o) return false;
+  try{
+    if(o.node && byId[o.node]){ select(o.node); return true; }
+    if(o.goal){ const g=GOALS.find(x=>x.id===o.goal); if(g){ showTrace({kicker:"I want to", name:g.name, ordered:true, nodes:g.steps.map(s=>s[0]), steps:g.steps, foot:g.foot, id:g.id}); return true; } }
+    if(o.cmp){ const [a,b]=o.cmp.split(","); if(byId[a]&&byId[b]){ compare(a,b); return true; } }
+    if(o.decode){ const t=b64d(o.decode); if(t){ document.getElementById("err").value=t; decode(); return true; } }
+    if(o.paint){ const r=JSON.parse(b64d(o.paint)); const present=(r.p||[]).filter(x=>byId[x[0]]), gaps=(r.g||[]).filter(x=>byId[x[0]]);
+      showTrace({kicker:"Your project", name:String(r.t||"Your project"), ordered:false, nodes:present.map(p=>p[0]), steps:present, verdict:String(r.s||""), gaps, foot:present.length?"Solid pieces are what you have. Dashed pieces are what's probably next.":""});
+      document.getElementById("t-stepshead").textContent="What you have"; return true; }
+  }catch(e){}
+  return false;
+}
+window.addEventListener("hashchange",()=>{ if(!hashLock) applyHash(); });
+
+// ---- feedback notes (the viewer's own comment box, anchored to the card)
+(async()=>{
+  if(!window.claude || typeof window.claude.use!=="function") return;
+  let comments=null; try{ comments=await window.claude.use("comments"); }catch(e){}
+  if(!comments) return;
+  const btn=document.getElementById("notebtn"); btn.style.display="";
+  btn.onclick=async()=>{ try{ const r=await comments.openComposer({element:card}); if(r && r.opened===false) document.getElementById("sharenote").textContent="Click the page first, then try again."; }catch(e){ document.getElementById("sharenote").textContent="Notes aren't available in this view."; } };
+})();
+
+// ---- first-visit walkthrough
+const TOUR=[
+ {t:"This is the whole picture.", b:"Seven layers, top to bottom: the tools you type into, down to the computers it all runs on. Every box is one thing the AI might mention.", do:()=>{ clear(); setView("stack"); }},
+ {t:"Click any box.", b:"You get what it is, why it exists, what it looks like, and what the AI means when it says it.", do:()=>{ select("file-env"); }},
+ {t:"Or start from what you want.", b:"Pick a goal and the route lights up across the map, with a note at each stop.", do:()=>{ const g=GOALS[0]; showTrace({kicker:"I want to", name:g.name, ordered:true, nodes:g.steps.map(x=>x[0]), steps:g.steps, foot:g.foot, id:g.id}); }},
+ {t:"Same pieces, three arrangements.", b:"Stack shows what's underneath you. City groups by kind. Subway follows the journeys.", do:()=>{ setView("subway"); }},
+ {t:"That's it.", b:"Paste anything the AI said to decode it, describe your project to paint it, or compare any two pieces. Everything you find has a link you can share.", do:()=>{ clear(); setView("stack"); openAsk(); }},
+];
+let tourStep=-1;
+const tourEl=document.getElementById("tour");
+function tourShow(i){
+  tourStep=i; const st=TOUR[i]; if(!st){ tourEnd(); return; }
+  document.getElementById("tour-t").textContent=st.t; document.getElementById("tour-b").textContent=st.b;
+  document.getElementById("tour-n").textContent = i===TOUR.length-1 ? "Done" : "Next";
+  document.getElementById("tour-dots").textContent = TOUR.map((_,j)=>j===i?"●":"○").join(" ");
+  closeAsk(); tourEl.classList.add("open"); st.do();
+}
+function tourEnd(){ tourEl.classList.remove("open"); tourStep=-1; try{ localStorage.setItem("painting_tour_done","1"); }catch(e){} }
+document.getElementById("tour-n").onclick=()=>tourShow(tourStep+1);
+document.getElementById("tour-x").onclick=tourEnd;
+document.getElementById("tourbtn").onclick=()=>tourShow(0);
+function tourMaybe(){ let done=false; try{ done=localStorage.getItem("painting_tour_done")==="1"; }catch(e){} if(!done && !location.hash) tourShow(0); }
+
+// ---- WebGL "glass and light" renderer for the 3-D view. Loads three.js on first use; falls back to the SVG projection if it can't.
+const GL=(()=>{
+  const host=document.getElementById("gl"), sw=document.getElementById("glswitch");
+  let three=null, loading=null, ok=false, on=false, wanted=true;
+  let renderer, scene, camera, tiles={}, cards={}, layerLabels=[], edgeLines, hotLines=null, routeGroup, pulse=null, pulseCurve=null, raf=0, tPrev=0, labels;
+  const cam={yaw:-0.6, pitch:0.58, r:2600, tx:0, ty:0, tz:0, vy:0, idle:0};
+  const G3={gapY:230, slabW:1520, slabD:360, tileT:6, tileD:34};
+  const cssVar=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const layerHex=L=>cssVar(L.color.replace("var(","").replace(")",""));
+  function load(){
+    if(loading) return loading;
+    loading=new Promise(res=>{
+      if(window.THREE){ res(true); return; }
+      const LOCAL_THREE=""; /* put "vendor/three.min.js" here once three.js r128 is copied into the folder */ if(!LOCAL_THREE){ res(false); return; }
+      const sc=document.createElement("script"); sc.src=LOCAL_THREE; sc.async=true;
+      const t=setTimeout(()=>res(false),8000);
+      sc.onload=()=>{ clearTimeout(t); res(!!window.THREE); }; sc.onerror=()=>{ clearTimeout(t); res(false); };
+      document.head.append(sc);
+    });
+    return loading;
+  }
+  function stageRect(){ return document.getElementById("stage").getBoundingClientRect(); }
+  function build(){
+    const T=THREE; scene=new T.Scene(); scene.fog=new T.Fog(0x0e151c, 2600, 6200);
+    const r=stageRect();
+    renderer=new T.WebGLRenderer({antialias:true, alpha:true, powerPreference:"high-performance"}); renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1)); renderer.setSize(r.width, r.height);
+    renderer.outputEncoding=T.sRGBEncoding; renderer.toneMapping=T.ACESFilmicToneMapping; renderer.toneMappingExposure=1.1;
+    host.innerHTML=""; host.append(renderer.domElement);
+    labels=document.createElement("div"); labels.className="gl-labels"; host.append(labels);
+    camera=new T.PerspectiveCamera(36, r.width/r.height, 10, 20000);
+    scene.add(new T.AmbientLight(0x8fa6bd, 0.55));
+    const key=new T.DirectionalLight(0xffffff, 0.9); key.position.set(700,1500,900); scene.add(key);
+    const rim=new T.DirectionalLight(0x6fb3ff, 0.5); rim.position.set(-900,300,-1200); scene.add(rim);
+    if(!Object.keys(pos3).length) build3();
+    // layers: a thin dark plane, a fine grid, a colored edge
+    LAYERS.forEach((L,i)=>{
+      const y=((LAYERS.length-1)/2-i)*G3.gapY-NH/2-12; const col=new T.Color(layerHex(L));
+      const plane=new T.Mesh(new T.PlaneGeometry(G3.slabW,G3.slabD), new T.MeshStandardMaterial({color:0x162029, transparent:true, opacity:0.62, roughness:0.9, metalness:0.1, depthWrite:false, side:T.DoubleSide}));
+      plane.rotation.x=-Math.PI/2; plane.position.y=y; plane.renderOrder=0; scene.add(plane);
+      const grid=[]; const nx=16, nz=4;
+      for(let k=0;k<=nx;k++){ const x=-G3.slabW/2+k*G3.slabW/nx; grid.push(x,y+0.5,-G3.slabD/2, x,y+0.5,G3.slabD/2); }
+      for(let k=0;k<=nz;k++){ const z=-G3.slabD/2+k*G3.slabD/nz; grid.push(-G3.slabW/2,y+0.5,z, G3.slabW/2,y+0.5,z); }
+      const gg=new T.BufferGeometry(); gg.setAttribute("position", new T.Float32BufferAttribute(grid,3));
+      scene.add(new T.LineSegments(gg, new T.LineBasicMaterial({color:0x3a4b5a, transparent:true, opacity:0.55})));
+      const edge=new T.LineLoop(new T.BufferGeometry().setFromPoints([new T.Vector3(-G3.slabW/2,y+1,-G3.slabD/2),new T.Vector3(G3.slabW/2,y+1,-G3.slabD/2),new T.Vector3(G3.slabW/2,y+1,G3.slabD/2),new T.Vector3(-G3.slabW/2,y+1,G3.slabD/2)]), new T.LineBasicMaterial({color:col, transparent:true, opacity:0.9}));
+      scene.add(edge);
+      // the layer name is an HTML label anchored to the back-left corner
+      const lab=document.createElement("div"); lab.className="gl-layer"; lab.textContent=L.name; lab.style.color=L.color; labels.append(lab);
+      layerLabels.push({el:lab, p:new T.Vector3(-G3.slabW/2+20, y+2, -G3.slabD/2+18)});
+    });
+    // pieces: a lit tile in the scene + an HTML card that carries the text
+    tiles={}; cards={};
+    NODES.forEach(n=>{
+      const p=pos3[n.id]; const L=layerOf[n.layer]; const col=new T.Color(layerHex(L));
+      const tile=new T.Mesh(new T.BoxGeometry(n.w*0.92, G3.tileT, G3.tileD), new T.MeshStandardMaterial({color:0x22303b, emissive:col, emissiveIntensity:0.18, roughness:0.55, metalness:0.25, transparent:true, opacity:0.95}));
+      tile.position.set(p.x,p.y-NH/2+G3.tileT/2,p.z); tile.userData.id=n.id; scene.add(tile); tiles[n.id]=tile;
+      const card=document.createElement("button"); card.className="gl-node"; card.type="button"; card.dataset.id=n.id; card.style.setProperty("--c",L.color);
+      card.innerHTML=`<i></i><b>${n.name}</b><small>${n.kind}</small>`; labels.append(card); cards[n.id]={el:card, p:new T.Vector3(p.x,p.y+6,p.z), col};
+    });
+    // connections
+    const pts=[]; EDGES.forEach(e=>{ const a=pos3[e.a], b=pos3[e.b]; pts.push(a.x,a.y,a.z,b.x,b.y,b.z); });
+    const eg=new T.BufferGeometry(); eg.setAttribute("position", new T.Float32BufferAttribute(pts,3));
+    edgeLines=new T.LineSegments(eg, new T.LineBasicMaterial({color:0x7fa9de, transparent:true, opacity:0.14})); scene.add(edgeLines);
+    routeGroup=new T.Group(); scene.add(routeGroup);
+    ok=true; placeCamera(); resize(); sync();
+  }
+  function placeCamera(){
+    const cp=Math.cos(cam.pitch), sp=Math.sin(cam.pitch);
+    camera.position.set(cam.tx+cam.r*cp*Math.sin(cam.yaw), cam.ty+cam.r*sp, cam.tz+cam.r*cp*Math.cos(cam.yaw));
+    camera.lookAt(cam.tx,cam.ty,cam.tz);
+  }
+  function resize(){ if(!ok) return; const r=stageRect(); if(r.width<2||r.height<2) return; renderer.setSize(r.width,r.height); camera.aspect=r.width/r.height; camera.updateProjectionMatrix(); }
+  const _v=()=>new THREE.Vector3();
+  function placeLabels(){
+    const r=stageRect(); const W2=r.width/2, H2=r.height/2;
+    const camPos=camera.position; const dists=[];
+    NODES.forEach(n=>{ const c=cards[n.id]; const v=_v().copy(c.p); const d=camPos.distanceTo(c.p); dists.push(d); v.project(camera);
+      const el=c.el; if(v.z>1||v.z<-1){ el.style.display="none"; return; } el.style.display="";
+      const sc=Math.max(0.62, Math.min(1.15, 1700/d));
+      el.style.transform=`translate(-50%,-100%) translate(${(v.x*W2+W2).toFixed(1)}px,${(-v.y*H2+H2).toFixed(1)}px) scale(${sc.toFixed(3)})`;
+      el.style.zIndex=String(Math.round(10000-d)); c.d=d; });
+    const dmin=Math.min(...dists), dmax=Math.max(...dists);
+    NODES.forEach(n=>{ const c=cards[n.id]; c.el.style.setProperty("--fog", (1-0.45*((c.d-dmin)/Math.max(1,dmax-dmin))).toFixed(3)); });
+    layerLabels.forEach(l=>{ const v=_v().copy(l.p).project(camera); if(v.z>1){ l.el.style.display="none"; return; } l.el.style.display=""; l.el.style.transform=`translate(0,-100%) translate(${(v.x*W2+W2).toFixed(1)}px,${(-v.y*H2+H2).toFixed(1)}px)`; });
+  }
+  function frame(){
+    if(!on||!ok) return;
+    const now=performance.now(); const dt=Math.min(50, now-(tPrev||now)); tPrev=now;
+    if(Math.abs(cam.vy)>0.0004 && gp.size===0){ cam.yaw+=cam.vy; cam.vy*=0.9; }
+    else if(!reduceMotion && gp.size===0 && document.visibilityState==="visible" && now-cam.idle>4000 && !trace && !selected && !cmp && !tourEl.classList.contains("open")) cam.yaw+=0.0008;
+    if(pulse && pulseCurve){ pulse.userData.t=(pulse.userData.t+dt/7000)%1; pulse.position.copy(pulseCurve.getPointAt(pulse.userData.t)); }
+    placeCamera(); renderer.render(scene,camera); placeLabels(); raf=requestAnimationFrame(frame);
+  }
+  // mirror the SVG's state (cold / hit / sel / gap classes and the current route) onto the scene and the cards
+  function sync(){
+    if(!ok) return;
+    const any=!!(selected||trace||cmp);
+    NODES.forEach(n=>{ const cl=nodeEls[n.id].classList; const cold=cl.contains("cold"), hit=cl.contains("hit")||cl.contains("sel"), gap=cl.contains("gap");
+      const c=cards[n.id].el; c.classList.toggle("cold",cold); c.classList.toggle("hit",hit); c.classList.toggle("gap",gap);
+      const t=tiles[n.id]; t.material.emissiveIntensity = hit?1.1:(cold?0.04:0.18); t.material.opacity = cold?0.35:0.95; });
+    edgeLines.material.opacity = any ? 0.05 : 0.14;
+    routeGroup.clear(); pulse=null; pulseCurve=null; hotLines=null;
+    let ids=null;
+    if(trace){ const set=new Set(trace.nodes.concat((trace.gaps||[]).map(g=>g[0]))); ids = trace.ordered ? trace.nodes : [...set].sort((a,b)=>(layerOf[byId[a].layer].index-layerOf[byId[b].layer].index)||(pos3[a].x-pos3[b].x)); }
+    else if(cmp) ids=[cmp.a,cmp.b];
+    else if(selected){
+      const pts=[]; EDGES.forEach(e=>{ if(e.a===selected||e.b===selected){ const a=pos3[e.a], b=pos3[e.b]; pts.push(a.x,a.y,a.z,b.x,b.y,b.z); } });
+      const g=new THREE.BufferGeometry(); g.setAttribute("position", new THREE.Float32BufferAttribute(pts,3));
+      hotLines=new THREE.LineSegments(g, new THREE.LineBasicMaterial({color:0xffd166, transparent:true, opacity:0.95})); routeGroup.add(hotLines); }
+    if(ids && ids.length>1){
+      const curve=new THREE.CatmullRomCurve3(ids.map(id=>{ const p=pos3[id]; return new THREE.Vector3(p.x,p.y-NH/2+G3.tileT+10,p.z); }), false, "catmullrom", 0.25);
+      const tube=new THREE.Mesh(new THREE.TubeGeometry(curve, Math.max(32, ids.length*20), 5, 12, false), new THREE.MeshStandardMaterial({color:0xffd166, emissive:0xffb703, emissiveIntensity:1.6, roughness:0.35, transparent:true, opacity:0.95}));
+      routeGroup.add(tube); pulseCurve=curve;
+      pulse=new THREE.Mesh(new THREE.SphereGeometry(10,16,16), new THREE.MeshStandardMaterial({color:0xffffff, emissive:0xffffff, emissiveIntensity:2.5})); pulse.userData.t=0; routeGroup.add(pulse);
+    }
+  }
+  function frameIds(ids){
+    if(!ok||!ids||!ids.length) return;
+    const xs=ids.map(i=>pos3[i].x), ys=ids.map(i=>pos3[i].y), zs=ids.map(i=>pos3[i].z);
+    cam.tx=(Math.min(...xs)+Math.max(...xs))/2; cam.ty=(Math.min(...ys)+Math.max(...ys))/2; cam.tz=(Math.min(...zs)+Math.max(...zs))/2;
+    const span=Math.max(Math.max(...xs)-Math.min(...xs), Math.max(...ys)-Math.min(...ys), 500);
+    cam.r=Math.max(1900, span*1.6);
+  }
+  function reset(){ cam.yaw=-0.6; cam.pitch=0.58; cam.r=2600; cam.tx=0; cam.ty=0; cam.tz=0; cam.vy=0; }
+  // pointer handling on the host: orbit, pan, pinch, pick (cards are DOM, so picking is a closest() call)
+  let gp=new Map(), glast=null, gmoved=false, gdown=null, gpinch=null;
+  host.addEventListener("pointerdown",e=>{ host.setPointerCapture(e.pointerId); gp.set(e.pointerId,{x:e.clientX,y:e.clientY}); gmoved=false; glast={x:e.clientX,y:e.clientY}; cam.idle=performance.now(); cam.vy=0;
+    const c=e.target.closest ? e.target.closest(".gl-node") : null; gdown = (gp.size===1 && c) ? c.dataset.id : null;
+    if(gp.size===2){ const [a,b]=[...gp.values()]; gpinch={d:Math.hypot(a.x-b.x,a.y-b.y), r:cam.r}; } });
+  host.addEventListener("pointermove",e=>{ if(!gp.has(e.pointerId)) return; gp.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(gp.size===2 && gpinch){ const [a,b]=[...gp.values()]; const d=Math.hypot(a.x-b.x,a.y-b.y); cam.r=Math.min(9000,Math.max(500,gpinch.r*gpinch.d/d)); gmoved=true; return; }
+    if(gp.size===1 && glast){ const dx=e.clientX-glast.x, dy=e.clientY-glast.y; if(Math.abs(dx)+Math.abs(dy)>2){ gmoved=true; host.classList.add("dragging"); }
+      if(e.shiftKey){ const k=cam.r/900; cam.tx-=Math.cos(cam.yaw)*dx*k; cam.tz+=Math.sin(cam.yaw)*dx*k; cam.ty+=dy*k; }
+      else { const dyaw=-dx*0.006; cam.yaw+=dyaw; cam.vy=Math.max(-0.045,Math.min(0.045,dyaw*0.6)); cam.pitch=Math.min(1.45,Math.max(0.08,cam.pitch+dy*0.004)); }
+      glast={x:e.clientX,y:e.clientY}; } });
+  const gup=e=>{ const single=gp.size===1; gp.delete(e.pointerId); if(gp.size<2) gpinch=null; if(!gmoved) cam.vy=0; cam.idle=performance.now();
+    if(gp.size===0){ glast=null; host.classList.remove("dragging"); if(single && !gmoved){ if(gdown) select(gdown, false); else if(selected||trace||cmp) clear(); } } gdown=null; };
+  host.addEventListener("pointerup",gup); host.addEventListener("pointercancel",gup);
+  host.addEventListener("wheel",e=>{ e.preventDefault(); cam.r=Math.min(9000,Math.max(500,cam.r*Math.exp(e.deltaY*0.0012))); cam.idle=performance.now(); },{passive:false});
+  host.addEventListener("keydown",e=>{ const c=e.target.closest && e.target.closest(".gl-node"); if(c && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); select(c.dataset.id,false); } });
+  window.addEventListener("resize",resize);
+  sw.onclick=()=>{ wanted=!wanted; sw.textContent = wanted ? "Sketch view" : "Glass view"; apply(); };
+  async function apply(){
+    if(view!=="3d"){ leave(); return; }
+    if(!wanted){ leave(); sw.style.display=""; return; }
+    sw.style.display="";
+    const good=await load(); if(view!=="3d"||!wanted) return;
+    if(good && !ok){ try{ build(); }catch(err){ ok=false; console.warn("Glass view unavailable:", err); } }
+    if(!ok){ wanted=false; sw.style.display="none"; document.getElementById("hint").textContent="Drag to orbit · shift-drag to pan · scroll to zoom · (glass view unavailable here)"; return; }
+    on=true; host.classList.add("on"); host.setAttribute("aria-hidden","false"); svg.classList.add("hidden"); document.getElementById("stage").classList.add("glass"); resize(); sync(); tPrev=0; cancelAnimationFrame(raf); raf=requestAnimationFrame(frame);
+    document.getElementById("hint").textContent="Drag to orbit · shift-drag to pan · scroll to zoom";
+  }
+  function leave(){ on=false; host.classList.remove("on"); host.setAttribute("aria-hidden","true"); svg.classList.remove("hidden"); document.getElementById("stage").classList.remove("glass"); cancelAnimationFrame(raf); if(view!=="3d") sw.style.display="none"; }
+  return {apply, leave, sync, frameIds, reset, get on(){return on;}, get ok(){return ok;}};
+})();
+// keep the glass view in step with every state change
+{ const _h=highlight, _p=highlightPair, _d=drawTrace, _c=clear, _s=select, _f=frameTrace, _fit=fit;
+  highlight=function(id){ _h(id); GL.sync(); };
+  highlightPair=function(a,b){ _p(a,b); GL.sync(); };
+  drawTrace=function(){ _d(); GL.sync(); };
+  clear=function(){ _c(); GL.sync(); };
+  select=function(id,pan=true){ _s(id,pan); if(GL.on) GL.frameIds([id]); };
+  frameTrace=function(t){ _f(t); if(GL.on) GL.frameIds(t.nodes.concat((t.gaps||[]).map(g=>g[0]))); };
+  fit=function(){ _fit(); GL.reset(); };
+}
+
+// ---- orbit loop: momentum after a fling, and a slow drift when nobody has touched it for a while
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let orbitRunning=false;
+function startOrbitLoop(){
+  if(orbitRunning) return; orbitRunning=true; CAM.idle=performance.now();
+  const tick=()=>{
+    if(view!=="3d"){ orbitRunning=false; return; }
+    let moved=false;
+    if(Math.abs(CAM.vy)>0.0004 && ptrs.size===0){ CAM.yaw+=CAM.vy; CAM.vy*=0.9; moved=true; }
+    else if(!reduceMotion && ptrs.size===0 && document.visibilityState==="visible" && performance.now()-CAM.idle>4000 && !trace && !selected && !cmp && !tourEl.classList.contains("open")){ CAM.yaw+=0.0012; moved=true; }
+    if(moved) render3();
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+// ---- the advisor: a structured second opinion on a painted project or solution
+let lastPaint=null, lastAdvice=null;
+function chipRow(ids){ const d=document.createElement("div"); d.className="chips"; (ids||[]).filter(id=>byId[id]).forEach(id=>{ const b=document.createElement("button"); b.className="chip"; b.innerHTML=`<b>${byId[id].name}</b>`; b.style.borderColor=layerOf[byId[id].layer].color; b.onclick=e=>{ e.stopPropagation(); select(id); document.getElementById("backtrace").style.display="none"; }; d.append(b); }); return d; }
+function renderAdvice(a){
+  lastAdvice=a; selected=null; cmp=null;
+  // light everything the advice touches
+  const ids=[...new Set([...a.strengths,...a.risks,...a.order].flatMap(x=>x.ids||[]).concat(a.missing.map(m=>m.id)).filter(id=>byId[id]))];
+  trace={kicker:"Advice", name:a.title, ordered:false, nodes:ids, steps:[], gaps:[]}; drawTrace(); showView("adviceview");
+  document.getElementById("a-name").textContent=a.title; document.getElementById("a-verdict").textContent=a.verdict;
+  const fill=(id, items, render)=>{ const el=document.getElementById(id); el.innerHTML=""; if(!items.length){ el.innerHTML='<div class="aitem" style="color:var(--ink-3)">Nothing to flag.</div>'; return; } items.forEach(it=>{ const d=document.createElement("div"); d.className="aitem"; render(d,it); el.append(d); }); };
+  fill("a-strong", a.strengths, (d,it)=>{ d.textContent=it.text; if(it.ids&&it.ids.length) d.append(chipRow(it.ids)); });
+  fill("a-risks", a.risks, (d,it)=>{ const sv=document.createElement("span"); sv.className="sev "+(it.severity||"medium"); sv.textContent=(it.severity||"medium"); d.append(sv, document.createTextNode(it.text)); if(it.ids&&it.ids.length) d.append(chipRow(it.ids)); });
+  fill("a-missing", a.missing, (d,it)=>{ d.innerHTML=`<b>${byId[it.id]?byId[it.id].name:""}</b> · `; d.append(document.createTextNode(it.note)); d.append(chipRow([it.id])); });
+  fill("a-questions", a.questions.map(q=>({text:q})), (d,it)=>{ d.textContent=it.text; });
+  fill("a-order", a.order, (d,it)=>{ d.append(document.createTextNode(it.text)); if(it.ids&&it.ids.length) d.append(chipRow(it.ids)); });
+  card.classList.add("open"); card.scrollTop=0; if(window.innerWidth<700) closeAsk();
+}
+document.getElementById("backpaint").onclick=()=>{ if(!lastPaint) return; const lp=lastPaint; showTrace({kicker: lp.demo?"Your solution":"Your project", name:lp.title, ordered:false, nodes:lp.present.map(p=>p[0]), steps:lp.present, verdict:lp.summary, gaps:lp.gaps, foot:lp.demo?"Solid pieces are what the real version is made of. Dashed pieces are what it will also need.":"Solid pieces are what you have. Dashed pieces are what's probably next."}); document.getElementById("t-stepshead").textContent= lp.demo ? "What the real version is made of" : "What you have"; document.querySelector("#t-gapswrap h3").textContent = lp.demo ? "It will also need" : "Worth adding"; document.getElementById("t-advise").style.display=""; };
+document.getElementById("advisebtn").onclick=async()=>{
+  if(!lastPaint) return; const st=document.getElementById("advisestatus"), btn=document.getElementById("advisebtn");
+  if(!sampleRef){ st.textContent="The advisor needs Claude, which isn't reachable in this view."; return; }
+  if(lastAdvice && lastAdvice.for===lastPaint){ renderAdvice(lastAdvice); return; }
+  btn.disabled=true; st.textContent="Thinking it over…";
+  const lp=lastPaint; const catalog=NODES.map(n=>`${n.id} = ${n.name} (${n.kind})`).join("\n");
+  const prompt=`You are a seasoned technical advisor talking to someone who builds solutions with AI but is not a developer. Be direct, specific, and kind; no buzzwords, no filler. Below: a catalog of map pieces (id = name (kind)), the material describing their ${lp.demo?"solution (from a demo/mockup)":"project"}, and the painting already made of it (what it's made of, and what's missing).
+
+Reply with ONLY a JSON object:
+{"title": string (4-8 words: the advice in a phrase), "verdict": string (2-3 sentences: is this sound, what's the one thing that matters most), "strengths": [{"text": string, "ids": [string]}], "risks": [{"text": string, "severity": "high"|"medium"|"low", "ids": [string]}], "missing": [{"id": string, "note": string}], "questions": [string], "order": [{"text": string, "ids": [string]}]}
+
+Rules: ids only from the catalog; 2-4 strengths; 2-5 risks (security, cost, reliability, the customer's data, what breaks at 10× volume, what depends on a third party); 0-4 missing pieces the painting did not already list, each with a one-sentence reason; 3-5 questions to ask the customer before building; exactly 3 "order" items: the first three things to build, each one sentence with the pieces involved. Every text field is one or two plain sentences, second person where natural. If the material is too thin to advise on, say so in the verdict and keep the lists short.
+
+CATALOG
+${catalog}
+
+MATERIAL
+${lp.txt.slice(0,5000)}
+
+THE PAINTING
+title: ${lp.title}
+summary: ${lp.summary}
+made of: ${lp.present.map(p=>`${p[0]} (${p[1]})`).join("; ")}
+missing: ${lp.gaps.map(g=>`${g[0]} (${g[1]})`).join("; ")||"none listed"}`;
+  try{
+    const r=await sampleRef.json(prompt,{cache:true});
+    const arr=x=>Array.isArray(x)?x:[]; const strs=x=>arr(x).map(v=>String(v)).filter(Boolean);
+    const items=x=>arr(x).filter(i=>i&&i.text).map(i=>({text:String(i.text), ids:strs(i.ids).filter(id=>byId[id]), severity:["high","medium","low"].includes(i.severity)?i.severity:"medium"}));
+    const a={for:lp, title:String(r.title||"The advisor's take"), verdict:String(r.verdict||""), strengths:items(r.strengths), risks:items(r.risks), missing:arr(r.missing).filter(m=>m&&byId[m.id]).map(m=>({id:String(m.id),note:String(m.note||"")})), questions:strs(r.questions).slice(0,6), order:items(r.order).slice(0,3)};
+    renderAdvice(a); st.textContent="";
+  }catch(e){ st.textContent = (e&&e.code==="cancelled") ? "Stopped." : "Couldn't get advice just now. Try again."; }
+  finally{ btn.disabled=false; }
+};
+
+// ---- pan / zoom via viewBox
+let vb={x:0,y:0,w:W,h:H};
+function applyVB(){ svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
+function fit(){
+  // fit the map into the space the open panels leave free, not the whole window
+  const r=svg.getBoundingClientRect(); const mobile=r.width<700;
+  const askOpen=ask.classList.contains("open"), cardOpen=card.classList.contains("open");
+  const padL = mobile?0:(askOpen?370:0), padR = mobile?0:(cardOpen?400:0);
+  const padB = mobile ? ((askOpen||cardOpen) ? r.height*0.6 : 0) : 0;
+  const visW=Math.max(200,r.width-padL-padR), visH=Math.max(160,r.height-padB);
+  const scale=Math.max((world.w+40)/visW, (world.h+40)/visH); // world units per screen px
+  const w=r.width*scale, h=r.height*scale;
+  vb={x:world.w/2-(padL+visW/2)*scale, y:world.h/2-(visH/2)*scale, w, h}; applyVB();
+}
+const ZOOM={min:()=>Math.max(520, world.w*0.3), max:()=>world.w*1.6};
+function panTo(p){
+  const r=svg.getBoundingClientRect(); const isMobile=r.width<700;
+  // keep target left of the card on desktop, above the card on mobile
+  const fx=isMobile?0.5:0.38, fy=isMobile?0.3:0.5;
+  const targetW=Math.min(vb.w, Math.max(ZOOM.min(), r.width<700?1100:1500));
+  const targetH=targetW*(r.height/r.width);
+  vb={x:p.x-targetW*fx, y:p.y-targetH*fy, w:targetW, h:targetH}; applyVB();
+}
+function clientToWorld(cx,cy){ const r=svg.getBoundingClientRect(); return {x:vb.x+(cx-r.left)/r.width*vb.w, y:vb.y+(cy-r.top)/r.height*vb.h}; }
+svg.addEventListener("wheel",e=>{
+  e.preventDefault(); const f=Math.exp(e.deltaY*0.0011); const m=clientToWorld(e.clientX,e.clientY);
+  const nw=Math.min(Math.max(vb.w*f,ZOOM.min()),ZOOM.max()); const s=nw/vb.w;
+  vb={x:m.x-(m.x-vb.x)*s, y:m.y-(m.y-vb.y)*s, w:nw, h:vb.h*s}; applyVB();
+},{passive:false});
+let ptrs=new Map(), dragMoved=false, last=null, pinch=null, downNode=null;
+svg.addEventListener("pointerdown",e=>{ svg.setPointerCapture(e.pointerId); ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY}); dragMoved=false; last={x:e.clientX,y:e.clientY}; CAM.idle=performance.now(); CAM.vy=0;
+  const g=e.target.closest ? e.target.closest(".node") : null; downNode = (ptrs.size===1 && g) ? g.dataset.id : null;
+  if(ptrs.size===2){ const [a,b]=[...ptrs.values()]; pinch={d:Math.hypot(a.x-b.x,a.y-b.y), w:vb.w, h:vb.h, mid:clientToWorld((a.x+b.x)/2,(a.y+b.y)/2)}; } });
+svg.addEventListener("pointermove",e=>{ if(!ptrs.has(e.pointerId)) return; ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  const r=svg.getBoundingClientRect();
+  if(ptrs.size===2 && pinch){ const [a,b]=[...ptrs.values()]; const d=Math.hypot(a.x-b.x,a.y-b.y); const s=pinch.d/d;
+    const nw=Math.min(Math.max(pinch.w*s,ZOOM.min()),ZOOM.max()); const ratio=nw/vb.w; const m=pinch.mid;
+    vb={x:m.x-(m.x-vb.x)*ratio, y:m.y-(m.y-vb.y)*ratio, w:nw, h:vb.h*ratio}; applyVB(); dragMoved=true; return; }
+  if(ptrs.size===1 && last){
+    if(Math.abs(e.clientX-last.x)+Math.abs(e.clientY-last.y)>2){ dragMoved=true; svg.classList.add("dragging"); }
+    if(view==="3d" && !e.shiftKey){ const dyaw=-(e.clientX-last.x)*0.006; CAM.yaw+=dyaw; CAM.vy=Math.max(-0.045,Math.min(0.045,dyaw*0.6)); CAM.idle=performance.now(); CAM.pitch=Math.min(1.35,Math.max(0.12,CAM.pitch+(e.clientY-last.y)*0.004)); last={x:e.clientX,y:e.clientY}; render3(); return; }
+    const dx=(e.clientX-last.x)*vb.w/r.width, dy=(e.clientY-last.y)*vb.h/r.height;
+    vb.x-=dx; vb.y-=dy; last={x:e.clientX,y:e.clientY}; applyVB(); } });
+const up=e=>{ const wasSingle=ptrs.size===1; ptrs.delete(e.pointerId); if(ptrs.size<2) pinch=null; if(!dragMoved) CAM.vy=0; CAM.idle=performance.now();
+  if(ptrs.size===0){ last=null; svg.classList.remove("dragging");
+    if(wasSingle && !dragMoved){ if(downNode) select(downNode); else if(selected||trace||cmp) clear(); } }
+  downNode=null; };
+svg.addEventListener("pointerup",up); svg.addEventListener("pointercancel",up);
+document.getElementById("fit").onclick=fit;
+window.addEventListener("resize",fit);
+
+// ---- search
+const q=document.getElementById("q"), res=document.getElementById("results");
+function runSearch(){
+  const s=q.value.trim().toLowerCase(); res.innerHTML=""; if(!s){res.style.display="none";return;}
+  const hits=NODES.filter(n=>[n.name,n.kind,n.what,n.ai].join(" ").toLowerCase().includes(s)).slice(0,8);
+  if(!hits.length){ res.innerHTML=`<button disabled>Nothing named that here yet</button>`; res.style.display="block"; return; }
+  hits.forEach(n=>{ const b=document.createElement("button"); b.innerHTML=`${n.name}<span>${layerOf[n.layer].name}</span>`; b.onclick=()=>{ select(n.id); res.style.display="none"; q.value=""; }; res.append(b); });
+  res.style.display="block";
+}
+q.addEventListener("input",runSearch);
+q.addEventListener("keydown",e=>{ if(e.key==="Enter"){ const b=res.querySelector("button:not([disabled])"); if(b) b.click(); } if(e.key==="Escape"){ res.style.display="none"; } });
+document.addEventListener("click",e=>{ if(!e.target.closest(".search")) res.style.display="none"; });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ if(selected||trace||cmp) clear(); else if(location.hash) setHash(null); } });
+
+// ---- legend & views
+const legend=document.getElementById("legend");
+LAYERS.forEach(L=>{ const s=document.createElement("span"); s.innerHTML=`<i style="background:${L.color}"></i>${L.name}`; legend.append(s); });
+document.querySelectorAll(".views button").forEach(b=>b.onclick=()=>setView(b.dataset.view));
+setView("stack");
+if(applyHash()) closeAsk(); else tourMaybe();
+</script>
+</body>
+</html>

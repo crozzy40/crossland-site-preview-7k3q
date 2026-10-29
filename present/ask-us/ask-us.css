@@ -1,0 +1,59 @@
+/* Ask us: styles for the chat box. Uses the site's colour tokens (with fallbacks) and the site's font.
+   Phone first; nothing is fixed or floating, so it never covers the page. */
+.au{--au-bg:var(--s1,#0F1828);--au-bg2:var(--s2,#141E31);--au-bg3:var(--s3,#1B263B);--au-line:var(--line,#222D42);
+ --au-line2:var(--line2,#34415B);--au-tx:var(--tx,#F4EFE8);--au-mu:var(--mu,#B7BDC9);--au-dim:var(--dim,#8D96A8);
+ --au-ac:var(--ac,#E2A93B);--au-ac2:var(--ac2,#EEBE60);--au-acink:var(--acink,#1A1203);
+ display:block;max-width:680px;min-width:0;color:var(--au-tx);font-family:inherit}
+.au *{box-sizing:border-box}
+.au [hidden]{display:none!important}
+.au-box{border:1px solid var(--au-line2);border-radius:8px;background:var(--au-bg);padding:20px 20px 18px;min-width:0}
+.au-h{font-size:24px;line-height:1.15;letter-spacing:-.02em;font-weight:600;margin:0;overflow-wrap:break-word}
+.au-intro{margin:6px 0 0;font-size:16px;line-height:1.5;color:var(--au-mu)}
+.au-demo{margin:12px 0 0;padding:8px 12px;border:1px dashed var(--au-ac);border-radius:5px;font-size:14.5px;line-height:1.45;color:var(--au-tx);background:var(--au-bg2)}
+.au-demo::before{content:"DEMO";display:inline-block;margin-right:8px;padding:1px 6px;border-radius:2px;background:var(--au-ac);color:var(--au-acink);font-size:12px;font-weight:700;letter-spacing:.1em}
+.au-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.au-chip{display:inline-flex;align-items:center;min-height:44px;max-width:100%;padding:8px 14px;border:1px solid var(--au-line2);border-radius:22px;
+ background:var(--au-bg2);color:var(--au-tx);font:inherit;font-size:15px;line-height:1.3;text-align:left;white-space:normal;overflow-wrap:anywhere;cursor:pointer}
+.au-chip:hover{border-color:var(--au-mu);background:var(--au-bg3)}
+.au-chip[aria-disabled="true"],.au-send[aria-disabled="true"]{opacity:.6;cursor:progress}
+.au-chip:disabled,.au-send:disabled,.au-input:disabled{opacity:.45;cursor:not-allowed}
+.au-form{margin-top:16px}
+.au-label{display:block;font-size:14.5px;font-weight:600;margin-bottom:6px}
+.au-row{display:flex;flex-wrap:wrap;gap:8px}
+.au-input{flex:1 1 12em;min-width:0;min-height:48px;padding:10px 12px;border:1px solid var(--au-line2);border-radius:5px;
+ background:var(--au-bg2);color:var(--au-tx);font:inherit;font-size:16px;line-height:1.3}
+.au-input::placeholder{color:var(--au-dim);opacity:1}
+.au-send{flex:0 0 auto;min-height:48px;min-width:44px;padding:8px 20px;border:0;border-radius:5px;background:var(--au-ac);color:var(--au-acink);
+ font:inherit;font-size:16px;font-weight:600;line-height:1.2;white-space:normal;cursor:pointer}
+.au-send:hover{background:var(--au-ac2)}
+.au-count{margin:6px 0 0;font-size:13px;color:var(--au-dim)}
+.au-privacy{margin:10px 0 0;font-size:14px;line-height:1.5;color:var(--au-mu)}
+.au-datalink,.au-inlinemail{color:var(--au-tx);text-decoration:underline;text-underline-offset:3px}
+.au-panel{margin-top:16px;border-top:1px solid var(--au-line);padding-top:12px}
+.au-ptop{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+.au-ptitle{margin:0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--au-dim)}
+.au-close{min-height:44px;min-width:44px;padding:6px 14px;border:1px solid var(--au-line2);border-radius:5px;background:transparent;color:var(--au-tx);font:inherit;font-size:15px;cursor:pointer}
+.au-close:hover{border-color:var(--au-mu)}
+.au-log{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.au-msg{padding:10px 12px;border-radius:6px;min-width:0}
+.au-you{background:var(--au-bg3);align-self:flex-end;max-width:92%}
+.au-ai{background:var(--au-bg2);border:1px solid var(--au-line)}
+.au-note{border-color:var(--au-ac)}
+.au-who{margin:0 0 4px;font-size:13px;line-height:1.4;color:var(--au-dim)}
+.au-text{margin:0;font-size:16px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.au-typing{margin:10px 0 0;font-size:14.5px;color:var(--au-mu)}
+.au-dots{display:inline-block;width:22px;height:8px;vertical-align:middle;
+ background:radial-gradient(circle,var(--au-ac) 3px,transparent 3.5px) 0 50%/8px 8px repeat-x;animation:au-pulse 1s ease-in-out infinite}
+@keyframes au-pulse{0%,100%{opacity:.35}50%{opacity:1}}
+.au-status{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.au-foot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:16px}
+.au-email{display:inline-flex;align-items:center;justify-content:center;min-height:44px;max-width:100%;padding:8px 18px;border:1px solid var(--au-mu);
+ border-radius:5px;background:var(--au-bg2);color:var(--au-tx);font-size:15.5px;font-weight:600;text-decoration:none;white-space:normal;text-align:center}
+.au-email:hover{border-color:var(--au-tx);background:var(--au-bg3)}
+.au-addr{font-size:14.5px;color:var(--au-mu);overflow-wrap:anywhere;min-width:0}
+.au :focus-visible{outline:2px solid var(--au-ac);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.au-dots{animation:none}}
+html.still .au-dots{animation:none}
+@media (max-width:760px){.au-box{padding:16px 14px}.au-h{font-size:22px}.au-chip{font-size:15.5px}.au-email{flex:1 1 auto}}
+/* On the Start page the box sits in the content column, like the "Why now" block */
+.qs.au-article>.a{grid-column:2;min-width:0}

@@ -75,6 +75,61 @@ addEventListener('scroll',on,{capture:true,passive:true});addEventListener('keyd
 <style>/* d33:hit: phones: an invisible tap area of about 44 px on the small links and the Motion switch; nothing drawn changes */@media (max-width:760px){.brand,.motion,.trail a,.sf-nav a,.kick a{position:relative}.brand::after{content:"";position:absolute;left:0;right:0;top:-7px;bottom:-7px}.motion::after{content:"";position:absolute;left:0;right:0;top:-8px;bottom:-8px}.kick a::after{content:"";position:absolute;left:0;right:0;top:-10px;bottom:-10px}.trail a::after,.sf-nav a::after{content:"";position:absolute;top:0;bottom:0;left:-9px;right:-9px}}</style>
 <style>/* d34:fit: when bigger text does not fit, the header wraps or turns into the Menu button and the boxes give way; at normal text size nothing changes */@media (max-width:760px){html .pbar.fit-bar{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.pbar.fit-bar .pb{grid-column:1/-1}.pbar.fit-bar a,.pbar.fit-bar .btn{white-space:normal;text-align:center;min-width:0}.pbar.fit-bar .pb small{white-space:normal;max-width:none}html.fit-bar body{padding-bottom:var(--fit-bar)}html.fit-bar{scroll-padding-bottom:calc(var(--fit-bar) + 16px)}}.fit-col{grid-template-columns:minmax(0,1fr)!important}.steps.fit-col::before{display:none}.line5.fit-col li{padding:0 0 14px 28px}.line5.fit-col li::before{top:14px;bottom:-1px;left:6px;right:auto;width:1px;height:auto}.line5.fit-col li::after{top:2px}.line5.fit-col li:last-child{padding-bottom:0}.proof .ph{flex-wrap:wrap}.btn.fit-btn{white-space:normal;height:auto;min-height:48px;padding-top:8px;padding-bottom:8px;text-align:center}.hintro h1{overflow-wrap:break-word}html.fit-probe .hintro h1{overflow-wrap:normal}@media (max-width:1060px) and (min-width:761px){.home,.after{grid-template-columns:minmax(0,1fr)}}@media (min-width:761px){.home.fit-stack{grid-template-columns:minmax(0,1fr);grid-template-rows:auto}.home.fit-stack .hintro{display:block;padding:12px 0 0}.home.fit-stack .frame{height:780px}.home.fit-stack .after{grid-template-columns:minmax(0,1fr)}}.js .top.fit-menu{row-gap:8px}.js .top.fit-menu .right .ghost{display:none}.js .top.fit-menu .mbtn{display:inline-flex;align-items:center;gap:8px;height:auto;min-height:44px;padding:0 13px;border:1px solid var(--line2);border-radius:5px;background:var(--s2);font-size:15px;font-weight:600;flex:none}.js .top.fit-menu .mbtn svg{flex:none}.js .top.fit-menu .nav{display:none;order:0;position:absolute;left:0;right:0;top:100%;margin:0;width:auto;background:var(--bg);border-bottom:1px solid var(--line2);padding:4px 16px 16px;z-index:40;box-shadow:0 30px 40px -20px color-mix(in srgb,var(--shadow) 90%,transparent)}.js .top.fit-menu.mopen .nav{display:block}.js .top.fit-menu .nav ul{display:flex;flex-direction:column;flex-wrap:nowrap}.js .top.fit-menu .nav a{padding:13px 4px;font-size:17px;border-bottom:1px solid var(--line);border-radius:0;white-space:normal}.js .top.fit-menu .nav a[aria-current="page"]::after{left:auto;right:4px;top:50%;bottom:auto;width:7px;height:7px;margin-top:-3px}.js .top.fit-menu .m-es{display:block}.qintro.fit-unstick,.wintro.fit-unstick{position:static}@media (min-width:1061px){.js .dpage.fit-tall{grid-template-rows:var(--fit-h) auto}.js .apage.fit-tall{height:var(--fit-h)}}.xw.fit-week .xw-tasks{height:auto}.xw.fit-week .xw-task,.xw.fit-week .xw-task.xw-r.xw-auto{flex:none;transition:none}.xw.fit-week .xw-tag,.xw.fit-week .xw-task.xw-r.xw-auto .xw-tl{white-space:normal}.xw.fit-week .xw-tl{overflow-wrap:break-word}.xw.fit-week .xw-open.xw-on{flex:none;padding:6px 4px}h1,h2{overflow-wrap:break-word}.skip:not(:focus){transform:translateY(-100%)}.top{flex-wrap:wrap;height:auto;min-height:var(--top)}.no-js .nav ul{flex-wrap:wrap}@media (max-width:760px){.js .top{flex-wrap:wrap;height:auto;min-height:60px}}</style>
 <script>/* d34:fit */addEventListener('DOMContentLoaded',function(){var D=document,H=D.documentElement,top=D.querySelector('header.top');if(!top||!window.matchMedia||!window.ResizeObserver)return;var nav=top.querySelector('.nav'),mb=top.querySelector('.mbtn'),brand=top.querySelector('.brand'),right=top.querySelector('.right'),home=D.querySelector('main.home'),hi=home&&home.querySelector('.hintro'),h1=hi&&hi.querySelector('h1'),bar=D.querySelector('.pbar'),phone=matchMedia('(max-width:760px)'),wide=matchMedia('(min-width:1061px)'),tiny=matchMedia('(max-width:900px)'),wkey='';function cl(e,c,on){if(e)e.classList.toggle(c,!!on)}function navFits(){var t=top.getBoundingClientRect(),li=nav.querySelectorAll('li'),rows=[],i,r,y;for(i=0;i<li.length;i++){r=li[i].getBoundingClientRect();if(!r.width)continue;y=Math.round(r.top);if(!rows.some(function(v){return Math.abs(v-y)<3}))rows.push(y);if(r.right>t.right+1||r.left<t.left-1)return false}var b=brand.getBoundingClientRect(),g=right.getBoundingClientRect();if(g.top>=b.bottom-2)return false;if(getComputedStyle(nav).order!=='3'?(rows.length>1||(rows.length&&rows[0]>=b.bottom-2)):rows.length>2)return false;return top.scrollWidth<=top.clientWidth+1}function menu(){if(!nav||!mb||!brand||!right)return;var was=top.classList.contains('fit-menu'),open=top.classList.contains('mopen');cl(top,'fit-menu',0);var need=!phone.matches&&!navFits();cl(top,'fit-menu',need);if(was&&!need&&open)mb.click()}function stack(){if(!h1)return;cl(home,'fit-stack',0);if(!wide.matches)return;H.classList.add('fit-probe');var over=h1.scrollWidth>h1.clientWidth+1||hi.scrollHeight>hi.clientHeight+1;H.classList.remove('fit-probe');cl(home,'fit-stack',over)}function wider(e){if(!e.offsetWidth)return false;var L=0,Rt=H.clientWidth,a,b,n,q,i,R=D.createRange(),w=D.createTreeWalker(e,4);for(a=e.parentElement;a&&a!==D.body;a=a.parentElement)if(getComputedStyle(a).overflowX!=='visible'){b=a.getBoundingClientRect();L=Math.max(L,b.left);Rt=Math.min(Rt,b.right);break}while((n=w.nextNode())){if(!n.data.trim())continue;R.selectNodeContents(n);q=R.getClientRects();for(i=0;i<q.length;i++)if(q[i].width&&(q[i].right>Rt-10||q[i].left<L+10))return true}return false}function cols(){var L=D.querySelectorAll('.pw,.route,.steps,.line5,.sf-nav ul'),B=D.querySelectorAll('main .btn,footer .btn'),i,o=[],p=[];for(i=0;i<L.length;i++)cl(L[i],'fit-col',0);for(i=0;i<B.length;i++)cl(B[i],'fit-btn',0);for(i=0;i<L.length;i++)if(wider(L[i]))o.push(L[i]);for(i=0;i<B.length;i++)if(wider(B[i]))p.push(B[i]);o.forEach(function(e){cl(e,'fit-col',1)});p.forEach(function(e){cl(e,'fit-btn',1)})}function tall(){[['main.dpage','.dintro',0],['main.apage','.aintro',1]].forEach(function(p){var m=D.querySelector(p[0]),c=m&&m.querySelector(p[1]);if(!c)return;cl(m,'fit-tall',0);m.style.removeProperty('--fit-h');if(!wide.matches)return;var o=c.scrollHeight-c.clientHeight;if(o>1){m.style.setProperty('--fit-h',Math.ceil((p[2]?m.getBoundingClientRect().height:c.getBoundingClientRect().height)+o)+'px');cl(m,'fit-tall',1)}})}function unstick(){var L=D.querySelectorAll('.qintro,.wintro'),i,e,s;for(i=0;i<L.length;i++){e=L[i];cl(e,'fit-unstick',0);s=getComputedStyle(e);if(s.position==='sticky'&&(parseFloat(s.top)||0)+e.offsetHeight>innerHeight+1)cl(e,'fit-unstick',1)}}function week(){var x=D.querySelector('.xw'),t=x&&x.querySelector('.xw-tl'),g=x&&x.querySelector('.xw-tag');if(!t)return;var k=innerWidth+'|'+getComputedStyle(t).fontSize+'|'+(g?getComputedStyle(g).fontSize:'');if(k===wkey)return;wkey=k;cl(x,'fit-week',0);if(!(parseFloat(getComputedStyle(t).fontSize)>14||(g&&parseFloat(getComputedStyle(g).fontSize)>12.5)))return;var T=x.querySelectorAll('.xw-task'),over=false,i,e,a,lim=tiny.matches?24:30;for(i=0;i<T.length&&!over;i++){e=T[i];a=e.querySelector('.xw-tag');if(a&&a.offsetWidth&&a.scrollWidth>a.clientWidth+1)over=true;else if(!(e.getAnimations&&e.getAnimations().length)&&e.scrollHeight>e.clientHeight+1)over=true;else if(e.classList.contains('xw-r')&&parseFloat(getComputedStyle(e.querySelector('.xw-tl')).fontSize)*1.2>lim-2)over=true}cl(x,'fit-week',over)}function pbar(){if(!bar)return;cl(bar,'fit-bar',0);cl(H,'fit-bar',0);H.style.removeProperty('--fit-bar');if(!phone.matches)return;var A=bar.querySelectorAll('a'),i,over=bar.scrollWidth>bar.clientWidth+1;for(i=0;i<A.length;i++)if(A[i].offsetWidth&&A[i].scrollWidth>A[i].clientWidth+1)over=true;if(!over)return;cl(bar,'fit-bar',1);cl(H,'fit-bar',1);H.style.setProperty('--fit-bar',Math.ceil(bar.getBoundingClientRect().height)+'px')}var q=0;function run(){q=0;menu();stack();cols();tall();unstick();week();pbar()}function later(){if(!q)q=requestAnimationFrame(run)}run();var ro=new ResizeObserver(later);[top,brand,right,mb,nav,hi,h1,bar,D.body,D.querySelector('.xw-week')].forEach(function(e){if(e)ro.observe(e)});[].forEach.call(D.querySelectorAll('.dintro *,.aintro *,.hintro *,.qintro,.qintro *,.wintro,.wintro *'),function(e){ro.observe(e)});addEventListener('resize',later);addEventListener('load',later);if(D.fonts&&D.fonts.ready)D.fonts.ready.then(later)});</script>
+<style>/* l8:quiz: the 2-minute quiz on the ladder; the site's own colour tokens; nothing changes until it is opened */
+.qz-ow{margin-top:18px;display:grid;gap:8px;justify-items:start;min-width:0}
+.qz-ow .btn{height:auto;min-height:46px;padding:10px 22px;font-size:15.5px;white-space:normal;text-align:center;font-family:inherit;border:0;cursor:pointer;max-width:100%}
+.qz-ow p{font-size:14.5px;line-height:1.5;color:var(--mu);max-width:40ch}
+.qz{min-width:0;max-width:760px;border:1px solid var(--line2);border-radius:8px;background:var(--s1);padding:18px 22px 22px;scroll-margin-top:calc(var(--top) + var(--way) + 12px)}
+.qz-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-bottom:14px;min-width:0}
+.qz-x{display:inline-flex;align-items:center;gap:10px;min-height:44px;max-width:100%;padding:8px 16px 8px 12px;border:1px solid var(--line2);border-radius:5px;background:var(--s2);color:var(--tx);font:inherit;font-size:15px;font-weight:600;line-height:1.3;cursor:pointer;text-align:left}
+.qz-x:hover{border-color:var(--mu);background:var(--s3)}
+.qz-x .ba{color:var(--ac);font-size:18px;line-height:1;flex:none}
+.qz-t{color:var(--dim);min-width:0}
+.qz-intro{font-size:15px;line-height:1.5;color:var(--mu);margin:0 0 14px;max-width:60ch}
+.qz-bar{height:4px;border-radius:2px;background:var(--line);overflow:hidden;margin-bottom:16px}
+.qz-bar i{display:block;height:100%;width:14.3%;background:var(--ac);transition:width .25s var(--ease)}
+.qz-s{border:0;min-width:0;margin:0;padding:0}
+.qz-s legend{padding:0;width:100%;max-width:100%}
+.qz-q{font-size:21px;line-height:1.3;letter-spacing:-.01em;font-weight:600;max-width:34ch}
+.qz-q:focus,.qz-rh:focus{outline:none}
+.qz-n{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:400;margin-bottom:8px}
+.qz-as{display:grid;gap:10px;margin-top:16px;min-width:0}
+.qz-a{display:flex;align-items:center;gap:12px;min-height:52px;min-width:0;padding:12px 16px;border:1px solid var(--line2);border-radius:6px;background:var(--s2);color:var(--tx);font-size:16px;line-height:1.4;cursor:pointer;transition:border-color .15s,background .15s}
+.qz-a:hover{border-color:var(--mu)}
+.qz-a input{flex:none;width:20px;height:20px;margin:0;accent-color:var(--ac);cursor:pointer}
+.qz-a.on{border-color:var(--ac);background:var(--s3)}
+.qz-a:focus-within{border-color:var(--ac)}
+.qz-at{min-width:0;overflow-wrap:anywhere}
+.qz-nav,.qz-rnav,.qz-btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center;min-width:0}
+.qz-nav{margin-top:18px}
+.qz .btn{height:auto;min-height:46px;max-width:100%;padding:10px 20px;font-size:15.5px;line-height:1.3;white-space:normal;text-align:center;font-family:inherit;border:0;cursor:pointer}
+.qz .btn.ghost{border:1px solid var(--line2);background:transparent;color:var(--tx)}
+.qz-msg{margin-top:10px;font-size:15px;color:var(--ac2)}
+.qz-k{color:var(--ac);margin-bottom:8px}
+.qz-rh{font-size:clamp(24px,2.2vw,30px);line-height:1.15;letter-spacing:-.02em;font-weight:600}
+.qz-st{margin-top:8px;font-size:15.5px;line-height:1.45;font-weight:600;color:var(--tx)}
+.qz-d{margin-top:8px;font-size:15.5px;line-height:1.5;color:var(--mu);max-width:60ch}
+.qz-door{display:inline-flex;align-items:center;gap:8px;min-height:44px;max-width:100%;margin-top:6px;font-size:15.5px;font-weight:600;color:var(--ac);text-decoration:none}
+.qz-door:hover{text-decoration:underline}
+.qz-lv .mh{margin-top:16px}
+.qz-tips{list-style:none;display:grid;gap:10px;margin-top:12px;min-width:0}
+.qz-tips li{position:relative;padding-left:36px;font-size:15.5px;line-height:1.5;color:var(--tx);max-width:62ch;min-width:0}
+.qz-tips .qz-tn{position:absolute;left:0;top:0;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1px solid var(--disc);background:var(--s3);font-size:12px;color:var(--tx)}
+.qz-sb{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);display:grid;gap:8px;min-width:0}
+.qz-score{font-size:15.5px;color:var(--tx)}
+.qz-score b{font-size:28px;font-weight:600;letter-spacing:-.02em;color:var(--ac)}
+.qz-how,.qz-note,.qz-small{font-size:14.5px;line-height:1.5;color:var(--mu);max-width:64ch}
+.qz-cta{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:grid;gap:10px;justify-items:start;min-width:0}
+.qz-addr{color:var(--tx);font-weight:600;overflow-wrap:anywhere;-webkit-user-select:all;user-select:all}
+.qz-cs{font-size:14.5px;color:var(--ac2)}
+.qz-rnav{margin-top:18px}
+.qz-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+@keyframes qzin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+html.js:not(.still) .qz-in{animation:qzin .22s cubic-bezier(.2,.7,.2,1) both}
+@media (prefers-reduced-motion:reduce){.qz-in{animation:none!important}.qz-bar i,.qz-a{transition:none!important}}
+@media (max-width:760px){.qz{padding:16px 14px 18px;scroll-margin-top:calc(var(--top) + 12px)}.qz-q{font-size:19px}.qz-a{font-size:15.5px;padding:12px 14px}
+.qz-nav .btn,.qz-btns .btn,.qz-rnav .btn{flex:1 1 auto}.qz-ow .btn{width:100%}}
+</style>
 </head>
 <body>
 <svg class="gs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
@@ -146,7 +201,7 @@ Crossland AI
 <li><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="5" cy="5" r="1.8"/><circle cx="12" cy="5" r="1.8"/><circle cx="19" cy="5" r="1.8"/><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/><circle cx="5" cy="19" r="1.8"/><circle cx="12" cy="19" r="1.8"/><circle cx="19" cy="19" r="1.8"/></g></svg><b>A whole company</b><span>Courses for everyone, self-paced or live.</span></li>
 </ul>
 <p class="ownjob"><a href="who.html#own-job">You, in your own job <span class="arrow" aria-hidden="true">→</span></a></p></div>
-<div class="next"><a class="btn ac" href="start.html#book">Book a call about courses</a><span class="call">A first conversation about which door fits you.</span><a class="nextdoor" href="#trained" data-door="trained"><svg class="dg" viewBox="0 0 120 64" aria-hidden="true"><use href="#g-trained"/></svg>Next: 02 Get trained <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Book a call about courses</a><span class="call">A first conversation about which door fits you.</span></div>
 </div>
 </article>
 <article class="dp" id="trained" data-door="trained">
@@ -164,7 +219,7 @@ Crossland AI
 <li><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="5" cy="5" r="1.8"/><circle cx="12" cy="5" r="1.8"/><circle cx="19" cy="5" r="1.8"/><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/><circle cx="5" cy="19" r="1.8"/><circle cx="12" cy="19" r="1.8"/><circle cx="19" cy="19" r="1.8"/></g></svg><b>A whole company</b><span>Team by team, across the company.</span></li>
 </ul>
 <p class="ownjob"><a href="who.html#own-job">You, in your own job <span class="arrow" aria-hidden="true">→</span></a></p></div>
-<div class="next"><a class="btn ac" href="start.html#book">Book a call about training</a><span class="call">A first conversation about which door fits you.</span><a class="nextdoor" href="#plan" data-door="plan"><svg class="dg" viewBox="0 0 120 64" aria-hidden="true"><use href="#g-plan"/></svg>Next: 03 Get a plan <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Book a call about training</a><span class="call">A first conversation about which door fits you.</span></div>
 </div>
 </article>
 <div class="hub" aria-hidden="true"><i></i><span><b>CROSSLAND</b><span>Where people and AI meet</span></span></div>
@@ -183,7 +238,7 @@ Crossland AI
 <li><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="5" cy="5" r="1.8"/><circle cx="12" cy="5" r="1.8"/><circle cx="19" cy="5" r="1.8"/><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/><circle cx="5" cy="19" r="1.8"/><circle cx="12" cy="19" r="1.8"/><circle cx="19" cy="19" r="1.8"/></g></svg><b>A whole company</b><span>A plan for the whole company.</span></li>
 </ul>
 </div>
-<div class="next"><a class="btn ac" href="start.html#book">Book a call about a plan</a><span class="call">A first conversation about which door fits you.</span><a class="nextdoor" href="#built" data-door="built"><svg class="dg" viewBox="0 0 120 64" aria-hidden="true"><use href="#g-built"/></svg>Next: 04 Get it built <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Book a call about a plan</a><span class="call">A first conversation about which door fits you.</span></div>
 </div>
 </article>
 <article class="dp" id="built" data-door="built">
@@ -202,7 +257,7 @@ Crossland AI
 </ul>
 </div>
 <div class="spb"><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="8" fill="none" stroke-width="1.6" stroke-dasharray="3 2.2" style="stroke:var(--ac)"/><circle cx="11" cy="11" r="2.4" style="fill:var(--ac)"/></svg><h3 class="mono">Support</h3><p><b>We stay, and we carry the hard part.</b> We agree what it covers with you at the start.</p></div>
-<div class="next"><a class="btn ac" href="start.html#book">Book a call about a build</a><span class="call">A first conversation about which door fits you.</span><a class="nextdoor" href="#partners" data-door="partners"><svg class="dg" viewBox="0 0 120 64" aria-hidden="true"><use href="#g-partners"/></svg>Next: 05 Build with us <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Book a call about a build</a><span class="call">A first conversation about which door fits you.</span></div>
 </div>
 </article>
 <p class="side-tag ai"><a class="sd" href="about.html#ai" title="About us: how we use AI" aria-label="AI side: How we use AI">AI side<span class="chev" aria-hidden="true">›</span></a></p>
@@ -223,7 +278,7 @@ Crossland AI
 </ul>
 </div>
 <div class="spb"><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="8" fill="none" stroke-width="1.6" stroke-dasharray="3 2.2" style="stroke:var(--ac)"/><circle cx="11" cy="11" r="2.4" style="fill:var(--ac)"/></svg><h3 class="mono">Support</h3><p><b>We stay, and we carry the hard part.</b> We agree what it covers with you at the start.</p></div>
-<div class="next"><a class="btn ac" href="start.html#book">Book a call about building with us</a><span class="call">A first conversation about your idea.</span><a class="nextdoor" href="partners.html">The three steps, in full <span class="arrow" aria-hidden="true">→</span></a></div>
+<div class="next"><a class="btn ac" href="start.html#book">Book a call about building with us</a><span class="call">A first conversation about your idea.</span></div>
 </div>
 </article>
 </div>
@@ -249,7 +304,7 @@ Crossland AI
 <section class="dband dstd" id="ladder" aria-labelledby="lad-h">
 <div class="dstd-h"><h2 class="dstd-t" id="lad-h">Where is your company on the AI ladder?</h2>
 <p class="dstd-p">Five steps, in plain words. Find the one that sounds like your company.</p>
-<p class="dstd-p lad-link">Steps 3, 4 and 5 are the three kinds of tool we build: a Smart tool, an Assistant and Remote control. Step 3 starts with a plan.</p></div>
+<p class="dstd-p lad-link">Steps 3, 4 and 5 are the three kinds of tool we build: a Smart tool, an Assistant and Remote control. Step 3 starts with a plan.</p><div class="qz-ow" id="qz-ow" hidden><button type="button" class="btn ac qz-open" aria-controls="qz">Take the 2-minute quiz</button><p>Not sure which step is yours? Seven quick questions, no typing.</p></div></div>
 <ol class="lad">
 <li><span class="lv-n mono" aria-hidden="true">1</span><h3>We try an AI chat now and then.</h3><p>A few people use it on their own, for a letter or an idea. Nothing in the company has changed.</p><a class="lv-go" href="#course">Your door: Take a course <span class="arrow" aria-hidden="true">→</span></a></li>
 <li><span class="lv-n mono" aria-hidden="true">2</span><h3>Some of us use it every week.</h3><p>It helps with writing and searching. Each person uses it their own way, and the work itself runs as before.</p><a class="lv-go" href="#trained">Your door: Get trained <span class="arrow" aria-hidden="true">→</span></a></li>
@@ -257,6 +312,73 @@ Crossland AI
 <li><span class="lv-n mono" aria-hidden="true">4</span><h3>AI is part of the daily work.</h3><p>Several tasks are connected. The lists, the deadlines and the follow-ups are kept for the team, and people approve what matters.</p><a class="lv-go" href="#built">Your door: Get it built <span class="arrow" aria-hidden="true">→</span></a></li>
 <li><span class="lv-n mono" aria-hidden="true">5</span><h3>The routine work runs on its own.</h3><p>People handle the exceptions and make the decisions. When something is out of the ordinary, a person is told.</p><a class="lv-go" href="#built">Your door: Get it built <span class="arrow" aria-hidden="true">→</span></a></li>
 </ol>
+<div class="qz" id="qz" role="region" aria-labelledby="qz-t" data-part="quiz" hidden>
+<div class="qz-top"><button type="button" class="qz-x qz-exit"><span class="ba" aria-hidden="true">←</span><span>Back to the ladder</span></button><p class="qz-t mono" id="qz-t">The 2-minute quiz</p></div>
+<p class="qz-intro">Seven questions. Tap the answer that sounds most like your company.</p>
+<form class="qz-f" novalidate>
+<div class="qz-bar" aria-hidden="true"><i></i></div>
+<fieldset class="qz-s" data-q="1"><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Question 1 of 7</span> <span class="qz-qt">Does anyone in your company use an AI chat for work?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz1" value="0"><span class="qz-at">No, not yet.</span></label><label class="qz-a"><input type="radio" name="qz1" value="1"><span class="qz-at">A few people, each in their own way.</span></label><label class="qz-a"><input type="radio" name="qz1" value="3"><span class="qz-at">Yes, and we agreed how to use it.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="2" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Question 2 of 7</span> <span class="qz-qt">Copying data, typing the same reply, chasing the same papers: who does that work?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz2" value="0"><span class="qz-at">People, by hand, every week.</span></label><label class="qz-a"><input type="radio" name="qz2" value="1"><span class="qz-at">People, with a tool that helps a little.</span></label><label class="qz-a"><input type="radio" name="qz2" value="3"><span class="qz-at">A tool does most of it, and a person checks.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="3" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Question 3 of 7</span> <span class="qz-qt">When you need a customer&#x27;s history, where do you look?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz3" value="0"><span class="qz-at">In several places: spreadsheets, email, chats, someone&#x27;s memory.</span></label><label class="qz-a"><input type="radio" name="qz3" value="1"><span class="qz-at">In one system, but it does not connect to the others.</span></label><label class="qz-a"><input type="radio" name="qz3" value="3"><span class="qz-at">In one place that connects to the rest.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="4" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Question 4 of 7</span> <span class="qz-qt">A customer writes at 9 at night. What happens?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz4" value="0"><span class="qz-at">It waits until someone is back.</span></label><label class="qz-a"><input type="radio" name="qz4" value="1"><span class="qz-at">They get an automatic “we got your message”.</span></label><label class="qz-a"><input type="radio" name="qz4" value="3"><span class="qz-at">They get an answer that helps, and a person reviews what matters.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="5" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Question 5 of 7</span> <span class="qz-qt">If you could fix one task first, does the team agree which one?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz5" value="0"><span class="qz-at">No, we have not talked about it.</span></label><label class="qz-a"><input type="radio" name="qz5" value="1"><span class="qz-at">We have a few ideas, but no choice yet.</span></label><label class="qz-a"><input type="radio" name="qz5" value="3"><span class="qz-at">Yes, we picked it and we know why.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="6" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Question 6 of 7</span> <span class="qz-qt">Does your team know what it may and may not put into an AI tool?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz6" value="0"><span class="qz-at">No, nobody has said.</span></label><label class="qz-a"><input type="radio" name="qz6" value="1"><span class="qz-at">Some people know, but nothing is agreed.</span></label><label class="qz-a"><input type="radio" name="qz6" value="3"><span class="qz-at">Yes, there is a clear rule and everyone knows it.</span></label></div></fieldset>
+<fieldset class="qz-s" data-q="7" hidden><legend><h3 class="qz-q" tabindex="-1"><span class="qz-n">Question 7 of 7</span> <span class="qz-qt">If a work laptop got lost tomorrow, what would happen to your information?</span></h3></legend>
+<div class="qz-as"><label class="qz-a"><input type="radio" name="qz7" value="0"><span class="qz-at">We are not sure.</span></label><label class="qz-a"><input type="radio" name="qz7" value="1"><span class="qz-at">There are passwords and some backups.</span></label><label class="qz-a"><input type="radio" name="qz7" value="3"><span class="qz-at">Each person sees only what they need, and we check the backups.</span></label></div></fieldset>
+<div class="qz-nav"><button type="button" class="btn ghost qz-back" hidden>Back</button><button type="submit" class="btn ac qz-next">Next</button></div>
+<p class="qz-msg" aria-live="polite"></p>
+</form>
+<div class="qz-r" hidden>
+<p class="qz-k mono">Your result</p>
+<div class="qz-lv" data-lv="1" data-door="course" data-name="Getting started" data-mail="Step 1 of 5, Take a course (door 01)" hidden>
+<h3 class="qz-rh" tabindex="-1">Getting started</h3>
+<p class="qz-st">Your step: 1 of 5. Your door: 01 Take a course.</p>
+<p class="qz-d">Most of the work runs as before, and AI is still new to the team.</p>
+<a class="qz-door" href="#course">Go to door 01: Take a course <span class="arrow" aria-hidden="true">→</span></a>
+<h4 class="mh">Three things to do now</h4>
+<ol class="qz-tips"><li><span class="qz-tn mono" aria-hidden="true">1</span>Ask one person to try an AI chat on a real task this week, such as a letter or a summary.</li><li><span class="qz-tn mono" aria-hidden="true">2</span>Agree on one simple rule with your team: customer details and money details do not go into a public AI chat.</li><li><span class="qz-tn mono" aria-hidden="true">3</span>Start with a short course, so everyone learns the same basics.</li></ol>
+</div>
+<div class="qz-lv" data-lv="2" data-door="trained" data-name="Trying it out" data-mail="Step 2 of 5, Get trained (door 02)" hidden>
+<h3 class="qz-rh" tabindex="-1">Trying it out</h3>
+<p class="qz-st">Your step: 2 of 5. Your door: 02 Get trained.</p>
+<p class="qz-d">Some people use AI, each in their own way. The work itself has not changed yet.</p>
+<a class="qz-door" href="#trained">Go to door 02: Get trained <span class="arrow" aria-hidden="true">→</span></a>
+<h4 class="mh">Three things to do now</h4>
+<ol class="qz-tips"><li><span class="qz-tn mono" aria-hidden="true">1</span>Write down the three tasks your team repeats most each week.</li><li><span class="qz-tn mono" aria-hidden="true">2</span>Agree in writing with your team what information may go into an AI tool and what may not.</li><li><span class="qz-tn mono" aria-hidden="true">3</span>Book live training, so the team learns one shared way of working instead of each person their own.</li></ol>
+</div>
+<div class="qz-lv" data-lv="3" data-door="plan" data-name="Time for a plan" data-mail="Step 3 of 5, Get a plan (door 03)" hidden>
+<h3 class="qz-rh" tabindex="-1">Time for a plan</h3>
+<p class="qz-st">Your step: 3 of 5. Your door: 03 Get a plan.</p>
+<p class="qz-d">The basics are there. The next step is to choose one task and plan it well.</p>
+<a class="qz-door" href="#plan">Go to door 03: Get a plan <span class="arrow" aria-hidden="true">→</span></a>
+<h4 class="mh">Three things to do now</h4>
+<ol class="qz-tips"><li><span class="qz-tn mono" aria-hidden="true">1</span>Choose one repetitive job to start with, such as reading invoices or answering the same questions.</li><li><span class="qz-tn mono" aria-hidden="true">2</span>Decide who checks the result before anything goes out.</li><li><span class="qz-tn mono" aria-hidden="true">3</span>Get a plan that says what to automate first, what stays human and what it costs.</li></ol>
+</div>
+<div class="qz-lv" data-lv="4" data-door="built" data-name="Time to build" data-mail="Steps 4 and 5 of 5, Get it built (door 04)" hidden>
+<h3 class="qz-rh" tabindex="-1">Time to build</h3>
+<p class="qz-st">Your steps: 4 and 5 of 5. Your door: 04 Get it built.</p>
+<p class="qz-d">AI is already part of the work. The next step is to connect the tasks, with people still making the decisions.</p>
+<a class="qz-door" href="#built">Go to door 04: Get it built <span class="arrow" aria-hidden="true">→</span></a>
+<h4 class="mh">Three things to do now</h4>
+<ol class="qz-tips"><li><span class="qz-tn mono" aria-hidden="true">1</span>List the tasks that already run with AI and how they connect to each other.</li><li><span class="qz-tn mono" aria-hidden="true">2</span>Make sure a person approves what matters: money, customers and anything out of the ordinary.</li><li><span class="qz-tn mono" aria-hidden="true">3</span>Talk to us about building and running the next part, so your team keeps the decisions.</li></ol>
+</div>
+<div class="qz-sb"><p class="qz-score"><b class="qz-sc">0</b><span> of 100</span></p><p class="qz-how">How the score is made: 7 questions, each answer worth 0, 1 or 3 points, so 21 at most. You have <span class="qz-pts">0</span> points: <span class="qz-pts">0</span> ÷ 21 × 100, rounded, is <span class="qz-sc">0</span>. The four levels: 0 to 24, 25 to 49, 50 to 74, and 75 to 100.</p><p class="qz-note">This is a short self-check, not an audit. It only knows your seven answers.</p></div>
+<div class="qz-cta"><p class="qz-small">Your answers stay in your browser until you email them.</p>
+<div class="qz-btns"><a class="btn ac qz-mail" href="mailto:info@humaniasoluciones.com">Book the first call</a><button type="button" class="btn ghost qz-copy">Copy the answers</button></div>
+<p class="qz-small">It opens an email to us with your answers. You read it and send it.</p>
+<p class="qz-cs" aria-live="polite"></p>
+<p class="qz-small">Email us instead: <span class="qz-addr">info@humaniasoluciones.com</span></p></div>
+<div class="qz-rnav"><button type="button" class="btn ghost qz-rback">Back</button><button type="button" class="btn ghost qz-again">Start again</button><button type="button" class="btn ghost qz-exit">Back to the ladder</button></div>
+</div>
+<p class="qz-live qz-sr" aria-live="polite"></p>
+<script type="application/json" class="qz-strings">{"to": "info@humaniasoluciones.com", "subject": "Find your step quiz: {level}, {score} of 100", "hello": "Hello,", "intro": "I took the 2-minute quiz on your Find your step page. Here are my answers.", "level": "Level: {level}", "score": "Score: {score} of 100 (7 questions, each answer worth 0, 1 or 3 points)", "step": "Recommended step: {step}", "ask": "I would like to book the first call.", "company": "My company:", "when": "Best day and time to call:", "bye": "Thank you.", "pick": "Choose one answer to go on.", "copied": "Copied. Paste them wherever you like.", "nocopy": "This browser did not let us copy. Use the email button, or write to the address below.", "live": "Your result: {level}. {step}. Score {score} of 100."}</script>
+</div>
 </section>
 <section class="dband dstd" id="tried" aria-labelledby="try-h">
 <div class="dstd-h"><h2 class="dstd-t" id="try-h">What people usually try first</h2>
@@ -271,7 +393,7 @@ Crossland AI
 </div>
 </section>
 <div class="dafter">
-<p class="dstart"><span class="mono">Where we start</span><span>Audit, quality and legal paperwork.</span></p>
+<p class="dstart"><span class="mono">Where we start</span><span>We look at how you work, then find where AI fits.</span></p>
 <section class="how" id="how" aria-labelledby="how-h">
 <h2 class="mh" id="how-h">How we work</h2>
 <ol class="route">
@@ -711,6 +833,71 @@ if(document.readyState==='complete')start();else addEventListener('load',start);
 var d=a.getAttribute('href').slice(1),t=document.getElementById('tab-'+d),p=document.getElementById(d);if(!t||!p)return;e.preventDefault();t.click();
 setTimeout(function(){var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;p.scrollIntoView({behavior:r?'auto':'smooth',block:'start'});
 try{history.replaceState(null,'','#'+d)}catch(x){}},30)},false)})();
+</script>
+<script>/* l8:quiz: the 2-minute quiz. Everything runs here in the browser: nothing is stored and nothing is sent. */
+(function(){
+var R=document.getElementById('qz'),W=document.getElementById('qz-ow');if(!R||!W)return;
+var T;try{T=JSON.parse(R.querySelector('.qz-strings').textContent)}catch(e){return}
+var D=document,H=D.documentElement,B=W.querySelector('.qz-open'),LAD=D.querySelector('#ladder .lad'),F=R.querySelector('.qz-f'),
+S=[].slice.call(R.querySelectorAll('.qz-s')),N=S.length,RES=R.querySelector('.qz-r'),LV=[].slice.call(R.querySelectorAll('.qz-lv')),
+BACK=R.querySelector('.qz-back'),MSG=R.querySelector('.qz-msg'),BAR=R.querySelector('.qz-bar i'),LIVE=R.querySelector('.qz-live'),
+MAIL=R.querySelector('.qz-mail'),CS=R.querySelector('.qz-cs'),INTRO=R.querySelector('.qz-intro'),cur=0,ptr=0,tok=0,copyText='';
+function each(sel,f){[].forEach.call(R.querySelectorAll(sel),f)}
+function still(){return H.classList.contains('still')||!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)}
+function fill(s,o){return s.replace(/\{(\w+)\}/g,function(m,k){return o[k]})}
+function into(){var r=R.getBoundingClientRect();if(r.top<0||r.top>Math.max(140,innerHeight*0.2))R.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'})}
+function focusH(h){try{h.focus({preventScroll:true})}catch(e){h.focus()}}
+function anim(el){if(still())return;el.classList.remove('qz-in');void el.offsetWidth;el.classList.add('qz-in')}
+function mark(s){[].forEach.call(s.querySelectorAll('.qz-a'),function(l){l.classList.toggle('on',l.querySelector('input').checked)})}
+function picked(i){return S[i]&&S[i].querySelector('input:checked')}
+function show(i){
+cur=i;tok++;MSG.textContent='';var res=i>=N;F.hidden=res;RES.hidden=!res;INTRO.hidden=res;
+if(res){result();return}
+S.forEach(function(s,j){s.hidden=j!==i});BACK.hidden=i===0;BAR.style.width=((i+1)/N*100)+'%';
+anim(S[i]);into();focusH(S[i].querySelector('.qz-q'));
+}
+function next(){var c=picked(cur);if(!c){MSG.textContent=T.pick;var f=S[cur].querySelector('input');if(f)f.focus();return}show(cur+1)}
+function tally(){var pts=0,qa=[];S.forEach(function(s){var c=s.querySelector('input:checked');pts+=c?+c.value:0;
+qa.push([s.querySelector('.qz-qt').textContent,c?c.parentNode.querySelector('.qz-at').textContent:'-'])});
+var score=Math.round(pts/21*100);return {pts:pts,score:score,lv:score<25?1:score<50?2:score<75?3:4,qa:qa}}
+function result(){
+var d=tally(),el=null;LV.forEach(function(x){var on=+x.getAttribute('data-lv')===d.lv;x.hidden=!on;if(on)el=x});
+each('.qz-sc',function(x){x.textContent=d.score});each('.qz-pts',function(x){x.textContent=d.pts});
+var o={level:el.getAttribute('data-name'),score:d.score,step:el.getAttribute('data-mail')},L=[T.hello,'',T.intro,''];
+d.qa.forEach(function(x,i){L.push((i+1)+'. '+x[0]);L.push('   '+x[1])});
+L.push('',fill(T.level,o),fill(T.score,o),fill(T.step,o),'',T.ask,T.company+' ',T.when+' ','',T.bye);
+var subj=fill(T.subject,o);
+MAIL.setAttribute('href','mailto:'+T.to+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(L.join('\r\n')));
+copyText=subj+'\n\n'+L.join('\n');CS.textContent='';LIVE.textContent='';
+var msg=fill(T.live,o);setTimeout(function(){LIVE.textContent=msg},80);
+anim(RES);into();focusH(el.querySelector('.qz-rh'));
+}
+function open(){W.hidden=true;LAD.hidden=true;R.hidden=false;show(cur)}
+function close(){R.hidden=true;LAD.hidden=false;W.hidden=false;B.focus();var r=B.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)B.scrollIntoView({block:'center'})}
+W.hidden=false;
+B.addEventListener('click',open);
+each('.qz-exit',function(x){x.addEventListener('click',close)});
+BACK.addEventListener('click',function(){if(cur>0)show(cur-1)});
+R.querySelector('.qz-rback').addEventListener('click',function(){show(N-1)});
+R.querySelector('.qz-again').addEventListener('click',function(){each('.qz-f input',function(x){x.checked=false});S.forEach(mark);show(0)});
+F.addEventListener('submit',function(e){e.preventDefault();next()});
+F.addEventListener('change',function(e){var s=e.target.closest&&e.target.closest('.qz-s');if(s)mark(s);if(picked(cur))MSG.textContent=''});
+F.addEventListener('pointerdown',function(){ptr=Date.now()},true);
+F.addEventListener('keydown',function(){ptr=0},true);
+// a tap or click on an answer moves on by itself; the keyboard (arrows, Space) only chooses, and Enter or Next moves on
+F.addEventListener('click',function(e){var t=e.target;if(!t||t.type!=='radio'||!ptr||Date.now()-ptr>1500)return;ptr=0;
+var i=cur,k=tok;setTimeout(function(){if(cur===i&&tok===k&&picked(i))show(i+1)},160)});
+// Escape leaves the quiz (back to the ladder), not the page; the page's number and letter shortcuts stay out of the quiz
+R.addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close();return}
+if(/^[1-5spa]$/i.test(e.key||''))e.stopPropagation()});
+R.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.qz-door');if(!a)return;
+var d=a.getAttribute('href').slice(1),t=D.getElementById('tab-'+d),p=D.getElementById(d);if(!t||!p)return;e.preventDefault();t.click();
+setTimeout(function(){p.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'})},30)});
+R.querySelector('.qz-copy').addEventListener('click',function(){var s=copyText;
+function fb(){var ta=D.createElement('textarea'),ok=false;ta.value=s;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';
+D.body.appendChild(ta);ta.select();try{ok=D.execCommand('copy')}catch(x){}D.body.removeChild(ta);CS.textContent=ok?T.copied:T.nocopy}
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(s).then(function(){CS.textContent=T.copied},fb);else fb()});
+})();
 </script>
 </body>
 </html>
