@@ -1189,7 +1189,7 @@ function renderInbox() {
   started.sort((a, b) => Number(!!(open(b) && b.urgent)) - Number(!!(open(a) && a.urgent)));
   box.innerHTML = started.map(l => {
     const parked = isDemoLike() && l.progress === 4 && state.awaiting !== l && !l.urgent && state.leads.some(x => x.urgent && x.progress >= 0 && open(x));
-    const pill = l.progress >= STEPS.length - 1 ? '<span class="pill pill-ok">Agendado</span>' : l.progress >= 6 ? '<span class="pill pill-new">En conversación</span>' : parked ? '<span class="pill pill-idle">En espera</span>' : l.progress >= 3 ? `<span class="pill pill-wait">${l.progress >= 5 ? "Aprobado" : "Needs approval"}</span>` : '<span class="pill pill-new">Nuevo</span>';
+    const pill = l.progress >= STEPS.length - 1 ? '<span class="pill pill-ok">Agendado</span>' : l.progress >= 6 ? '<span class="pill pill-new">En conversación</span>' : parked ? '<span class="pill pill-idle">En espera</span>' : l.progress >= 3 ? `<span class="pill pill-wait">${l.progress >= 5 ? "Aprobado" : "Espera aprobación"}</span>` : '<span class="pill pill-new">Nuevo</span>';
     return `<button type="button" class="lead-row" role="option" data-id="${l.id}" aria-selected="${l.id === state.activeId}">
       <span class="avatar" style="background:${l.color}">${initials(l.name)}</span>
       <span><span class="lead-name">${l.name}${l.urgent ? ' <span class="pill pill-wait" style="margin-left:4px">Urgente</span>' : ""}</span><br><span class="lead-sub">${l.intent}, ${fmtDate(l.date)}</span></span>
