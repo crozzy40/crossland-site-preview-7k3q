@@ -23,6 +23,10 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:.75
 .brand{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
 .brand b{font-size:1.25rem;letter-spacing:.01em}
 .brand span{color:var(--mu);font-size:.9rem}
+.hr{display:flex;align-items:center;gap:.5rem 1rem;flex-wrap:wrap}
+.pages{display:flex;gap:.25rem 1rem;flex-wrap:wrap}
+.lnk{display:inline-flex;align-items:center;min-height:44px;min-width:44px;color:var(--mu);font-size:.95rem;text-underline-offset:4px;text-decoration-color:var(--line2)}
+.lnk:hover{color:var(--tx)}
 .pill{border:1px solid var(--ac);color:var(--ac2);border-radius:999px;padding:.2rem .75rem;font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 nav.tabs{margin:1rem 0 .5rem}
 nav.tabs ol{list-style:none;margin:0;padding:0;display:flex;gap:.5rem;flex-wrap:wrap}
@@ -60,7 +64,7 @@ h1:focus{outline:none}
 .barnum{display:flex;gap:3px;margin-top:.2rem;font-size:.68rem;color:var(--pmu);text-align:center}
 .barnum span{flex:1 1 0;min-width:0}
 .counts{display:flex;justify-content:space-between;gap:.75rem;flex-wrap:wrap;font-size:.85rem;color:var(--pmu);margin-top:.6rem}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;margin-top:1rem}
 .card{background:#fff;border:1px solid var(--pbd);border-radius:.6rem;padding:1rem 1.1rem}
 .card h3{font-family:var(--font);font-size:1rem;font-weight:700;margin:0 0 .4rem}
 .card p{margin:0;font-size:.92rem;color:var(--pmu);line-height:1.5}
@@ -80,7 +84,7 @@ h1:focus{outline:none}
 .detail h2{margin:0 0 .3rem;font-size:1.2rem}
 .detail p{margin:.2rem 0 0;color:var(--mu)}
 .detail .days{color:var(--ac2);font-weight:600;font-size:.9rem}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;margin-top:1rem}
 .box{background:var(--s1);border:1px solid var(--line);border-radius:.7rem;padding:1rem 1.2rem}
 .box h2{font-size:1.05rem;margin:0 0 .4rem}
 .box ul{margin:0;padding-left:1.2rem;color:var(--mu)}
@@ -130,9 +134,18 @@ h1:focus{outline:none}
 .honest{margin-top:2rem;border-top:1px solid var(--line);padding-top:1rem;color:var(--mu);font-size:.92rem}
 .honest h2{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ac2);margin:0 0 .3rem}
 .honest p{margin:.3rem 0}
+/* hardening: nothing may be wider than its column, at any text size or spacing */
+.two>*,.cols>*,.chatwrap>*,.phases>li,.cont>*,.log>*,.acts>*,.nav>*,.brand>*,header.top>*,nav.tabs li{min-width:0;max-width:100%}
+.phases button,.btn,nav.tabs button{max-width:100%}
+.btn{white-space:normal;text-align:center}
+.btn .arr{flex:none}
+#contbtn{max-width:100%}
+@media (max-width:760px){#contbtn{width:100%}}
+.screen,.card,.box,.detail,.es,.chat,.about,.wyjd,.msg{min-width:0;overflow-wrap:anywhere}
+img,svg,table,pre{max-width:100%}
 @media (max-width:760px){
- .two,.cols,.chatwrap{grid-template-columns:1fr}
- .phases{grid-template-columns:1fr}
+ .two,.cols,.chatwrap{grid-template-columns:minmax(0,1fr)}
+ .phases{grid-template-columns:minmax(0,1fr)}
  .msg{max-width:100%}
 }
 @media (max-width:420px){nav.tabs button .t{display:none}nav.tabs button[aria-current="step"] .t{display:inline}}
@@ -143,7 +156,7 @@ h1:focus{outline:none}
 <div class="wrap">
 <header class="top">
  <div class="brand"><b>Blueprint</b><span>The AI Operator's Blueprint</span></div>
- <span class="pill">Demo</span>
+ <div class="hr"><nav class="pages" aria-label="Pages"><a class="lnk" href="../../work.html#blueprint">Our work</a><a class="lnk" href="Blueprint-ES.html" hreflang="es" lang="es">Español</a></nav><span class="pill">Demo</span></div>
 </header>
 
 <nav class="tabs" aria-label="Demo steps"><ol id="tabs">
@@ -164,10 +177,10 @@ h1:focus{outline:none}
  <div class="screen">
   <h2 class="serif" style="font-size:clamp(1.5rem,4.5vw,2.1rem)">Welcome back, Dana.</h2>
   <p class="muted" style="margin:.3rem 0 1.2rem">You stopped mid-way through Day 3.</p>
-  <div class="card" style="padding:0;overflow:hidden">
+  <div class="card" style="padding:0">
    <div class="cont" style="padding:1.2rem 1.3rem">
     <div class="info"><span class="eyebrow">Phase 2 &middot; The Meter</span><span class="serif">Day 3: Caps before keys, then your first dollar</span><span class="muted" style="font-size:.92rem">Next up: Open the metered account and cap it</span></div>
-    <button type="button" class="btn" id="contbtn">Continue <span aria-hidden="true">&rarr;</span></button>
+    <button type="button" class="btn" id="contbtn">Continue <span class="arr" aria-hidden="true">&rarr;</span></button>
    </div>
    <div style="padding:0 1.3rem 1rem">
     <div class="bar" id="bar1" role="img" aria-label="2 of 72 days done"></div>
