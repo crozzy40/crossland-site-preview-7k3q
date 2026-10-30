@@ -148,14 +148,14 @@ h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.12;letter-spacing:-.02em;fo
 <p class="lead">Un trabajador de IA que vive en su propio computador, lejos del suyo. Tiene su propia llave y su propia línea de chat. No tiene ninguna forma de entrar a su computador ni a sus archivos. Avance paso a paso para ver cómo funciona.</p>
 <section class="demo" id="demo" aria-label="Demostración guiada">
 <noscript><p class="note">Esta demostración necesita JavaScript. No se envía nada a ninguna parte.</p></noscript>
-<ol class="dots" aria-label="Pasos"><li><button type="button" class="dot" aria-label="Paso 1 de 6: Conozca a AI guy">1</button></li><li><button type="button" class="dot" aria-label="Paso 2 de 6: Préndalo">2</button></li><li><button type="button" class="dot" aria-label="Paso 3 de 6: Asígnele una tarea">3</button></li><li><button type="button" class="dot" aria-label="Paso 4 de 6: Pregunta antes de gastar">4</button></li><li><button type="button" class="dot" aria-label="Paso 5 de 6: Su sí, y luego su PIN">5</button></li><li><button type="button" class="dot" aria-label="Paso 6 de 6: Un resumen cada noche, y una palabra para parar">6</button></li></ol>
+<ol class="dots" aria-label="Pasos"><li><button type="button" class="dot" aria-label="Paso 1 de 6: Conozca a AI guy">1</button></li><li><button type="button" class="dot" aria-label="Paso 2 de 6: Préndalo">2</button></li><li><button type="button" class="dot" aria-label="Paso 3 de 6: Asígnele una tarea">3</button></li><li><button type="button" class="dot" aria-label="Paso 4 de 6: Pregunta antes de gastar">4</button></li><li><button type="button" class="dot" aria-label="Paso 5 de 6: Su sí y luego su PIN">5</button></li><li><button type="button" class="dot" aria-label="Paso 6 de 6: Un resumen cada noche y una palabra para parar">6</button></li></ol>
 <div class="say" aria-live="polite"><p class="mono" id="sn"></p><h2 id="st"></h2><p class="body" id="sb"></p></div>
 <div class="scene" id="scene">
 
 <div class="mapc"><div class="map">
  <section class="card zone you" data-at="1" data-now="2" aria-labelledby="zy">
   <div class="row"><h3 id="zy">Su computador</h3></div>
-  <p class="sub">Todo lo que es suyo.</p>
+  <p class="sub">Todo lo que es suyo</p>
   <ul>
    <li><span class="nm">Sus archivos</span><span class="pill bad" data-at="2">Sin acceso</span></li>
    <li><span class="nm">Sus claves</span><span class="pill bad" data-at="2">Sin acceso</span></li>
@@ -167,7 +167,7 @@ h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.12;letter-spacing:-.02em;fo
  <section class="card zone him" data-at="1" data-now="2" aria-labelledby="zh">
   <div class="row"><h3 id="zh">El computador propio de AI guy</h3>
    <span><span class="pill no" data-at="1" data-until="1">Apagado</span><span class="pill" data-at="2">Prendido</span></span></div>
-  <p class="sub">Una máquina aparte, por su cuenta.</p>
+  <p class="sub">Una máquina aparte, por su cuenta</p>
   <div class="taps big" data-at="1" data-until="1"><button type="button" class="tap ac" data-go="next">Prender a AI guy</button></div>
   <ul data-dimto="1">
    <li><div><span class="nm">Su cerebro</span><span class="d">Un modelo de IA con su propia llave y su propio límite mensual.</span></div></li>
@@ -189,7 +189,7 @@ h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.12;letter-spacing:-.02em;fo
     <li class="m l" data-at="1" data-until="2"><small>Conectada solo con usted. Tranquila por ahora.</small></li>
     <li class="m r" data-at="3" data-until="4"><span class="sr">Usted: </span>Busque un lector de códigos de barras para la tienda. Presupuesto: $100.</li>
     <li class="m l" data-at="3" data-until="4"><span class="sr">AI guy: </span>Voy. Solo uso sitios de mi lista.</li>
-    <li class="m l" data-at="4" data-until="5"><span class="sr">AI guy: </span>Espero su sí: comprar 1 lector de códigos de barras, $84.00, en northline-supply.example. Este sitio no está en mi lista.</li>
+    <li class="m l" data-at="4" data-until="5"><span class="sr">AI guy: </span>Espero su sí: comprar 1 lector de códigos de barras, $84,00, en northline-supply.example. Este sitio no está en mi lista.</li>
     <li class="m l" data-at="4" data-until="4" style="background:transparent;padding:0">
       <div class="taps" style="margin:0"><button type="button" class="tap ac" data-go="next">Sí</button><button type="button" class="tap" data-go="flag" data-flagset="no">No</button></div>
       <p class="note" data-at="4" data-until="4" data-flag="no">Un No queda como un no. No compra nada y vuelve al trabajo.</p>
@@ -197,8 +197,8 @@ h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.12;letter-spacing:-.02em;fo
     <li class="m r" data-at="5" data-until="5"><span class="sr">Usted: </span>Sí</li>
     <li class="m l" data-at="5" data-until="5"><span class="sr">AI guy: </span>Escriba su PIN.</li>
     <li class="m r" data-at="5" data-until="5"><span class="sr">Usted: </span>••••<small>Se borra de inmediato. Nunca llega a su cerebro.</small></li>
-    <li class="m l" data-at="5" data-until="5"><span class="sr">AI guy: </span>Listo. Compré 1 lector de códigos de barras, $84.00. Este mes: $84 de su límite de $100.</li>
-    <li class="m l" data-at="6"><span class="sr">AI guy: </span>Hoy. Hice: leí 3 páginas, le pregunté una vez, compré 1 lector. Gasté: $84.00. Queda este mes: $16.00. Falló: nada. Espera por usted: nada.</li>
+    <li class="m l" data-at="5" data-until="5"><span class="sr">AI guy: </span>Listo. Compré 1 lector de códigos de barras, $84,00. Este mes: $84,00 de su límite de $100,00.</li>
+    <li class="m l" data-at="6"><span class="sr">AI guy: </span>Hoy. Hice: leí 3 páginas, le pregunté una vez, compré 1 lector. Gasté: $84,00. Queda este mes: $16,00. Falló: nada. Espera por usted: nada.</li>
     <li class="m r" data-at="6"><span class="sr">Usted: </span>halt</li>
     <li class="m l" data-at="6"><span class="sr">AI guy: </span>Detenido. No hago nada hasta que usted me reinicie.</li>
    </ol>
@@ -211,7 +211,7 @@ h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.12;letter-spacing:-.02em;fo
     <li data-at="3"><time>09:02</time><span>Tarea recibida de usted.</span></li>
     <li data-at="3"><time>09:02</time><span>Revisado: no está detenido.</span></li>
     <li data-at="3"><time>09:05</time><span>Leyó 3 páginas en 2 sitios de la lista.</span></li>
-    <li data-at="4"><time>09:11</time><span>Pidió su sí: comprar lector, $84.00.</span></li>
+    <li data-at="4"><time>09:11</time><span>Pidió su sí: comprar lector, $84,00.</span></li>
     <li data-at="5"><time>09:12</time><span>Sí y PIN recibidos. Permiso usado una vez. Lector comprado.</span></li>
     <li data-at="6"><time>21:00</time><span>Resumen de la noche enviado.</span></li>
     <li data-at="6"><time>21:03</time><span>Palabra de parada recibida. Navegador cerrado, tareas congeladas.</span></li>
@@ -234,14 +234,14 @@ h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.12;letter-spacing:-.02em;fo
 <button type="button" class="b" id="bRe">Empezar de nuevo</button>
 </div>
 </section>
-<p class="foot"><span class="demo-note">Demostración con datos simulados; los nombres son ficticios.</span></p>
+<p class="foot"><span class="demo-note">Demostración con datos simulados; los nombres son ficticios</span></p>
 <div class="real">
-<section><h2>Lo que es real</h2><ul><li>La idea: un computador aparte con un muro alrededor, revisado desde adentro cada 10 minutos.</li><li>Antes de cada acción pregunta “¿estoy detenido?”. Si no hay una respuesta clara, no hace nada.</li><li>Su propia llave con límite mensual, su propia línea de chat que solo le responde al dueño, y su propio registro con una copia guardada afuera.</li><li>La palabra para parar, y un sí con PIN antes de cualquier cosa que cueste dinero o salga de su lista.</li></ul></section>
+<section><h2>Lo que es real</h2><ul><li>La idea: un computador aparte con un muro alrededor, revisado desde adentro cada 10 minutos.</li><li>Antes de cada acción pregunta “¿estoy detenido?”. Si no hay una respuesta clara, no hace nada.</li><li>Su propia llave con límite mensual, su propia línea de chat que solo le responde al dueño y su propio registro con una copia guardada afuera.</li><li>La palabra para parar y un sí con PIN antes de cualquier cosa que cueste dinero o salga de su lista.</li></ul></section>
 <section><h2>Lo que es simulado</h2><ul><li>La tarea, la tienda, los precios, las horas y los montos en dólares.</li><li>La redacción de los mensajes. El comportamiento es real; las palabras exactas son inventadas.</li><li>Todos los nombres son ficticios.</li></ul></section>
 </div>
 <p class="contact">¿Quiere algo así para su negocio? <a href="mailto:info@humaniasoluciones.com">info@humaniasoluciones.com</a></p>
 </main>
-<script type="application/json" id="steps-data">{"steps": [{"t": "Conozca a AI guy", "b": "Su computador está arriba. AI guy vive debajo del muro, en un computador aparte, solo suyo. Empieza apagado.", "next": "Prender a AI guy"}, {"t": "Préndalo", "b": "Ahora está prendido. Sale a internet por una sola vía y por ninguna otra. Sus archivos, sus claves y su red de casa no tienen camino hacia él.", "next": "Darle una tarea"}, {"t": "Asígnele una tarea", "b": "Usted le escribe por su propia línea de chat. Solo a usted le responde. Antes de cada paso revisa que no esté detenido, y cada paso queda en su registro.", "next": "Ver lo que pregunta"}, {"t": "Pregunta antes de gastar", "b": "El mejor precio está en un sitio que no figura en su lista. No lo usa por su cuenta. Le manda la línea exacta y espera su sí.", "next": "Tocar Sí"}, {"t": "Su sí, y luego su PIN", "b": "Usted toca Sí y escribe su PIN. El mensaje del PIN se borra y nunca llega a su cerebro. El permiso sirve una sola vez, para esta compra exacta.", "next": "Siguiente: la noche"}, {"t": "Un resumen cada noche, y una palabra para parar", "b": "Cada noche le manda un resumen corto, incluso si fue un día tranquilo. En cualquier momento puede escribir halt. Se detiene de inmediato."}], "ui": {"next": "Siguiente", "step_of": "Paso {n} de {total}"}}</script>
+<script type="application/json" id="steps-data">{"steps": [{"t": "Conozca a AI guy", "b": "Su computador está arriba. AI guy vive debajo del muro, en un computador aparte, solo suyo. Empieza apagado.", "next": "Prender a AI guy"}, {"t": "Préndalo", "b": "Ahora está prendido. Sale a internet por una sola vía y por ninguna otra. Sus archivos, sus claves y su red de casa no tienen camino hacia él.", "next": "Darle una tarea"}, {"t": "Asígnele una tarea", "b": "Usted le escribe por su propia línea de chat. Solo a usted le responde. Antes de cada paso revisa que no esté detenido, y cada paso queda en su registro.", "next": "Ver lo que pregunta"}, {"t": "Pregunta antes de gastar", "b": "El mejor precio está en un sitio que no figura en su lista. No lo usa por su cuenta. Le manda la línea exacta y espera su sí.", "next": "Tocar Sí"}, {"t": "Su sí y luego su PIN", "b": "Usted toca Sí y escribe su PIN. El mensaje del PIN se borra y nunca llega a su cerebro. El permiso sirve una sola vez, para esta compra exacta.", "next": "Siguiente: la noche"}, {"t": "Un resumen cada noche y una palabra para parar", "b": "Cada noche le manda un resumen corto, incluso si fue un día tranquilo. En cualquier momento puede escribir halt. Se detiene de inmediato."}], "ui": {"next": "Siguiente", "step_of": "Paso {n} de {total}"}}</script>
 <script>
 (function(){
 'use strict';

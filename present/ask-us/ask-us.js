@@ -69,7 +69,7 @@
       slow: "Un momento, por favor. Esto puede tardar hasta un minuto. Gracias por esperar.",
       answered: "Respuesta lista.",
       limit: "Llegó al límite de preguntas por ahora. Escríbanos a " + EMAIL + ".",
-      busy: "Nuestra IA no puede responder en este momento. Intente más tarde, o escríbanos a " + EMAIL + ".",
+      busy: "Nuestra IA no puede responder en este momento. Intente más tarde o escríbanos a " + EMAIL + ".",
       offline: "No pudimos comunicarnos con nuestra IA. Escríbanos a " + EMAIL + ".",
       tooLong: "Por favor, escriba su pregunta en menos de 500 caracteres.",
       stopped: "El chat está en pausa. Escríbanos a " + EMAIL + ".",
@@ -80,15 +80,15 @@
   var DEMO = {
     en: [
       "AI can take repetitive work off your people, so they keep the work only people can do. The decisions stay with them. Which task takes your team the most time today?",
-      "Start with a short first call about which solution fits you. Then you get a plain plan, and one fixed first step agreed with you before it starts. To set up the call, email us at " + EMAIL + ".",
-      "No prices are published yet. We agree it on the first call, once we know what you need. To set up the call, email us at " + EMAIL + ".",
-      "It depends on which of four ways runs the AI: a local model on your own systems, a large language model on the provider's servers, hosted by us, or installed on your servers. We agree it with you before we start.",
+      "Start with a short first call about which solution fits you. Then you get a plain plan and one fixed first step agreed with you before it starts. To set up the call, email us at " + EMAIL + ".",
+      "No prices are published yet. We agree them on the first call, once we know what you need. To set up the call, email us at " + EMAIL + ".",
+      "It depends on which of four ways runs the AI: a local model on your own systems, a large language model on the provider's servers, hosted by us or installed on your servers. We agree it with you before we start.",
     ],
     es: [
       "La IA puede quitarle a su gente el trabajo repetitivo, para que se quede con el trabajo que solo las personas pueden hacer. Las decisiones siguen en sus manos. ¿Qué tarea le quita más tiempo a su equipo hoy?",
       "Empiece con una primera llamada corta sobre qué solución le sirve. Luego recibe un plan claro y un primer paso fijo, acordado con usted antes de empezar. Para agendar la llamada, escríbanos a " + EMAIL + ".",
       "Todavía no publicamos precios. Lo acordamos en la primera llamada, cuando sepamos qué necesita. Para agendar la llamada, escríbanos a " + EMAIL + ".",
-      "Depende de cuál de las cuatro formas opera la IA: un modelo local en sus propios sistemas, un modelo de lenguaje grande en los servidores del proveedor, alojado por nosotros, o instalado en sus servidores. Lo acordamos con usted antes de empezar.",
+      "Depende de cuál de las cuatro formas opera la IA: un modelo local en sus propios sistemas, un modelo de lenguaje grande en los servidores del proveedor, alojado por nosotros o instalado en sus servidores. Lo acordamos con usted antes de empezar.",
     ],
     fallback: {
       en: "In demo mode I only have sample answers to the four questions above. For anything else, please email us at " + EMAIL + ".",

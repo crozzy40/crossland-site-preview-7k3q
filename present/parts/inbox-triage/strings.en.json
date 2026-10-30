@@ -1,7 +1,7 @@
 {
   "title": "Inbox triage, live",
   "lead": "Six messages. Press Run triage: the routine ones are handled, the drafts wait for your approval, and the complaint goes straight to a person.",
-  "demo_note": "Demo data; names are fictional.",
+  "demo_note": "Demo data; names are fictional",
   "run": "Run triage",
   "again": "Run it again",
   "inbox_aria": "Inbox, six messages",
