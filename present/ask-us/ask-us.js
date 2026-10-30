@@ -80,13 +80,13 @@
   var DEMO = {
     en: [
       "AI can take repetitive work off your people, so they keep the work only people can do. The decisions stay with them. Which task takes your team the most time today?",
-      "Start with a short first call about which door fits you. Then you get a plain plan, and one fixed first step agreed with you before it starts. To set up the call, email us at " + EMAIL + ".",
+      "Start with a short first call about which solution fits you. Then you get a plain plan, and one fixed first step agreed with you before it starts. To set up the call, email us at " + EMAIL + ".",
       "No prices are published yet. We agree it on the first call, once we know what you need. To set up the call, email us at " + EMAIL + ".",
       "It depends on which of four ways runs the AI: a local model on your own systems, a large language model on the provider's servers, hosted by us, or installed on your servers. We agree it with you before we start.",
     ],
     es: [
       "La IA puede quitarle a su gente el trabajo repetitivo, para que se quede con el trabajo que solo las personas pueden hacer. Las decisiones siguen en sus manos. ¿Qué tarea le quita más tiempo a su equipo hoy?",
-      "Empiece con una primera llamada corta sobre qué puerta le sirve. Luego recibe un plan claro y un primer paso fijo, acordado con usted antes de empezar. Para agendar la llamada, escríbanos a " + EMAIL + ".",
+      "Empiece con una primera llamada corta sobre qué solución le sirve. Luego recibe un plan claro y un primer paso fijo, acordado con usted antes de empezar. Para agendar la llamada, escríbanos a " + EMAIL + ".",
       "Todavía no publicamos precios. Lo acordamos en la primera llamada, cuando sepamos qué necesita. Para agendar la llamada, escríbanos a " + EMAIL + ".",
       "Depende de cuál de las cuatro formas opera la IA: un modelo local en sus propios sistemas, un modelo de lenguaje grande en los servidores del proveedor, alojado por nosotros, o instalado en sus servidores. Lo acordamos con usted antes de empezar.",
     ],

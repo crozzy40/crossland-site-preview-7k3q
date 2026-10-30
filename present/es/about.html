@@ -146,7 +146,7 @@ Crossland AI
 <p class="l10-echo">Las empresas que empiezan ahora lideran después. Viva el futuro del trabajo, desde hoy.</p>
 <div class="cta">
 <a class="btn ac" href="start.html#book">Solicitar llamada</a>
-<p class="callnote later">La llamada: una primera conversación sobre qué puerta le sirve.</p>
+<p class="callnote later">La llamada: una primera conversación sobre qué solución le sirve.</p>
 </div>
 </section>
 <section class="aframe" aria-label="Personas e IA">
@@ -239,7 +239,7 @@ Crossland AI
 <div class="kwrap"><button class="kbtn" type="button" aria-expanded="false" aria-controls="keys"><kbd>?</kbd>Teclas</button>
 <p class="keys mono" id="keys" hidden><span><kbd>Esc</kbd>Atrás</span>
 <span><kbd>P</kbd><kbd>I</kbd>Personas · IA</span>
-<span><kbd>1–5</kbd>Puertas</span></p></div>
+<span><kbd>1–5</kbd>Soluciones</span></p></div>
 </div>
 <div class="sfoot">
 <div class="sf-id"><p class="sf-name"><svg width="26" height="26" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="none" stroke-width="1.5" style="stroke:var(--tx)"/><path d="M11 0.5v5M11 16.5v5M0.5 11h5M16.5 11h5" stroke-width="1.5" style="stroke:var(--tx)"/><circle cx="11" cy="11" r="2.6" style="fill:var(--ac)"/></svg>Crossland AI</p><p class="sf-line">Donde las personas y la IA se encuentran.</p></div>
@@ -296,7 +296,7 @@ function pg(k){return k.split('#')[0]}
 function al(s){return s.indexOf('el ')===0?'al '+s.slice(3):'a '+s} 
 function hs(k){return k.split('#')[1]||''}
 function parent(k){if(k==='index.html')return null;if(pg(k)==='doors.html'&&hs(k))return 'doors.html';return 'index.html'}
-function label(k){var h=hs(k);if(pg(k)==='index.html')return 'el mapa';if(pg(k)==='about.html')return 'Nosotros';if(k==='doors.html')return 'todas las puertas';if(k==='partners.html')return 'Construya con nosotros';if(k==='work.html')return 'Nuestro trabajo';if(more(k))return MORE[k];return 'la puerta '+NUM[h]}
+function label(k){var h=hs(k);if(pg(k)==='index.html')return 'el mapa';if(pg(k)==='about.html')return 'Nosotros';if(k==='doors.html')return 'todas las soluciones';if(k==='partners.html')return 'Construya con nosotros';if(k==='work.html')return 'Nuestro trabajo';if(more(k))return MORE[k];return 'la solución '+NUM[h]}
 function crumbs(k){
 var h=hs(k),c=[['Inicio','index.html']];
 if(pg(k)==='index.html'){if(h)c.push([h==='support'?'Soporte':NUM[h]+' '+NAME[h],k])}

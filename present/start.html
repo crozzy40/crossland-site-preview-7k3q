@@ -156,7 +156,7 @@ Crossland AI
 <span class="n">01</span>
 <div class="a"><h2>After you book a call</h2>
 <ol class="steps">
-<li><span class="n" aria-hidden="true">01</span><span class="who mono">A short call</span><h3>A short first call.</h3><p>A first conversation about what you need, and which door fits you.</p><details class="more" open><summary>Read more</summary><p class="get"><b>You get:</b> a first view of which door fits you.</p><p class="lad">On this call we place your company on the AI ladder together.</p></details></li>
+<li><span class="n" aria-hidden="true">01</span><span class="who mono">A short call</span><h3>A short first call.</h3><p>A first conversation about what you need, and which solution fits you.</p><details class="more" open><summary>Read more</summary><p class="get"><b>You get:</b> a first view of which solution fits you.</p><p class="lad">On this call we place your company on the AI ladder together.</p></details></li>
 <li><span class="n" aria-hidden="true">02</span><span class="who mono">A plain plan</span><h3>A plain plan.</h3><p>In plain words: which repetitive work to take off people first, and which decisions stay with them.</p></li>
 <li><span class="n" aria-hidden="true">03</span><span class="who mono">A first step</span><h3>A first step we agree with you.</h3><p>One first piece of work, agreed with you before it starts.</p></li>
 </ol>
@@ -198,7 +198,7 @@ Crossland AI
 <button class="motion mono" id="motion" type="button" aria-pressed="true"><i aria-hidden="true"></i><span>Motion on</span></button>
 <div class="kwrap"><button class="kbtn" type="button" aria-expanded="false" aria-controls="keys"><kbd>?</kbd>Keys</button>
 <p class="keys mono" id="keys" hidden><span><kbd>Esc</kbd>Back</span>
-<span><kbd>1–5</kbd>Doors</span>
+<span><kbd>1–5</kbd>Solutions</span>
 <span><kbd>P</kbd><kbd>A</kbd>People · AI</span></p></div>
 </div>
 <div class="sfoot">
@@ -255,7 +255,7 @@ return null;
 function pg(k){return k.split('#')[0]}
 function hs(k){return k.split('#')[1]||''}
 function parent(k){if(k==='index.html')return null;if(pg(k)==='doors.html'&&hs(k))return 'doors.html';return 'index.html'}
-function label(k){var h=hs(k);if(pg(k)==='index.html')return 'the map';if(pg(k)==='about.html')return 'About us';if(k==='doors.html')return 'all doors';if(k==='partners.html')return 'Build with us';if(k==='work.html')return 'Our work';if(more(k))return MORE[k];return 'door '+NUM[h]}
+function label(k){var h=hs(k);if(pg(k)==='index.html')return 'the map';if(pg(k)==='about.html')return 'About us';if(k==='doors.html')return 'all solutions';if(k==='partners.html')return 'Build with us';if(k==='work.html')return 'Our work';if(more(k))return MORE[k];return 'solution '+NUM[h]}
 function crumbs(k){
 var h=hs(k),c=[['Home','index.html']];
 if(pg(k)==='index.html'){if(h)c.push([h==='support'?'Support':NUM[h]+' '+NAME[h],k])}

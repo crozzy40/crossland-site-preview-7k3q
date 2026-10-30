@@ -90,7 +90,7 @@ Crossland AI
 </ol>
 <div class="cta">
 <a class="btn ac" href="start.html#book">Request a call</a>
-<p class="callnote later">The call: a first conversation about which door fits you.</p>
+<p class="callnote later">The call: a first conversation about which solution fits you.</p>
 </div>
 </section>
 <section class="qbody" id="qbody" aria-label="FAQ">
@@ -105,9 +105,9 @@ Crossland AI
 <article class="qs" id="size">
 <span class="n">02</span>
 <div class="a"><h2>Is my company too small?</h2>
-<p class="lede">No. Every door works at every size: one person, a team, a whole company.</p>
-<p>Each door on the map says what it looks like at each size.</p>
-<a class="go" href="doors.html">See the five doors <span class="arrow" aria-hidden="true">→</span></a>
+<p class="lede">No. Every solution works at every size: one person, a team, a whole company.</p>
+<p>Each solution on the map says what it looks like at each size.</p>
+<a class="go" href="doors.html">See the five solutions <span class="arrow" aria-hidden="true">→</span></a>
 </div>
 </article>
 <article class="qs" id="own">
@@ -131,13 +131,13 @@ Crossland AI
 <article class="qs" id="after">
 <span class="n">05</span>
 <div class="a"><h2>What happens after it ships?</h2>
-<p class="lede">Support is the ring around every door on the map. We agree what it covers with you at the start.</p>
+<p class="lede">Support is the ring around every solution on the map. We agree what it covers with you at the start.</p>
 </div>
 </article>
 <article class="qs" id="support">
 <span class="n">06</span>
 <div class="a"><h2>What is Support?</h2>
-<p class="lede"><svg viewBox="0 0 22 22" width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="8" fill="none" stroke-width="1.6" stroke-dasharray="3 2.2" style="stroke:var(--ac)"/><circle cx="11" cy="11" r="2.4" style="fill:var(--ac)"/></svg> Support is the ring around every door on the map. We agree what it covers with you at the start.</p>
+<p class="lede"><svg viewBox="0 0 22 22" width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="8" fill="none" stroke-width="1.6" stroke-dasharray="3 2.2" style="stroke:var(--ac)"/><circle cx="11" cy="11" r="2.4" style="fill:var(--ac)"/></svg> Support is the ring around every solution on the map. We agree what it covers with you at the start.</p>
 <a class="go" href="index.html#support">Support, on the map <span class="arrow" aria-hidden="true">→</span></a>
 </div>
 </article>
@@ -148,7 +148,7 @@ Crossland AI
 <button class="motion mono" id="motion" type="button" aria-pressed="true"><i aria-hidden="true"></i><span>Motion on</span></button>
 <div class="kwrap"><button class="kbtn" type="button" aria-expanded="false" aria-controls="keys"><kbd>?</kbd>Keys</button>
 <p class="keys mono" id="keys" hidden><span><kbd>Esc</kbd>Back</span>
-<span><kbd>1–5</kbd>Doors</span>
+<span><kbd>1–5</kbd>Solutions</span>
 <span><kbd>P</kbd><kbd>A</kbd>People · AI</span></p></div>
 </div>
 <div class="sfoot">
@@ -205,7 +205,7 @@ return null;
 function pg(k){return k.split('#')[0]}
 function hs(k){return k.split('#')[1]||''}
 function parent(k){if(k==='index.html')return null;if(pg(k)==='doors.html'&&hs(k))return 'doors.html';return 'index.html'}
-function label(k){var h=hs(k);if(pg(k)==='index.html')return 'the map';if(pg(k)==='about.html')return 'About us';if(k==='doors.html')return 'all doors';if(k==='partners.html')return 'Build with us';if(k==='work.html')return 'Our work';if(more(k))return MORE[k];return 'door '+NUM[h]}
+function label(k){var h=hs(k);if(pg(k)==='index.html')return 'the map';if(pg(k)==='about.html')return 'About us';if(k==='doors.html')return 'all solutions';if(k==='partners.html')return 'Build with us';if(k==='work.html')return 'Our work';if(more(k))return MORE[k];return 'solution '+NUM[h]}
 function crumbs(k){
 var h=hs(k),c=[['Home','index.html']];
 if(pg(k)==='index.html'){if(h)c.push([h==='support'?'Support':NUM[h]+' '+NAME[h],k])}

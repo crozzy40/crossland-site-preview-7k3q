@@ -158,7 +158,7 @@ Crossland AI
 <span class="n">01</span>
 <div class="a"><h2>Después de agendar una llamada</h2>
 <ol class="steps">
-<li><span class="n" aria-hidden="true">01</span><span class="who mono">Una llamada corta</span><h3>Una primera llamada corta.</h3><p>Una primera conversación sobre lo que necesita y qué puerta le sirve.</p><details class="more" open><summary>Leer más</summary><p class="get"><b>Usted recibe:</b> una primera idea de qué puerta le sirve.</p><p class="lad">En esta llamada ubicamos juntos a su empresa en la escalera de la IA.</p></details></li>
+<li><span class="n" aria-hidden="true">01</span><span class="who mono">Una llamada corta</span><h3>Una primera llamada corta.</h3><p>Una primera conversación sobre lo que necesita y qué solución le sirve.</p><details class="more" open><summary>Leer más</summary><p class="get"><b>Usted recibe:</b> una primera idea de qué solución le sirve.</p><p class="lad">En esta llamada ubicamos juntos a su empresa en la escalera de la IA.</p></details></li>
 <li><span class="n" aria-hidden="true">02</span><span class="who mono">Un plan claro</span><h3>Un plan claro.</h3><p>En palabras sencillas: qué trabajo repetitivo quitarles primero a las personas, y qué decisiones quedan en sus manos.</p></li>
 <li><span class="n" aria-hidden="true">03</span><span class="who mono">Un primer paso</span><h3>Un primer paso que acordamos con usted.</h3><p>Un primer trabajo, acordado con usted antes de empezar.</p></li>
 </ol>
@@ -200,7 +200,7 @@ Crossland AI
 <button class="motion mono" id="motion" type="button" aria-pressed="true"><i aria-hidden="true"></i><span>Movimiento activado</span></button>
 <div class="kwrap"><button class="kbtn" type="button" aria-expanded="false" aria-controls="keys"><kbd>?</kbd>Teclas</button>
 <p class="keys mono" id="keys" hidden><span><kbd>Esc</kbd>Atrás</span>
-<span><kbd>1–5</kbd>Puertas</span>
+<span><kbd>1–5</kbd>Soluciones</span>
 <span><kbd>P</kbd><kbd>I</kbd>Personas · IA</span></p></div>
 </div>
 <div class="sfoot">
@@ -258,7 +258,7 @@ function pg(k){return k.split('#')[0]}
 function al(s){return s.indexOf('el ')===0?'al '+s.slice(3):'a '+s} 
 function hs(k){return k.split('#')[1]||''}
 function parent(k){if(k==='index.html')return null;if(pg(k)==='doors.html'&&hs(k))return 'doors.html';return 'index.html'}
-function label(k){var h=hs(k);if(pg(k)==='index.html')return 'el mapa';if(pg(k)==='about.html')return 'Nosotros';if(k==='doors.html')return 'todas las puertas';if(k==='partners.html')return 'Construya con nosotros';if(k==='work.html')return 'Nuestro trabajo';if(more(k))return MORE[k];return 'la puerta '+NUM[h]}
+function label(k){var h=hs(k);if(pg(k)==='index.html')return 'el mapa';if(pg(k)==='about.html')return 'Nosotros';if(k==='doors.html')return 'todas las soluciones';if(k==='partners.html')return 'Construya con nosotros';if(k==='work.html')return 'Nuestro trabajo';if(more(k))return MORE[k];return 'la solución '+NUM[h]}
 function crumbs(k){
 var h=hs(k),c=[['Inicio','index.html']];
 if(pg(k)==='index.html'){if(h)c.push([h==='support'?'Soporte':NUM[h]+' '+NAME[h],k])}
