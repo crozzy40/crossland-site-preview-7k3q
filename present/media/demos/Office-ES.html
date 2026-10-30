@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El escritorio de la oficina · Crossland AI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' fill='%230B1220'/%3E%3Ccircle cx='11' cy='11' r='8' fill='none' stroke='%23F4EFE8' stroke-width='1.6'/%3E%3Ccircle cx='11' cy='11' r='3' fill='%23E2A93B'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#0B1220;--s1:#0F1828;--s2:#141E31;--s3:#1B263B;--line:#222D42;--line2:#34415B;--tx:#F4EFE8;--mu:#B7BDC9;--dim:#9AA3B5;--ac:#E2A93B;--ac2:#EEBE60;--acink:#1A1203;--deep:#070C16;--bad:#F0948C;--font:"Archivo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:ui-monospace,"Cascadia Mono","SFMono-Regular","Segoe UI Mono",Consolas,Menlo,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx);font:1rem/1.5 var(--font);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-wrap:anywhere}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px;border-radius:3px}
+.mono{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:400}
+.skip{position:absolute;left:.75rem;top:-6rem;z-index:50;background:var(--tx);color:var(--bg);padding:.6rem .9rem;border-radius:4px;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;min-height:2.75rem}
+.skip:focus{top:.75rem}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem 1.5rem;padding:.5rem 1rem;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:600;font-size:1.3rem;letter-spacing:-.01em;text-decoration:none;min-height:2.75rem}
+.brand svg{width:1.8rem;height:1.8rem;flex:none}
+.top nav{margin-left:auto;display:flex;flex-wrap:wrap;gap:0 1.25rem}
+.lnk{display:inline-flex;align-items:center;min-height:2.75rem;color:var(--mu);font-size:.95rem;text-underline-offset:4px;text-decoration-color:var(--line2)}
+.lnk:hover{color:var(--tx)}
+.wrap{max-width:70rem;margin:0 auto;padding:1.75rem 1rem 3rem}
+.kick{display:flex;align-items:center;gap:.6rem;color:var(--dim);margin-bottom:.9rem}
+.kick::before{content:"";width:.45rem;height:.45rem;background:var(--ac);flex:none}
+h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.12;letter-spacing:-.02em;font-weight:600}
+.lead{margin-top:.8rem;color:var(--mu);max-width:44rem;font-size:1.05rem}
+.lead.co{font-size:.92rem;margin-top:.5rem;color:var(--dim)}
+.demo{margin-top:1.75rem;background:var(--s1);border:1px solid var(--line);border-radius:6px;padding:1rem}
+.dots{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.dot{display:grid;place-items:center;min-width:2.75rem;min-height:2.75rem;border-radius:50%;border:1px solid var(--line2);background:var(--s1);color:var(--mu);font:600 .95rem/1 var(--font)}
+.dot:hover{border-color:var(--mu)}
+.dot.done{border-color:var(--ac);color:var(--ac)}
+.dot[aria-current="step"]{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.say{min-height:5.5rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
+.say .mono{color:var(--dim)}
+.say h2{font-size:1.3rem;line-height:1.25;margin:.2rem 0 .35rem;letter-spacing:-.01em}
+.say p.body{color:var(--mu);max-width:50rem}
+.scene{min-width:0;display:flex;flex-direction:column;gap:1rem}
+.ctl{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--line)}
+.b{display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;min-width:2.75rem;padding:.4rem 1.25rem;border-radius:4px;border:1px solid var(--line2);background:var(--s3);font-weight:600;font-size:1rem;line-height:1.2;text-align:center}
+.b:hover:not(:disabled){border-color:var(--mu)}
+.b.ac{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.b.ac:hover:not(:disabled){background:var(--ac2)}
+.b:disabled{opacity:.45;cursor:default}
+.foot{margin-top:1.1rem;font-size:.85rem;color:var(--mu)}
+.demo-note{display:inline-block;border:1px dashed var(--line2);border-radius:3px;padding:.15rem .6rem}
+.real{margin-top:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1rem}
+.real section{border:1px solid var(--line);border-radius:6px;padding:1rem;background:var(--s1)}
+.real h2{font-size:1rem;margin-bottom:.5rem}
+.real ul{padding-left:1.1rem;color:var(--mu);font-size:.92rem}
+.real li{margin:.3rem 0}
+.contact{margin-top:1.5rem;color:var(--mu);font-size:.95rem}
+.contact a{color:var(--ac2);display:inline-flex;align-items:center;min-height:2.75rem}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:1rem;align-items:start}
+.pane-t{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:1rem 0 .5rem;font-weight:400}
+.pop{animation:pop .35s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(.4rem)}to{opacity:1;transform:none}}
+.card{border:1px solid var(--line2);background:var(--s2);border-radius:6px;padding:.75rem .9rem;min-width:0}
+.card h3,.sheet h3,.honest h3{font-size:.98rem;font-weight:600;letter-spacing:-.005em;display:flex;align-items:flex-start;gap:.45rem}
+.card h3 .ic{margin-top:.2em}
+.card .sub{font-size:.88rem;color:var(--mu);margin-top:.2rem}
+.card .sub.big{font-size:1rem;color:var(--tx);margin-top:.4rem}
+.card.off{border-style:dashed;background:transparent}
+.card.agent{border-color:var(--ac)}
+.pill{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .5rem;border-radius:3px;border:1px solid var(--ac);color:var(--ac);max-width:100%;line-height:1.25}
+.pill.no{border-color:var(--line2);color:var(--mu)}
+.pill.wait{border-style:dashed;border-color:var(--bad);color:var(--bad)}
+.row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem .75rem}
+.tap{display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;min-width:2.75rem;padding:.35rem 1rem;border-radius:.3rem;border:1px solid var(--line2);background:var(--s3);font-weight:600;font-size:.92rem;line-height:1.2;text-align:center}
+.tap:hover{border-color:var(--mu)}
+.tap.ac{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.tap.ac:hover{background:var(--ac2)}
+.taps{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+.row .taps{margin-top:0}
+.note{display:block;margin-top:.5rem;font-size:.88rem;color:var(--mu);border-left:3px solid var(--ac);padding-left:.6rem}
+.note.wide{margin:.75rem}
+.note.ok{color:var(--tx)}
+.kv{margin:0 .75rem .6rem;font-size:.88rem}
+.kv div{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.2rem .8rem;padding:.35rem 0;border-top:1px solid var(--line)}
+.kv dt{color:var(--mu)}
+.kv dd{text-align:right;padding:0 .3rem;border-radius:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ic{width:1.1rem;height:1.1rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.items{list-style:none;margin-top:.4rem}
+.items li{padding:.45rem 0;border-top:1px solid var(--line);font-size:.93rem}
+.items li:first-child{border-top:0}
+/* the files */
+.files{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,26rem),1fr));gap:1rem;align-items:start}
+.sheet{container:s / inline-size;border:1px solid var(--line2);background:var(--s2);border-radius:6px;min-width:0}
+.sheet.master{container:m / inline-size}
+.sh-h{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .5rem;padding:.55rem .75rem;border-bottom:1px solid var(--line2);color:var(--ac)}
+.sh-h h3{color:var(--tx)}
+.sh-h .w{flex-basis:100%;font-size:.82rem;color:var(--mu)}
+.sh-h .pill{margin-left:auto}
+.win .sh-h{background:var(--deep);border-radius:6px 6px 0 0}
+.wdots{display:inline-flex;gap:.3rem}
+.wdots i{width:.55rem;height:.55rem;border-radius:50%;background:var(--line2)}
+.t{width:100%;border-collapse:collapse;font-size:.88rem}
+.t th{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);text-align:left;font-weight:400;padding:.4rem .55rem;border-bottom:1px solid var(--line2);background:var(--s1)}
+.t td{padding:.4rem .55rem;border-top:1px solid var(--line);vertical-align:top}
+.t td,.t th{overflow-wrap:normal}
+.paid{margin:0;padding:.5rem .75rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--mu)}
+.t td+td,.t th+th{border-left:1px solid var(--line)}
+.t td.n{text-align:right;font-variant-numeric:tabular-nums}
+.t tr.ask td{background:rgba(240,148,140,.06)}
+.t td.plan .v{display:flex;flex-direction:column;align-items:flex-start;gap:.35rem}
+.t td.plan .pl{color:var(--mu)}
+.t td.plan .note{margin-top:0}
+.t td.bad,.kv dd.bad{box-shadow:inset 0 0 0 2px var(--bad);background:rgba(240,148,140,.12)}
+.t td.ok{box-shadow:inset 0 0 0 2px var(--ac);background:rgba(226,169,59,.12)}
+s.was{color:var(--dim);margin-right:.3rem}
+.c{white-space:nowrap}
+.fn{display:inline-grid;place-items:center;min-width:1.35em;height:1.35em;padding:0 .2em;margin-left:.35rem;border-radius:1em;background:var(--bad);color:#1A0B0A;font:600 .75rem/1 var(--font);vertical-align:.1em}
+@container s (max-width:30em){.t thead{display:none}.t,.t tbody,.t tr{display:block;width:100%}.t tr{border-top:1px solid var(--line2);padding:.25rem 0}.t tr:first-child{border-top:0}.t td{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.1rem .8rem;border:0!important;padding:.25rem .75rem;text-align:left;overflow-wrap:anywhere}.t td.n{text-align:left}.t td::before{content:attr(data-l);color:var(--dim);font-size:.8rem}.t td.plan{flex-direction:column;align-items:stretch}}
+@container m (max-width:46em){.t thead{display:none}.t,.t tbody,.t tr{display:block;width:100%}.t tr{border-top:1px solid var(--line2);padding:.25rem 0}.t tr:first-child{border-top:0}.t td{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.1rem .8rem;border:0!important;padding:.25rem .75rem;text-align:left;overflow-wrap:anywhere}.t td.n{text-align:left}.t td::before{content:attr(data-l);color:var(--dim);font-size:.8rem}.t td.plan{flex-direction:column;align-items:stretch}}
+/* step 1 */
+.flow{list-style:none;margin-top:.5rem;font-size:.92rem}
+.flow li{display:flex;gap:.55rem;align-items:flex-start;padding:.45rem 0;border-top:1px solid var(--line)}
+.flow li:first-child{border-top:0}
+.flow .ar{color:var(--ac);margin-top:.2rem}
+.cost{border-color:var(--bad)}
+/* step 2 */
+.finds{list-style:none;margin-top:.5rem;font-size:.93rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:.1rem 1.5rem}
+.finds li{display:flex;gap:.55rem;align-items:flex-start;padding:.45rem 0;border-top:1px solid var(--line)}
+.finds .fn{margin:.15rem 0 0}
+/* step 4 */
+.log{list-style:none;margin-top:.5rem;font-size:.9rem}
+.log li{display:flex;gap:.7rem;padding:.45rem 0;border-top:1px solid var(--line)}
+.log li:first-child{border-top:0}
+.log time{font-family:var(--mono);font-size:.78rem;color:var(--dim);flex:none;padding-top:.15rem}
+.log small{display:block;color:var(--ac2);font-size:.8rem;margin-top:.1rem}
+.logc{border-color:var(--ac)}
+/* step 5 */
+.rp{margin:.6rem 0 0 1.1rem;font-size:.93rem}
+.rp li{margin:.3rem 0}
+.bars{list-style:none;font-size:.88rem}
+.bars li{margin:.45rem 0}
+.bl{display:flex;flex-wrap:wrap;justify-content:space-between;gap:0 .8rem}
+.bl b{font-weight:600;font-variant-numeric:tabular-nums}
+.bt{display:block;height:.7rem;background:var(--s3);border-radius:2px;margin-top:.2rem}
+.bf{display:block;height:100%;background:var(--ac);border-radius:2px}
+.slide{margin-top:.6rem;aspect-ratio:16/9;background:var(--deep);border:1px solid var(--ac);border-radius:4px;padding:1rem;display:flex;flex-direction:column;justify-content:space-between;gap:.75rem}
+.sl-h{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ac2)}
+.sl-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,7rem),1fr));gap:.75rem}
+.sl-g p{display:flex;flex-direction:column}
+.sl-g b{font-size:1.5rem;line-height:1.1;font-weight:600;letter-spacing:-.02em}
+.sl-g span{font-size:.82rem;color:var(--mu)}
+.sl-n{font-size:.9rem;border-top:1px solid var(--line2);padding-top:.5rem}
+/* step 6 */
+.honest{border:1px dashed var(--ac);border-radius:6px;padding:.9rem 1rem;background:var(--s1);margin-top:1rem}
+.honest p{margin-top:.45rem;color:var(--mu);font-size:.93rem}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#demo">Saltar a la demostración</a>
+<header class="top">
+<a class="brand" href="../../es/work.html#office" aria-label="Crossland AI"><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="none" stroke-width="1.5" stroke="#F4EFE8"/><path d="M11 0.5v5M11 16.5v5M0.5 11h5M16.5 11h5" stroke-width="1.5" stroke="#F4EFE8"/><circle cx="11" cy="11" r="2.6" fill="#E2A93B"/></svg>Crossland AI</a>
+<nav aria-label="Páginas"><a class="lnk" href="../../es/work.html#office">Nuestro trabajo</a><a class="lnk" href="Office-EN.html" hreflang="en" lang="en">English</a></nav>
+</header>
+<main class="wrap" id="main">
+<p class="kick mono">Véalo funcionando · El escritorio de la oficina</p>
+<h1>El escritorio de la oficina</h1>
+<p class="lead">Un lunes en una empresa pequeña que trabaja con hojas de cálculo, una hoja compartida, facturas que van por correo y un sistema contable. Un agente lee los archivos, encuentra lo que no cuadra, le pregunta a una persona y deja los números correctos en todas partes.</p>
+<p class="lead co">Distribuidora La Torcaza: materiales de construcción y ferretería, ocho personas, Colombia. Una empresa inventada.</p>
+<section class="demo" id="demo" aria-label="Demostración guiada">
+<noscript><p class="note">Esta demostración necesita JavaScript. No se envía nada a ninguna parte.</p></noscript>
+<ol class="dots" aria-label="Pasos"><li><button type="button" class="dot" aria-label="Paso 1 de 6: Lunes por la mañana: los mismos números en cuatro lugares">1</button></li><li><button type="button" class="dot" aria-label="Paso 2 de 6: El agente los lee todos">2</button></li><li><button type="button" class="dot" aria-label="Paso 3 de 6: Una tabla limpia, dos preguntas">3</button></li><li><button type="button" class="dot" aria-label="Paso 4 de 6: Los archivos cuadran">4</button></li><li><button type="button" class="dot" aria-label="Paso 5 de 6: El informe del lunes">5</button></li><li><button type="button" class="dot" aria-label="Paso 6 de 6: El mismo lunes, con el agente">6</button></li></ol>
+<div class="say" aria-live="polite"><p class="mono" id="sn"></p><h2 id="st"></h2><p class="body" id="sb"></p></div>
+<div class="scene" id="scene"><section class="card agent" data-s="2" aria-labelledby="h-fd"><div class="row"><h3 id="h-fd"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5v3M10 14.5v3M2.5 10h3M14.5 10h3"/><circle cx="10" cy="10" r="3.2"/></svg> Lo que encontró el agente</h3></div><p class="sub">Seis cosas, en cuatro lugares. Todavía no cambió nada.</p><ol class="finds"><li><span class="fn" aria-hidden="true">1</span><span>Cemento C-50: el pedido dice 40 bultos, la factura dice 45. Inventario: 420 en la hoja, 375 en contabilidad.</span></li><li><span class="fn" aria-hidden="true">2</span><span>Varilla V-38: 1.150 en la hoja, 1.100 en contabilidad.</span></li><li><span class="fn" aria-hidden="true">3</span><span>Tubo PVC PV-4: el pedido y la factura dicen que salieron 12. La hoja y contabilidad todavía dicen 86.</span></li><li><span class="fn" aria-hidden="true">4</span><span>Alambre AL-18: 180 en la hoja, 150 en contabilidad. El pedido y la factura coinciden en 30.</span></li><li><span class="fn" aria-hidden="true">5</span><span>Un cliente, tres formas de escribirlo: Constructora Bahareque S.A.S., Constructora Bajareque, Const. Bahareque SAS.</span></li><li><span class="fn" aria-hidden="true">6</span><span>La factura FV-1044 (50 varillas) no tiene un pedido detrás.</span></li></ol></section><section class="card logc" data-s="4" data-grp="u" aria-labelledby="h-lg"><div class="row"><h3 id="h-lg">Registro de cambios</h3><span class="taps"><button type="button" class="tap" data-act="set:undo" data-unflag="undo">Deshacer todo</button><button type="button" class="tap ac" data-act="unset:undo" data-flag="undo">Volver a aplicar los cambios</button></span></div><p class="sub">Qué cambió, dónde y quién dijo que sí.</p><ol class="log" data-unflag="undo"><li><time>09:14</time><span>Sistema contable: tubo PVC PV-4, inventario 86 → 74 (factura FV-1042).<small>Aprobó: Diana</small></span></li><li><time>09:14</time><span>Hoja de inventario: cemento 420 → 375, varilla 1.150 → 1.100, tubo PVC 86 → 74, alambre 180 → 150.<small>Aprobó: Diana</small></span></li><li><time>09:14</time><span>Hoja de pedidos: P-311 cemento 40 → 45. Pedido nuevo P-315 para la factura FV-1044. Nombre del cliente corregido en el P-313.<small>Aprobó: Diana</small></span></li><li><time>09:14</time><span>Hoja de facturas: nombre del cliente corregido en la FV-1041 y la FV-1043. La FV-1044 queda unida al pedido P-315.<small>Aprobó: Diana</small></span></li></ol><p class="note" data-flag="undo">Deshecho. Cada valor volvió a como estaba. El registro guarda una línea con quién lo deshizo y cuándo.</p></section><div class="files" data-s="1 2 4" role="group" aria-label="Los cuatro lugares donde están los números"><section class="sheet" aria-labelledby="h-inv"><div class="sh-h"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="1.5"/><path d="M2.5 7.5h15M2.5 12h15M8 3v14"/></svg><h3 id="h-inv">Inventario</h3><p class="w">Hoja de cálculo en el portátil de Marta</p></div><table class="t" aria-labelledby="h-inv"><thead><tr><th scope="col">Código</th><th scope="col">Producto</th><th scope="col">Existencias</th></tr></thead><tbody><tr><td data-l="Código"><span class="v"><span class="c">C-50</span></span></td><td data-l="Producto"><span class="v">Cemento gris, 50 kg</span></td><td data-l="Existencias" class="n" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">420</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>420</s> 375</span><span data-s="4" data-flag="undo">420</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>1</span></span></td></tr><tr><td data-l="Código"><span class="v"><span class="c">V-38</span></span></td><td data-l="Producto"><span class="v">Varilla 3/8"</span></td><td data-l="Existencias" class="n" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">1.150</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>1.150</s> 1.100</span><span data-s="4" data-flag="undo">1.150</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>2</span></span></td></tr><tr><td data-l="Código"><span class="v"><span class="c">PV-4</span></span></td><td data-l="Producto"><span class="v">Tubo PVC 4"</span></td><td data-l="Existencias" class="n" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">86</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>86</s> 74</span><span data-s="4" data-flag="undo">86</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>3</span></span></td></tr><tr><td data-l="Código"><span class="v"><span class="c">PT-G</span></span></td><td data-l="Producto"><span class="v">Pintura blanca, galón</span></td><td data-l="Existencias" class="n"><span class="v">54</span></td></tr><tr><td data-l="Código"><span class="v"><span class="c">AL-18</span></span></td><td data-l="Producto"><span class="v">Alambre negro, kg</span></td><td data-l="Existencias" class="n" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">180</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>180</s> 150</span><span data-s="4" data-flag="undo">180</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>4</span></span></td></tr></tbody></table></section><section class="sheet" aria-labelledby="h-ord"><div class="sh-h"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><circle cx="7" cy="7" r="2.6"/><circle cx="14" cy="8" r="2.1"/><path d="M2.5 16c.6-2.8 2.4-4 4.5-4s3.9 1.2 4.5 4M11.6 12.4c.7-.5 1.5-.8 2.4-.8 1.8 0 3.1 1.1 3.5 3.4"/></svg><h3 id="h-ord">Pedidos</h3><p class="w">Hoja compartida del equipo de ventas</p></div><table class="t" aria-labelledby="h-ord"><thead><tr><th scope="col">Pedido</th><th scope="col">Cliente</th><th scope="col">Código</th><th scope="col">Cant.</th></tr></thead><tbody><tr><td data-l="Pedido"><span class="v"><span class="c">P-311</span></span></td><td data-l="Cliente"><span class="v">Constructora Bahareque S.A.S.</span></td><td data-l="Código"><span class="v"><span class="c">C-50</span></span></td><td data-l="Cant." class="n" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">40</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>40</s> 45</span><span data-s="4" data-flag="undo">40</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>1</span></span></td></tr><tr><td data-l="Pedido"><span class="v"><span class="c">P-312</span></span></td><td data-l="Cliente"><span class="v">Ferretería Tres Clavos</span></td><td data-l="Código"><span class="v"><span class="c">PV-4</span></span></td><td data-l="Cant." class="n"><span class="v">12</span></td></tr><tr><td data-l="Pedido"><span class="v"><span class="c">P-313</span></span></td><td data-l="Cliente" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">Constructora Bajareque</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>Constructora Bajareque</s> Constructora Bahareque S.A.S.</span><span data-s="4" data-flag="undo">Constructora Bajareque</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>5</span></span></td><td data-l="Código"><span class="v"><span class="c">PT-G</span></span></td><td data-l="Cant." class="n"><span class="v">10</span></td></tr><tr><td data-l="Pedido"><span class="v"><span class="c">P-314</span></span></td><td data-l="Cliente"><span class="v">Obras Guadua Alta</span></td><td data-l="Código"><span class="v"><span class="c">AL-18</span></span></td><td data-l="Cant." class="n"><span class="v">30</span></td></tr><tr class="newrow" data-s="4" data-unflag="undo"><td data-l="Pedido" data-cls="ok:4"><span class="v"><span class="c">P-315</span></span></td><td data-l="Cliente" data-cls="ok:4"><span class="v">Obras Guadua Alta</span></td><td data-l="Código" data-cls="ok:4"><span class="v"><span class="c">V-38</span></span></td><td data-l="Cant." class="n" data-cls="ok:4"><span class="v">50</span></td></tr></tbody></table></section><section class="sheet" aria-labelledby="h-fac"><div class="sh-h"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="1.5"/><path d="M3 5.5l7 5.5 7-5.5"/></svg><h3 id="h-fac">Facturas</h3><p class="w">Hoja de cálculo que va por correo</p></div><table class="t" aria-labelledby="h-fac"><thead><tr><th scope="col">Factura</th><th scope="col">Cliente</th><th scope="col">Pedido</th><th scope="col">Artículo</th><th scope="col">Total ($)</th></tr></thead><tbody><tr><td data-l="Factura"><span class="v"><span class="c">FV-1041</span></span></td><td data-l="Cliente" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">Const. Bahareque SAS</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>Const. Bahareque SAS</s> Constructora Bahareque S.A.S.</span><span data-s="4" data-flag="undo">Const. Bahareque SAS</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>5</span></span></td><td data-l="Pedido"><span class="v"><span class="c">P-311</span></span></td><td data-l="Artículo" data-cls="bad:2"><span class="v"><span class="c">C-50</span> ×45<span class="fn" data-s="2"><span class="sr">hallazgo </span>1</span></span></td><td data-l="Total ($)" class="n"><span class="v">1.575.000</span></td></tr><tr><td data-l="Factura"><span class="v"><span class="c">FV-1042</span></span></td><td data-l="Cliente"><span class="v">Ferretería Tres Clavos</span></td><td data-l="Pedido"><span class="v"><span class="c">P-312</span></span></td><td data-l="Artículo"><span class="v"><span class="c">PV-4</span> ×12</span></td><td data-l="Total ($)" class="n"><span class="v">1.140.000</span></td></tr><tr><td data-l="Factura"><span class="v"><span class="c">FV-1043</span></span></td><td data-l="Cliente" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">Constructora Bajareque</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>Constructora Bajareque</s> Constructora Bahareque S.A.S.</span><span data-s="4" data-flag="undo">Constructora Bajareque</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>5</span></span></td><td data-l="Pedido"><span class="v"><span class="c">P-313</span></span></td><td data-l="Artículo"><span class="v"><span class="c">PT-G</span> ×10</span></td><td data-l="Total ($)" class="n"><span class="v">780.000</span></td></tr><tr><td data-l="Factura"><span class="v"><span class="c">FV-1044</span></span></td><td data-l="Cliente"><span class="v">Obras Guadua Alta</span></td><td data-l="Pedido" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">ninguno</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>ninguno</s> <span class="c">P-315</span></span><span data-s="4" data-flag="undo">ninguno</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>6</span></span></td><td data-l="Artículo"><span class="v"><span class="c">V-38</span> ×50</span></td><td data-l="Total ($)" class="n"><span class="v">1.100.000</span></td></tr><tr><td data-l="Factura"><span class="v"><span class="c">FV-1045</span></span></td><td data-l="Cliente"><span class="v">Obras Guadua Alta</span></td><td data-l="Pedido"><span class="v"><span class="c">P-314</span></span></td><td data-l="Artículo"><span class="v"><span class="c">AL-18</span> ×30</span></td><td data-l="Total ($)" class="n"><span class="v">360.000</span></td></tr></tbody></table><p class="paid">Pagada: FV-1042. Las demás siguen pendientes.</p></section><section class="sheet win" aria-labelledby="h-acc"><div class="sh-h"><span class="wdots" aria-hidden="true"><i></i><i></i><i></i></span><h3 id="h-acc">Sistema contable</h3><span class="pill no">Pantalla simulada</span><p class="w">Inventario y clientes</p></div><table class="t" aria-labelledby="h-acc"><thead><tr><th scope="col">Código</th><th scope="col">Producto</th><th scope="col">Existencias</th></tr></thead><tbody><tr><td data-l="Código"><span class="v"><span class="c">C-50</span></span></td><td data-l="Producto"><span class="v">Cemento gris, 50 kg</span></td><td data-l="Existencias" class="n" data-cls="bad:2"><span class="v">375<span class="fn" data-s="2"><span class="sr">hallazgo </span>1</span></span></td></tr><tr><td data-l="Código"><span class="v"><span class="c">V-38</span></span></td><td data-l="Producto"><span class="v">Varilla 3/8"</span></td><td data-l="Existencias" class="n" data-cls="bad:2"><span class="v">1.100<span class="fn" data-s="2"><span class="sr">hallazgo </span>2</span></span></td></tr><tr><td data-l="Código"><span class="v"><span class="c">PV-4</span></span></td><td data-l="Producto"><span class="v">Tubo PVC 4"</span></td><td data-l="Existencias" class="n" data-cls="bad:2|ok:4"><span class="v"><span data-s="1 2">86</span><span data-s="4" data-unflag="undo"><s class="was"><span class="sr">antes </span>86</s> 74</span><span data-s="4" data-flag="undo">86</span><span class="fn" data-s="2"><span class="sr">hallazgo </span>3</span></span></td></tr><tr><td data-l="Código"><span class="v"><span class="c">PT-G</span></span></td><td data-l="Producto"><span class="v">Pintura blanca, galón</span></td><td data-l="Existencias" class="n"><span class="v">54</span></td></tr><tr><td data-l="Código"><span class="v"><span class="c">AL-18</span></span></td><td data-l="Producto"><span class="v">Alambre negro, kg</span></td><td data-l="Existencias" class="n" data-cls="bad:2"><span class="v">150<span class="fn" data-s="2"><span class="sr">hallazgo </span>4</span></span></td></tr></tbody></table><dl class="kv"><div><dt>Cliente registrado:</dt><dd data-cls="bad:2"><span class="v">Constructora Bahareque S.A.S.<span class="fn" data-s="2"><span class="sr">hallazgo </span>5</span></span></dd></div><div><dt>Facturas pendientes:</dt><dd>4 · $3.815.000</dd></div></dl></section></div><div class="grid2" data-s="1"><section class="card" aria-labelledby="h-flow"><h3 id="h-flow">Cómo se mueven los números hoy</h3><ol class="flow"><li><svg class="ic ar" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11.5 5.5L16 10l-4.5 4.5"/></svg><span>La hoja de inventario de Marta → Julián la copia en la hoja de pedidos</span></li><li><svg class="ic ar" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11.5 5.5L16 10l-4.5 4.5"/></svg><span>Hoja de pedidos → Diana pasa cada pedido a la hoja de facturas</span></li><li><svg class="ic ar" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11.5 5.5L16 10l-4.5 4.5"/></svg><span>Hoja de facturas → Diana las vuelve a digitar en el sistema contable</span></li><li><svg class="ic ar" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11.5 5.5L16 10l-4.5 4.5"/></svg><span>Sistema contable → se compara con la hoja de Marta a fin de mes</span></li></ol></section><section class="card cost" aria-labelledby="h-cost"><h3 id="h-cost">Lo que cuesta copiar aquí</h3><p class="sub big">Cerca de un día de trabajo de una persona a la semana se va en copiar y revisar. Los errores aparecen a fin de mes, cuando los números no cierran.</p><p class="note">Cifra simulada para esta oficina de ejemplo.</p></section></div><section class="sheet master" data-s="3" data-grp="m" aria-labelledby="h-ms"><div class="sh-h"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h7l3.5 3.5v11.5H5z"/><path d="M12 2.5V6h3.5M7.5 10h5M7.5 13h5"/></svg><h3 id="h-ms">Una tabla limpia</h3><p class="w">El agente pone lado a lado el número de cada archivo para lo mismo. Cada archivo conserva sus propias columnas y su formato.</p></div><table class="t" aria-labelledby="h-ms"><thead><tr><th scope="col">Qué</th><th scope="col">Hoja de inventario</th><th scope="col">Pedido</th><th scope="col">Factura</th><th scope="col">Contabilidad</th><th scope="col">El plan del agente</th></tr></thead><tbody><tr class="ask"><td data-l="Qué"><span class="v"><b>Cemento <span class="c">C-50</span></b></span></td><td data-l="Hoja de inventario"><span class="v">420</span></td><td data-l="Pedido"><span class="v"><span class="c">P-311</span>: 40</span></td><td data-l="Factura"><span class="v"><span class="c">FV-1041</span>: 45</span></td><td data-l="Contabilidad"><span class="v">375</span></td><td data-l="El plan del agente" class="plan"><span class="v"><span class="pill wait" data-unflag="ok1">Necesita una persona</span><span class="pill" data-flag="ok1">Aprobado por Diana</span><span class="pl">La factura y contabilidad dicen 45. ¿Usar 45 y corregir el pedido?</span><span class="taps" data-unflag="ok1"><button type="button" class="tap ac" data-act="set:ok1 unset:ed1" aria-label="Aprobar la fila del cemento">Aprobar</button><button type="button" class="tap" data-act="set:ed1" aria-label="Editar la fila del cemento">Editar</button></span><span class="note" data-flag="ed1">Editar abre la fila para que Diana escriba el número correcto. Nada se mueve hasta que ella guarde.</span></span></td></tr><tr class="ask"><td data-l="Qué"><span class="v"><b>Varilla <span class="c">V-38</span></b></span></td><td data-l="Hoja de inventario"><span class="v">1.150</span></td><td data-l="Pedido"><span class="v">ninguno</span></td><td data-l="Factura"><span class="v"><span class="c">FV-1044</span>: 50</span></td><td data-l="Contabilidad"><span class="v">1.100</span></td><td data-l="El plan del agente" class="plan"><span class="v"><span class="pill wait" data-unflag="ok2">Necesita una persona</span><span class="pill" data-flag="ok2">Aprobado por Diana</span><span class="pl">No hay pedido para la FV-1044. ¿Crear el pedido P-315 y dejar la hoja en 1.100?</span><span class="taps" data-unflag="ok2"><button type="button" class="tap ac" data-act="set:ok2 unset:ed2" aria-label="Aprobar la fila de la varilla">Aprobar</button><button type="button" class="tap" data-act="set:ed2" aria-label="Editar la fila de la varilla">Editar</button></span><span class="note" data-flag="ed2">Editar abre la fila para que Diana escriba el número correcto. Nada se mueve hasta que ella guarde.</span></span></td></tr><tr class="clr"><td data-l="Qué"><span class="v"><b>Tubo PVC <span class="c">PV-4</span></b></span></td><td data-l="Hoja de inventario"><span class="v">86</span></td><td data-l="Pedido"><span class="v"><span class="c">P-312</span>: 12</span></td><td data-l="Factura"><span class="v"><span class="c">FV-1042</span>: 12</span></td><td data-l="Contabilidad"><span class="v">86</span></td><td data-l="El plan del agente" class="plan"><span class="v"><span class="pill">Arreglo claro</span><span class="pl">El pedido y la factura coinciden. Dejar el inventario en 74 en la hoja y en contabilidad.</span></span></td></tr><tr class="clr"><td data-l="Qué"><span class="v"><b>Alambre <span class="c">AL-18</span></b></span></td><td data-l="Hoja de inventario"><span class="v">180</span></td><td data-l="Pedido"><span class="v"><span class="c">P-314</span>: 30</span></td><td data-l="Factura"><span class="v"><span class="c">FV-1045</span>: 30</span></td><td data-l="Contabilidad"><span class="v">150</span></td><td data-l="El plan del agente" class="plan"><span class="v"><span class="pill">Arreglo claro</span><span class="pl">La hoja está atrasada. Dejarla en 150.</span></span></td></tr><tr class="clr"><td data-l="Qué"><span class="v"><b>Nombre del cliente</b></span></td><td data-l="Hoja de inventario"><span class="v">—</span></td><td data-l="Pedido"><span class="v">Constructora Bajareque (<span class="c">P-313</span>)</span></td><td data-l="Factura"><span class="v">Const. Bahareque SAS (<span class="c">FV-1041</span>)</span></td><td data-l="Contabilidad"><span class="v">Constructora Bahareque S.A.S.</span></td><td data-l="El plan del agente" class="plan"><span class="v"><span class="pill">Arreglo claro</span><span class="pl">Usar en todas partes el nombre que está en contabilidad.</span></span></td></tr><tr class="mt"><td data-l="Qué"><span class="v"><b>Pintura blanca <span class="c">PT-G</span></b></span></td><td data-l="Hoja de inventario"><span class="v">54</span></td><td data-l="Pedido"><span class="v"><span class="c">P-313</span>: 10</span></td><td data-l="Factura"><span class="v"><span class="c">FV-1043</span>: 10</span></td><td data-l="Contabilidad"><span class="v">54</span></td><td data-l="El plan del agente" class="plan"><span class="v"><span class="pill no">Cuadra</span><span class="pl">Los cuatro coinciden.</span></span></td></tr></tbody></table><p class="note wide" data-unflag="ok1 ok2">Turno de Diana: dos filas esperan que ella las apruebe o las edite.</p><p class="note wide ok" data-flag="ok1 ok2">Las dos filas están aprobadas. Los tres arreglos claros entran con el mismo sí. Oprima Siguiente para actualizar.</p></section><div class="grid2" data-s="5"><section class="card rep" aria-labelledby="h-rp"><div class="row"><h3 id="h-rp"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h7l3.5 3.5v11.5H5z"/><path d="M12 2.5V6h3.5M7.5 10h5M7.5 13h5"/></svg> Informe de la semana para don Hernán</h3></div><p class="sub">Lo escribió el agente con la tabla limpia.</p><ul class="rp"><li>Ventas de la semana pasada: $4.955.000 en 5 facturas. Lo que más se vendió fue el cemento.</li><li>El inventario ya cuadra en todos los archivos. Lo más bajo: pintura blanca, 54 galones.</li><li>Facturas pendientes: 4, por $3.815.000. Constructora Bahareque debe $2.355.000 de eso.</li><li>Arreglado esta mañana: 4 cantidades de inventario, 1 cantidad de un pedido, 1 pedido que faltaba y 1 nombre de cliente. Diana aprobó cada uno.</li></ul><h4 class="pane-t" id="h-ch">Ventas de la semana pasada, por producto</h4><ul class="bars" role="img" aria-label="Ventas de la semana pasada, por producto: Cemento gris, 50 kg $1.575.000; Tubo PVC 4&quot; $1.140.000; Varilla 3/8&quot; $1.100.000; Pintura blanca, galón $780.000; Alambre negro, kg $360.000" data-total="4955000"><li><span class="bl"><span>Cemento gris, 50 kg</span><b>$1.575.000</b></span><span class="bt"><span class="bf" style="width:100.0%"></span></span></li><li><span class="bl"><span>Tubo PVC 4"</span><b>$1.140.000</b></span><span class="bt"><span class="bf" style="width:72.4%"></span></span></li><li><span class="bl"><span>Varilla 3/8"</span><b>$1.100.000</b></span><span class="bt"><span class="bf" style="width:69.8%"></span></span></li><li><span class="bl"><span>Pintura blanca, galón</span><b>$780.000</b></span><span class="bt"><span class="bf" style="width:49.5%"></span></span></li><li><span class="bl"><span>Alambre negro, kg</span><b>$360.000</b></span><span class="bt"><span class="bf" style="width:22.9%"></span></span></li></ul></section><section class="card" aria-labelledby="h-sl"><h3 id="h-sl">Una diapositiva para la reunión del lunes</h3><div class="slide"><p class="sl-h">Reunión del lunes · semana pasada</p><div class="sl-g"><p><b>$4,96 M</b><span>en ventas</span></p><p><b>$3,82 M</b><span>por cobrar</span></p><p><b>0</b><span>diferencias en los archivos</span></p></div><p class="sl-n">Pendiente: llamar a Constructora Bahareque por $2,36 M.</p></div><p class="note">El informe y la diapositiva salen de la misma tabla limpia. Nadie los arma a mano.</p></section></div><div data-s="6"><div class="grid2"><section class="card off" aria-labelledby="h-bf"><h3 id="h-bf">El lunes antes</h3><ul class="items"><li>Marta reenvía su hoja de inventario.</li><li>Julián y Diana copian números de un archivo a otro.</li><li>Nadie ve las diferencias hasta fin de mes.</li><li>El informe del dueño se arma a mano, cuando hay tiempo.</li></ul></section><section class="card" aria-labelledby="h-af"><h3 id="h-af">El lunes con el agente</h3><ul class="items"><li>Los archivos se quedan donde están. El agente los lee.</li><li>Las diferencias aparecen el lunes, no a fin de mes.</li><li>Diana aprueba dos filas en vez de copiar.</li><li>El informe y la diapositiva están listos para la reunión.</li></ul></section></div><section class="honest" aria-labelledby="h-hb"><h3 id="h-hb">Qué es real y qué es simulado</h3><p>Real: este flujo es el tipo de trabajo que construimos. Leer los archivos que la empresa ya usa, encontrar lo que no cuadra, preguntarle a una persona y escribir de vuelta con un registro y la opción de deshacer.</p><p>Simulado: la empresa, las personas, los archivos y cada número son inventados.</p><p>Esto es un ejemplo. No es un cliente ni un producto que vendamos tal cual. Los archivos de cada oficina son distintos, así que cada uno se arma para esa oficina.</p></section></div></div>
+<div class="ctl">
+<button type="button" class="b" id="bBack">Atrás</button>
+<button type="button" class="b ac" id="bNext">Siguiente</button>
+<button type="button" class="b" id="bRe">Empezar de nuevo</button>
+</div>
+</section>
+<p class="foot"><span class="demo-note">Demostración con datos simulados; los nombres son ficticios.</span></p>
+<div class="real">
+<section><h2>Lo que es real</h2><ul><li>El tipo de trabajo que construimos: leer los archivos que la empresa ya usa, encontrar lo que no cuadra, preguntarle a una persona, escribir de vuelta con un registro y la opción de deshacer, y luego el informe.</li><li>Una persona dice que sí antes de que algo cambie en el sistema contable.</li></ul></section>
+<section><h2>Lo que es simulado</h2><ul><li>Distribuidora La Torcaza, Marta, Julián, Diana, don Hernán y cada cliente.</li><li>Cada archivo, número y hora, y la pantalla del sistema contable.</li><li>Esto es un ejemplo, no un cliente ni un producto que vendamos tal cual.</li></ul></section>
+</div>
+<p class="contact">¿Quiere algo así para su negocio? <a href="mailto:info@humaniasoluciones.com">info@humaniasoluciones.com</a></p>
+</main>
+<script type="application/json" id="steps-data">{"steps": [{"t": "Lunes por la mañana: los mismos números en cuatro lugares", "b": "El inventario está en una hoja de cálculo en el portátil de Marta. Los pedidos, en una hoja que comparte el equipo de ventas. Las facturas van y vienen por correo. El sistema contable guarda su propia copia. La gente copia los números de uno a otro a mano.", "next": "Que el agente los lea"}, {"t": "El agente los lee todos", "b": "Lee los tres archivos y el sistema contable lado a lado. Encuentra cuatro productos donde los números no cuadran, un cliente escrito de tres formas y una factura sin pedido. Todavía no ha cambiado nada.", "next": "Armar una tabla limpia"}, {"t": "Una tabla limpia, dos preguntas", "b": "El agente pone todo en orden en una sola tabla. Tres arreglos son claros. Dos filas no, así que le pregunta a Diana, de contabilidad. Nada entra al sistema contable hasta que ella diga que sí.", "next": "Siguiente: actualizar los sistemas"}, {"t": "Los archivos cuadran", "b": "Con el sí de Diana, el agente actualiza el sistema contable y escribe los números correctos en cada archivo. Cada cambio queda en un registro: qué, dónde y quién lo aprobó. Con un toque se deshace.", "next": "Ver el informe del lunes"}, {"t": "El informe del lunes", "b": "Ahora que los números cuadran, el agente le escribe un resumen corto a don Hernán, el dueño: ventas, inventario y facturas pendientes, con una gráfica. También arma una diapositiva para la reunión del lunes.", "next": "Qué cambió"}, {"t": "El mismo lunes, con el agente", "b": "Nadie copia números de un archivo a otro. El agente lee y compara. La gente revisa y dice que sí."}], "ui": {"next": "Siguiente", "step_of": "Paso {n} de {total}"}}</script>
+<script>
+(function(){
+'use strict';
+var D=JSON.parse(document.getElementById('steps-data').textContent);
+var S=D.steps,N=S.length,UI=D.ui,cur=1,st={};
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+var scene=$('#scene'),els=$$('[data-s],[data-flag],[data-unflag]',scene),clsEls=$$('[data-cls]',scene);
+var bBack=$('#bBack'),bNext=$('#bNext'),bRe=$('#bRe'),dots=$$('.dot');
+function has(list,v){return list.split(' ').indexOf(String(v))>-1}
+function all(list){return list.split(' ').every(function(k){return !!st[k]})}
+function vis(el){
+ var s=el.getAttribute('data-s');if(s!==null&&!has(s,cur))return false;
+ var f=el.getAttribute('data-flag');if(f&&!all(f))return false;
+ var u=el.getAttribute('data-unflag');if(u&&all(u))return false;
+ return true;
+}
+function render(first){
+ els.forEach(function(el){
+  var v=vis(el),was=!el.hidden;
+  el.hidden=!v;
+  if(v&&!was&&!first){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
+ });
+ clsEls.forEach(function(el){
+  el.getAttribute('data-cls').split('|').forEach(function(p){var q=p.split(':');el.classList.toggle(q[0],has(q[1],cur))});
+ });
+ var t=S[cur-1];
+ $('#sn').textContent=UI.step_of.replace('{n}',cur).replace('{total}',N);
+ $('#st').textContent=t.t;$('#sb').textContent=t.b;
+ dots.forEach(function(d,i){
+  if(i+1===cur)d.setAttribute('aria-current','step');else d.removeAttribute('aria-current');
+  d.classList.toggle('done',i+1<cur);
+ });
+ bBack.disabled=(cur===1);
+ bNext.disabled=(cur===N);
+ bNext.textContent=t.next||UI.next;
+ if(bNext.disabled&&document.activeElement===bNext)bRe.focus();
+ if(bBack.disabled&&document.activeElement===bBack)bNext.focus();
+}
+function go(n){
+ if(n<1||n>N||n===cur)return;
+ cur=n;st={};render(false);
+}
+function restart(){cur=1;st={};render(false);}
+bBack.addEventListener('click',function(){go(cur-1)});
+bNext.addEventListener('click',function(){go(cur+1)});
+bRe.addEventListener('click',restart);
+dots.forEach(function(d,i){d.addEventListener('click',function(){go(i+1)})});
+scene.addEventListener('click',function(e){
+ var b=e.target.closest('[data-act]');if(!b||!scene.contains(b))return;
+ b.getAttribute('data-act').split(' ').forEach(function(x){
+  var q=x.split(':');if(q[0]==='set')st[q[1]]=true;else if(q[0]==='unset')st[q[1]]=false;
+ });
+ render(false);
+ if(b.offsetParent===null){
+  var g=b.closest('[data-grp]'),c=g?$$('[data-act]',g).filter(function(x){return x.offsetParent!==null}):[];
+  (c[0]||bNext).focus();
+ }
+});
+document.addEventListener('keydown',function(e){
+ if(e.altKey||e.ctrlKey||e.metaKey)return;
+ var tag=(e.target&&e.target.tagName)||'';
+ if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+ if(e.key==='ArrowRight'){go(cur+1);}
+ else if(e.key==='ArrowLeft'){go(cur-1);}
+ else if(e.key==='Escape'){restart();}
+});
+var h=parseInt((location.hash||'').replace('#',''),10);
+if(h>=1&&h<=N)cur=h;
+render(true);
+window.__demo={step:function(){return cur},state:function(){return st}};
+})();
+</script>
+</body>
+</html>
