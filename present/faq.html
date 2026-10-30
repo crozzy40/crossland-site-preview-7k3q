@@ -259,7 +259,7 @@ if(k===cur.k)return true;
 m=m||mode(cur.k,k);
 var st=mk(k,m,cur), dir=m==='side'?'side':m==='in'?'in':'out';
 if(pg(k)===pg(cur.k)){history.pushState(st,'',k);show(st,dir)}
-else{ss('xl-hand',JSON.stringify({k:k,st:st,dir:dir}));var u='';try{u=new URL(href,location.href).hash}catch(e){}location.href=k+(k.indexOf('#')<0&&u?u:'')} 
+else{ss('xl-hand',JSON.stringify({k:k,st:st,dir:dir}));var u='';try{u=new URL(href,location.href).hash}catch(e){}location.href=(u?k:pg(k))+(k.indexOf('#')<0&&u?u:'')} 
 return true;
 }
 function back(){var b=cur.back;if(!b)return;if(cur.prev===b)history.back();else go(b,'back')}

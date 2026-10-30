@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI guy, in his own sealed-off computer · Crossland AI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' fill='%230B1220'/%3E%3Ccircle cx='11' cy='11' r='8' fill='none' stroke='%23F4EFE8' stroke-width='1.6'/%3E%3Ccircle cx='11' cy='11' r='3' fill='%23E2A93B'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#0B1220;--s1:#0F1828;--s2:#141E31;--s3:#1B263B;--line:#222D42;--line2:#34415B;--tx:#F4EFE8;--mu:#B7BDC9;--dim:#9AA3B5;--ac:#E2A93B;--ac2:#EEBE60;--acink:#1A1203;--deep:#070C16;--bad:#F0948C;--font:"Archivo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:ui-monospace,"Cascadia Mono","SFMono-Regular","Segoe UI Mono",Consolas,Menlo,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx);font:1rem/1.5 var(--font);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-wrap:anywhere}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px;border-radius:3px}
+.mono{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:400}
+.skip{position:absolute;left:.75rem;top:-6rem;z-index:50;background:var(--tx);color:var(--bg);padding:.6rem .9rem;border-radius:4px;text-decoration:none;font-weight:600}
+.skip:focus{top:.75rem}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem 1.5rem;padding:.5rem 1rem;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:600;font-size:1.3rem;letter-spacing:-.01em;text-decoration:none;min-height:2.75rem}
+.brand svg{width:1.8rem;height:1.8rem;flex:none}
+.top nav{margin-left:auto;display:flex;flex-wrap:wrap;gap:0 1.25rem}
+.lnk{display:inline-flex;align-items:center;min-height:2.75rem;color:var(--mu);font-size:.95rem;text-underline-offset:4px;text-decoration-color:var(--line2)}
+.lnk:hover{color:var(--tx)}
+.wrap{max-width:70rem;margin:0 auto;padding:1.75rem 1rem 3rem}
+.kick{display:flex;align-items:center;gap:.6rem;color:var(--dim);margin-bottom:.9rem}
+.kick::before{content:"";width:.45rem;height:.45rem;background:var(--ac);flex:none}
+h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.12;letter-spacing:-.02em;font-weight:600}
+.lead{margin-top:.8rem;color:var(--mu);max-width:44rem;font-size:1.05rem}
+.demo{margin-top:1.75rem;background:var(--s1);border:1px solid var(--line);border-radius:6px;padding:1rem}
+.dots{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.dot{display:grid;place-items:center;min-width:2.75rem;min-height:2.75rem;border-radius:50%;border:1px solid var(--line2);background:var(--s1);color:var(--mu);font:600 .95rem/1 var(--font)}
+.dot:hover{border-color:var(--mu)}
+.dot.done{border-color:var(--ac);color:var(--ac)}
+.dot[aria-current="step"]{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.say{min-height:5.5rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
+.say .mono{color:var(--dim)}
+.say h2{font-size:1.3rem;line-height:1.25;margin:.2rem 0 .35rem;letter-spacing:-.01em}
+.say p.body{color:var(--mu);max-width:50rem}
+.scene{min-width:0}
+.ctl{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--line)}
+.b{display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;min-width:2.75rem;padding:.4rem 1.25rem;border-radius:4px;border:1px solid var(--line2);background:var(--s3);font-weight:600;font-size:1rem;line-height:1.2;text-align:center}
+.b:hover:not(:disabled){border-color:var(--mu)}
+.b.ac{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.b.ac:hover:not(:disabled){background:var(--ac2)}
+.b:disabled{opacity:.45;cursor:default}
+.foot{margin-top:1.1rem;font-size:.85rem;color:var(--mu)}
+.demo-note{display:inline-block;border:1px dashed var(--line2);border-radius:3px;padding:.15rem .6rem}
+.real{margin-top:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1rem}
+.real section{border:1px solid var(--line);border-radius:6px;padding:1rem;background:var(--s1)}
+.real h2{font-size:1rem;margin-bottom:.5rem}
+.real ul{padding-left:1.1rem;color:var(--mu);font-size:.92rem}
+.real li{margin:.3rem 0}
+.contact{margin-top:1.5rem;color:var(--mu);font-size:.95rem}
+.contact a{color:var(--ac2)}
+/* scene parts */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1rem;align-items:start}
+.col{display:flex;flex-direction:column;gap:.9rem;min-width:0}
+.pane-t{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:.4rem}
+.phone{border:1.5px solid var(--line2);border-radius:1.4rem;background:var(--deep);padding:.6rem .6rem .9rem;min-width:0}
+.ph-top{display:flex;align-items:center;gap:.6rem;padding:.2rem .4rem .6rem;border-bottom:1px solid var(--line)}
+.av{width:2rem;height:2rem;border-radius:50%;background:var(--s3);display:grid;place-items:center;flex:none;color:var(--ac)}
+.av svg{width:1.2rem;height:1.2rem}
+.ph-name{font-weight:600;font-size:.95rem}
+.thread{list-style:none;display:flex;flex-direction:column;gap:.5rem;padding:.75rem .1rem 0}
+.m{max-width:94%;padding:.5rem .7rem;border-radius:.8rem;font-size:.92rem;line-height:1.42;min-width:0}
+.m.l{align-self:flex-start;background:var(--s3);border-top-left-radius:.25rem}
+.m.r{align-self:flex-end;background:#2b2a2f;border:1px solid #6b5a38;border-top-right-radius:.25rem}
+.m small{display:block;color:var(--dim);font-size:.78rem;margin-top:.2rem}
+.m b{font-weight:600}
+.pop{animation:pop .35s ease-out}
+.dim{opacity:.5}
+.is-now{border-color:var(--ac)!important}
+@keyframes pop{from{opacity:0;transform:translateY(.4rem)}to{opacity:1;transform:none}}
+.card{border:1px solid var(--line2);background:var(--s2);border-radius:6px;padding:.75rem .9rem;min-width:0}
+.card h3{font-size:.98rem;font-weight:600;letter-spacing:-.005em}
+.card .sub{font-size:.85rem;color:var(--mu);margin-top:.15rem}
+.card.off{border-style:dashed;background:transparent}
+.pill{display:inline-block;font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;line-height:1;padding:.3rem .5rem;border-radius:3px;border:1px solid var(--ac);color:var(--ac);max-width:100%;line-height:1.25}
+.pill.no{border-color:var(--line2);color:var(--dim)}
+.pill.bad{border-color:var(--bad);color:var(--bad)}
+.pill.wait{border-style:dashed;border-color:var(--tx);color:var(--tx)}
+.row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem .75rem}
+.tap{gap:.3em;display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;min-width:2.75rem;padding:.35rem 1rem;border-radius:.3rem;border:1px solid var(--line2);background:var(--s3);font-weight:600;font-size:.92rem;line-height:1.2;text-align:center}
+.tap:hover{border-color:var(--mu)}
+.tap.ac{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.tap.ac:hover{background:var(--ac2)}
+.tap.sel{border-color:var(--ac);color:var(--ac)}
+.taps{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+.note{margin-top:.5rem;font-size:.88rem;color:var(--mu);border-left:3px solid var(--ac);padding-left:.6rem}
+.kv{margin-top:.5rem;font-size:.92rem}
+.kv div{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.2rem .8rem;padding:.35rem 0;border-top:1px solid var(--line)}
+.kv div:first-child{border-top:0}
+.kv dt{color:var(--mu)}
+.kv dd{text-align:right}
+.log{list-style:none;margin-top:.5rem;font-size:.88rem}
+.log li{display:flex;gap:.7rem;padding:.3rem 0;border-top:1px solid var(--line)}
+.log li:first-child{border-top:0}
+.log time{font-family:var(--mono);font-size:.78rem;color:var(--dim);flex:none;padding-top:.1rem}
+.sbar{display:flex;flex-direction:column;gap:.2rem;border-left:3px solid var(--ac);background:var(--s2);border-radius:0 5px 5px 0;padding:.5rem .7rem;margin:.4rem 0;font-size:.9rem}
+.sbar b{font-size:.78rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;font-weight:400;color:var(--ac2)}
+.sbar.red{border-left-color:var(--bad)}
+.sbar.red b{color:var(--bad)}
+.sbar.blue{border-left-color:#7FA6E8}
+.sbar.blue b{color:#9DBBF0}
+.sbar.green{border-left-color:#7FCB9A}
+.sbar.green b{color:#9ADBB0}
+.sbar.grey{border-left-color:var(--dim)}
+.sbar.grey b{color:var(--mu)}
+.sbar span{display:block}
+.wave{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .6rem}
+.wave svg{height:1.5rem;width:7rem;max-width:100%;flex:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ic{width:1.1rem;height:1.1rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.mapc{container-type:inline-size}
+.map{display:grid;grid-template-columns:minmax(0,1fr);gap:0;align-items:start}
+.wall{align-self:stretch}
+.wall{display:grid;place-items:center;min-height:2.8rem;border-block:2px dashed var(--ac);margin:.5rem 0;color:var(--ac2);font-family:var(--mono);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:.2rem}
+.zone ul{list-style:none;margin-top:.4rem}
+.zone li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.3rem .7rem;padding:.5rem 0;border-top:1px solid var(--line);font-size:.93rem}
+.zone li:first-child{border-top:0}
+.zone li span.d{display:block;color:var(--mu);font-size:.85rem}
+.zone li .nm{font-weight:600}
+.zone li > div{min-width:0;flex:1 1 12rem}
+.him{border-color:var(--ac)}
+.zone .sub{margin-bottom:.2rem}
+.orb{width:1.5rem;height:1.5rem}
+@container (min-width:40rem){
+ .map{grid-template-columns:minmax(0,1fr) 3.4rem minmax(0,1.4fr)}
+ .wall{border-block:0;border-inline:2px dashed var(--ac);margin:0 .5rem;writing-mode:vertical-rl;min-height:0;padding:.6rem .2rem}
+}
+.big{margin-top:.4rem}
+</style>
+</head>
+<body>
+<a class="skip" href="#demo">Skip to the demo</a>
+<header class="top">
+<a class="brand" href="../../work.html#aiguy" aria-label="Crossland AI"><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="none" stroke-width="1.5" stroke="#F4EFE8"/><path d="M11 0.5v5M11 16.5v5M0.5 11h5M16.5 11h5" stroke-width="1.5" stroke="#F4EFE8"/><circle cx="11" cy="11" r="2.6" fill="#E2A93B"/></svg>Crossland AI</a>
+<nav aria-label="Pages"><a class="lnk" href="../../work.html#aiguy">Our work</a><a class="lnk" href="AIguy-ES.html" hreflang="es" lang="es">Español</a></nav>
+</header>
+<main class="wrap" id="main">
+<p class="kick mono">See it working · AI guy</p>
+<h1>AI guy, in his own sealed-off computer</h1>
+<p class="lead">An AI worker that lives in its own computer, away from yours. It has its own key and its own chat line. It has no way into your computer or your files. Click through to see how it works.</p>
+<section class="demo" id="demo" aria-label="Guided demo">
+<noscript><p class="note">This demo needs JavaScript to play. Nothing is sent anywhere.</p></noscript>
+<ol class="dots" aria-label="Steps"><li><button type="button" class="dot" aria-label="Step 1 of 6: Meet AI guy">1</button></li><li><button type="button" class="dot" aria-label="Step 2 of 6: Switch him on">2</button></li><li><button type="button" class="dot" aria-label="Step 3 of 6: Hand him a task">3</button></li><li><button type="button" class="dot" aria-label="Step 4 of 6: He asks before he spends">4</button></li><li><button type="button" class="dot" aria-label="Step 5 of 6: Your yes, then your PIN">5</button></li><li><button type="button" class="dot" aria-label="Step 6 of 6: One note each evening, and a stop word">6</button></li></ol>
+<div class="say" aria-live="polite"><p class="mono" id="sn"></p><h2 id="st"></h2><p class="body" id="sb"></p></div>
+<div class="scene" id="scene">
+
+<div class="mapc"><div class="map">
+ <section class="card zone you" data-at="1" data-now="2" aria-labelledby="zy">
+  <div class="row"><h3 id="zy">Your computer</h3></div>
+  <p class="sub">Everything that is yours.</p>
+  <ul>
+   <li><span class="nm">Your files</span><span class="pill bad" data-at="2">No way in</span></li>
+   <li><span class="nm">Your passwords</span><span class="pill bad" data-at="2">No way in</span></li>
+   <li><span class="nm">Your home network</span><span class="pill bad" data-at="2">No way in</span></li>
+   <li><span class="nm">Your bank and accounts</span><span class="pill bad" data-at="2">No way in</span></li>
+  </ul>
+ </section>
+ <div class="wall" data-at="1" aria-hidden="true">The wall</div>
+ <section class="card zone him" data-at="1" data-now="2" aria-labelledby="zh">
+  <div class="row"><h3 id="zh">AI guy's own computer</h3>
+   <span><span class="pill no" data-at="1" data-until="1">Off</span><span class="pill" data-at="2">On</span></span></div>
+  <p class="sub">A separate machine, on its own.</p>
+  <div class="taps big" data-at="1" data-until="1"><button type="button" class="tap ac" data-go="next">Switch him on</button></div>
+  <ul data-dimto="1">
+   <li><div><span class="nm">His brain</span><span class="d">An AI model on his own key, with its own monthly limit.</span></div></li>
+   <li><div><span class="nm">His hands</span><span class="d">A browser. Only sites on your list.</span></div></li>
+   <li><div><span class="nm">His log</span><span class="d">Every action, written by code. A copy is kept outside. He can add to it, never change it.</span></div></li>
+   <li><div><span class="nm">His chat line</span><span class="d">His own bot. It answers only you.</span></div></li>
+   <li><div><span class="nm">His one door</span><span class="d">The only way out to the internet.</span></div></li>
+  </ul>
+ </section>
+</div></div>
+<p class="note" data-at="2">The wall is checked from the inside every 10 minutes. If it is ever found open, he is stopped.</p>
+
+<div class="grid2" style="margin-top:1rem">
+ <div class="col">
+  <p class="pane-t">His chat line</p>
+  <div class="phone" role="group" aria-label="Chat with AI guy">
+   <div class="ph-top"><span class="av" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><radialGradient id="og" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#F4D58B"/><stop offset="1" stop-color="#C98A1E"/></radialGradient></defs><circle cx="12" cy="12" r="7" fill="url(#og)"/></svg></span><span class="ph-name">AI guy</span></div>
+   <ol class="thread">
+    <li class="m l" data-at="1" data-until="2"><small>Connected to you only. Quiet for now.</small></li>
+    <li class="m r" data-at="3" data-until="4"><span class="sr">You: </span>Find a barcode scanner for the shop. Budget $100.</li>
+    <li class="m l" data-at="3" data-until="4"><span class="sr">AI guy: </span>On it. I only use sites on my list.</li>
+    <li class="m l" data-at="4" data-until="5"><span class="sr">AI guy: </span>Waiting for your yes: buy 1 barcode scanner, $84.00, at northline-supply.example. This site is not on my list.</li>
+    <li class="m l" data-at="4" data-until="4" style="background:transparent;padding:0">
+      <div class="taps" style="margin:0"><button type="button" class="tap ac" data-go="next">Yes</button><button type="button" class="tap" data-go="flag" data-flagset="no">No</button></div>
+      <p class="note" data-at="4" data-until="4" data-flag="no">A No is kept as a no. He buys nothing and goes back to work.</p>
+    </li>
+    <li class="m r" data-at="5" data-until="5"><span class="sr">You: </span>Yes</li>
+    <li class="m l" data-at="5" data-until="5"><span class="sr">AI guy: </span>Type your PIN.</li>
+    <li class="m r" data-at="5" data-until="5"><span class="sr">You: </span>••••<small>Deleted at once. It never reaches his brain.</small></li>
+    <li class="m l" data-at="5" data-until="5"><span class="sr">AI guy: </span>Done. Bought 1 barcode scanner, $84.00. This month: $84 of your $100 limit.</li>
+    <li class="m l" data-at="6"><span class="sr">AI guy: </span>Today. Did: read 3 pages, asked you once, bought 1 scanner. Spent: $84.00. Left this month: $16.00. Failed: nothing. Waits for you: nothing.</li>
+    <li class="m r" data-at="6"><span class="sr">You: </span>halt</li>
+    <li class="m l" data-at="6"><span class="sr">AI guy: </span>Stopped. I do nothing until you restart me.</li>
+   </ol>
+  </div>
+ </div>
+ <div class="col">
+  <div class="card" data-at="1" data-now="3 4 5 6">
+   <div class="row"><h3>His log</h3><span class="pill no" data-at="1" data-until="2">Nothing yet</span><span class="pill" data-at="3">Live</span></div>
+   <ol class="log">
+    <li data-at="3"><time>09:02</time><span>Task received from you.</span></li>
+    <li data-at="3"><time>09:02</time><span>Checked: not halted.</span></li>
+    <li data-at="3"><time>09:05</time><span>Read 3 pages on 2 sites from the list.</span></li>
+    <li data-at="4"><time>09:11</time><span>Asked for your yes: buy scanner, $84.00.</span></li>
+    <li data-at="5"><time>09:12</time><span>Yes and PIN received. Pass used once. Bought scanner.</span></li>
+    <li data-at="6"><time>21:00</time><span>Evening summary sent.</span></li>
+    <li data-at="6"><time>21:03</time><span>Stop word received. Browser closed, jobs frozen.</span></li>
+   </ol>
+   <p class="note" data-at="3">Before every step he asks: am I halted? If he gets no clear answer, he does nothing.</p>
+  </div>
+  <div class="card" data-at="6" data-now="6">
+   <h3>Three ways to stop him</h3>
+   <ol style="margin:.5rem 0 0 1.2rem;color:var(--mu);font-size:.92rem">
+    <li>Write halt in his chat.</li><li>Switch his key off from your phone.</li><li>Switch his computer off.</li>
+   </ol>
+  </div>
+ </div>
+</div>
+
+</div>
+<div class="ctl">
+<button type="button" class="b" id="bBack">Back</button>
+<button type="button" class="b ac" id="bNext">Next</button>
+<button type="button" class="b" id="bRe">Start over</button>
+</div>
+</section>
+<p class="foot"><span class="demo-note">Demo with simulated data; names are fictional.</span></p>
+<div class="real">
+<section><h2>What is real</h2><ul><li>The idea: a separate computer with a wall around it, checked from the inside every 10 minutes.</li><li>He asks “am I halted?” before every action. No clear answer means he does nothing.</li><li>His own key with a monthly limit, his own chat line that answers only the owner, and his own log with a copy kept outside.</li><li>The stop word, and a yes plus a PIN before anything that costs money or goes outside his list.</li></ul></section>
+<section><h2>What is simulated</h2><ul><li>The task, the shop, the prices, the times and the dollar amounts.</li><li>The wording of the messages. The behavior is real; the exact words are made up.</li><li>Every name is fictional.</li></ul></section>
+</div>
+<p class="contact">Want something like this for your business? <a href="mailto:info@humaniasoluciones.com">info@humaniasoluciones.com</a></p>
+</main>
+<script type="application/json" id="steps-data">{"steps": [{"t": "Meet AI guy", "b": "Your computer is on top. AI guy lives below the wall, in a separate computer of his own. He starts switched off.", "next": "Switch him on"}, {"t": "Switch him on", "b": "Now he is on. He gets the internet through one door and nothing else. Your files, passwords and home network have no door to him.", "next": "Hand him a task"}, {"t": "Hand him a task", "b": "You write to him on his own chat line. Only you get an answer. Before every step he checks that he is not halted, and every step goes in his log.", "next": "See what he asks"}, {"t": "He asks before he spends", "b": "The best price is on a site that is not on his list. He does not use it alone. He sends you the exact line and waits for your yes.", "next": "Tap Yes"}, {"t": "Your yes, then your PIN", "b": "You tap Yes, then type your PIN. The PIN message is deleted and never reaches his brain. The pass works once, for exactly this purchase.", "next": "Next: the evening"}, {"t": "One note each evening, and a stop word", "b": "Every evening he sends a short summary, even on a quiet day. At any time you can write halt. He stops at once."}], "ui": {"next": "Next", "step_of": "Step {n} of {total}"}}</script>
+<script>
+(function(){
+'use strict';
+var D=JSON.parse(document.getElementById('steps-data').textContent);
+var S=D.steps,N=S.length,UI=D.ui,cur=1,st={pick:'A',mode:'sched'};
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+var scene=$('#scene'),els=$$('[data-at]',scene),nowEls=$$('[data-now]',scene);
+var bBack=$('#bBack'),bNext=$('#bNext'),bRe=$('#bRe'),dots=$$('.dot');
+function vis(el){
+ var at=+el.getAttribute('data-at'),u=el.getAttribute('data-until');
+ if(cur<at)return false;
+ if(u!==null&&cur>+u)return false;
+ var m=el.getAttribute('data-mode');if(m&&m!==st.mode)return false;
+ var p=el.getAttribute('data-pick');if(p&&p!==st.pick)return false;
+ var f=el.getAttribute('data-flag');if(f&&!st[f])return false;
+ return true;
+}
+function render(first){
+ els.forEach(function(el){
+  var v=vis(el),was=!el.hidden;
+  el.hidden=!v;
+  if(v&&!was&&!first){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
+ });
+ nowEls.forEach(function(el){
+  var on=el.getAttribute('data-now').split(' ').indexOf(String(cur))>-1;
+  el.classList.toggle('is-now',on);
+ });
+ $$('[data-pickbtn]',scene).forEach(function(b){
+  var on=b.getAttribute('data-pickbtn')===st.pick;
+  b.classList.toggle('sel',on);b.setAttribute('aria-pressed',on?'true':'false');
+ });
+ $$('[data-dimto]',scene).forEach(function(el){el.classList.toggle('dim',cur<=+el.getAttribute('data-dimto'))});
+ $$('[data-pickletter]',scene).forEach(function(s){s.textContent=st.pick});
+ var t=S[cur-1];
+ $('#sn').textContent=UI.step_of.replace('{n}',cur).replace('{total}',N);
+ $('#st').textContent=t.t;$('#sb').textContent=t.b;
+ dots.forEach(function(d,i){
+  if(i+1===cur)d.setAttribute('aria-current','step');else d.removeAttribute('aria-current');
+  d.classList.toggle('done',i+1<cur);
+ });
+ bBack.disabled=(cur===1);
+ bNext.disabled=(cur===N);
+ bNext.textContent=t.next||UI.next;
+ if(bNext.disabled&&document.activeElement===bNext)bRe.focus();
+ if(bBack.disabled&&document.activeElement===bBack)bNext.focus();
+}
+function go(n){
+ if(n<1||n>N||n===cur)return;
+ cur=n;st.no=false;st.hold=false;render(false);
+}
+function restart(){cur=1;st={pick:'A',mode:'sched'};render(false);}
+bBack.addEventListener('click',function(){go(cur-1)});
+bNext.addEventListener('click',function(){go(cur+1)});
+bRe.addEventListener('click',restart);
+dots.forEach(function(d,i){d.addEventListener('click',function(){go(i+1)})});
+scene.addEventListener('click',function(e){
+ var t=e.target.closest('[data-go],[data-pickbtn]');if(!t||!scene.contains(t))return;
+ var pk=t.getAttribute('data-pickbtn');
+ if(pk){st.pick=pk;render(false);return;}
+ var g=t.getAttribute('data-go');
+ var mode=t.getAttribute('data-modeset');if(mode)st.mode=mode;
+ if(g==='next'){go(cur+1);}
+ else if(g==='flag'){st[t.getAttribute('data-flagset')]=true;render(false);}
+});
+document.addEventListener('keydown',function(e){
+ if(e.altKey||e.ctrlKey||e.metaKey)return;
+ var tag=(e.target&&e.target.tagName)||'';
+ if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+ if(e.key==='ArrowRight'){go(cur+1);}
+ else if(e.key==='ArrowLeft'){go(cur-1);}
+ else if(e.key==='Escape'){restart();}
+});
+var h=parseInt((location.hash||'').replace('#',''),10);
+if(h>=1&&h<=N)cur=h;
+render(true);
+window.__demo={step:function(){return cur},state:function(){return st}};
+})();
+</script>
+</body>
+</html>
