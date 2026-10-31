@@ -89,7 +89,7 @@ Crossland AI
 <li><a href="#redcontrol"><span class="mono">05</span>RedControl<i>Tracks</i></a></li>
 <li><a href="#rollbook"><span class="mono">06</span>Rollbook<i>Rent</i></a></li>
 <li><a href="#aiguy"><span class="mono">07</span>AI guy<i>Works</i></a></li>
-<li><a href="#fred"><span class="mono">08</span>Fred<i>Briefs</i></a></li>
+<li><a href="#norm"><span class="mono">08</span>NORM<i>Briefs</i></a></li>
 <li><a href="#nicky"><span class="mono">09</span>Nicky<i>Posts</i></a></li>
 <li><a href="#blueprint"><span class="mono">10</span>Blueprint<i>Teaches</i></a></li>
 <li><a href="#painting"><span class="mono">11</span>The Painting<i>Maps</i></a></li>
@@ -196,10 +196,10 @@ Crossland AI
 </svg></div>
 <p class="s"><span>Demo with made-up data</span><a class="go" href="media/demos/AIguy-EN.html" target="_blank" rel="noopener">See it working <span class="arrow" aria-hidden="true">→</span></a></p>
 </article>
-<article class="wi" id="fred">
+<article class="wi" id="norm">
 <span class="n">08</span>
-<div class="t"><h2>Fred</h2><span class="k mono">A daily brief and tracker</span></div>
-<p class="p"><b>The personal assistant that replaces the apps you stopped using.</b> If you keep a to-do list, an expense tracker or a reminders app, Fred replaces all of them with a voice note or a tap on yes or no. Tell him what happened, out loud. He keeps the list, the deadlines, the papers and the money number, and sends one short brief every morning. Nothing about your money changes without your yes. Fred can do much more: for example, he can control software on a computer remotely. For companies that want that level, we build custom packages.</p>
+<div class="t"><h2>NORM</h2><span class="k mono">A daily brief and tracker</span></div>
+<p class="p"><b>The personal assistant that replaces the apps you stopped using.</b> If you keep a to-do list, an expense tracker or a reminders app, NORM replaces all of them with a voice note or a tap on yes or no. Tell it what happened, out loud. It keeps the list, the deadlines, the papers and the money number, and sends one short brief every morning. Nothing about your money changes without your yes. NORM can do much more: for example, it can control software on a computer remotely. For companies that want that level, we build custom packages.</p>
 <div class="d" aria-hidden="true"><svg viewBox="0 0 200 104">
 <rect class="bx" x="20" y="8" width="160" height="28" rx="3"/><text class="tx" x="100" y="26" text-anchor="middle">07:00 · ONE BRIEF</text>
 <line class="acs" x1="62.5" y1="36" x2="62.5" y2="66"/>
@@ -208,7 +208,7 @@ Crossland AI
 <circle class="ac" cx="62.5" cy="70" r="4.5"/>
 <text x="10" y="92" text-anchor="middle">00</text><text x="55" y="92" text-anchor="middle">06</text><text x="100" y="92" text-anchor="middle">12</text><text x="145" y="92" text-anchor="middle">18</text><text x="190" y="92" text-anchor="middle">24</text>
 </svg></div>
-<p class="s"><span>Demo with made-up data</span><a class="go" href="media/demos/Fred-EN.html" target="_blank" rel="noopener">See it working <span class="arrow" aria-hidden="true">→</span></a></p>
+<p class="s"><span>Demo with made-up data</span><a class="go" href="media/demos/Norm-EN.html" target="_blank" rel="noopener">See it working <span class="arrow" aria-hidden="true">→</span></a></p>
 </article>
 <article class="wi" id="nicky">
 <span class="n">09</span>
@@ -447,7 +447,7 @@ var H=document.documentElement, mb=document.getElementById('motion');
 function syncMotion(){var on=!H.classList.contains('still');mb.setAttribute('aria-pressed',on);mb.querySelector('span').textContent=on?'Motion on':'Motion off'}
 mb.addEventListener('click',function(){H.classList.toggle('still');try{localStorage.setItem('xl-motion',H.classList.contains('still')?'off':'on')}catch(e){}syncMotion()});
 syncMotion();
-// one screen: work.html (an anchor such as work.html#fred only scrolls to that tool)
+// one screen: work.html (an anchor such as work.html#norm only scrolls to that tool)
 XL.init(function(k,dir){document.title='Our work · Crossland AI';XL.enter(document.querySelector('.windex'),dir)});
 })();
 </script>

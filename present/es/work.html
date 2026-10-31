@@ -92,7 +92,7 @@ Crossland AI
 <li><a href="#redcontrol"><span class="mono">05</span>RedControl<i>Rastrea</i></a></li>
 <li><a href="#rollbook"><span class="mono">06</span>Rollbook<i>Arriendos</i></a></li>
 <li><a href="#aiguy"><span class="mono">07</span>AI guy<i>Trabaja</i></a></li>
-<li><a href="#fred"><span class="mono">08</span>Fred<i>Informa</i></a></li>
+<li><a href="#norm"><span class="mono">08</span>NORM<i>Informa</i></a></li>
 <li><a href="#nicky"><span class="mono">09</span>Nicky<i>Publica</i></a></li>
 <li><a href="#blueprint"><span class="mono">10</span>Blueprint<i>Enseña</i></a></li>
 <li><a href="#painting"><span class="mono">11</span>The Painting<i>Mapea</i></a></li>
@@ -199,10 +199,10 @@ Crossland AI
 </svg></div>
 <p class="s"><span>Demostración con datos simulados</span><a class="go" href="../media/demos/AIguy-ES.html" target="_blank" rel="noopener">Véalo funcionar <span class="arrow" aria-hidden="true">→</span></a></p>
 </article>
-<article class="wi" id="fred">
+<article class="wi" id="norm">
 <span class="n">08</span>
-<div class="t"><h2>Fred</h2><span class="k mono">Un resumen diario y un seguimiento</span></div>
-<p class="p"><b>El asistente personal que reemplaza las aplicaciones que usted dejó de usar.</b> Si usted lleva una lista de pendientes, un control de gastos o una aplicación de recordatorios, Fred los reemplaza todos con una nota de voz o un toque en “sí” o “no”. Cuéntele en voz alta qué pasó. Él lleva la lista, las fechas límite, los documentos, el saldo y los gastos, y envía un resumen corto cada mañana. Nada que toque su dinero cambia sin su aprobación. Fred puede hacer mucho más: por ejemplo, controlar software en un computador de forma remota. Para las empresas que quieren ese nivel, armamos paquetes a la medida.</p>
+<div class="t"><h2>NORM</h2><span class="k mono">Un resumen diario y un seguimiento</span></div>
+<p class="p"><b>El asistente personal que reemplaza las aplicaciones que usted dejó de usar.</b> Si usted lleva una lista de pendientes, un control de gastos o una aplicación de recordatorios, NORM los reemplaza todos con una nota de voz o un toque en “sí” o “no”. Cuéntele en voz alta qué pasó. NORM lleva la lista, las fechas límite, los documentos, el saldo y los gastos, y envía un resumen corto cada mañana. Nada que toque su dinero cambia sin su aprobación. NORM puede hacer mucho más: por ejemplo, controlar software en un computador de forma remota. Para las empresas que quieren ese nivel, armamos paquetes a la medida.</p>
 <div class="d" aria-hidden="true"><svg viewBox="0 0 200 104">
 <rect class="bx" x="20" y="8" width="160" height="28" rx="3"/><text class="tx" x="100" y="26" text-anchor="middle">07:00 · UN RESUMEN</text>
 <line class="acs" x1="62.5" y1="36" x2="62.5" y2="66"/>
@@ -211,7 +211,7 @@ Crossland AI
 <circle class="ac" cx="62.5" cy="70" r="4.5"/>
 <text x="10" y="92" text-anchor="middle">00</text><text x="55" y="92" text-anchor="middle">06</text><text x="100" y="92" text-anchor="middle">12</text><text x="145" y="92" text-anchor="middle">18</text><text x="190" y="92" text-anchor="middle">24</text>
 </svg></div>
-<p class="s"><span>Demostración con datos simulados</span><a class="go" href="../media/demos/Fred-ES.html" target="_blank" rel="noopener">Véalo funcionar <span class="arrow" aria-hidden="true">→</span></a></p>
+<p class="s"><span>Demostración con datos simulados</span><a class="go" href="../media/demos/Norm-ES.html" target="_blank" rel="noopener">Véalo funcionar <span class="arrow" aria-hidden="true">→</span></a></p>
 </article>
 <article class="wi" id="nicky">
 <span class="n">09</span>
@@ -451,7 +451,7 @@ var H=document.documentElement, mb=document.getElementById('motion');
 function syncMotion(){var on=!H.classList.contains('still');mb.setAttribute('aria-pressed',on);mb.querySelector('span').textContent=on?'Movimiento activado':'Movimiento apagado'}
 mb.addEventListener('click',function(){H.classList.toggle('still');try{localStorage.setItem('xl-motion',H.classList.contains('still')?'off':'on')}catch(e){}syncMotion()});
 syncMotion();
-// one screen: work.html (an anchor such as work.html#fred only scrolls to that tool)
+// one screen: work.html (an anchor such as work.html#norm only scrolls to that tool)
 XL.init(function(k,dir){document.title='Nuestro trabajo · Crossland AI';XL.enter(document.querySelector('.windex'),dir)});
 })();
 </script>
