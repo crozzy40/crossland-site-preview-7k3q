@@ -114,7 +114,7 @@
 
   /* ---------- stage ---------- */
   .stage { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
-  .sources-t { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--text-2); margin: 0 0 .4rem; }
+  .sources-t { width: max-content; max-width: 100%; font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--text-2); margin: 0 0 .4rem; }
   .sgrid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: .8rem; align-items: start; }
   .src[data-k="0"] { grid-column: 1; grid-row: 1; } .src[data-k="1"] { grid-column: 2; grid-row: 1; }
   .src[data-k="3"] { grid-column: 1; grid-row: 2; } .src[data-k="2"] { grid-column: 2; grid-row: 2; }
@@ -155,7 +155,7 @@
   /* ---------- agent ---------- */
   .side { display: flex; flex-direction: column; gap: .8rem; min-width: 0; }
   .agent { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: .6rem .9rem .7rem; }
-  .agent-top { display: flex; align-items: center; gap: .5rem; font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: var(--accent); }
+  .agent-top { display: flex; align-items: center; gap: .5rem; font-size: .88rem; font-weight: 700; line-height: 1.3; color: var(--accent); }
   .agent-top .dot { width: .55rem; height: .55rem; border-radius: 50%; background: var(--text-3); flex: none; }
   .agent.live .agent-top .dot { background: var(--accent); animation: dotp 1.2s ease-out infinite; }
   .agent.wait .agent-top { color: var(--urgent); } .agent.wait .agent-top .dot { background: var(--urgent); animation: dotp 1.2s ease-out infinite; }
@@ -254,6 +254,14 @@
   .real b { color: var(--text); }
   .foot { margin-top: .8rem; font-size: .8rem; color: var(--text-3); display: flex; justify-content: space-between; gap: .8rem; flex-wrap: wrap; }
 
+  /* ---------- guide bubbles ---------- */
+  .tip { position: fixed; left: 0; top: 0; width: max-content; z-index: 15; pointer-events: none; background: #FFF1C9; color: #2A1F05; border: 2px solid #F0A030; border-radius: 14px; padding: .55rem .8rem; font-size: 1rem; font-weight: 600; line-height: 1.35; box-shadow: 0 14px 34px -12px rgba(0,0,0,.6); }
+  .tip.noanim { transition: none; }
+  .tip.pop { animation: tippop .35s var(--ease); }
+  @keyframes tippop { from { opacity: .25; transform: scale(.94) translateY(6px); } }
+  .tip-svg { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: 14; pointer-events: none; }
+  .tip-svg line { stroke: #F0A030; stroke-width: 2.8; stroke-linecap: round; filter: drop-shadow(0 1px 2px rgba(0,0,0,.5)); }
+  #btnGuide[aria-pressed="true"] { border-color: #F0A030; color: #F0A030; }
   /* ---------- small screens ---------- */
   @media (max-width: 1000px) {
     .stage { grid-template-columns: minmax(0, 1fr); }
@@ -263,6 +271,7 @@
   @media (max-width: 700px) {
     .app { padding: .5rem .7rem 2rem; }
     .sgrid { grid-template-columns: minmax(0, 1fr); }
+    .sgrid .src[data-k] { grid-column: auto; grid-row: auto; }
     .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .controls { position: static; }
     .hint { display: none; }
@@ -306,6 +315,7 @@
     <button class="btn" id="btnNext" type="button"></button>
     <button class="btn" id="btnReset" type="button"></button>
     <select class="select" id="speedSel"></select>
+    <button class="btn" id="btnGuide" type="button" aria-pressed="true"></button>
     <div class="grow"></div>
     <span class="status" id="statusLine" aria-live="polite"></span>
     <div class="clockbox"><div class="clock" id="clock">08:00</div><small id="clockLbl"></small></div>
@@ -332,13 +342,16 @@
   </main>
 
   <div class="real" id="real"></div>
-  <p class="foot"><span id="footNote"></span><b id="buildStamp">Build 2026-11-03.1 · EN</b></p>
+  <p class="foot"><span id="footNote"></span><b id="buildStamp">Build 2026-11-03.2 · EN</b></p>
 </div>
+
+<div class="tip" id="tip" hidden></div>
+<svg class="tip-svg" id="tipSvg" aria-hidden="true"><defs><marker id="tipHead" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#F0A030"/></marker></defs><g id="tipLines"></g></svg>
 
 <script>
 (function () {
 'use strict';
-const T = {"lang": "en", "title": "Office operations center · full demo", "desc": "A demo with simulated data: an agent reads four places where the same numbers live, finds what does not match, asks a person, makes everything agree and writes the weekly report.", "noscript": "This demo needs JavaScript. Nothing is sent anywhere.", "brandName": "Operations center · Office", "brandFor": "Distribuidora La Torcaza · 8 people · made-up company", "tier": "Example · simulated data", "kbd": [["Space", "play"], ["→", "next step"], ["R", "reset"]], "otherLang": {"href": "Office-operations-FULL-ES.html", "label": "Español", "lang": "es"}, "themeLight": "Switch to light theme", "themeDark": "Switch to dark theme", "runLbl": "Mode", "runPlay": "Watch the day", "runStep": "Step through", "play": "Play the day", "pause": "Pause", "resume": "Resume", "again": "Watch again", "next": "Next step", "reset": "Reset", "speedLbl": "Speed", "spRelaxed": "Slow", "spNormal": "Normal", "spBrisk": "Fast", "clockLbl": "demo clock", "status": {"idle": "Ready to start", "run": "Playing…", "paused": "Paused", "waitQ": "Waiting for Diana's answer", "waitA": "Waiting for Diana's approval", "done": "Finished"}, "phasesLbl": "Stages of the day", "phases": [["Read", "08:00"], ["Compare", "08:03"], ["Ask", "08:06"], ["Clean table", "08:09"], ["Update", "08:13"], ["Report", "08:18"], ["Approve", "08:22"]], "srcHead": "The same numbers, in four places", "agentLbl": {"idle": "The agent · ready", "work": "The agent is working", "wait": "The agent is waiting for a person", "done": "The agent is done", "paused": "The agent · paused"}, "tiles": {"read": "places read", "cells": "cells that don't match", "ask": "question to Diana", "changes": "changes made"}, "slotIdle": "Everything the agent does shows up here: what it finds, its question, the clean table, the change log and the report.", "chipScan": "Reading…", "chipRead": "Read", "was": "was", "finding": "mismatch", "hdr": {"inv": ["Code", "Product", "In stock"], "ord": ["Order", "Customer", "Code", "Qty"], "fac": ["Invoice", "Customer", "Order", "Code", "Qty"], "acc": ["Code", "Product", "In stock"]}, "src": {"inv": ["Inventory", "Marta's spreadsheet"], "ord": ["Orders", "Shared sales sheet"], "fac": ["Invoices", "They arrive by email"], "acc": ["Accounting system", "Its own copy · simulated screen"], "facTot": "Invoiced", "facOpen": "To collect (FV-1042 paid)", "accCli": "Customer on file"}, "p": {"C50": "Gray cement, 50 kg", "V38": "Rebar 3/8\"", "PV4": "PVC pipe 4\"", "PT": "White paint, gallon", "AL18": "Black wire, kg"}, "none": "none", "n": {"idle": "The same numbers live in four places and people copy them by hand. Press Play and watch what an agent does with them.", "start": "Monday, 08:00. The agent opens the four places where the numbers live.", "r1": "Reads Marta's inventory: 5 products.", "r2": "Reads the sales orders sheet: 4 orders.", "r3": "Reads the invoices that came by email: 5 invoices.", "r4": "Reads the accounting system's copy: stock and customers.", "cmp": "Compares every number with the other three places.", "f1": "Cement: the order says 40 and the invoice 45. Inventory says 420 and accounting 375.", "f2": "Rebar: inventory says 1,150 and accounting 1,100.", "f3": "PVC pipe: 12 went out, but inventory and accounting still say 86.", "f4": "Wire: inventory says 180 and accounting 150.", "f5": "One customer written three different ways.", "f6": "Invoice FV-1044 has no order behind it.", "askIntro": "Six mismatches. Five have a clear fix. On one, the agent does not decide alone.", "ask": "It asks Diana, in accounting: 45 or 40 bags of cement?", "answered": "Diana answered: yes, use 45. The agent goes on.", "master": "With that answer it builds one clean table.", "m1": "Cement: 375 in stock and the order at 45.", "m2": "Rebar: 1,100, with a new order for FV-1044.", "m3": "PVC pipe: 74.", "m4": "Wire: 150.", "m5": "Customer: one name, the one in accounting.", "m6": "White paint: already matches.", "upd": "Now it writes the right numbers into each place.", "u1": "Accounting system: PVC pipe from 86 to 74.", "u2": "Inventory sheet: 4 quantities fixed.", "u3": "Orders sheet: 3 changes. One is the new order P-315.", "u4": "Invoices sheet: 3 changes. Nothing is left marked.", "rep": "With the clean table, it writes the weekly report.", "rp1": "Sales {sales} and still to collect {recv}, taken from the invoices.", "rp2": "Sales by product: cement sold the most.", "rp3": "What Don Hernán needs to know, in three lines.", "fin": "All set. Diana reviews the change log and the report.", "finAsk": "The report does not go out until Diana approves it.", "done": "Approved. The report goes to Don Hernán."}, "card": {"1": {"t": "The four places", "s": "The agent opens each one as it is. Nothing changes yet.", "rows": [["Marta's inventory sheet", "5 products"], ["Sales orders sheet", "4 orders"], ["Invoices that arrive by email", "5 invoices"], ["Accounting system", "5 products, 1 customer"]]}, "2": {"t": "What doesn't match", "s": "{n} of 6 mismatches. Each red number is marked in the files.", "items": ["Cement C-50: order 40, invoice 45. Inventory 420, accounting 375.", "Rebar V-38: inventory 1,150, accounting 1,100.", "PVC pipe PV-4: 12 went out (order and invoice), but inventory and accounting still say 86.", "Wire AL-18: inventory 180, accounting 150. Order and invoice: 30.", "One customer written three ways: Bahareque, Bajareque and Const. Bahareque SAS.", "Invoice FV-1044 (50 rebars) has no order."]}, "3": {"t": "A question for a person", "s": "When there is a doubt, the agent asks. It does not guess.", "who": "The agent writes to Diana, in accounting", "text": "Cement C-50. Order P-311 says 40 bags. Invoice FV-1041 says 45 and accounting already took off 45. Should I use 45 and correct the order?", "agent": "Agent · 08:06", "btn": "Yes, use 45", "reply": "Yes, use 45.", "dianaMeta": "Diana · {t}", "note": "The other five mismatches have a clear fix because the other files agree. This one does not."}, "4": {"t": "Clean table", "s": "One table with the right number for each thing. Each file keeps its own format.", "h": ["What", "Right number", "How it was decided"], "rows": [["Cement C-50", "375 · order P-311 at 45", "Diana approved", "ask"], ["Rebar V-38", "1,100 · new order P-315", "Clear", "clear"], ["PVC pipe PV-4", "74", "Clear", "clear"], ["Wire AL-18", "150", "Clear", "clear"], ["Customer", "Constructora Bahareque S.A.S.", "Clear", "clear"], ["Paint PT-G", "54", "Already matches", "ok"]]}, "5": {"t": "Change log", "s": "What changed, where and when. Nothing gets lost.", "one": "change", "many": "changes", "lines": [["Accounting system", "PVC pipe: 86 → 74 (invoice FV-1042).", 1, 13], ["Inventory sheet", "Cement 420 → 375 · rebar 1,150 → 1,100 · pipe 86 → 74 · wire 180 → 150.", 4, 14], ["Orders sheet", "P-311 cement 40 → 45 (Diana approved) · new order P-315 · customer fixed on P-313.", 3, 15], ["Invoices sheet", "Customer fixed on FV-1041 and FV-1043 · FV-1044 now linked to P-315.", 3, 16]]}, "6": {"t": "Weekly report for Don Hernán", "s": "The agent writes it from the clean table. Nobody builds it by hand.", "k1": "Sales last week", "k2": "Still to collect", "k3": "Mismatches in the files", "k3d": "before: 6", "inv": "invoices", "bars": "Sales last week, by product", "bullets": ["Best seller: cement.", "Stock matches in all four places. Lowest: white paint, 54 gallons.", "To do: call Constructora Bahareque, which owes {debt}."]}, "7": {"t": "Diana's final approval", "s": "Nothing goes to Don Hernán without her yes.", "items": ["{n} changes in 4 places, all in the log", "1 question Diana already answered", "The weekly report for Don Hernán"], "btn": "Approve and send the report", "done": "Approved by Diana at {t}. The report went to Don Hernán.", "before": {"t": "Monday before", "items": ["Marta forwards her sheet.", "Julián and Diana copy by hand.", "Errors show up at month end.", "The report is put together by hand."], "cost": "About one person-day a week on copying and checking (simulated figure)."}, "after": {"t": "Monday with the agent", "items": ["The files stay where they are.", "Differences show up on Monday.", "Diana answers and approves.", "The report comes from the clean table."]}}}, "auto": {"q": {"play": "The demo answers for Diana in {n} s. You can also press the button.", "paused": "Paused. Press the button to answer as Diana.", "step": "Press the button to answer as Diana."}, "a": {"play": "The demo approves for Diana in {n} s. You can also press the button.", "paused": "Paused. Press the button to approve as Diana.", "step": "Press the button to approve as Diana."}}, "realT": "Real:", "realB": "this is the kind of work we build. Read the files the company already uses, find what does not match, ask a person and keep a log of every change.", "simT": "Simulated:", "simB": "the company, the people, the files, every number, the times and the accounting system screen. This is an example, not a client and not a product we sell as it is. Every office's files are different, so each one is built to fit.", "foot": "Demo with simulated data. The people, the company, the numbers and the times are made up."};
+const T = {"lang": "en", "title": "Office operations center · full demo", "desc": "A demo with simulated data: an agent reads four places where the same numbers live, finds what does not match, asks a person, makes everything agree and writes the weekly report.", "noscript": "This demo needs JavaScript. Nothing is sent anywhere.", "brandName": "Operations center · Office", "brandFor": "Distribuidora La Torcaza · 8 people · made-up company", "tier": "Example · simulated data", "kbd": [["Space", "play"], ["→", "next step"], ["R", "reset"]], "otherLang": {"href": "Office-operations-FULL-ES.html", "label": "Español", "lang": "es"}, "themeLight": "Switch to light theme", "themeDark": "Switch to dark theme", "runLbl": "Mode", "runPlay": "Watch the day", "runStep": "Step through", "play": "Play the day", "pause": "Pause", "resume": "Resume", "again": "Watch again", "next": "Next step", "reset": "Reset", "speedLbl": "Speed", "spRelaxed": "Slow", "spNormal": "Normal", "spBrisk": "Fast", "clockLbl": "demo clock", "status": {"idle": "Ready to start", "run": "Playing…", "paused": "Paused", "waitQ": "Waiting for Diana's answer", "waitA": "Waiting for Diana's approval", "done": "Finished"}, "guideOn": "Guide: on", "guideOff": "Guide: off", "guideLbl": "Show or hide the help bubbles", "stage": ["Read: opens the four files and changes nothing.", "Compare: looks for what doesn't match and marks it red.", "Ask: when in doubt, it asks a person.", "Clean table: one right number for each thing.", "Update: fixes each file and keeps a log.", "Report: writes the weekly summary for the owner.", "Approve: nothing goes out without a person's yes."], "tips": {"idle": "Press here and watch: in a minute you will see what the agent does with these numbers.", "A": "Here is the same piece of data, copied by hand in four places. That is why it sometimes doesn't match.", "B": "The agent reads each file as it is. It does not change anything yet.", "C": "Now it compares each number with the same data in the other three places.", "D": "These two numbers should be the same, but they are not. The agent marks them red.", "E": "Each mismatch has a number. The list says what happened in each one.", "G": "Five of the six mismatches have a clear fix. On one, the agent is not sure.", "F": "The agent does not guess: it asks the person. The cement numbers are blinking.", "I": "One clean table: the right number for each thing.", "J": "Next to each number it says how it was decided: Diana approved it, it was clear, or it already matched.", "K": "Now it writes the right numbers. First, the accounting system.", "L": "Then the spreadsheets: red turns green.", "M": "And the invoices. Nothing is left red, and every change is written down here.", "N": "With the clean table, the agent writes Monday's report. Nobody builds it by hand.", "O": "Sales, what is still to collect and what is pending: what the owner needs to know.", "P": "The report does not go out by itself: a person has to approve it.", "Q": "Done. The agent did the copying and checking; the person decided."}, "phasesLbl": "Stages of the day", "phases": [["Read", "08:00"], ["Compare", "08:03"], ["Ask", "08:06"], ["Clean table", "08:09"], ["Update", "08:13"], ["Report", "08:18"], ["Approve", "08:22"]], "srcHead": "The same numbers, in four places", "agentLbl": {"idle": "Ready. Press Play.", "work": "The agent is working", "wait": "The agent is waiting for a person", "done": "The agent is done", "paused": "The agent · paused"}, "tiles": {"read": "places read", "cells": "cells that don't match", "ask": "question to Diana", "changes": "changes made"}, "slotIdle": "Everything the agent does shows up here: what it finds, its question, the clean table, the change log and the report.", "chipScan": "Reading…", "chipRead": "Read", "was": "was", "finding": "mismatch", "hdr": {"inv": ["Code", "Product", "In stock"], "ord": ["Order", "Customer", "Code", "Qty"], "fac": ["Invoice", "Customer", "Order", "Code", "Qty"], "acc": ["Code", "Product", "In stock"]}, "src": {"inv": ["Inventory", "Marta's spreadsheet"], "ord": ["Orders", "Shared sales sheet"], "fac": ["Invoices", "They arrive by email"], "acc": ["Accounting system", "Its own copy · simulated screen"], "facTot": "Invoiced", "facOpen": "To collect (FV-1042 paid)", "accCli": "Customer on file"}, "p": {"C50": "Gray cement, 50 kg", "V38": "Rebar 3/8\"", "PV4": "PVC pipe 4\"", "PT": "White paint, gallon", "AL18": "Black wire, kg"}, "none": "none", "n": {"idle": "The same numbers live in four places and people copy them by hand. Press Play and watch what an agent does with them.", "start": "Monday, 08:00. The agent opens the four places where the numbers live.", "r1": "Reads Marta's inventory: 5 products.", "r2": "Reads the sales orders sheet: 4 orders.", "r3": "Reads the invoices that came by email: 5 invoices.", "r4": "Reads the accounting system's copy: stock and customers.", "cmp": "Compares every number with the other three places.", "f1": "Cement: the order says 40 and the invoice 45. Inventory says 420 and accounting 375.", "f2": "Rebar: inventory says 1,150 and accounting 1,100.", "f3": "PVC pipe: 12 went out, but inventory and accounting still say 86.", "f4": "Wire: inventory says 180 and accounting 150.", "f5": "One customer written three different ways.", "f6": "Invoice FV-1044 has no order behind it.", "askIntro": "Six mismatches. Five have a clear fix. On one, the agent does not decide alone.", "ask": "It asks Diana, in accounting: 45 or 40 bags of cement?", "answered": "Diana answered: yes, use 45. The agent goes on.", "master": "With that answer it builds one clean table.", "m1": "Cement: 375 in stock and the order at 45.", "m2": "Rebar: 1,100, with a new order for FV-1044.", "m3": "PVC pipe: 74.", "m4": "Wire: 150.", "m5": "Customer: one name, the one in accounting.", "m6": "White paint: already matches.", "upd": "Now it writes the right numbers into each place.", "u1": "Accounting system: PVC pipe from 86 to 74.", "u2": "Inventory sheet: 4 quantities fixed.", "u3": "Orders sheet: 3 changes. One is the new order P-315.", "u4": "Invoices sheet: 3 changes. Nothing is left marked.", "rep": "With the clean table, it writes the weekly report.", "rp1": "Sales {sales} and still to collect {recv}, taken from the invoices.", "rp2": "Sales by product: cement sold the most.", "rp3": "What Don Hernán needs to know, in three lines.", "fin": "All set. Diana reviews the change log and the report.", "finAsk": "The report does not go out until Diana approves it.", "done": "Approved. The report goes to Don Hernán."}, "card": {"1": {"t": "The four places", "s": "The agent opens each one as it is. Nothing changes yet.", "rows": [["Marta's inventory sheet", "5 products"], ["Sales orders sheet", "4 orders"], ["Invoices that arrive by email", "5 invoices"], ["Accounting system", "5 products, 1 customer"]]}, "2": {"t": "What doesn't match", "s": "{n} of 6 mismatches. Each red number is marked in the files.", "items": ["Cement C-50: order 40, invoice 45. Inventory 420, accounting 375.", "Rebar V-38: inventory 1,150, accounting 1,100.", "PVC pipe PV-4: 12 went out (order and invoice), but inventory and accounting still say 86.", "Wire AL-18: inventory 180, accounting 150. Order and invoice: 30.", "One customer written three ways: Bahareque, Bajareque and Const. Bahareque SAS.", "Invoice FV-1044 (50 rebars) has no order."]}, "3": {"t": "A question for a person", "s": "When there is a doubt, the agent asks. It does not guess.", "who": "The agent writes to Diana, in accounting", "text": "Cement C-50. Order P-311 says 40 bags. Invoice FV-1041 says 45 and accounting already took off 45. Should I use 45 and correct the order?", "agent": "Agent · 08:06", "btn": "Yes, use 45", "reply": "Yes, use 45.", "dianaMeta": "Diana · {t}", "note": "The other five mismatches have a clear fix because the other files agree. This one does not."}, "4": {"t": "Clean table", "s": "One table with the right number for each thing. Each file keeps its own format.", "h": ["What", "Right number", "How it was decided"], "rows": [["Cement C-50", "375 · order P-311 at 45", "Diana approved", "ask"], ["Rebar V-38", "1,100 · new order P-315", "Clear", "clear"], ["PVC pipe PV-4", "74", "Clear", "clear"], ["Wire AL-18", "150", "Clear", "clear"], ["Customer", "Constructora Bahareque S.A.S.", "Clear", "clear"], ["Paint PT-G", "54", "Already matches", "ok"]]}, "5": {"t": "Change log", "s": "What changed, where and when. Nothing gets lost.", "one": "change", "many": "changes", "lines": [["Accounting system", "PVC pipe: 86 → 74 (invoice FV-1042).", 1, 13], ["Inventory sheet", "Cement 420 → 375 · rebar 1,150 → 1,100 · pipe 86 → 74 · wire 180 → 150.", 4, 14], ["Orders sheet", "P-311 cement 40 → 45 (Diana approved) · new order P-315 · customer fixed on P-313.", 3, 15], ["Invoices sheet", "Customer fixed on FV-1041 and FV-1043 · FV-1044 now linked to P-315.", 3, 16]]}, "6": {"t": "Weekly report for Don Hernán", "s": "The agent writes it from the clean table. Nobody builds it by hand.", "k1": "Sales last week", "k2": "Still to collect", "k3": "Mismatches in the files", "k3d": "before: 6", "inv": "invoices", "bars": "Sales last week, by product", "bullets": ["Best seller: cement.", "Stock matches in all four places. Lowest: white paint, 54 gallons.", "To do: call Constructora Bahareque, which owes {debt}."]}, "7": {"t": "Diana's final approval", "s": "Nothing goes to Don Hernán without her yes.", "items": ["{n} changes in 4 places, all in the log", "1 question Diana already answered", "The weekly report for Don Hernán"], "btn": "Approve and send the report", "done": "Approved by Diana at {t}. The report went to Don Hernán.", "before": {"t": "Monday before", "items": ["Marta forwards her sheet.", "Julián and Diana copy by hand.", "Errors show up at month end.", "The report is put together by hand."], "cost": "About one person-day a week on copying and checking (simulated figure)."}, "after": {"t": "Monday with the agent", "items": ["The files stay where they are.", "Differences show up on Monday.", "Diana answers and approves.", "The report comes from the clean table."]}}}, "auto": {"q": {"play": "The demo answers for Diana in {n} s. You can also press the button.", "paused": "Paused. Press the button to answer as Diana.", "step": "Press the button to answer as Diana."}, "a": {"play": "The demo approves for Diana in {n} s. You can also press the button.", "paused": "Paused. Press the button to approve as Diana.", "step": "Press the button to approve as Diana."}}, "realT": "Real:", "realB": "this is the kind of work we build. Read the files the company already uses, find what does not match, ask a person and keep a log of every change.", "simT": "Simulated:", "simB": "the company, the people, the files, every number, the times and the accounting system screen. This is an example, not a client and not a product we sell as it is. Every office's files are different, so each one is built to fit.", "foot": "Demo with simulated data. The people, the company, the numbers and the times are made up."};
 const $ = (id) => document.getElementById(id);
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sep = T.lang === 'es' ? '.' : ',';
@@ -410,10 +423,11 @@ function td(prefix, id, spec, cls) {
 function fresh() {
   return { i: -1, ph: 0, clk: 0, narr: T.n.idle, read: [false, false, false, false], scan: -1,
     flag: new Set(), nFind: 0, q: 'none', rows: 0, upd: new Set(), log: 0, rep: 0, ap: 'none', changes: 0,
-    waiting: null, waitLeft: 0, ansClk: 0, apClk: 0, finished: false };
+    waiting: null, waitLeft: 0, ansClk: 0, apClk: 0, finished: false, tip: null };
 }
 let S = fresh();
-let mode = 'play', speed = 1, running = false, view = null, stopAfter = null;
+let mode = 'play', speed = 1, running = false, view = null, stopAfter = null, stepFirst = false, guide = true;
+const TIP_MS = 4600;   // how long each bubble stays up, at normal speed
 let timer = null, wtimer = null;
 const TOTAL_CHANGES = Object.values(CELL).filter((c) => c.f !== undefined).length + 1;   // + the new order P-315
 
@@ -447,6 +461,19 @@ add(6, 20, 2600, N.rp3, (s) => { s.rep = 3; });
 add(7, 22, 2100, N.fin);
 add(7, 22, 0, N.finAsk, (s) => { s.ap = 'ask'; }, 'a', 24);
 add(7, 24, 2200, N.done);
+/* the guide bubbles: each one starts on a beat and stays until the next one starts */
+const TIPMAP = { start: 'A', r1: 'B', cmp: 'C', f1: 'D', f4: 'E', askIntro: 'G', ask: 'F', master: 'I', m4: 'J', upd: 'K', u2: 'L', u4: 'M', rep: 'N', rp2: 'O', finAsk: 'P', done: 'Q' };
+Object.keys(TIPMAP).forEach((k) => { const b = B.find((x) => x.narr === N[k]); b.tip = TIPMAP[k]; });
+(function () {   // a bubble that would be gone too soon gets extra time on the beat that starts it
+  let i = 0;
+  while (i < B.length) {
+    if (!B[i].tip) { i++; continue; }
+    let j = i, sum = B[i].ms + (B[i].wait ? AUTO_S * 1000 : 0);
+    while (j + 1 < B.length && !B[j + 1].tip) { j++; sum += B[j].ms + (B[j].wait ? AUTO_S * 1000 : 0); }
+    B[i].extra = Math.max(0, TIP_MS - sum);
+    i = j + 1;
+  }
+})();
 
 /* ------------------------------------ runner ------------------------------------ */
 function schedule(ms) { clearTimeout(timer); timer = setTimeout(advance, ms / speed); }
@@ -455,11 +482,13 @@ function advance() {
   if (!running) return;
   const nb = B[S.i + 1];
   if (!nb) { finish(); return; }
-  if (mode === 'step' && nb.ph !== stopAfter) { running = false; render(); return; }
+  if (mode === 'step' && !stepFirst && (nb.ph !== stopAfter || (guide && nb.tip))) { running = false; render(); return; }
+  stepFirst = false;
   S.i++; nb.fn(S); S.ph = nb.ph; S.clk = nb.clk; S.narr = fmt(nb.narr); view = null;
+  if (nb.tip) S.tip = nb.tip;
   if (nb.wait) { S.waiting = nb.wait; S.waitLeft = AUTO_S; render(); startWait(); return; }
   render();
-  schedule(nb.ms);
+  schedule(nb.ms + (guide && nb.tip ? nb.extra : 0));
 }
 function finish() { running = false; S.finished = true; S.narr = S.narr; render(); }
 function startWait() {
@@ -481,7 +510,7 @@ function resolveWait() {
 }
 function play() {
   if (S.finished) { reset(); }
-  mode = 'play'; running = true; stopAfter = null;
+  mode = 'play'; running = true; stopAfter = null; stepFirst = false;
   if (S.waiting) { render(); startWait(); } else advance();
 }
 function pause() { running = false; clearTimeout(timer); clearInterval(wtimer); timer = wtimer = null; render(); }
@@ -490,11 +519,11 @@ function stepNext() {
   if (running) pause();
   mode = 'step';
   const nb = B[S.i + 1]; if (!nb) { finish(); return; }
-  stopAfter = nb.ph; running = true; advance();
+  stopAfter = nb.ph; stepFirst = true; running = true; advance();
 }
 function reset() {
   clearTimeout(timer); clearInterval(wtimer); timer = wtimer = null;
-  S = fresh(); running = false; view = null; stopAfter = null; mode = 'play';
+  S = fresh(); running = false; view = null; stopAfter = null; stepFirst = false; mode = 'play'; tipKey = null; tipPos = null;
   lastShown = { card: -1, n: 0 };
   render();
 }
@@ -595,7 +624,7 @@ function renderAgent() {
   const a = $('agent');
   const st = S.finished ? 'done' : S.waiting ? 'wait' : running ? 'live' : '';
   a.className = 'agent ' + st;
-  $('agentLbl').textContent = S.finished ? T.agentLbl.done : S.waiting ? T.agentLbl.wait : running ? T.agentLbl.work : S.i < 0 ? T.agentLbl.idle : T.agentLbl.paused;
+  $('agentLbl').textContent = S.finished ? T.agentLbl.done : S.i < 0 ? T.agentLbl.idle : T.stage[Math.max(0, S.ph - 1)];
   if ($('narr').textContent !== S.narr) $('narr').textContent = S.narr;
   const readN = S.read.filter(Boolean).length, open = openCells();
   const tiles = [
@@ -703,6 +732,7 @@ function renderControls() {
   $('btnNext').disabled = S.finished || !!S.waiting || (running && mode === 'step');
   $('btnReset').disabled = !started;
   $('runPlay').setAttribute('aria-pressed', String(mode === 'play')); $('runStep').setAttribute('aria-pressed', String(mode === 'step'));
+  $('btnGuide').textContent = guide ? T.guideOn : T.guideOff; $('btnGuide').setAttribute('aria-pressed', String(guide)); $('btnGuide').setAttribute('aria-label', T.guideLbl);
   const sl = $('statusLine');
   sl.textContent = S.finished ? T.status.done : S.waiting ? (S.waiting === 'a' ? T.status.waitA : T.status.waitQ) : running ? T.status.run : started ? T.status.paused : T.status.idle;
   sl.classList.toggle('wait', !!S.waiting && !S.finished);
@@ -712,7 +742,111 @@ function renderControls() {
   $('btnTheme').setAttribute('aria-label', th === 'dark' ? T.themeLight : T.themeDark);
   $('btnTheme').title = th === 'dark' ? T.themeLight : T.themeDark;
 }
-function render() { renderTabs(); renderAgent(); renderSources(); renderSlot(); renderControls(); }
+/* ------------------------------------ guide bubbles ------------------------------------ */
+const q1 = (sel) => document.querySelector(sel);
+const cellEl = (id) => q1('[data-c="' + id + '"]');
+const panelEl = (k) => q1('.src[data-k="' + k + '"]');
+const TIPS = {
+  idle: () => [$('btnPlay')],
+  A: () => [$('srcT')],
+  B: () => [panelEl(S.scan >= 0 ? S.scan : 3)],
+  C: () => [$('srcT')],
+  D: () => [cellEl('inv.C50'), cellEl('acc.C50')],
+  E: () => [$('slot')], G: () => [$('slot')],
+  F: () => [$('slot')],
+  I: () => [$('slot')], J: () => [$('slot')],
+  K: () => [panelEl(3)],
+  L: () => [panelEl(S.log <= 2 ? 0 : 1)],
+  M: () => [$('slot')], N: () => [$('slot')], O: () => [$('slot')],
+  P: () => [$('slot')],
+  Q: () => [$('slot')]
+};
+let tipKey = null, tipPos = null;
+const rectOf = (e) => { const r = e.getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom }; };
+const inter = (a, b) => { const w = Math.min(a.r, b.r) - Math.max(a.l, b.l), h = Math.min(a.b, b.b) - Math.max(a.t, b.t); return w > 0 && h > 0 ? w * h : 0; };
+function activeTip() { if (!guide || view !== null || S.finished) return null; return S.i < 0 ? 'idle' : S.tip; }
+function hideTip() { $('tip').hidden = true; $('tipSvg').style.display = 'none'; tipKey = null; tipPos = null; }
+function edgePoint(box, from, to) {   // where the line from `from` toward `to` leaves the box centred on `from`
+  const dx = to.x - from.x, dy = to.y - from.y;
+  const tx = dx ? (box.w / 2) / Math.abs(dx) : Infinity, ty = dy ? (box.h / 2) / Math.abs(dy) : Infinity;
+  const t = Math.min(tx, ty);
+  return { x: from.x + dx * t, y: from.y + dy * t };
+}
+function renderTip() {
+  const key = activeTip();
+  if (!key) { hideTip(); return; }
+  const els = TIPS[key]().filter((e) => e && e.getClientRects().length);
+  if (!els.length) { hideTip(); return; }
+  const tipEl = $('tip'), same = key === tipKey;
+  if (!same) {
+    tipEl.textContent = T.tips[key]; tipKey = key; tipPos = null;
+    const c = rectOf(els[0]), ctl = rectOf($('controls')), phone = innerWidth <= 700, mid = (c.t + c.b) / 2;
+    // on a phone the page is one long column: bring what the bubble explains into view first
+    if (phone ? (c.t < 8 || c.b > innerHeight) : (mid > innerHeight || mid < ctl.b)) {
+      const want = (c.b - c.t) < innerHeight * 0.5 ? innerHeight * 0.62 - (c.b - c.t) / 2 : innerHeight * 0.2;
+      window.scrollTo(0, Math.max(0, scrollY + c.t - want));
+      tipSoon();   // place the bubble again once the page has settled
+    }
+  }
+  tipEl.hidden = false; $('tipSvg').style.display = '';
+  const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+  tipEl.style.maxWidth = Math.min(19 * rem, innerWidth - 16) + 'px';
+  const w = tipEl.offsetWidth, h = tipEl.offsetHeight, vw = innerWidth, vh = innerHeight;
+  const targets = els.map(rectOf);
+  const GAP = 26;   // keep the bubble this far from what it explains, so the arrow has room
+  const hard = targets.map((t) => ({ l: t.l - GAP, t: t.t - GAP, r: t.r + GAP, b: t.b + GAP })).concat([$('phasesNav'), $('agent')].map(rectOf));
+  document.querySelectorAll('td.flag, td.focus, #btnAnswer, #btnApprove').forEach((e) => hard.push(rectOf(e)));
+  const soft = [...document.querySelectorAll('.src, .slot')].map(rectOf);
+  const lineHard = hard.slice(targets.length);   // things an arrow should not cross
+  const crossOf = (x, y) => {
+    const p = { x: x + w / 2, y: y + h / 2 }; let c = 0;
+    targets.forEach((t) => {
+      const dx = (t.l + t.r) / 2 - p.x, dy = (t.t + t.b) / 2 - p.y, n = Math.max(2, Math.ceil(Math.hypot(dx, dy) / 10)), hit = new Set();
+      for (let i = 0; i <= n; i++) {
+        const px = p.x + dx * i / n, py = p.y + dy * i / n;
+        if (px > t.l && px < t.r && py > t.t && py < t.b) break;
+        for (let k = 0; k < lineHard.length; k++) { const a = lineHard[k]; if (px > a.l && px < a.r && py > a.t && py < a.b) hit.add(k); }
+      }
+      c += hit.size;
+    });
+    return c;
+  };
+  const hardOf = (x, y) => { const b = { l: x, t: y, r: x + w, b: y + h }; let s = 0; hard.forEach((a) => { s += inter(b, a); }); return s; };
+  const minY = Math.max(8, rectOf($('controls')).b + 6), maxY = Math.max(minY, vh - h - 8), maxX = Math.max(8, vw - w - 8);
+  const cx = targets.reduce((a, r) => a + (r.l + r.r) / 2, 0) / targets.length, cy = targets.reduce((a, r) => a + (r.t + r.b) / 2, 0) / targets.length;
+  let best = null;
+  if (same && tipPos && tipPos.x <= maxX && tipPos.y >= minY && tipPos.y <= maxY && hardOf(tipPos.x, tipPos.y) === 0 && crossOf(tipPos.x, tipPos.y) === 0) best = tipPos;
+  else {
+    let bs = Infinity;
+    for (let y = minY; y <= maxY; y += 18) for (let x = 8; x <= maxX; x += 18) {
+      const b = { l: x, t: y, r: x + w, b: y + h };
+      let sc = hardOf(x, y) * 100;
+      soft.forEach((a) => { sc += inter(b, a) * 0.02; });
+      sc += 1.2 * Math.hypot(x + w / 2 - cx, y + h / 2 - cy);
+      if (sc < bs) sc += crossOf(x, y) * 350;
+      if (sc < bs) { bs = sc; best = { x, y }; }
+    }
+  }
+  if (!best) best = { x: 8, y: minY };
+  if (!same) { tipEl.classList.add('noanim'); }
+  tipEl.style.left = best.x + 'px'; tipEl.style.top = best.y + 'px';
+  if (!same) { void tipEl.offsetWidth; tipEl.classList.remove('noanim'); tipEl.classList.remove('pop'); void tipEl.offsetWidth; tipEl.classList.add('pop'); }
+  tipPos = best;
+  const bc = { x: best.x + w / 2, y: best.y + h / 2 };
+  $('tipLines').innerHTML = targets.map((t) => {
+    const tc = { x: (t.l + t.r) / 2, y: (t.t + t.b) / 2 };
+    if (tc.y < 0 || tc.y > vh || tc.x < 0 || tc.x > vw) return '';   // not on screen: no arrow
+    const p1 = edgePoint({ w: w, h: h }, bc, tc);
+    const p2 = edgePoint({ w: t.r - t.l, h: t.b - t.t }, tc, bc);
+    const len = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+    if (len < 16) return '';
+    const k = (len - 5) / len;
+    return '<line x1="' + p1.x.toFixed(1) + '" y1="' + p1.y.toFixed(1) + '" x2="' + (p1.x + (p2.x - p1.x) * k).toFixed(1) + '" y2="' + (p1.y + (p2.y - p1.y) * k).toFixed(1) + '" marker-end="url(#tipHead)"/>';
+  }).join('');
+}
+let tipRaf = 0;
+function tipSoon() { if (tipRaf) return; tipRaf = setTimeout(() => { tipRaf = 0; renderTip(); }, 40); }
+function render() { renderTabs(); renderAgent(); renderSources(); renderSlot(); renderControls(); renderTip(); }
 
 /* ------------------------------------ wiring ------------------------------------ */
 function setTheme(t) { document.documentElement.setAttribute('data-theme', t); renderControls(); }
@@ -723,6 +857,8 @@ function wire() {
   $('runPlay').onclick = () => setMode('play');
   $('runStep').onclick = () => setMode('step');
   $('speedSel').onchange = (e) => { speed = parseFloat(e.target.value); };
+  $('btnGuide').onclick = () => { guide = !guide; renderControls(); renderTip(); };
+  addEventListener('scroll', tipSoon, { passive: true }); addEventListener('resize', tipSoon);
   $('btnTheme').onclick = () => setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   $('phases').addEventListener('click', (e) => { const b = e.target.closest('.ph'); if (!b || b.disabled) return; const p = +b.dataset.p; view = p === S.ph && !S.finished ? null : p; render(); });
   $('slot').addEventListener('click', (e) => { if (e.target.closest('#btnAnswer') || e.target.closest('#btnApprove')) resolveWait(); });
@@ -736,7 +872,7 @@ function wire() {
   });
 }
 buildStatic(); wire(); render();
-window.__demo = { state: () => S, beats: B.length, setSpeed: (v) => { speed = v; }, play, pause, reset, stepNext, answer: resolveWait, mode: () => mode, running: () => running };
+window.__demo = { guide: (v) => { guide = v; renderControls(); renderTip(); }, state: () => S, beats: B.length, setSpeed: (v) => { speed = v; }, play, pause, reset, stepNext, answer: resolveWait, mode: () => mode, running: () => running };
 })();
 </script>
 </body>
