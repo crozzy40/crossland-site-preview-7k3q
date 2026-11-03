@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A demo with simulated data: an agent reads four places where the same numbers live, finds what does not match, asks a person, makes everything agree and writes the weekly report.">
+<title>Office operations center · full demo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%234D7CFE'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='800' font-size='18' text-anchor='middle' fill='white'%3EN%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --font: "Manrope", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --accent: #4D7CFE;
+    --channel: #22B573;
+    --urgent: #F0A030;
+    --danger: #E5484D;
+    --radius-lg: 18px;
+    --radius: 12px;
+    --ease: cubic-bezier(.2,.8,.2,1);
+    --shadow-pop: 0 18px 50px -20px rgba(10,16,32,.55);
+  }
+  [data-theme="dark"] {
+    --bg: #0F1420; --bg-2: #131A29; --surface: #182034; --surface-2: #1F2940;
+    --line: #283350; --line-strong: #364468;
+    --text: #E9EDF7; --text-2: #A7B1C9; --text-3: #8591AE;
+    --accent-soft: rgba(77,124,254,.16); --channel-soft: rgba(34,181,115,.16);
+    --urgent-soft: rgba(240,160,48,.16); --danger-soft: rgba(229,72,77,.18);
+    --wa-in: #202c33; --wa-out: #005c4b; --wa-text: #e9edef; --wa-meta: #8696a0;
+    color-scheme: dark;
+  }
+  [data-theme="light"] {
+    --bg: #F4F6FB; --bg-2: #EEF1F8; --surface: #FFFFFF; --surface-2: #F6F8FD;
+    --line: #DEE3EF; --line-strong: #C7CFE2;
+    --text: #131A2B; --text-2: #4C5771; --text-3: #6B7690;
+    --accent-soft: rgba(77,124,254,.12); --channel-soft: rgba(34,181,115,.14);
+    --urgent-soft: rgba(240,160,48,.18); --danger-soft: rgba(229,72,77,.12);
+    --wa-in: #ffffff; --wa-out: #d9fdd3; --wa-text: #111b21; --wa-meta: #667781;
+    --shadow-pop: 0 18px 50px -20px rgba(20,30,60,.35);
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html { font-size: clamp(13px, min(1.2vw, 2.2vh), 21px); }
+  @media (max-width: 760px) { html { font-size: 15px; } }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 1rem; line-height: 1.45; -webkit-font-smoothing: antialiased; transition: background .3s var(--ease), color .3s var(--ease); }
+  button, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  h1, h2, h3, p, ol, ul { margin: 0; }
+  ol, ul { padding: 0; list-style: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  [hidden] { display: none !important; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .app { max-width: 108rem; margin: 0 auto; padding: .7rem 1.2rem 2rem; }
+
+  /* ---------- top bar ---------- */
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .1rem 0 .55rem; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: .75rem; }
+  .brand-mark { width: 2.4rem; height: 2.4rem; border-radius: .7rem; background: linear-gradient(135deg, var(--accent), #7A9BFF); display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 1rem; flex: none; }
+  .brand-name { font-weight: 800; font-size: 1.15rem; letter-spacing: -.01em; line-height: 1.2; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+  .brand-for { font-size: .85rem; color: var(--text-2); }
+  .tier-pill { display: inline-flex; align-items: center; font-size: .7rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: .2rem .6rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--line-strong); }
+  .topbar-actions { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+  .hint { font-size: .78rem; color: var(--text-3); }
+  kbd { font-family: var(--font); font-size: .72rem; padding: .1rem .4rem; border-radius: 5px; border: 1px solid var(--line-strong); background: var(--bg-2); color: var(--text-2); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; padding: .6rem .95rem; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-weight: 600; font-size: .9rem; line-height: 1; transition: transform .12s var(--ease), background .18s, border-color .18s, box-shadow .18s; white-space: nowrap; text-decoration: none; min-height: 2.5rem; }
+  .btn:hover:not(:disabled) { background: var(--surface-2); border-color: var(--line-strong); }
+  .btn:active:not(:disabled) { transform: translateY(1px) scale(.985); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn svg { width: 1.05rem; height: 1.05rem; flex: none; }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 6px 18px -8px var(--accent); }
+  .btn-primary:hover:not(:disabled) { background: #3d6ef5; border-color: #3d6ef5; }
+  .btn-play { font-size: 1.1rem; padding: .7rem 1.5rem; min-height: 3rem; border-radius: 12px; }
+  .btn-channel { background: var(--channel); border-color: var(--channel); color: #fff; font-size: 1rem; padding: .8rem 1.2rem; }
+  .btn-channel:hover:not(:disabled) { background: #1da366; border-color: #1da366; }
+  .btn-icon { padding: 0; width: 2.5rem; }
+  .pulse { animation: pulse-ring 1.5s var(--ease) infinite; }
+  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(77,124,254,.7); } 70% { box-shadow: 0 0 0 .8rem rgba(77,124,254,0); } 100% { box-shadow: 0 0 0 0 rgba(77,124,254,0); } }
+  .btn-channel.pulse { animation-name: pulse-green; }
+  @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34,181,115,.7); } 70% { box-shadow: 0 0 0 .8rem rgba(34,181,115,0); } 100% { box-shadow: 0 0 0 0 rgba(34,181,115,0); } }
+
+  .seg { display: inline-flex; padding: 3px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; gap: 2px; }
+  .seg button { padding: .45rem .8rem; border: 0; background: transparent; border-radius: 7px; font-weight: 600; font-size: .85rem; color: var(--text-2); min-height: 2rem; }
+  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.18); }
+  .select { padding: .55rem .7rem; border-radius: 9px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: .85rem; min-height: 2.5rem; }
+
+  /* ---------- phases ---------- */
+  .phases { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .4rem; }
+  .ph { width: 100%; display: flex; align-items: center; gap: .5rem; padding: .45rem .6rem; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text-3); text-align: left; font-weight: 700; font-size: .88rem; line-height: 1.2; transition: background .2s, border-color .2s, color .2s; min-width: 0; }
+  .ph em { font-style: normal; width: 1.55rem; height: 1.55rem; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--bg-2); font-size: .8rem; }
+  .ph em svg { width: .9rem; height: .9rem; }
+  .ph span { min-width: 0; }
+  .ph small { display: block; font-weight: 600; font-size: .72rem; color: var(--text-3); }
+  .ph.done { color: var(--text-2); }
+  .ph.done em { background: var(--channel-soft); color: var(--channel); }
+  .ph.now { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
+  .ph.now em { background: var(--accent); color: #fff; }
+  .ph.peek { box-shadow: 0 0 0 2px var(--accent); }
+  .ph:disabled { cursor: default; }
+  .prog { height: 3px; background: var(--line); border-radius: 3px; margin: .4rem 0 .55rem; overflow: hidden; }
+  .prog > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #7A9BFF); transition: width .5s var(--ease); }
+
+  /* ---------- controls ---------- */
+  .controls { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; padding: .45rem .7rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: .55rem; position: sticky; top: .4rem; z-index: 20; box-shadow: 0 8px 30px -22px rgba(0,0,0,.6); }
+  .controls .grow { flex: 1; min-width: .5rem; }
+  .status { font-size: .88rem; color: var(--text-2); font-weight: 600; }
+  .status.wait { color: var(--urgent); }
+  .clockbox { text-align: right; line-height: 1.1; }
+  .clock { font-size: 1.7rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .clockbox small { display: block; font-size: .68rem; color: var(--text-3); font-weight: 600; }
+
+  /* ---------- stage ---------- */
+  .stage { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+  .sources-t { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--text-2); margin: 0 0 .4rem; }
+  .sgrid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: .8rem; align-items: start; }
+  .src[data-k="0"] { grid-column: 1; grid-row: 1; } .src[data-k="1"] { grid-column: 2; grid-row: 1; }
+  .src[data-k="3"] { grid-column: 1; grid-row: 2; } .src[data-k="2"] { grid-column: 2; grid-row: 2; }
+  .src { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; transition: border-color .3s, box-shadow .3s; }
+  .src.scan { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .src.scan::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -40%; background: linear-gradient(90deg, transparent, rgba(77,124,254,.24), transparent); animation: sweep 1.1s linear infinite; pointer-events: none; }
+  @keyframes sweep { to { left: 100%; } }
+  .src-h { display: flex; align-items: center; gap: .5rem; padding: .5rem .75rem .35rem; }
+  .src-h svg { width: 1.25rem; height: 1.25rem; color: var(--accent); flex: none; }
+  .src-t { font-weight: 800; font-size: 1.02rem; line-height: 1.2; }
+  .src-s { font-size: .76rem; color: var(--text-3); line-height: 1.25; }
+  .chip { margin-left: auto; font-size: .7rem; font-weight: 800; padding: .15rem .55rem; border-radius: 999px; white-space: nowrap; letter-spacing: .02em; }
+  .chip.scan { background: var(--accent-soft); color: var(--accent); }
+  .chip.read { background: var(--channel-soft); color: var(--channel); }
+  .t { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  .t th { font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--text-3); text-align: left; padding: .25rem .5rem; border-bottom: 1px solid var(--line); }
+  .t td { padding: .25rem .5rem; border-top: 1px solid var(--line); vertical-align: middle; overflow-wrap: anywhere; line-height: 1.25; }
+  .t th.n, .t td.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .c { font-weight: 700; white-space: nowrap; }
+  td.flag { box-shadow: inset 0 0 0 2px var(--danger); background: var(--danger-soft); }
+  td.upd { box-shadow: inset 0 0 0 2px var(--channel); background: var(--channel-soft); }
+  td.ok { box-shadow: inset 0 0 0 2px var(--channel); }
+  td.pop { animation: cellflash .7s var(--ease); }
+  td.focus { animation: cellfocus 1s ease-in-out infinite; }
+  @keyframes cellfocus { 50% { box-shadow: inset 0 0 0 2px var(--urgent), 0 0 0 4px rgba(240,160,48,.55); background: var(--urgent-soft); } }
+  @keyframes cellflash { from { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); } }
+  s.was { color: var(--text-3); margin-right: .3rem; text-decoration-thickness: 2px; }
+  .nw { font-weight: 800; }
+  .fn { display: inline-grid; place-items: center; min-width: 1.25em; height: 1.25em; padding: 0 .2em; margin-left: .3rem; border-radius: 1em; background: var(--danger); color: #fff; font: 800 .72rem/1 var(--font); font-style: normal; vertical-align: .08em; }
+  .src-f { padding: .3rem .65rem; border-top: 1px solid var(--line); font-size: .8rem; color: var(--text-2); }
+  .src-f { display: flex; flex-wrap: wrap; gap: .1rem 1rem; }
+  .src-f div { display: flex; gap: .4rem; padding: .08rem 0; }
+  .src-f b { color: var(--text); }
+  .win .src-h { background: rgba(0,0,0,.18); }
+  .wdots { display: inline-flex; gap: .25rem; flex: none; }
+  .wdots i { width: .5rem; height: .5rem; border-radius: 50%; background: var(--line-strong); }
+
+  /* ---------- agent ---------- */
+  .side { display: flex; flex-direction: column; gap: .8rem; min-width: 0; }
+  .agent { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: .6rem .9rem .7rem; }
+  .agent-top { display: flex; align-items: center; gap: .5rem; font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: var(--accent); }
+  .agent-top .dot { width: .55rem; height: .55rem; border-radius: 50%; background: var(--text-3); flex: none; }
+  .agent.live .agent-top .dot { background: var(--accent); animation: dotp 1.2s ease-out infinite; }
+  .agent.wait .agent-top { color: var(--urgent); } .agent.wait .agent-top .dot { background: var(--urgent); animation: dotp 1.2s ease-out infinite; }
+  .agent.done .agent-top { color: var(--channel); } .agent.done .agent-top .dot { background: var(--channel); }
+  @keyframes dotp { 0% { box-shadow: 0 0 0 0 rgba(77,124,254,.6); } 100% { box-shadow: 0 0 0 .5rem rgba(77,124,254,0); } }
+  .narr { font-size: 1.3rem; font-weight: 700; line-height: 1.22; letter-spacing: -.01em; margin: .2rem 0 .5rem; min-height: 3.2rem; }
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .45rem; }
+  .tile { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: .28rem .5rem; min-width: 0; }
+  .tile b { display: block; font-size: 1.35rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .tile b small { font-size: .8rem; font-weight: 700; color: var(--text-3); }
+  .tile span { font-size: .68rem; color: var(--text-2); line-height: 1.2; display: block; }
+  .tile.hot b { color: var(--danger); } .tile.good b { color: var(--channel); }
+
+  /* ---------- slot ---------- */
+  .slot { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: .65rem .9rem .75rem; min-height: 16rem; }
+  .slot-h { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; }
+  .slot-t { font-size: 1.1rem; font-weight: 800; letter-spacing: -.01em; }
+  .slot-n { font-size: .74rem; color: var(--text-3); font-weight: 700; white-space: nowrap; }
+  .slot-s { font-size: .8rem; color: var(--text-2); margin: .05rem 0 .3rem; }
+  .slot-idle { color: var(--text-2); font-size: 1rem; padding: 1.5rem .5rem; text-align: center; }
+  .enter { animation: enter .4s var(--ease) both; }
+  @keyframes enter { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+
+  .rd { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto; gap: .5rem; align-items: center; padding: .4rem 0; border-top: 1px solid var(--line); font-size: .98rem; }
+  .rd:first-of-type { border-top: 0; }
+  .rd .ic { width: 1.4rem; height: 1.4rem; border-radius: 50%; display: grid; place-items: center; background: var(--bg-2); color: var(--text-3); font-size: .75rem; }
+  .rd .ic svg { width: .85rem; height: .85rem; }
+  .rd.on .ic { background: var(--accent-soft); color: var(--accent); }
+  .rd.ok .ic { background: var(--channel-soft); color: var(--channel); }
+  .rd small { color: var(--text-3); font-size: .82rem; }
+
+  .fd { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); gap: .55rem; align-items: start; padding: .3rem 0; border-top: 1px solid var(--line); font-size: .92rem; line-height: 1.25; }
+  .fd:first-of-type { border-top: 0; }
+  .fd .fn { margin: .1rem 0 0; font-size: .78rem; min-width: 1.5rem; height: 1.5rem; }
+  .fd.done .fn { background: var(--channel); }
+
+  .qwho { font-size: .8rem; color: var(--text-2); font-weight: 700; margin-bottom: .45rem; }
+  .bubble { border-radius: 14px; padding: .65rem .8rem; font-size: 1rem; line-height: 1.4; }
+  .bubble.in { background: var(--wa-in); color: var(--wa-text); border-top-left-radius: 4px; }
+  .bubble.out { background: var(--wa-out); color: var(--wa-text); border-top-right-radius: 4px; margin: .5rem 0 0 2.5rem; }
+  .bubble .meta { display: block; font-size: .72rem; color: var(--wa-meta); margin-top: .25rem; text-align: right; }
+  .evid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem; margin-top: .55rem; }
+  .evid div { background: var(--surface-2); border: 1px solid var(--line); border-radius: 9px; padding: .3rem .55rem; font-size: .8rem; color: var(--text-2); }
+  .evid b { display: block; color: var(--text); font-size: .92rem; }
+  .qact { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; margin-top: .75rem; }
+  .auto { font-size: .8rem; color: var(--text-2); max-width: 22rem; }
+  .qnote { font-size: .82rem; color: var(--text-2); margin-top: .6rem; padding-left: .6rem; border-left: 3px solid var(--accent); }
+
+  .mt { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .mt th { font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--text-3); text-align: left; padding: .2rem .4rem; border-bottom: 1px solid var(--line); }
+  .mt td { padding: .3rem .4rem; border-top: 1px solid var(--line); vertical-align: top; line-height: 1.25; }
+  .mt tr:first-child td { border-top: 0; }
+  .mt td:first-child { white-space: nowrap; }
+  .how { white-space: nowrap; display: inline-block; font-size: .72rem; font-weight: 800; padding: .15rem .5rem; border-radius: 999px; line-height: 1.3; }
+  .how.ask { background: var(--urgent-soft); color: var(--urgent); }
+  .how.clear { background: var(--accent-soft); color: var(--accent); }
+  .how.ok { background: var(--channel-soft); color: var(--channel); }
+
+  .lg { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: .55rem; padding: .35rem 0; border-top: 1px solid var(--line); font-size: .92rem; line-height: 1.28; }
+  .lg:first-of-type { border-top: 0; }
+  .lg time { font-size: .78rem; color: var(--text-3); font-variant-numeric: tabular-nums; padding-top: .1rem; }
+  .lg b { font-weight: 800; }
+  .lg .cnt { display: inline-block; margin-left: .35rem; font-size: .7rem; font-weight: 800; padding: .1rem .45rem; border-radius: 999px; background: var(--channel-soft); color: var(--channel); }
+
+  .kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .4rem; margin-bottom: .4rem; }
+  .kpi { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: .3rem .55rem; min-width: 0; }
+  .kpi .l { font-size: .72rem; color: var(--text-2); font-weight: 600; line-height: 1.2; }
+  .kpi .v { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .kpi .d { font-size: .72rem; color: var(--text-3); }
+  .kpi.good .v { color: var(--channel); }
+  .bars li { display: grid; grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr) 6.6rem; gap: .5rem; align-items: center; margin: .22rem 0; font-size: .86rem; }
+  .bn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bars b { text-align: right; font-variant-numeric: tabular-nums; }
+  .bt { display: block; height: .6rem; background: var(--bg-2); border-radius: 4px; overflow: hidden; }
+  .bf { display: block; height: 100%; background: var(--accent); border-radius: 4px; transform-origin: left; }
+  .bf.grow { animation: grow .8s var(--ease) both; }
+  @keyframes grow { from { transform: scaleX(0); } }
+  .rp { margin-top: .5rem; font-size: .88rem; display: grid; gap: .2rem; }
+  .rp li { padding-left: 1rem; position: relative; line-height: 1.3; }
+  .rp li::before { content: ""; position: absolute; left: 0; top: .5em; width: .4rem; height: .4rem; border-radius: 50%; background: var(--accent); }
+
+  .ap-list li { padding: .35rem 0 .35rem 1.5rem; position: relative; font-size: .98rem; border-top: 1px solid var(--line); }
+  .ap-list li:first-child { border-top: 0; }
+  .ap-list li::before { content: "✓"; position: absolute; left: .2rem; color: var(--channel); font-weight: 800; }
+  .done-box { margin-top: .4rem; padding: .6rem .8rem; border-radius: 12px; background: var(--channel-soft); border: 1px solid var(--channel); font-weight: 700; font-size: 1rem; }
+  .ba { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; margin-top: .6rem; }
+  .ba > div { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: .5rem .65rem; font-size: .82rem; color: var(--text-2); }
+  .ba > div.with { border-color: var(--channel); }
+  .ba b { display: block; color: var(--text); font-size: .88rem; margin-bottom: .2rem; }
+  .ba li { padding: .08rem 0; line-height: 1.3; }
+  .ba .cost { margin-top: .3rem; font-size: .78rem; color: var(--urgent); font-weight: 700; }
+
+  /* ---------- footer ---------- */
+  .real { margin-top: 1rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+  .real div { border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: .6rem .8rem; font-size: .84rem; color: var(--text-2); line-height: 1.4; }
+  .real b { color: var(--text); }
+  .foot { margin-top: .8rem; font-size: .8rem; color: var(--text-3); display: flex; justify-content: space-between; gap: .8rem; flex-wrap: wrap; }
+
+  /* ---------- small screens ---------- */
+  @media (max-width: 1000px) {
+    .stage { grid-template-columns: minmax(0, 1fr); }
+    .side { order: -1; }
+    .phases { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (max-width: 700px) {
+    .app { padding: .5rem .7rem 2rem; }
+    .sgrid { grid-template-columns: minmax(0, 1fr); }
+    .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .controls { position: static; }
+    .hint { display: none; }
+    .ph { flex-direction: column; align-items: center; text-align: center; gap: .15rem; padding: .35rem .15rem; font-size: .75rem; }
+    .ph small { display: none; }
+    .narr { font-size: 1.2rem; min-height: 5rem; }
+    .evid, .ba, .real { grid-template-columns: minmax(0, 1fr); }
+    .kpis { grid-template-columns: minmax(0, 1fr); }
+    .clock { font-size: 1.4rem; }
+    .btn-play { flex: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition-duration: .001s !important; }
+  }
+</style>
+</head>
+<body>
+<noscript><p style="padding:1.5rem">This demo needs JavaScript. Nothing is sent anywhere.</p></noscript>
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">N</div>
+      <div>
+        <h1 class="brand-name"><span id="brandName"></span><span class="tier-pill" id="tierPill"></span></h1>
+        <div class="brand-for" id="brandFor"></div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="hint" id="kbdHint"></span>
+      <a class="btn" id="langLink" hreflang=""></a>
+      <button class="btn btn-icon" id="btnTheme" type="button"></button>
+    </div>
+  </header>
+
+  <section class="controls" id="controls">
+    <div class="seg" role="group" id="runSeg">
+      <button type="button" id="runPlay" aria-pressed="true"></button>
+      <button type="button" id="runStep" aria-pressed="false"></button>
+    </div>
+    <button class="btn btn-primary btn-play pulse" id="btnPlay" type="button"></button>
+    <button class="btn" id="btnNext" type="button"></button>
+    <button class="btn" id="btnReset" type="button"></button>
+    <select class="select" id="speedSel"></select>
+    <div class="grow"></div>
+    <span class="status" id="statusLine" aria-live="polite"></span>
+    <div class="clockbox"><div class="clock" id="clock">08:00</div><small id="clockLbl"></small></div>
+  </section>
+
+  <nav id="phasesNav">
+    <ol class="phases" id="phases"></ol>
+    <div class="prog" aria-hidden="true"><div id="progBar"></div></div>
+  </nav>
+
+  <main class="stage">
+    <section aria-labelledby="srcT">
+      <h2 class="sources-t" id="srcT"></h2>
+      <div class="sgrid" id="sgrid"></div>
+    </section>
+    <div class="side">
+      <section class="agent" id="agent">
+        <div class="agent-top"><span class="dot"></span><span id="agentLbl"></span></div>
+        <p class="narr" id="narr" aria-live="polite"></p>
+        <div class="tiles" id="tiles"></div>
+      </section>
+      <section class="slot" id="slot"></section>
+    </div>
+  </main>
+
+  <div class="real" id="real"></div>
+  <p class="foot"><span id="footNote"></span><b id="buildStamp">Build 2026-11-03.1 · EN</b></p>
+</div>
+
+<script>
+(function () {
+'use strict';
+const T = {"lang": "en", "title": "Office operations center · full demo", "desc": "A demo with simulated data: an agent reads four places where the same numbers live, finds what does not match, asks a person, makes everything agree and writes the weekly report.", "noscript": "This demo needs JavaScript. Nothing is sent anywhere.", "brandName": "Operations center · Office", "brandFor": "Distribuidora La Torcaza · 8 people · made-up company", "tier": "Example · simulated data", "kbd": [["Space", "play"], ["→", "next step"], ["R", "reset"]], "otherLang": {"href": "Office-operations-FULL-ES.html", "label": "Español", "lang": "es"}, "themeLight": "Switch to light theme", "themeDark": "Switch to dark theme", "runLbl": "Mode", "runPlay": "Watch the day", "runStep": "Step through", "play": "Play the day", "pause": "Pause", "resume": "Resume", "again": "Watch again", "next": "Next step", "reset": "Reset", "speedLbl": "Speed", "spRelaxed": "Slow", "spNormal": "Normal", "spBrisk": "Fast", "clockLbl": "demo clock", "status": {"idle": "Ready to start", "run": "Playing…", "paused": "Paused", "waitQ": "Waiting for Diana's answer", "waitA": "Waiting for Diana's approval", "done": "Finished"}, "phasesLbl": "Stages of the day", "phases": [["Read", "08:00"], ["Compare", "08:03"], ["Ask", "08:06"], ["Clean table", "08:09"], ["Update", "08:13"], ["Report", "08:18"], ["Approve", "08:22"]], "srcHead": "The same numbers, in four places", "agentLbl": {"idle": "The agent · ready", "work": "The agent is working", "wait": "The agent is waiting for a person", "done": "The agent is done", "paused": "The agent · paused"}, "tiles": {"read": "places read", "cells": "cells that don't match", "ask": "question to Diana", "changes": "changes made"}, "slotIdle": "Everything the agent does shows up here: what it finds, its question, the clean table, the change log and the report.", "chipScan": "Reading…", "chipRead": "Read", "was": "was", "finding": "mismatch", "hdr": {"inv": ["Code", "Product", "In stock"], "ord": ["Order", "Customer", "Code", "Qty"], "fac": ["Invoice", "Customer", "Order", "Code", "Qty"], "acc": ["Code", "Product", "In stock"]}, "src": {"inv": ["Inventory", "Marta's spreadsheet"], "ord": ["Orders", "Shared sales sheet"], "fac": ["Invoices", "They arrive by email"], "acc": ["Accounting system", "Its own copy · simulated screen"], "facTot": "Invoiced", "facOpen": "To collect (FV-1042 paid)", "accCli": "Customer on file"}, "p": {"C50": "Gray cement, 50 kg", "V38": "Rebar 3/8\"", "PV4": "PVC pipe 4\"", "PT": "White paint, gallon", "AL18": "Black wire, kg"}, "none": "none", "n": {"idle": "The same numbers live in four places and people copy them by hand. Press Play and watch what an agent does with them.", "start": "Monday, 08:00. The agent opens the four places where the numbers live.", "r1": "Reads Marta's inventory: 5 products.", "r2": "Reads the sales orders sheet: 4 orders.", "r3": "Reads the invoices that came by email: 5 invoices.", "r4": "Reads the accounting system's copy: stock and customers.", "cmp": "Compares every number with the other three places.", "f1": "Cement: the order says 40 and the invoice 45. Inventory says 420 and accounting 375.", "f2": "Rebar: inventory says 1,150 and accounting 1,100.", "f3": "PVC pipe: 12 went out, but inventory and accounting still say 86.", "f4": "Wire: inventory says 180 and accounting 150.", "f5": "One customer written three different ways.", "f6": "Invoice FV-1044 has no order behind it.", "askIntro": "Six mismatches. Five have a clear fix. On one, the agent does not decide alone.", "ask": "It asks Diana, in accounting: 45 or 40 bags of cement?", "answered": "Diana answered: yes, use 45. The agent goes on.", "master": "With that answer it builds one clean table.", "m1": "Cement: 375 in stock and the order at 45.", "m2": "Rebar: 1,100, with a new order for FV-1044.", "m3": "PVC pipe: 74.", "m4": "Wire: 150.", "m5": "Customer: one name, the one in accounting.", "m6": "White paint: already matches.", "upd": "Now it writes the right numbers into each place.", "u1": "Accounting system: PVC pipe from 86 to 74.", "u2": "Inventory sheet: 4 quantities fixed.", "u3": "Orders sheet: 3 changes. One is the new order P-315.", "u4": "Invoices sheet: 3 changes. Nothing is left marked.", "rep": "With the clean table, it writes the weekly report.", "rp1": "Sales {sales} and still to collect {recv}, taken from the invoices.", "rp2": "Sales by product: cement sold the most.", "rp3": "What Don Hernán needs to know, in three lines.", "fin": "All set. Diana reviews the change log and the report.", "finAsk": "The report does not go out until Diana approves it.", "done": "Approved. The report goes to Don Hernán."}, "card": {"1": {"t": "The four places", "s": "The agent opens each one as it is. Nothing changes yet.", "rows": [["Marta's inventory sheet", "5 products"], ["Sales orders sheet", "4 orders"], ["Invoices that arrive by email", "5 invoices"], ["Accounting system", "5 products, 1 customer"]]}, "2": {"t": "What doesn't match", "s": "{n} of 6 mismatches. Each red number is marked in the files.", "items": ["Cement C-50: order 40, invoice 45. Inventory 420, accounting 375.", "Rebar V-38: inventory 1,150, accounting 1,100.", "PVC pipe PV-4: 12 went out (order and invoice), but inventory and accounting still say 86.", "Wire AL-18: inventory 180, accounting 150. Order and invoice: 30.", "One customer written three ways: Bahareque, Bajareque and Const. Bahareque SAS.", "Invoice FV-1044 (50 rebars) has no order."]}, "3": {"t": "A question for a person", "s": "When there is a doubt, the agent asks. It does not guess.", "who": "The agent writes to Diana, in accounting", "text": "Cement C-50. Order P-311 says 40 bags. Invoice FV-1041 says 45 and accounting already took off 45. Should I use 45 and correct the order?", "agent": "Agent · 08:06", "btn": "Yes, use 45", "reply": "Yes, use 45.", "dianaMeta": "Diana · {t}", "note": "The other five mismatches have a clear fix because the other files agree. This one does not."}, "4": {"t": "Clean table", "s": "One table with the right number for each thing. Each file keeps its own format.", "h": ["What", "Right number", "How it was decided"], "rows": [["Cement C-50", "375 · order P-311 at 45", "Diana approved", "ask"], ["Rebar V-38", "1,100 · new order P-315", "Clear", "clear"], ["PVC pipe PV-4", "74", "Clear", "clear"], ["Wire AL-18", "150", "Clear", "clear"], ["Customer", "Constructora Bahareque S.A.S.", "Clear", "clear"], ["Paint PT-G", "54", "Already matches", "ok"]]}, "5": {"t": "Change log", "s": "What changed, where and when. Nothing gets lost.", "one": "change", "many": "changes", "lines": [["Accounting system", "PVC pipe: 86 → 74 (invoice FV-1042).", 1, 13], ["Inventory sheet", "Cement 420 → 375 · rebar 1,150 → 1,100 · pipe 86 → 74 · wire 180 → 150.", 4, 14], ["Orders sheet", "P-311 cement 40 → 45 (Diana approved) · new order P-315 · customer fixed on P-313.", 3, 15], ["Invoices sheet", "Customer fixed on FV-1041 and FV-1043 · FV-1044 now linked to P-315.", 3, 16]]}, "6": {"t": "Weekly report for Don Hernán", "s": "The agent writes it from the clean table. Nobody builds it by hand.", "k1": "Sales last week", "k2": "Still to collect", "k3": "Mismatches in the files", "k3d": "before: 6", "inv": "invoices", "bars": "Sales last week, by product", "bullets": ["Best seller: cement.", "Stock matches in all four places. Lowest: white paint, 54 gallons.", "To do: call Constructora Bahareque, which owes {debt}."]}, "7": {"t": "Diana's final approval", "s": "Nothing goes to Don Hernán without her yes.", "items": ["{n} changes in 4 places, all in the log", "1 question Diana already answered", "The weekly report for Don Hernán"], "btn": "Approve and send the report", "done": "Approved by Diana at {t}. The report went to Don Hernán.", "before": {"t": "Monday before", "items": ["Marta forwards her sheet.", "Julián and Diana copy by hand.", "Errors show up at month end.", "The report is put together by hand."], "cost": "About one person-day a week on copying and checking (simulated figure)."}, "after": {"t": "Monday with the agent", "items": ["The files stay where they are.", "Differences show up on Monday.", "Diana answers and approves.", "The report comes from the clean table."]}}}, "auto": {"q": {"play": "The demo answers for Diana in {n} s. You can also press the button.", "paused": "Paused. Press the button to answer as Diana.", "step": "Press the button to answer as Diana."}, "a": {"play": "The demo approves for Diana in {n} s. You can also press the button.", "paused": "Paused. Press the button to approve as Diana.", "step": "Press the button to approve as Diana."}}, "realT": "Real:", "realB": "this is the kind of work we build. Read the files the company already uses, find what does not match, ask a person and keep a log of every change.", "simT": "Simulated:", "simB": "the company, the people, the files, every number, the times and the accounting system screen. This is an example, not a client and not a product we sell as it is. Every office's files are different, so each one is built to fit.", "foot": "Demo with simulated data. The people, the company, the numbers and the times are made up."};
+const $ = (id) => document.getElementById(id);
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sep = T.lang === 'es' ? '.' : ',';
+const num = (v) => String(v).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+const money = (v) => (T.lang === 'es' ? '$' : 'COP ') + num(v);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const clockStr = (m) => String(8 + Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
+const AUTO_S = 5;           // seconds the demo waits before it answers for Diana
+const NAME = 'Constructora Bahareque S.A.S.';
+
+/* ------------------------- the made-up data (one copy, both languages) ------------------------- */
+const CELL = {};
+function cell(id, spec) {
+  if (spec !== null && typeof spec === 'object') { CELL[id] = spec; return id; }
+  return null;
+}
+const INV = [
+  { k: 'C50', code: 'C-50', q: { v: 420, f: 375, find: 1 } },
+  { k: 'V38', code: 'V-38', q: { v: 1150, f: 1100, find: 2 } },
+  { k: 'PV4', code: 'PV-4', q: { v: 86, f: 74, find: 3 } },
+  { k: 'PT', code: 'PT-G', q: 54 },
+  { k: 'AL18', code: 'AL-18', q: { v: 180, f: 150, find: 4 } }
+];
+const ACC = [
+  { k: 'C50', code: 'C-50', q: { v: 375, find: 1 } },
+  { k: 'V38', code: 'V-38', q: { v: 1100, find: 2 } },
+  { k: 'PV4', code: 'PV-4', q: { v: 86, f: 74, find: 3 } },
+  { k: 'PT', code: 'PT-G', q: 54 },
+  { k: 'AL18', code: 'AL-18', q: { v: 150, find: 4 } }
+];
+const ORD = [
+  { id: 'P-311', cli: NAME, code: 'C-50', q: { v: 40, f: 45, find: 1 } },
+  { id: 'P-312', cli: 'Ferretería Tres Clavos', code: 'PV-4', q: 12 },
+  { id: 'P-313', cli: { v: 'Constructora Bajareque', f: NAME, find: 5 }, code: 'PT-G', q: 10 },
+  { id: 'P-314', cli: 'Obras Guadua Alta', code: 'AL-18', q: 30 }
+];
+const NEWORD = { id: 'P-315', cli: 'Obras Guadua Alta', code: 'V-38', q: 50 };
+const FAC = [
+  { id: 'FV-1041', cli: { v: 'Const. Bahareque SAS', f: NAME, find: 5 }, ped: 'P-311', code: 'C-50', q: { v: 45, find: 1 }, tot: 1575000 },
+  { id: 'FV-1042', cli: 'Ferretería Tres Clavos', ped: 'P-312', code: 'PV-4', q: 12, tot: 1140000, paid: true },
+  { id: 'FV-1043', cli: { v: 'Constructora Bajareque', f: NAME, find: 5 }, ped: 'P-313', code: 'PT-G', q: 10, tot: 780000 },
+  { id: 'FV-1044', cli: 'Obras Guadua Alta', ped: { v: T.none, f: 'P-315', find: 6 }, code: 'V-38', q: 50, tot: 1100000 },
+  { id: 'FV-1045', cli: 'Obras Guadua Alta', ped: 'P-314', code: 'AL-18', q: 30, tot: 360000 }
+];
+const SALES = FAC.reduce((a, f) => a + f.tot, 0);
+const OPEN = FAC.filter((f) => !f.paid);
+const RECV = OPEN.reduce((a, f) => a + f.tot, 0);
+const DEBT = OPEN.filter((f) => /Baha|Baja/.test(typeof f.cli === 'object' ? f.cli.v : f.cli)).reduce((a, f) => a + f.tot, 0);
+const BYPROD = ['C-50', 'PV-4', 'V-38', 'PT-G', 'AL-18'].map((c) => ({ code: c, tot: FAC.filter((f) => f.code === c).reduce((a, f) => a + f.tot, 0) }));
+const PNAME = { 'C-50': T.p.C50, 'V-38': T.p.V38, 'PV-4': T.p.PV4, 'PT-G': T.p.PT, 'AL-18': T.p.AL18 };
+const V = { sales: money(SALES), recv: money(RECV), debt: money(DEBT) };
+const fmt = (s) => String(s).replace(/\{(\w+)\}/g, (m, k) => (k in V ? V[k] : m));
+
+/* cell html builders: register every cell that can be flagged or changed */
+function cq(prefix, id, spec) { cell(prefix + '.' + id, spec); }
+INV.forEach((r) => cq('inv', r.k, r.q));
+ACC.forEach((r) => cq('acc', r.k, r.q));
+ORD.forEach((r) => { cq('ord', r.id + 'q', r.q); cq('ord', r.id + 'c', r.cli); });
+FAC.forEach((r) => { cq('fac', r.id + 'q', r.q); cq('fac', r.id + 'c', r.cli); cq('fac', r.id + 'p', r.ped); });
+const cid = (prefix, id, spec) => (spec !== null && typeof spec === 'object' ? prefix + '.' + id : null);
+const disp = (v) => (typeof v === 'number' ? num(v) : esc(v));
+function td(prefix, id, spec, cls) {
+  const key = cid(prefix, id, spec);
+  const plain = typeof spec === 'object' ? spec.v : spec;
+  return '<td class="' + (cls || '') + '"' + (key ? ' data-c="' + key + '"' : '') + '>' + (key ? '' : disp(plain)) + '</td>';
+}
+
+/* ------------------------------------ state ------------------------------------ */
+function fresh() {
+  return { i: -1, ph: 0, clk: 0, narr: T.n.idle, read: [false, false, false, false], scan: -1,
+    flag: new Set(), nFind: 0, q: 'none', rows: 0, upd: new Set(), log: 0, rep: 0, ap: 'none', changes: 0,
+    waiting: null, waitLeft: 0, ansClk: 0, apClk: 0, finished: false };
+}
+let S = fresh();
+let mode = 'play', speed = 1, running = false, view = null, stopAfter = null;
+let timer = null, wtimer = null;
+const TOTAL_CHANGES = Object.values(CELL).filter((c) => c.f !== undefined).length + 1;   // + the new order P-315
+
+/* ------------------------------------ the day, beat by beat ------------------------------------ */
+const B = [];
+function add(ph, clk, ms, narr, fn, wait, clkAfter) { B.push({ ph, clk, ms, narr, fn: fn || function () {}, wait: wait || null, clkAfter: clkAfter }); }
+const N = T.n;
+function flagAdd(s, n) { Object.keys(CELL).forEach((k) => { if (CELL[k].find === n) s.flag.add(k); }); }
+function updGroup(s, prefix) {
+  Object.keys(CELL).forEach((k) => { if (k.indexOf(prefix + '.') === 0 && (CELL[k].f !== undefined || s.flag.has(k))) s.upd.add(k); });
+  if (prefix === 'ord') s.upd.add('ord.P315');
+}
+add(1, 0, 1900, N.start);
+[1, 1, 2, 2].forEach((c, idx) => add(1, c, 1400, N['r' + (idx + 1)], (s) => { s.scan = idx; if (idx > 0) s.read[idx - 1] = true; }));
+add(2, 3, 1500, N.cmp, (s) => { s.scan = -1; s.read[3] = true; });
+[3, 4, 4, 5, 5, 5].forEach((c, idx) => add(2, c, 1700, N['f' + (idx + 1)], (s) => { s.nFind = idx + 1; flagAdd(s, idx + 1); }));
+add(3, 6, 2700, N.askIntro);
+add(3, 6, 0, N.ask, (s) => { s.q = 'ask'; }, 'q', 8);
+add(3, 8, 2000, N.answered);
+add(4, 9, 1700, N.master);
+[9, 10, 10, 11, 11, 11].forEach((c, idx) => add(4, c, 1300, N['m' + (idx + 1)], (s) => { s.rows = idx + 1; }));
+add(5, 13, 1600, N.upd);
+add(5, 13, 2100, N.u1, (s) => { updGroup(s, 'acc'); s.log = 1; s.changes += 1; });
+add(5, 14, 2100, N.u2, (s) => { updGroup(s, 'inv'); s.log = 2; s.changes += 4; });
+add(5, 15, 2100, N.u3, (s) => { updGroup(s, 'ord'); s.log = 3; s.changes += 3; });
+add(5, 16, 2300, N.u4, (s) => { updGroup(s, 'fac'); s.log = 4; s.changes += 3; });
+add(6, 18, 1700, N.rep);
+add(6, 18, 2200, N.rp1, (s) => { s.rep = 1; });
+add(6, 19, 2400, N.rp2, (s) => { s.rep = 2; });
+add(6, 20, 2600, N.rp3, (s) => { s.rep = 3; });
+add(7, 22, 2100, N.fin);
+add(7, 22, 0, N.finAsk, (s) => { s.ap = 'ask'; }, 'a', 24);
+add(7, 24, 2200, N.done);
+
+/* ------------------------------------ runner ------------------------------------ */
+function schedule(ms) { clearTimeout(timer); timer = setTimeout(advance, ms / speed); }
+function advance() {
+  timer = null;
+  if (!running) return;
+  const nb = B[S.i + 1];
+  if (!nb) { finish(); return; }
+  if (mode === 'step' && nb.ph !== stopAfter) { running = false; render(); return; }
+  S.i++; nb.fn(S); S.ph = nb.ph; S.clk = nb.clk; S.narr = fmt(nb.narr); view = null;
+  if (nb.wait) { S.waiting = nb.wait; S.waitLeft = AUTO_S; render(); startWait(); return; }
+  render();
+  schedule(nb.ms);
+}
+function finish() { running = false; S.finished = true; S.narr = S.narr; render(); }
+function startWait() {
+  clearInterval(wtimer);
+  if (!(running && mode === 'play')) { updateAuto(); return; }
+  wtimer = setInterval(() => {
+    S.waitLeft -= 0.25 * speed;
+    if (S.waitLeft <= 0) resolveWait(); else updateAuto();
+  }, 250);
+}
+function resolveWait() {
+  if (!S.waiting) return;
+  clearInterval(wtimer); wtimer = null;
+  const b = B[S.i];
+  if (S.waiting === 'q') { S.q = 'done'; S.ansClk = b.clkAfter; } else { S.ap = 'done'; S.apClk = b.clkAfter; }
+  S.waiting = null; S.clk = b.clkAfter;
+  render();
+  if (running) schedule(900);
+}
+function play() {
+  if (S.finished) { reset(); }
+  mode = 'play'; running = true; stopAfter = null;
+  if (S.waiting) { render(); startWait(); } else advance();
+}
+function pause() { running = false; clearTimeout(timer); clearInterval(wtimer); timer = wtimer = null; render(); }
+function stepNext() {
+  if (S.finished || S.waiting) return;
+  if (running) pause();
+  mode = 'step';
+  const nb = B[S.i + 1]; if (!nb) { finish(); return; }
+  stopAfter = nb.ph; running = true; advance();
+}
+function reset() {
+  clearTimeout(timer); clearInterval(wtimer); timer = wtimer = null;
+  S = fresh(); running = false; view = null; stopAfter = null; mode = 'play';
+  lastShown = { card: -1, n: 0 };
+  render();
+}
+function setMode(m) { if (m === 'step' && running) pause(); mode = m; if (m === 'play' && S.waiting) { /* keep waiting */ } render(); }
+
+/* ------------------------------------ rendering ------------------------------------ */
+const ICO = {
+  play: '<path d="M7 4.5v15l12-7.5z" fill="currentColor" stroke="none"/>',
+  pause: '<path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor" stroke="none"/>',
+  next: '<path d="M5 5l9 7-9 7zM17 5v14" />',
+  reset: '<path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4.5h4.5"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/>',
+  moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  sheet: '<rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17M9.5 4v16"/>',
+  people: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c.7-3.4 3-5 6-5s5.3 1.6 6 5M15 14.2c.7-.3 1.4-.4 2-.4 2.2 0 3.6 1.3 4 4"/>',
+  mail: '<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6.5L20.5 7"/>',
+  box: '<path d="M4 7.5l8-4 8 4v9l-8 4-8-4z"/><path d="M4 7.5l8 4 8-4M12 11.5v9"/>'
+};
+const svg = (n, extra) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"' + (extra || '') + '>' + ICO[n] + '</svg>';
+
+function buildStatic() {
+  document.title = T.title;
+  $('brandName').textContent = T.brandName; $('tierPill').textContent = T.tier; $('brandFor').textContent = T.brandFor;
+  $('kbdHint').innerHTML = T.kbd.map((k) => '<kbd>' + esc(k[0]) + '</kbd> ' + esc(k[1])).join(' &nbsp; ');
+  const ll = $('langLink'); ll.href = T.otherLang.href; ll.textContent = T.otherLang.label; ll.setAttribute('hreflang', T.otherLang.lang); ll.setAttribute('lang', T.otherLang.lang);
+  $('runSeg').setAttribute('aria-label', T.runLbl);
+  $('runPlay').textContent = T.runPlay; $('runStep').textContent = T.runStep;
+  $('btnNext').innerHTML = svg('next') + T.next; $('btnReset').innerHTML = svg('reset') + T.reset;
+  $('speedSel').setAttribute('aria-label', T.speedLbl);
+  $('speedSel').innerHTML = '<option value="0.6">' + T.spRelaxed + '</option><option value="1" selected>' + T.spNormal + '</option><option value="2">' + T.spBrisk + '</option>';
+  $('clockLbl').textContent = T.clockLbl;
+  $('srcT').textContent = T.srcHead;
+  $('phases').innerHTML = T.phases.map((p, i) => '<li><button type="button" class="ph" data-p="' + (i + 1) + '"><em>' + (i + 1) + '</em><span>' + esc(p[0]) + '<small>' + esc(p[1]) + '</small></span></button></li>').join('');
+  $('footNote').textContent = T.foot;
+  $('real').innerHTML = '<div><b>' + esc(T.realT) + '</b> ' + esc(T.realB) + '</div><div><b>' + esc(T.simT) + '</b> ' + esc(T.simB) + '</div>';
+  $('phasesNav').setAttribute('aria-label', T.phasesLbl);
+
+  /* the four places */
+  const H = T.hdr, S0 = T.src;
+  const inv = '<table class="t"><thead><tr><th>' + H.inv[0] + '</th><th>' + H.inv[1] + '</th><th class="n">' + H.inv[2] + '</th></tr></thead><tbody>' +
+    INV.map((r) => '<tr><td class="c">' + r.code + '</td><td>' + esc(T.p[r.k]) + '</td>' + td('inv', r.k, r.q, 'n') + '</tr>').join('') + '</tbody></table>';
+  const ord = '<table class="t"><thead><tr><th>' + H.ord[0] + '</th><th>' + H.ord[1] + '</th><th>' + H.ord[2] + '</th><th class="n">' + H.ord[3] + '</th></tr></thead><tbody>' +
+    ORD.map((r) => '<tr><td class="c">' + r.id + '</td>' + td('ord', r.id + 'c', r.cli) + '<td class="c">' + r.code + '</td>' + td('ord', r.id + 'q', r.q, 'n') + '</tr>').join('') +
+    '<tr data-newrow="1" hidden><td class="c upd">' + NEWORD.id + '</td><td class="upd">' + NEWORD.cli + '</td><td class="c upd">' + NEWORD.code + '</td><td class="n upd">' + NEWORD.q + '</td></tr></tbody></table>';
+  const fac = '<table class="t"><thead><tr><th>' + H.fac[0] + '</th><th>' + H.fac[1] + '</th><th>' + H.fac[2] + '</th><th>' + H.fac[3] + '</th><th class="n">' + H.fac[4] + '</th></tr></thead><tbody>' +
+    FAC.map((r) => '<tr><td class="c">' + r.id + '</td>' + td('fac', r.id + 'c', r.cli) + td('fac', r.id + 'p', r.ped, 'c') + '<td class="c">' + r.code + '</td>' + td('fac', r.id + 'q', r.q, 'n') + '</tr>').join('') +
+    '</tbody></table><div class="src-f"><div><span>' + S0.facTot + '</span><b>' + money(SALES) + '</b></div><div><span>' + fmt(S0.facOpen) + '</span><b>' + money(RECV) + '</b></div></div>';
+  const acc = '<table class="t"><thead><tr><th>' + H.acc[0] + '</th><th>' + H.acc[1] + '</th><th class="n">' + H.acc[2] + '</th></tr></thead><tbody>' +
+    ACC.map((r) => '<tr><td class="c">' + r.code + '</td><td>' + esc(T.p[r.k]) + '</td>' + td('acc', r.k, r.q, 'n') + '</tr>').join('') +
+    '</tbody></table><div class="src-f"><div><span>' + S0.accCli + '</span><b>' + NAME + '</b></div></div>';
+  const panels = [
+    ['inv', 'sheet', S0.inv[0], S0.inv[1], inv, ''],
+    ['ord', 'people', S0.ord[0], S0.ord[1], ord, ''],
+    ['fac', 'mail', S0.fac[0], S0.fac[1], fac, ''],
+    ['acc', 'box', S0.acc[0], S0.acc[1], acc, 'win']
+  ];
+  $('sgrid').innerHTML = panels.map((p, i) => '<section class="src ' + p[5] + '" data-k="' + i + '" aria-label="' + esc(p[2]) + '"><div class="src-h">' +
+    (p[5] ? '<span class="wdots" aria-hidden="true"><i></i><i></i><i></i></span>' : svg(p[1])) +
+    '<div><div class="src-t">' + esc(p[2]) + '</div><div class="src-s">' + esc(p[3]) + '</div></div><span class="chip" data-chip></span></div>' + p[4] + '</section>').join('');
+}
+
+const cellSt = (id) => S.upd.has(id) ? (CELL[id].f !== undefined ? 'upd' : 'ok') : S.flag.has(id) ? 'flag' : '';
+function renderSources() {
+  document.querySelectorAll('.src').forEach((el) => {
+    const k = +el.dataset.k;
+    el.classList.toggle('scan', S.scan === k);
+    const chip = el.querySelector('[data-chip]');
+    const txt = S.scan === k ? T.chipScan : S.read[k] ? T.chipRead : '';
+    const cls = 'chip' + (S.scan === k ? ' scan' : S.read[k] ? ' read' : '');
+    if (chip.textContent !== txt) chip.textContent = txt;
+    if (chip.className !== cls) chip.className = cls;
+    chip.hidden = !txt;
+  });
+  document.querySelectorAll('[data-c]').forEach((el) => {
+    const id = el.dataset.c, c = CELL[id], st = cellSt(id);
+    const focus = S.q === 'ask' && c.find === 1;
+    el.classList.toggle('focus', focus);
+    const sig = st;
+    if (el._sig === sig) return;
+    const first = el._sig === undefined; el._sig = sig;
+    let h;
+    if (st === 'upd' && typeof c.v === 'number') h = '<s class="was"><span class="sr-only">' + esc(T.was) + ' </span>' + disp(c.v) + '</s><span class="nw">' + disp(c.f) + '</span>';
+    else if (st === 'upd') { h = '<span class="nw">' + disp(c.f) + '</span><span class="sr-only"> (' + esc(T.was) + ' ' + disp(c.v) + ')</span>'; el.title = T.was + ': ' + c.v; }
+    else h = disp(c.v);
+    if (st !== 'upd') el.removeAttribute('title');
+    if (st === 'flag') h += '<i class="fn"><span class="sr-only">' + esc(T.finding) + ' </span>' + c.find + '</i>';
+    el.innerHTML = h;
+    el.className = (el.className.replace(/\b(flag|upd|ok|pop)\b/g, '').trim() + ' ' + st).trim();
+    if (!first && st) { el.classList.add('pop'); setTimeout(() => el.classList.remove('pop'), 800); }
+  });
+  const nr = document.querySelector('[data-newrow]');
+  if (nr) { const show = S.upd.has('ord.P315'); if (nr.hidden === show) { nr.hidden = !show; if (show) nr.classList.add('enter'); } }
+}
+
+function openCells() { let n = 0; S.flag.forEach((k) => { if (!S.upd.has(k)) n++; }); return n; }
+function renderAgent() {
+  const a = $('agent');
+  const st = S.finished ? 'done' : S.waiting ? 'wait' : running ? 'live' : '';
+  a.className = 'agent ' + st;
+  $('agentLbl').textContent = S.finished ? T.agentLbl.done : S.waiting ? T.agentLbl.wait : running ? T.agentLbl.work : S.i < 0 ? T.agentLbl.idle : T.agentLbl.paused;
+  if ($('narr').textContent !== S.narr) $('narr').textContent = S.narr;
+  const readN = S.read.filter(Boolean).length, open = openCells();
+  const tiles = [
+    [readN + '<small>/4</small>', T.tiles.read, readN === 4 ? 'good' : ''],
+    [open, T.tiles.cells, open > 0 ? 'hot' : (S.flag.size ? 'good' : '')],
+    [(S.q === 'none' ? 0 : 1) + '<small>/1</small>', T.tiles.ask, S.q === 'done' ? 'good' : ''],
+    [S.changes + '<small>/' + TOTAL_CHANGES + '</small>', T.tiles.changes, S.changes === TOTAL_CHANGES ? 'good' : '']
+  ];
+  const h = tiles.map((t) => '<div class="tile ' + t[2] + '"><b>' + t[0] + '</b><span>' + esc(t[1]) + '</span></div>').join('');
+  if ($('tiles')._h !== h) { $('tiles').innerHTML = h; $('tiles')._h = h; }
+  $('progBar').style.width = (S.finished ? 100 : Math.max(0, (S.i + 1) / B.length * 100)) + '%';
+}
+
+function renderTabs() {
+  document.querySelectorAll('.ph').forEach((el) => {
+    const p = +el.dataset.p;
+    const done = S.finished || p < S.ph, now = !S.finished && p === S.ph;
+    el.classList.toggle('done', done); el.classList.toggle('now', now);
+    el.classList.toggle('peek', view === p);
+    el.disabled = p > S.ph;
+    el.setAttribute('aria-current', now ? 'step' : 'false');
+    el.querySelector('em').innerHTML = done ? svg('check') : p;
+  });
+}
+
+let lastShown = { card: -1, n: 0 };
+const newest = (card, n) => (lastShown.card === card && lastShown.n === n - 1) || (lastShown.card !== card && view === null && n >= 1);
+function renderSlot() {
+  const vw = view === null ? S.ph : view;
+  const C = T.card;
+  let html = '', n = 0;
+  const head = (c, count) => '<div class="slot-h"><h2 class="slot-t">' + esc(c.t) + '</h2>' + (count ? '<span class="slot-n">' + count + '</span>' : '') + '</div><p class="slot-s">' + fmt(c.s) + '</p>';
+  if (vw === 0) html = '<div class="slot-idle">' + esc(T.slotIdle) + '</div>';
+  else if (vw === 1) {
+    n = S.read.filter(Boolean).length + (S.scan >= 0 ? 1 : 0);
+    html = head(C[1]) + C[1].rows.map((r, i) => {
+      const cls = S.read[i] ? 'ok' : S.scan === i ? 'on' : '';
+      return '<div class="rd ' + cls + '"><span class="ic">' + (S.read[i] ? svg('check') : S.scan === i ? '…' : '') + '</span><span>' + esc(r[0]) + '</span><small>' + esc(S.read[i] || S.scan === i ? r[1] : '') + '</small></div>';
+    }).join('');
+  } else if (vw === 2) {
+    n = S.nFind;
+    html = head(C[2], '') .replace('{n}', n) + C[2].items.slice(0, S.nFind).map((t, i) => {
+      const resolved = [...S.flag].filter((k) => CELL[k].find === i + 1).every((k) => S.upd.has(k));
+      return '<div class="fd' + (resolved ? ' done' : '') + (view === null && i === S.nFind - 1 && newest(2, n) ? ' enter' : '') + '"><i class="fn">' + (resolved ? '✓' : i + 1) + '</i><span>' + esc(fmt(t)) + '</span></div>';
+    }).join('') || '<div class="slot-idle">…</div>';
+  } else if (vw === 3) {
+    const q = C[3];
+    html = head(q) + '<div class="qwho">' + esc(q.who) + '</div>';
+    if (S.q === 'none') html += '<div class="slot-idle">…</div>';
+    else {
+      html += '<div class="bubble in' + (S.q === 'ask' ? ' enter' : '') + '">' + esc(q.text) + '<span class="meta">' + esc(q.agent) + '</span></div>';
+      if (S.q === 'ask') html += '<div class="qact"><button type="button" class="btn btn-channel pulse" id="btnAnswer">' + esc(q.btn) + '</button><span class="auto" id="autoNote"></span></div>';
+      else html += '<div class="bubble out enter">' + esc(q.reply) + '<span class="meta">' + esc(q.dianaMeta.replace('{t}', clockStr(S.ansClk))) + ' ✓✓</span></div>';
+      html += '<p class="qnote">' + esc(q.note) + '</p>';
+    }
+  } else if (vw === 4) {
+    n = S.rows; const m = C[4];
+    html = head(m) + '<table class="mt"><thead><tr><th>' + m.h[0] + '</th><th>' + m.h[1] + '</th><th>' + m.h[2] + '</th></tr></thead><tbody>' +
+      m.rows.slice(0, S.rows).map((r, i) => '<tr' + (view === null && i === S.rows - 1 && newest(4, n) ? ' class="enter"' : '') + '><td><b>' + esc(r[0]) + '</b></td><td>' + esc(r[1]) + '</td><td><span class="how ' + r[3] + '">' + esc(r[2]) + '</span></td></tr>').join('') + '</tbody></table>' + (S.rows === 0 ? '<div class="slot-idle">…</div>' : '');
+  } else if (vw === 5) {
+    n = S.log; const g = C[5];
+    html = head(g, S.changes ? S.changes + '/' + TOTAL_CHANGES : '') + g.lines.slice(0, S.log).map((l, i) =>
+      '<div class="lg' + (view === null && i === S.log - 1 && newest(5, n) ? ' enter' : '') + '"><time>' + clockStr(l[3]) + '</time><span><b>' + esc(l[0]) + '</b><span class="cnt">' + l[2] + ' ' + esc(l[2] === 1 ? g.one : g.many) + '</span> ' + esc(l[1]) + '</span></div>').join('') + (S.log === 0 ? '<div class="slot-idle">…</div>' : '');
+  } else if (vw === 6) {
+    n = S.rep; const r = C[6]; const fresh6 = (k) => (view === null && S.rep === k && lastShown.card === 6 && lastShown.n === k - 1);
+    html = head(r);
+    if (S.rep === 0) html += '<div class="slot-idle">…</div>';
+    if (S.rep >= 1) html += '<div class="kpis' + (fresh6(1) ? ' enter' : '') + '">' +
+      '<div class="kpi"><div class="l">' + esc(r.k1) + '</div><div class="v">' + money(SALES) + '</div><div class="d">' + FAC.length + ' ' + esc(r.inv) + '</div></div>' +
+      '<div class="kpi"><div class="l">' + esc(r.k2) + '</div><div class="v">' + money(RECV) + '</div><div class="d">' + OPEN.length + ' ' + esc(r.inv) + '</div></div>' +
+      '<div class="kpi good"><div class="l">' + esc(r.k3) + '</div><div class="v">0</div><div class="d">' + esc(r.k3d) + '</div></div></div>';
+    if (S.rep >= 2) { const mx = Math.max.apply(null, BYPROD.map((b) => b.tot));
+      html += '<ul class="bars" aria-label="' + esc(r.bars) + '">' + BYPROD.slice().sort((a, b) => b.tot - a.tot).map((b) => '<li><span class="bn">' + esc(PNAME[b.code]) + '</span><span class="bt"><span class="bf' + (S.rep === 2 ? ' grow' : '') + '" style="width:' + (b.tot / mx * 100).toFixed(1) + '%"></span></span><b>' + money(b.tot) + '</b></li>').join('') + '</ul>'; }
+    if (S.rep >= 3) html += '<ul class="rp' + (fresh6(3) ? ' enter' : '') + '">' + r.bullets.map((b) => '<li>' + esc(fmt(b)) + '</li>').join('') + '</ul>';
+  } else if (vw === 7) {
+    const a = C[7];
+    html = head(a);
+    if (S.ap === 'none') html += '<div class="slot-idle">…</div>';
+    else {
+      if (S.ap === 'ask') html += '<ul class="ap-list">' + a.items.map((t) => '<li>' + esc(t.replace('{n}', TOTAL_CHANGES)) + '</li>').join('') + '</ul>';
+      if (S.ap === 'ask') html += '<div class="qact"><button type="button" class="btn btn-channel pulse" id="btnApprove">' + esc(a.btn) + '</button><span class="auto" id="autoNote"></span></div>';
+      else {
+        html += '<div class="done-box enter">' + esc(a.done.replace('{t}', clockStr(S.apClk))) + '</div>' +
+          '<div class="ba"><div><b>' + esc(a.before.t) + '</b><ul>' + a.before.items.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul><p class="cost">' + esc(a.before.cost) + '</p></div>' +
+          '<div class="with"><b>' + esc(a.after.t) + '</b><ul>' + a.after.items.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul></div></div>';
+      }
+    }
+  }
+  if (html !== $('slot')._h) { $('slot').innerHTML = html; $('slot')._h = html; }
+  lastShown = { card: vw, n: n };
+  updateAuto();
+}
+function updateAuto() {
+  const el = $('autoNote'); if (!el) return;
+  const s = Math.max(1, Math.ceil(S.waitLeft));
+  const who = S.waiting === 'a' ? 'a' : 'q';
+  const t = T.auto[who];
+  el.textContent = running && mode === 'play' ? t.play.replace('{n}', s) : (S.i >= 0 && !running && mode === 'play') ? t.paused : t.step;
+}
+
+function renderControls() {
+  const started = S.i >= 0;
+  $('btnPlay').innerHTML = svg(running ? 'pause' : 'play') + (S.finished ? T.again : running ? T.pause : started ? T.resume : T.play);
+  $('btnPlay').classList.toggle('pulse', !started);
+  $('btnNext').disabled = S.finished || !!S.waiting || (running && mode === 'step');
+  $('btnReset').disabled = !started;
+  $('runPlay').setAttribute('aria-pressed', String(mode === 'play')); $('runStep').setAttribute('aria-pressed', String(mode === 'step'));
+  const sl = $('statusLine');
+  sl.textContent = S.finished ? T.status.done : S.waiting ? (S.waiting === 'a' ? T.status.waitA : T.status.waitQ) : running ? T.status.run : started ? T.status.paused : T.status.idle;
+  sl.classList.toggle('wait', !!S.waiting && !S.finished);
+  $('clock').textContent = clockStr(S.clk);
+  const th = document.documentElement.getAttribute('data-theme');
+  $('btnTheme').innerHTML = svg(th === 'dark' ? 'sun' : 'moon');
+  $('btnTheme').setAttribute('aria-label', th === 'dark' ? T.themeLight : T.themeDark);
+  $('btnTheme').title = th === 'dark' ? T.themeLight : T.themeDark;
+}
+function render() { renderTabs(); renderAgent(); renderSources(); renderSlot(); renderControls(); }
+
+/* ------------------------------------ wiring ------------------------------------ */
+function setTheme(t) { document.documentElement.setAttribute('data-theme', t); renderControls(); }
+function wire() {
+  $('btnPlay').onclick = () => { if (running) pause(); else play(); };
+  $('btnNext').onclick = stepNext;
+  $('btnReset').onclick = reset;
+  $('runPlay').onclick = () => setMode('play');
+  $('runStep').onclick = () => setMode('step');
+  $('speedSel').onchange = (e) => { speed = parseFloat(e.target.value); };
+  $('btnTheme').onclick = () => setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  $('phases').addEventListener('click', (e) => { const b = e.target.closest('.ph'); if (!b || b.disabled) return; const p = +b.dataset.p; view = p === S.ph && !S.finished ? null : p; render(); });
+  $('slot').addEventListener('click', (e) => { if (e.target.closest('#btnAnswer') || e.target.closest('#btnApprove')) resolveWait(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target.matches('select, input, textarea')) return;
+    if (e.key === ' ' && !e.target.closest('button')) { e.preventDefault(); if (running) pause(); else play(); }
+    else if (e.key === 'r' || e.key === 'R') reset();
+    else if (e.key === 'ArrowRight') { e.preventDefault(); stepNext(); }
+    else if (e.key === 'Enter' && S.waiting && !e.target.closest('button')) resolveWait();
+  });
+}
+buildStatic(); wire(); render();
+window.__demo = { state: () => S, beats: B.length, setSpeed: (v) => { speed = v; }, play, pause, reset, stepNext, answer: resolveWait, mode: () => mode, running: () => running };
+})();
+</script>
+</body>
+</html>
