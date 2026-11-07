@@ -351,3 +351,5 @@ h1 em{font-style:normal;background:linear-gradient(transparent 80%,#F3CF7C 80%)}
 .next a.btn{font-size:16.5px}
 .next a.btn-p{color:#fff}
 .next a.btn-p:hover{text-decoration:none}
+@media (max-width:640px){.jump{gap:8px}.jump a{padding:8px 14px;font-size:15.5px}}
+.sbox+h2{margin-top:1.2em}
