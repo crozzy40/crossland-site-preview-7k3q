@@ -1,5 +1,5 @@
 BUILD-INFO (make_humania.py, 2026-11-07)
-status: NOT RELEASABLE (pending placeholders: {"nit": 15, "direccion": 13, "logo": 11, "[PENDIENTE total]": 50, "persona": 2, "llc": 1})
+status: NOT RELEASABLE (pending placeholders: {"nit": 15, "direccion": 13, "logo": 11, "[PENDIENTE total]": 48, "llc": 1})
 source: crozzy40/crosslandai release-hardpart fb324813be7a76efb2b53e332852b9f5a9a9b67b (es pages, ask-us, demos ES, painting)
 files: 40
 
@@ -10,7 +10,7 @@ fb4ac42d752a8e2e9c2c1c83bddd7ca0fc97b93414dc2b1a70f0eb88029400b3     14273  con-
 56386a62d2a1b60c87a674a38717271c4dc3baf8777278eccb5d461a3ba4e051     11755  construya-con-nosotros/index.html
 c254d98e9a47e56331acd73359ea252e7f4470d8a1a479b79c405fe4a1bd68a7     24538  css/site.css
 cded6d452254873ab12641a6646183721aacf6876076a84ad3083f43d14ae018     11156  datos-y-seguridad/index.html
-9f349dc7da6fedcc6558bf91094eff9e7d263c2c9820914f7e12f8322668d65f     12188  empiece/index.html
+f324201611ecd08d414747a9d4f3eb01ef25dced857319da7331dca60b7642b6     12148  empiece/index.html
 7c3daa1e8f769514dbdcc79933e457c65a6bbb6ac2023331c57c7064c16f5528       456  fonts/ARCHIVO-LICENCE.txt
 8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967     34928  fonts/archivo-latin.woff2
 f118ef15c8eb7b27c6a19e50f8e68f381737c00bebdb059608627c1cf026324e     73774  img/share-humania.jpg
@@ -34,7 +34,7 @@ b182e1b104492a6afb0ae6f6822d693eca7a48a3d434519668aa6e21f2124850     31353  inde
 7251301f7b317942298761bc094293ced8ef0908c38b92fd6a33478c34fef0ed    741086  media/demos/RedControl-ES.html
 772e2a826ce273283b630365416e8c8ec555a6afa778336e190a5459a8ddccaa     31014  media/demos/WhatsApp-ES.html
 f14918dedfaa303a1da1dac340808b95491f3bb377a922bea30279340c92b69e   2181780  media/software-factory-sim.mp4
-01c80d506b435d38c8d4bb7554904a32fe2b6bef36acda66f71107d39203279d     17716  nosotros/index.html
+987101bfa39d8b76b7802e11297e31e6f9740fd509c520ff66b0e66c83864814     17676  nosotros/index.html
 5bbe5064b2ecc720abf600692704dc02344d5a7631e019f9ef44bffa85bc6062     24317  nuestro-trabajo/index.html
 5459196cf075bd6365c995aa28a2ff58ce167262da093c82d09c70cdbc948149    168930  painting/painting.html
 54546ce24f7c3d6f70ff50a73e7d9c3da9d4fa8c40df597d3bf4667dcb6d93fc     13668  preguntas-frecuentes/index.html
