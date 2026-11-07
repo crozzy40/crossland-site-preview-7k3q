@@ -4,14 +4,14 @@ source: crozzy40/crosslandai release-hardpart fb324813be7a76efb2b53e332852b9f5a9
 files: 37
 
 4deb3e83c028e83a8ea3496438f94e3464fd158ad724d49f1bf3ec0e91026b30      1482  404.html
-2203a73696c4105cc52fb19647223c895484557385216f78539dd7cd6b3484d5      5352  ask-us/ask-us.css
+b539f02cab24e1b47604e1976a903921d2fd07651be0670abea87e5fd6552f66      5293  ask-us/ask-us.css
 19cc95659613fded87ab9a5fce269cca78a5f2fa63e6f922b3e64b4420fd1244     17334  ask-us/ask-us.js
 f8fe1af4725d92228e98fd74dd4e6b06cd024904c1bf88e1817d196a5e90ce11     14385  con-quien-trabajamos/index.html
 21b5830eb7820b81097c00779c0581342d7e406359e872cf293165d923bb7bff     11835  construya-con-nosotros/index.html
 3269be860faad35503e89da2b31d10b30a4f5372dd398017d02647acebc6489a     21887  css/site.css
 52f85bf430b29d8eb053441d23e72de17902cd80c565744897fcd40ee0725234     11227  datos-y-seguridad/index.html
-c3a1121501ce2043b076052c24ea00de62329a4f7f6b3e9045ff24686cccefbc     12175  empiece/index.html
-840f38c08a027a8694730411e0c0d03282cd4e4f8e9aa9f5b400c9fa0db8f30e       460  fonts/ARCHIVO-LICENCE.txt
+a5ac0edf77cdc39c30c6d36e617ca4a22f1d8156a39a4c2142dfe4e38f07b760     12175  empiece/index.html
+7c3daa1e8f769514dbdcc79933e457c65a6bbb6ac2023331c57c7064c16f5528       456  fonts/ARCHIVO-LICENCE.txt
 8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967     34928  fonts/archivo-latin.woff2
 f118ef15c8eb7b27c6a19e50f8e68f381737c00bebdb059608627c1cf026324e     73774  img/share-humania.jpg
 4d6d5a1ee5911d41b2bddfa6d623da9a6428602dc301a59c6b4e8cdeecaa8b49     55476  img/software-factory-800.jpg
