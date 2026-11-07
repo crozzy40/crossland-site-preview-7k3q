@@ -6,11 +6,11 @@ files: 37
 4deb3e83c028e83a8ea3496438f94e3464fd158ad724d49f1bf3ec0e91026b30      1482  404.html
 b539f02cab24e1b47604e1976a903921d2fd07651be0670abea87e5fd6552f66      5293  ask-us/ask-us.css
 19cc95659613fded87ab9a5fce269cca78a5f2fa63e6f922b3e64b4420fd1244     17334  ask-us/ask-us.js
-021afca86d1e7469656c045db1c3d4a45759581768ef2b22fca7a66bdda26671     14273  con-quien-trabajamos/index.html
-2f73f13fe38065f528f07bb255fa8a6e98a58031f6d4ecbaa41e912c5832d59c     11755  construya-con-nosotros/index.html
-eca8743a753a1c04a87e113a2a1d7e5404d6f70bc4f09e7bfc3e5c663d03d30b     22858  css/site.css
-b016fae4ceff02ee41b814d53d64fd79e18649102a1ef8726c7db28cb6481e34     11156  datos-y-seguridad/index.html
-25aff5c06a8b37ab0a91dcde3bfb3098d74008e8196323566376f8aa50da54a3     12188  empiece/index.html
+f9e87774b3d0cb41c8f125fc00db74620f3c04cdb17fb1c28c66af2a29aeefba     14273  con-quien-trabajamos/index.html
+3b53aa6b7158af1ff4f33831376e07979a0bbdea63b573186a3af39e062a90b7     11755  construya-con-nosotros/index.html
+5f1554b69bfbbf980837650c586afa17a138f98eec8d3f2298cb04479045cecc     22489  css/site.css
+2847a1a0429cbd4ef7429fa4f31487f579123b8762a4f694c0d2f09db101b5a4     11156  datos-y-seguridad/index.html
+66858231f573972ad6a7e9b41305ceeb2e655fcb6222fcbce423bd2b8c259cde     12188  empiece/index.html
 7c3daa1e8f769514dbdcc79933e457c65a6bbb6ac2023331c57c7064c16f5528       456  fonts/ARCHIVO-LICENCE.txt
 8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967     34928  fonts/archivo-latin.woff2
 f118ef15c8eb7b27c6a19e50f8e68f381737c00bebdb059608627c1cf026324e     73774  img/share-humania.jpg
@@ -20,7 +20,7 @@ d5058cd8b0dcdcf53e081418cc193588662cebdd45dc67f06926de1b35fb8004     56845  img/
 c9a4f780aa52759aaa0507da4b62e42d5cb02003aa69f18f70c4763abd9dc05d     59384  img/tool-painting-800.jpg
 a411e8847565a3ec2eea08241a8e79cd20bea3fef68b6a1754bba5a7c8e3e0d8     59425  img/tool-redcontrol-es-800.jpg
 bf4640040cf65c621f76a5406c5ed2cb6d9f5af58901bf7c1c99e7ea0ba9109d     51390  img/tool-rollbook-800.jpg
-ed611e2161d90db0fe1aa080a654efff1f0a4f9391232e73ecbb4a2d85bc7d34     21425  index.html
+5b4f1172f1f70e5fde34930121e7a520f0f4f3d4cc69577eaedd82c85161e4bd     20986  index.html
 115da826156ef19c6843d133509e593d34b8356b94a30113a67b0d4467150fc8      6992  js/site.js
 42332a38ea5277c891d42ad9600d18a647d20db4164fee582b9cbc4bee1b5cbc     24329  media/demos/AIguy-ES.html
 1b8eeac10634f01e5bc35ae68dcf806025f664b46319daf829479fb0e4cb38f9     78987  media/demos/Blueprint-ES.html
@@ -31,14 +31,14 @@ ed611e2161d90db0fe1aa080a654efff1f0a4f9391232e73ecbb4a2d85bc7d34     21425  inde
 7251301f7b317942298761bc094293ced8ef0908c38b92fd6a33478c34fef0ed    741086  media/demos/RedControl-ES.html
 772e2a826ce273283b630365416e8c8ec555a6afa778336e190a5459a8ddccaa     31014  media/demos/WhatsApp-ES.html
 f14918dedfaa303a1da1dac340808b95491f3bb377a922bea30279340c92b69e   2181780  media/software-factory-sim.mp4
-c56bf9c8466cbf745995989823bf3cc5adb888fec0cf582a2fe1edc960b3d14a     17716  nosotros/index.html
-2a18b8c69e6329c8927f5c5e6091555c912c11ea84b601d86b47fbeebcf9a697     24317  nuestro-trabajo/index.html
+345f34682543b3f81a6612ff7f8eeddb4de66a60a78ecedd4a0c596e2f07bb26     17716  nosotros/index.html
+8a4bc878f2d6847a0b15b1bf9c0810329fb091f21535a4c5d2e7d48682a117a6     24317  nuestro-trabajo/index.html
 5459196cf075bd6365c995aa28a2ff58ce167262da093c82d09c70cdbc948149    168930  painting/painting.html
-6b1c71adb46a83b43591407327bbf32d604dbe40f48c795b577eaa09c5a45d7c     13668  preguntas-frecuentes/index.html
-140a89f0af683a86f1f09751e303617a795abe05be90da364afa116226632146     11016  privacidad/index.html
+514d42cc02f9516b42dd6320f45a9d0ecc1d24a39b3584751a2750aac6885242     13668  preguntas-frecuentes/index.html
+3d5051022b9efc74fe0fa781555e7b4d4424ffc126686b1db449694d31ede159     11016  privacidad/index.html
 4a3830d0c4aa648f1535ffa4b178392d9423ba152be450ef4bf23bd6d1cb9559        75  robots.txt
 35a585136d32a52065bc9f355003607721cf72d8f2a891477a7ba1d32a6e3f2f      1351  sitemap.xml
-59e0a624e7f125c71b1a66ab1d649583e3412b151224fc117ee6b4c1aedb8934     39122  soluciones-de-inteligencia-artificial/index.html
-afb6301d7058ea18a035b9dc83ad1d041f1f2e334eeee3c07d0c46141b3cc1bd      9410  terminos/index.html
+5b9622ecfea28ebeb73adb2b0b59742952fb845d9533ca52ec8e6f53d0721c15     39122  soluciones-de-inteligencia-artificial/index.html
+800056a7beb3c9873118199220b1375de2ca9420443fb73d114b6cc9b97deea4      9410  terminos/index.html
 
 PREVIEW COPY: noindex added to 21 html files; robots.txt = Disallow all. Not for go-live.

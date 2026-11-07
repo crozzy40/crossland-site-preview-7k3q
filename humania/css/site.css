@@ -92,11 +92,6 @@ h4{font-size:18px}
 .hsmall{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
 .idline{font-size:15.5px;color:var(--mut);margin:18px 0 0}
 
-/* trust strip */
-.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
-.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-top:26px;padding-bottom:26px}
-.tgrid p{margin:0;font-size:15.5px;color:var(--mut)}
-.tgrid b{display:block;color:var(--ink);font-size:16.5px;margin-bottom:2px}
 
 /* sections */
 .sec{padding:84px 0}
@@ -333,8 +328,7 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
   .hero{padding:36px 0 40px}
   .sec{padding:56px 0}
   .phead{padding:36px 0 32px}
-  .offers,.grid3,.tgrid,.fgrid{grid-template-columns:1fr}
-  .tgrid{gap:16px}
+  .offers,.grid3,.fgrid{grid-template-columns:1fr}
   .lead{font-size:18.5px}
   .ctas .btn,.band .cact .btn,.actrow .btn{width:100%}
   .badge{font-size:14px;border-radius:12px;align-items:flex-start}
