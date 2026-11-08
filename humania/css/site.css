@@ -463,3 +463,16 @@ main p a:not(.btn),main li a:not(.btn),.foot p a,.foot li a{position:relative}
 main p a:not(.btn)::after,main li a:not(.btn)::after,.foot p a::after,.foot li a::after{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
 button.copy,.copy-btn,[data-copy]{min-height:44px}
 .tool .acts .btn{white-space:normal;text-align:center;max-width:100%;padding-top:10px;padding-bottom:10px}
+
+/* the ten processes as a short list (Home cut, 8 Nov): one row per process, the two lines open under it */
+.procsd{list-style:none;padding:0;margin:26px 0 24px;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+.procd{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:6px 16px}
+.procd details{flex:1;min-width:0}
+.procd summary{cursor:pointer;list-style:none;min-height:44px;display:flex;align-items:center;font-weight:700;color:var(--navy);font-size:17px;padding-right:26px;position:relative}
+.procd summary::-webkit-details-marker{display:none}
+.procd summary::after{content:"+";position:absolute;right:0;font-size:22px;font-weight:400;color:var(--navy)}
+.procd details[open] summary::after{content:"2"}
+.procd details p{margin:0 0 .4em;font-size:16px}
+.procd details p:last-child{margin-bottom:12px}
+.procd>svg,.procd>.ico{flex:none;margin-top:10px}
+@media (max-width:760px){.procsd{grid-template-columns:1fr}}
