@@ -59,7 +59,8 @@ addEventListener('scroll',on,{capture:true,passive:true});addEventListener('keyd
 .motion{min-height:44px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 .pend{outline:1px dashed var(--ac);outline-offset:2px;padding:0 4px;border-radius:2px;color:var(--ac2)}
-footer.site .legal{border-top:1px solid var(--line);margin:22px 0 0;padding:16px 0 6px;color:var(--mu);font-size:14px;line-height:1.6}
+footer.site .legal{border-top:1px solid var(--line);margin:0;padding:16px 32px 24px;color:var(--mu);font-size:14px;line-height:1.6}
+@media (max-width:760px){footer.site .legal{padding:16px 16px 22px}}
 footer.site .legal p{margin:0 0 6px}
 footer.site .legal a{color:var(--tx);text-decoration:underline;text-underline-offset:2px}
 .idblock{max-width:1080px;margin:0 auto;padding:34px 24px 10px;color:var(--mu)}
