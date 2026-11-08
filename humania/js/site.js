@@ -8,36 +8,44 @@
 var D=document;
 function still(){return !!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)}
 
-/* 1. quiz */
+/* 1. quiz (prototype 7 Nov 18:45: no score; the first question asks if they want a course or training; the answers pick the service) */
 (function(){
 var R=D.getElementById('qz'),W=D.getElementById('qz-ow');if(!R||!W)return;
 var T;try{T=JSON.parse(R.querySelector('.qz-strings').textContent)}catch(e){return}
 var B=W.querySelector('.qz-open'),LAD=D.querySelector('#escalera .lad'),F=R.querySelector('.qz-f'),
-S=[].slice.call(R.querySelectorAll('.qz-s')),N=S.length,RES=R.querySelector('.qz-r'),LV=[].slice.call(R.querySelectorAll('.qz-lv')),
+ALL=[].slice.call(R.querySelectorAll('.qz-s')),S=[ALL[0]],N=1,RES=R.querySelector('.qz-r'),LV=[].slice.call(R.querySelectorAll('.qz-lv')),
 BACK=R.querySelector('.qz-back'),MSG=R.querySelector('.qz-msg'),BAR=R.querySelector('.qz-bar i'),LIVE=R.querySelector('.qz-live'),
-MAIL=R.querySelector('.qz-mail'),CS=R.querySelector('.qz-cs'),INTRO=R.querySelector('.qz-intro'),cur=0,ptr=0,tok=0,copyText='';
+MAIL=R.querySelector('.qz-mail'),CS=R.querySelector('.qz-cs'),INTRO=R.querySelector('.qz-intro'),cur=0,ptr=0,tok=0,copyText='',QN=4;
 function each(sel,f){[].forEach.call(R.querySelectorAll(sel),f)}
 function fill(s,o){return s.replace(/\{(\w+)\}/g,function(m,k){return o[k]})}
 function into(){var r=R.getBoundingClientRect();if(r.top<0||r.top>Math.max(140,innerHeight*0.2))R.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'})}
 function focusH(h){try{h.focus({preventScroll:true})}catch(e){h.focus()}}
 function mark(s){[].forEach.call(s.querySelectorAll('.qz-a'),function(l){l.classList.toggle('on',l.querySelector('input').checked)})}
 function picked(i){return S[i]&&S[i].querySelector('input:checked')}
+function path(){var c=ALL[0].querySelector('input:checked');return c?c.value:''}
+function active(){var p=path();S=ALL.filter(function(s,i){return i===0||(p&&s.getAttribute('data-path')===p)});N=S.length}
 function show(i){
-cur=i;tok++;MSG.textContent='';var res=i>=N;F.hidden=res;RES.hidden=!res;INTRO.hidden=res;
+active();cur=i;tok++;MSG.textContent='';var res=i>=N&&N>1;F.hidden=res;RES.hidden=!res;INTRO.hidden=res;
 if(res){result();return}
-S.forEach(function(s,j){s.hidden=j!==i});BACK.hidden=i===0;BAR.style.width=((i+1)/N*100)+'%';
+ALL.forEach(function(s){s.hidden=S[i]!==s});BACK.hidden=i===0;BAR.style.width=((i+1)/QN*100)+'%';
 into();focusH(S[i].querySelector('.qz-q'));
 }
 function next(){var c=picked(cur);if(!c){MSG.textContent=T.pick;var f=S[cur].querySelector('input');if(f)f.focus();return}show(cur+1)}
-function tally(){var pts=0,qa=[];S.forEach(function(s){var c=s.querySelector('input:checked');pts+=c?+c.value:0;
-qa.push([s.querySelector('.qz-qt').textContent,c?c.parentNode.querySelector('.qz-at').textContent:'-'])});
-var score=Math.round(pts/21*100);return {pts:pts,score:score,lv:score<25?1:score<50?2:score<75?3:4,qa:qa}}
+function decide(){
+var p=path(),v={},qa=[],ans=[];
+S.forEach(function(s){var c=s.querySelector('input:checked'),at=c?c.parentNode.querySelector('.qz-at').textContent:'-';
+v[s.getAttribute('data-k')]=c?c.value:'';qa.push([s.querySelector('.qz-qt').textContent,at]);ans.push(at)});
+var key=p==='learn'?(v.how==='vivo'?'capacitacion':'cursos'):({auto:'automatizacion',soft:'software',datos:'datos',construya:'construya'}[v.goal]||'automatizacion');
+var first=p==='learn'?T.level[v.level]:T.clarity[v.clarity];
+return {key:key,first:first||'',qa:qa,ans:ans}}
 function result(){
-var d=tally(),el=null;LV.forEach(function(x){var on=+x.getAttribute('data-lv')===d.lv;x.hidden=!on;if(on)el=x});
-each('.qz-sc',function(x){x.textContent=d.score});each('.qz-pts',function(x){x.textContent=d.pts});
-var o={level:el.getAttribute('data-name'),score:d.score,step:el.getAttribute('data-mail')},L=[T.hello,'',T.intro,''];
+var d=decide(),el=null;LV.forEach(function(x){var on=x.getAttribute('data-key')===d.key;x.hidden=!on;if(on)el=x});
+var ul=el.querySelector('.qz-why-l');ul.textContent='';
+d.ans.forEach(function(a){var li=D.createElement('li');li.textContent=a;ul.appendChild(li)});
+el.querySelector('.qz-first').textContent=d.first;
+var o={name:el.getAttribute('data-name')},L=[T.hello,'',T.intro,''];
 d.qa.forEach(function(x,i){L.push((i+1)+'. '+x[0]);L.push('   '+x[1])});
-L.push('',fill(T.level,o),fill(T.score,o),fill(T.step,o),'',T.ask,T.company+' ',T.when+' ','',T.bye);
+L.push('',fill(T.rec,o),d.first,'',T.ask,T.company+' ',T.when+' ','',T.bye);
 var subj=fill(T.subject,o);
 MAIL.setAttribute('href','mailto:'+T.to+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(L.join('\r\n')));
 copyText=subj+'\n\n'+L.join('\n');CS.textContent='';LIVE.textContent='';
@@ -50,15 +58,17 @@ W.hidden=false;
 B.addEventListener('click',open);
 each('.qz-exit',function(x){x.addEventListener('click',close)});
 BACK.addEventListener('click',function(){if(cur>0)show(cur-1)});
-R.querySelector('.qz-rback').addEventListener('click',function(){show(N-1)});
-R.querySelector('.qz-again').addEventListener('click',function(){each('.qz-f input',function(x){x.checked=false});S.forEach(mark);show(0)});
+R.querySelector('.qz-rback').addEventListener('click',function(){active();show(N-1)});
+R.querySelector('.qz-again').addEventListener('click',function(){each('.qz-f input',function(x){x.checked=false});ALL.forEach(mark);show(0)});
 F.addEventListener('submit',function(e){e.preventDefault();next()});
-F.addEventListener('change',function(e){var s=e.target.closest&&e.target.closest('.qz-s');if(s)mark(s);if(picked(cur))MSG.textContent=''});
+F.addEventListener('change',function(e){var s=e.target.closest&&e.target.closest('.qz-s');
+if(s===ALL[0]){var p=path();ALL.forEach(function(x,i){if(i&&x.getAttribute('data-path')!==p){[].forEach.call(x.querySelectorAll('input'),function(r){r.checked=false});mark(x)}});active()}
+if(s)mark(s);if(picked(cur))MSG.textContent=''});
 F.addEventListener('pointerdown',function(){ptr=Date.now()},true);
 F.addEventListener('keydown',function(){ptr=0},true);
 /* a tap or click on an answer moves on by itself; the keyboard (arrows, Space) only chooses, and Enter or Next moves on */
 F.addEventListener('click',function(e){var t=e.target;if(!t||t.type!=='radio'||!ptr||Date.now()-ptr>1500)return;ptr=0;
-var i=cur,k=tok;setTimeout(function(){if(cur===i&&tok===k&&picked(i))show(i+1)},160)});
+var i=cur,k=tok;setTimeout(function(){active();if(cur===i&&tok===k&&picked(i))show(i+1)},160)});
 R.addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();close()}});
 R.querySelector('.qz-copy').addEventListener('click',function(){var s=copyText;
 function fb(){var ta=D.createElement('textarea'),ok=false;ta.value=s;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';

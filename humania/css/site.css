@@ -277,6 +277,10 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .qz-tips{list-style:none;padding:0;margin:0;display:grid;gap:10px}
 .qz-tips li{display:grid;grid-template-columns:32px 1fr;gap:10px}
 .qz-tn{width:28px;height:28px;border-radius:50%;background:var(--navy-t);color:var(--navy);display:grid;place-items:center;font-weight:800;font-size:14px}
+.qz-first{font-weight:700;margin:0 0 .8em}
+.qz-why-l{margin:0 0 14px;padding-left:20px;color:var(--mut)}
+.qz-why-l li{margin:0 0 4px}
+.qz-alt{color:var(--mut);margin:0 0 6px}
 .qz-sb{margin-top:22px;padding:16px 18px;background:var(--bg2);border-radius:12px}
 .qz-score{font-size:22px;margin:0 0 6px}
 .qz-score b{font-size:34px;color:var(--navy);font-family:var(--hfont)}
@@ -331,6 +335,7 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
   .offers,.grid3,.fgrid{grid-template-columns:1fr}
   .lead{font-size:18.5px}
   .ctas .btn,.band .cact .btn,.actrow .btn{width:100%}
+  .ctas .btn,.band .cact .btn,.actrow .btn{white-space:normal;text-align:center;padding-top:10px;padding-bottom:10px}
   .badge{font-size:14px;border-radius:12px;align-items:flex-start}
   .badge .flag{margin-top:3px}
   .hsmall{display:none}
@@ -387,3 +392,14 @@ h1 em{font-style:normal;background:linear-gradient(transparent 80%,var(--gold) 8
 @media (max-width:1060px){.stps{grid-template-columns:repeat(3,1fr)}.sims{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:760px){.stps{grid-template-columns:repeat(2,1fr)}.procs{grid-template-columns:1fr}.sims{grid-template-columns:1fr}}
 @media (max-width:640px){.stps{grid-template-columns:1fr}.proc{padding:16px 16px}}
+
+/* PROTOTYPE: Nuestros servicios */
+.svcs{list-style:none;padding:0;margin:30px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.svc{background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:24px 24px 22px;display:flex;flex-direction:column;position:relative}
+.svc .ico{margin-bottom:14px}
+.svc .onum{position:absolute;top:22px;right:22px;margin:0!important}
+.svc h3{font-size:22px;margin:0 0 .4em}
+.svc p{font-size:16px}
+.svc .more{margin-top:auto}
+@media (max-width:1060px){.svcs{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.svcs{grid-template-columns:1fr}}

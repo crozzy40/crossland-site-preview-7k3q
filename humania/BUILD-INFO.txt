@@ -6,11 +6,11 @@ files: 40
 4deb3e83c028e83a8ea3496438f94e3464fd158ad724d49f1bf3ec0e91026b30      1482  404.html
 b539f02cab24e1b47604e1976a903921d2fd07651be0670abea87e5fd6552f66      5293  ask-us/ask-us.css
 19cc95659613fded87ab9a5fce269cca78a5f2fa63e6f922b3e64b4420fd1244     17334  ask-us/ask-us.js
-fb4ac42d752a8e2e9c2c1c83bddd7ca0fc97b93414dc2b1a70f0eb88029400b3     14273  con-quien-trabajamos/index.html
-56386a62d2a1b60c87a674a38717271c4dc3baf8777278eccb5d461a3ba4e051     11755  construya-con-nosotros/index.html
-c254d98e9a47e56331acd73359ea252e7f4470d8a1a479b79c405fe4a1bd68a7     24538  css/site.css
-cded6d452254873ab12641a6646183721aacf6876076a84ad3083f43d14ae018     11156  datos-y-seguridad/index.html
-f324201611ecd08d414747a9d4f3eb01ef25dced857319da7331dca60b7642b6     12148  empiece/index.html
+6200cacb1345b5beee87cde3d90bf031e3d3d557c37a52d73aed8c3141488d59     14291  con-quien-trabajamos/index.html
+89e72199fc6e7d039c96f6f88f659c38718ffa0bd40b0e04b4a0021ce9ac0185     11769  construya-con-nosotros/index.html
+9f4779e17fa3147e32714377a723502160d09ec11861a2a6294f092ebc62428a     25439  css/site.css
+bcbc7dc9734f94b13bf4346102adcaf8f3b52a2b633e09f92a838b3cd1898e77     11177  datos-y-seguridad/index.html
+e744bf6ed976b9f554a2ec07ca4cc4e4175805969f4a36d1f65fdd6a4b50af4a     12169  empiece/index.html
 7c3daa1e8f769514dbdcc79933e457c65a6bbb6ac2023331c57c7064c16f5528       456  fonts/ARCHIVO-LICENCE.txt
 8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967     34928  fonts/archivo-latin.woff2
 f118ef15c8eb7b27c6a19e50f8e68f381737c00bebdb059608627c1cf026324e     73774  img/share-humania.jpg
@@ -23,8 +23,8 @@ c9a4f780aa52759aaa0507da4b62e42d5cb02003aa69f18f70c4763abd9dc05d     59384  img/
 b2ba37d5d918364004f6160802a1c14efd1c5234d1ef7aa393cfbdfdab3a6621     15538  img/tool-redcontrol-es-400.jpg
 a411e8847565a3ec2eea08241a8e79cd20bea3fef68b6a1754bba5a7c8e3e0d8     59425  img/tool-redcontrol-es-800.jpg
 bf4640040cf65c621f76a5406c5ed2cb6d9f5af58901bf7c1c99e7ea0ba9109d     51390  img/tool-rollbook-800.jpg
-b182e1b104492a6afb0ae6f6822d693eca7a48a3d434519668aa6e21f2124850     31353  index.html
-115da826156ef19c6843d133509e593d34b8356b94a30113a67b0d4467150fc8      6992  js/site.js
+e93fcf7b429740cdee3ee492d6e335ecdea3fae70602af2f78b89e86e1c9e33a     31802  index.html
+cba53d2b7a5a1a0f480398be9df8a5cbcdc3cf3d459e1d88ad5bc3908a5212bd      7814  js/site.js
 42332a38ea5277c891d42ad9600d18a647d20db4164fee582b9cbc4bee1b5cbc     24329  media/demos/AIguy-ES.html
 1b8eeac10634f01e5bc35ae68dcf806025f664b46319daf829479fb0e4cb38f9     78987  media/demos/Blueprint-ES.html
 9e135321e8dec288e6b5d45bdcec95448f36566a0795d9b9445eb879c16110b0     28637  media/demos/Nicky-ES.html
@@ -34,14 +34,14 @@ b182e1b104492a6afb0ae6f6822d693eca7a48a3d434519668aa6e21f2124850     31353  inde
 7251301f7b317942298761bc094293ced8ef0908c38b92fd6a33478c34fef0ed    741086  media/demos/RedControl-ES.html
 772e2a826ce273283b630365416e8c8ec555a6afa778336e190a5459a8ddccaa     31014  media/demos/WhatsApp-ES.html
 f14918dedfaa303a1da1dac340808b95491f3bb377a922bea30279340c92b69e   2181780  media/software-factory-sim.mp4
-987101bfa39d8b76b7802e11297e31e6f9740fd509c520ff66b0e66c83864814     17676  nosotros/index.html
-5bbe5064b2ecc720abf600692704dc02344d5a7631e019f9ef44bffa85bc6062     24317  nuestro-trabajo/index.html
+327598c30febe5db3c80dd029de32d6801762729afd4ed05e2010e260c1c4a3b     17697  nosotros/index.html
+c7142dc2a82928551f61b7a0939993a951c5420228c1f7f0b197f93e3c2cdc96     24338  nuestro-trabajo/index.html
 5459196cf075bd6365c995aa28a2ff58ce167262da093c82d09c70cdbc948149    168930  painting/painting.html
-54546ce24f7c3d6f70ff50a73e7d9c3da9d4fa8c40df597d3bf4667dcb6d93fc     13668  preguntas-frecuentes/index.html
-b63f7b7118e1e3f93dd7b6798f573f94864869222c98270258615e35ab667d30     11016  privacidad/index.html
+7008ea622e91ce0205c2906b5c04304f5a76238a294054d991ba774aa0c0a439     13687  preguntas-frecuentes/index.html
+bf23127166a6ccbd967325be58350dcb9c02e7911b7084bf9a1257146ef5d57a     11037  privacidad/index.html
 4a3830d0c4aa648f1535ffa4b178392d9423ba152be450ef4bf23bd6d1cb9559        75  robots.txt
 35a585136d32a52065bc9f355003607721cf72d8f2a891477a7ba1d32a6e3f2f      1351  sitemap.xml
-bcef4f62e507cd897f9a815a24ba4c1e5dcb9b33bcc0cfefa62ab40c060b694e     39122  soluciones-de-inteligencia-artificial/index.html
-4552d4afb44d98aaf9dff60b9a2b2f0aab7ae9b93761943d83d655fce857da52      9410  terminos/index.html
+7ba1233197617cb6cbad7387a6139a088c26d0af660564dcee8397cb1a4f9328     44549  soluciones-de-inteligencia-artificial/index.html
+4eaaf248abda2c582b4933affd38c0dbb16839ab715193a1c60354e6f493e5d8      9431  terminos/index.html
 
 PREVIEW COPY: noindex added to 21 html files; robots.txt = Disallow all. Not for go-live.
