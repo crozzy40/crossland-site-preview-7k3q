@@ -1,5 +1,5 @@
 BUILD-INFO (make_humania.py, 2026-11-08)
-status: NOT RELEASABLE (pending placeholders: {"nit": 15, "direccion": 13, "logo": 11, "[PENDIENTE total]": 47})
+status: NOT RELEASABLE (pending placeholders: {"nit": 15, "direccion": 13, "logo": 11, "[PENDIENTE total]": 48, "agenda": 1})
 source: crozzy40/crosslandai release-hardpart fb324813be7a76efb2b53e332852b9f5a9a9b67b (es pages, ask-us, demos ES, painting)
 files: 63
 
@@ -10,7 +10,7 @@ b539f02cab24e1b47604e1976a903921d2fd07651be0670abea87e5fd6552f66      5293  ask-
 83db9e7693c7570c2a35517911e4b4f6eef0d54caaf0b8efcd7a955274056f0b     12199  construya-con-nosotros/index.html
 3a03086c6d62b58cbb6a7dd43799dcb51e51541a66cb4a82f2b3480198af1370     29664  css/site.css
 0b4c12bc29ead850ee3c914f8254e2f7184d49ce2d3fadb1d62ad85f0279c43b     11599  datos-y-seguridad/index.html
-cb78820fe00c26db570a044ccce33dc2b8708c9f06212e3082c70082737c88b5     12606  empiece/index.html
+6e0d34204ab4f55f0af0e0f61cca3900775b19503807ef14c2a3c82298999a44     12764  empiece/index.html
 7c3daa1e8f769514dbdcc79933e457c65a6bbb6ac2023331c57c7064c16f5528       456  fonts/ARCHIVO-LICENCE.txt
 8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967     34928  fonts/archivo-latin.woff2
 3e76657abbcab2cd398e2e7d5c9bf075dfa69de6dad8ea8309ce9896fa5d0236    108960  img/scenes/01-tienda-de-barrio-1280.jpg
