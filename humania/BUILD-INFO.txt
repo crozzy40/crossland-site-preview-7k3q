@@ -1,7 +1,7 @@
 BUILD-INFO (make_humania.py, 2026-11-08)
 status: NOT RELEASABLE (pending placeholders: {"nit": 15, "direccion": 13, "logo": 11, "[PENDIENTE total]": 48, "agenda": 1})
 source: crozzy40/crosslandai release-hardpart fb324813be7a76efb2b53e332852b9f5a9a9b67b (es pages, ask-us, demos ES, painting)
-files: 63
+files: 69
 
 4deb3e83c028e83a8ea3496438f94e3464fd158ad724d49f1bf3ec0e91026b30      1482  404.html
 b539f02cab24e1b47604e1976a903921d2fd07651be0670abea87e5fd6552f66      5293  ask-us/ask-us.css
@@ -34,6 +34,12 @@ d03a4a7eecfa5df41a17b03428c2ec130a85f4fd6e41ab5c9aab4c74a80a59ac     24413  img/
 66df0611249407263b6c91ab404436a1e64c6af3e0d97f1e9a2a6de903aac22d     81039  img/scenes/18-obra-jefe-1280.jpg
 13f27d4029e0fbb9349bfdc7a7ca38ef259aa6e9d2280e920e65a3ab43ea4ba6     29963  img/scenes/18-obra-jefe-640.jpg
 f7bd4dc8adebb3586e0a62b45f53abc6d699573fb47954f69667d20448052156     53544  img/scenes/18-obra-jefe-960.jpg
+fc9e7aa0c45c54f458e4ab5162926e29639e80c77907f5241bd34472c78eb232     99448  img/scenes/19-cursos-instructora-1280.jpg
+6e08afd3f3f03cb54a7703b88667d0162c4f78776fe1ba9f903e4b87f0fdf66b     35973  img/scenes/19-cursos-instructora-640.jpg
+ba4026a927854289f84a16d79f55e37bbadb7120b03fad2b514ed5e093714557     64348  img/scenes/19-cursos-instructora-960.jpg
+a51f6eefe03edc82bf03d4139e02817782b8f3248b58e854bcb7aa22c12c33a3     89545  img/scenes/20-asesor-y-duena-1280.jpg
+da953fd03228a5db4ec68407741f2c33572fc61679ba75de7cbbcaf6f8430d2e     31855  img/scenes/20-asesor-y-duena-640.jpg
+c62dca407fb72424dde71d75149c7c8aaf95560765776ba2962fe0e2b43f81b4     57681  img/scenes/20-asesor-y-duena-960.jpg
 796e79337b93cde9ffbc13a1b564bcdd9271b755bd8f181c6384e9f40b8fce27     73590  img/share-humania.jpg
 ad622b099fc6980682c3dcbff7853bd78d5123c0ab3107f53f953c2237df0426     15069  img/software-factory-400.jpg
 4d6d5a1ee5911d41b2bddfa6d623da9a6428602dc301a59c6b4e8cdeecaa8b49     55476  img/software-factory-800.jpg
@@ -64,7 +70,7 @@ a9427fae6ba464262ab45322cbf9a4e9623af312fbbd5fdbf310d75003d0ec3a     13815  preg
 a097e3e28c4f4db317e9ee9c1cabe0ff4d9be606c4ae36d7106f9d9566ca2a62     11467  privacidad/index.html
 4a3830d0c4aa648f1535ffa4b178392d9423ba152be450ef4bf23bd6d1cb9559        75  robots.txt
 240b5ea40593c44a2e49dc68bd8ac9da044a14f4019e073bfc405e3382d58fd0      1351  sitemap.xml
-b6ad689e5f169b2cc03ab73d17d182cb111b04f7574407640449dd855d1bd4c4     45408  soluciones-de-inteligencia-artificial/index.html
+ef9265663e4c81a3d451a431268525ba6c5e6877d3d332536181d0ca471ee93a     45801  soluciones-de-inteligencia-artificial/index.html
 a05068fab7d39593374ed56075a229040461293f76663862897211740018cc5a      9861  terminos/index.html
 
 PREVIEW COPY: noindex added to 22 html files; robots.txt = Disallow all. Not for go-live.
