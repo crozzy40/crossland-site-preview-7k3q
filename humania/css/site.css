@@ -231,9 +231,13 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 
 /* quick contact: phone bar and desktop button */
 .pbar{display:none}
-.wafab{position:fixed;right:14px;bottom:18px;z-index:45;display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;background:var(--gold);border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.28)}
+.wafab{position:fixed;right:16px;bottom:18px;z-index:45;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px 0 16px;background:var(--gold);border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.28);font-weight:700;color:var(--ink)}
+.wafab span{font-size:16px;line-height:1}
 .wafab:hover{filter:brightness(.93)}
 .wafab path{fill:var(--ink)}
+.waic{flex:none;width:22px;height:22px}
+.btn-wa{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;background:var(--navy);color:#fff;border:2px solid var(--navy)}
+.btn-wa .waic path{fill:#fff}
 
 /* Ask-us in the Empiece page */
 .askbox{max-width:700px}
@@ -336,12 +340,13 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
   .lead{font-size:18.5px}
   .ctas .btn,.band .cact .btn,.actrow .btn{width:100%}
   .ctas .btn,.band .cact .btn,.actrow .btn{white-space:normal;text-align:center;padding-top:10px;padding-bottom:10px}
-  .badge{font-size:14px;border-radius:12px;align-items:flex-start}
-  .badge .flag{margin-top:3px}
+  .badge{font-size:12.5px;padding:5px 10px;gap:6px;white-space:nowrap}
+  .badge .us{display:none}
+  .hk{font-size:13px;white-space:nowrap}
   .hsmall{display:none}
   .next .btn{margin-left:0;width:100%}
   .wafab{display:none}
-  .pbar{display:grid;grid-template-columns:1.4fr 1fr;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line2);box-shadow:0 -6px 18px rgba(10,20,50,.14)}
+  .pbar{display:grid;grid-template-columns:1fr;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line2);box-shadow:0 -6px 18px rgba(10,20,50,.14)}
   .pbar .btn{min-height:48px;padding:0 10px;width:100%}
   .qz{padding:18px}
   .call{padding:22px 20px}
@@ -445,3 +450,9 @@ h1 em{font-style:normal;background:linear-gradient(transparent 80%,var(--gold) 8
 .scn-hero,.scn-mini{aspect-ratio:4/3}
 .scn-card{aspect-ratio:16/10;min-height:220px}
 .offer .scn{border-radius:0}
+
+/* the sister-company badge on the Home first screen: two flags, smaller (Ryan 8 Nov 13:11, 13:24) */
+.badge{font-size:13px;padding:5px 12px;gap:7px}
+.badge .flag{height:12px;width:auto;flex:none}
+@media (max-width:360px){.hk{font-size:12.5px}}
+@media (max-width:760px){.badge{font-size:12.5px;padding:5px 10px;gap:6px;white-space:nowrap}}
