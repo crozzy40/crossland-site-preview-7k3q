@@ -456,3 +456,4 @@ h1 em{font-style:normal;background:linear-gradient(transparent 80%,var(--gold) 8
 .badge .flag{height:12px;width:auto;flex:none}
 @media (max-width:360px){.hk{font-size:12.5px}}
 @media (max-width:760px){.badge{font-size:12.5px;padding:5px 10px;gap:6px;white-space:nowrap}}
+.wafab,.wafab:hover,.wafab span{text-decoration:none}
