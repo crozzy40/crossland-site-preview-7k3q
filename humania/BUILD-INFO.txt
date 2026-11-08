@@ -58,13 +58,13 @@ a3d07f09b3259782b967c75883b28d1fbd0b5df8571f10db5ed1c1c2d7dac86a     29724  medi
 9b99fc688979f3d280db6171e7904e3dae5109badd1cbb5c88bf9422d55af4c2    116399  media/demos/WhatsApp-alojado-ES.html
 f14918dedfaa303a1da1dac340808b95491f3bb377a922bea30279340c92b69e   2181780  media/software-factory-sim.mp4
 01cdf3746e3cf238cfad18ea2c3c99d430c48174b18c034616dbc0524067fa11     18085  nosotros/index.html
-d02f25f74e67191f338b46c948369e1509db22bd9fe92de50897cc2dcb35855b     24795  nuestro-trabajo/index.html
+2ae46e18aa5968aac7c00ca4b04191b988a56ba7eba8f485e46e3d797f241d86     24822  nuestro-trabajo/index.html
 5459196cf075bd6365c995aa28a2ff58ce167262da093c82d09c70cdbc948149    168930  painting/painting.html
 c8bf3c1f9bd205d437fefacbf840bc2b92a51a6912b9a325f36ca2f30d5fd403     13815  preguntas-frecuentes/index.html
 4bfaf6f2bd8f30366dd89384680f9c7204cf78e4b838001fa9e3eba57f0d8cb6     11467  privacidad/index.html
 4a3830d0c4aa648f1535ffa4b178392d9423ba152be450ef4bf23bd6d1cb9559        75  robots.txt
 240b5ea40593c44a2e49dc68bd8ac9da044a14f4019e073bfc405e3382d58fd0      1351  sitemap.xml
-c04fc473ca0df0c33937052a3d4d80642a383f41b0b2a88e3932b67b4131ef12     45476  soluciones-de-inteligencia-artificial/index.html
+8aef21504c0b0ba08e6efdd610af619864e7649f2f4bedf4a853b93c32a35a00     45408  soluciones-de-inteligencia-artificial/index.html
 b528975543dcf3ff4f54bc3e62448361b59cf876cc0046e11f2fb7eef35dea50      9861  terminos/index.html
 
 PREVIEW COPY: noindex added to 22 html files; robots.txt = Disallow all. Not for go-live.
