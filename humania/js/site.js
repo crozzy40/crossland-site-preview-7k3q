@@ -56,6 +56,9 @@ function open(){W.hidden=true;LAD.hidden=true;R.hidden=false;show(cur)}
 function close(){R.hidden=true;LAD.hidden=false;W.hidden=false;B.focus();var r=B.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)B.scrollIntoView({block:'center'})}
 W.hidden=false;
 B.addEventListener('click',open);
+/* the Home's quiz button and any link to #cuestionario open the first question directly (grade 8 Nov, item 4) */
+function direct(){if(location.hash==='#cuestionario'&&R.hidden)open()}
+direct();addEventListener('hashchange',direct);
 each('.qz-exit',function(x){x.addEventListener('click',close)});
 BACK.addEventListener('click',function(){if(cur>0)show(cur-1)});
 R.querySelector('.qz-rback').addEventListener('click',function(){active();show(N-1)});
