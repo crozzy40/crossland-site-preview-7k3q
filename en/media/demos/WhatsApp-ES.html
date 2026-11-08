@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De WhatsApp al calendario · Crossland AI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' fill='%230B1220'/%3E%3Ccircle cx='11' cy='11' r='8' fill='none' stroke='%23F4EFE8' stroke-width='1.6'/%3E%3Ccircle cx='11' cy='11' r='3' fill='%23E2A93B'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#0B1220;--s1:#0F1828;--s2:#141E31;--s3:#1B263B;--line:#222D42;--line2:#34415B;--tx:#F4EFE8;--mu:#B7BDC9;--dim:#9AA3B5;--ac:#E2A93B;--ac2:#EEBE60;--acink:#1A1203;--deep:#070C16;--bad:#F0948C;--font:"Archivo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:ui-monospace,"Cascadia Mono","SFMono-Regular","Segoe UI Mono",Consolas,Menlo,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx);font:1rem/1.5 var(--font);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-wrap:anywhere}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px;border-radius:3px}
+.mono{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:400}
+.skip{position:absolute;left:.75rem;top:-6rem;z-index:50;background:var(--tx);color:var(--bg);padding:.6rem .9rem;border-radius:4px;text-decoration:none;font-weight:600}
+.skip:focus{top:.75rem}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem 1.5rem;padding:.5rem 1rem;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:600;font-size:1.3rem;letter-spacing:-.01em;text-decoration:none;min-height:2.75rem}
+.brand svg{width:1.8rem;height:1.8rem;flex:none}
+.top nav{margin-left:auto;display:flex;flex-wrap:wrap;gap:0 1.25rem}
+.lnk{display:inline-flex;align-items:center;min-height:2.75rem;color:var(--mu);font-size:.95rem;text-underline-offset:4px;text-decoration-color:var(--line2)}
+.lnk:hover{color:var(--tx)}
+.wrap{max-width:70rem;margin:0 auto;padding:1.75rem 1rem 3rem}
+.kick{display:flex;align-items:center;gap:.6rem;color:var(--dim);margin-bottom:.9rem}
+.kick::before{content:"";width:.45rem;height:.45rem;background:var(--ac);flex:none}
+h1{font-size:clamp(1.75rem,5vw,2.6rem);line-height:1.12;letter-spacing:-.02em;font-weight:600}
+.lead{margin-top:.8rem;color:var(--mu);max-width:44rem;font-size:1.05rem}
+.demo{margin-top:1.75rem;background:var(--s1);border:1px solid var(--line);border-radius:6px;padding:1rem}
+.dots{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.dot{display:grid;place-items:center;min-width:2.75rem;min-height:2.75rem;border-radius:50%;border:1px solid var(--line2);background:var(--s1);color:var(--mu);font:600 .95rem/1 var(--font)}
+.dot:hover{border-color:var(--mu)}
+.dot.done{border-color:var(--ac);color:var(--ac)}
+.dot[aria-current="step"]{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.say{min-height:5.5rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
+.say .mono{color:var(--dim)}
+.say h2{font-size:1.3rem;line-height:1.25;margin:.2rem 0 .35rem;letter-spacing:-.01em}
+.say p.body{color:var(--mu);max-width:50rem}
+.scene{min-width:0}
+.ctl{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--line)}
+.b{display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;min-width:2.75rem;padding:.4rem 1.25rem;border-radius:4px;border:1px solid var(--line2);background:var(--s3);font-weight:600;font-size:1rem;line-height:1.2;text-align:center}
+.b:hover:not(:disabled){border-color:var(--mu)}
+.b.ac{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.b.ac:hover:not(:disabled){background:var(--ac2)}
+.b:disabled{opacity:.45;cursor:default}
+.foot{margin-top:1.1rem;font-size:.85rem;color:var(--mu)}
+.demo-note{display:inline-block;border:1px dashed var(--line2);border-radius:3px;padding:.15rem .6rem}
+.real{margin-top:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1rem}
+.real section{border:1px solid var(--line);border-radius:6px;padding:1rem;background:var(--s1)}
+.real h2{font-size:1rem;margin-bottom:.5rem}
+.real ul{padding-left:1.1rem;color:var(--mu);font-size:.92rem}
+.real li{margin:.3rem 0}
+.contact{margin-top:1.5rem;color:var(--mu);font-size:.95rem}
+.contact a{color:var(--ac2)}
+/* scene parts */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1rem;align-items:start}
+.col{display:flex;flex-direction:column;gap:.9rem;min-width:0}
+.pane-t{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:.4rem}
+.phone{border:1.5px solid var(--line2);border-radius:1.4rem;background:var(--deep);padding:.6rem .6rem .9rem;min-width:0}
+.ph-top{display:flex;align-items:center;gap:.6rem;padding:.2rem .4rem .6rem;border-bottom:1px solid var(--line)}
+.av{width:2rem;height:2rem;border-radius:50%;background:var(--s3);display:grid;place-items:center;flex:none;color:var(--ac)}
+.av svg{width:1.2rem;height:1.2rem}
+.ph-name{font-weight:600;font-size:.95rem}
+.thread{list-style:none;display:flex;flex-direction:column;gap:.5rem;padding:.75rem .1rem 0}
+.m{max-width:94%;padding:.5rem .7rem;border-radius:.8rem;font-size:.92rem;line-height:1.42;min-width:0}
+.m.l{align-self:flex-start;background:var(--s3);border-top-left-radius:.25rem}
+.m.r{align-self:flex-end;background:#2b2a2f;border:1px solid #6b5a38;border-top-right-radius:.25rem}
+.m small{display:block;color:var(--dim);font-size:.78rem;margin-top:.2rem}
+.m b{font-weight:600}
+.pop{animation:pop .35s ease-out}
+.dim{opacity:.5}
+.is-now{border-color:var(--ac)!important}
+@keyframes pop{from{opacity:0;transform:translateY(.4rem)}to{opacity:1;transform:none}}
+.card{border:1px solid var(--line2);background:var(--s2);border-radius:6px;padding:.75rem .9rem;min-width:0}
+.card h3{font-size:.98rem;font-weight:600;letter-spacing:-.005em}
+.card .sub{font-size:.85rem;color:var(--mu);margin-top:.15rem}
+.card.off{border-style:dashed;background:transparent}
+.pill{display:inline-block;font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;line-height:1;padding:.3rem .5rem;border-radius:3px;border:1px solid var(--ac);color:var(--ac);max-width:100%;line-height:1.25}
+.pill.no{border-color:var(--line2);color:var(--dim)}
+.pill.bad{border-color:var(--bad);color:var(--bad)}
+.pill.wait{border-style:dashed;border-color:var(--tx);color:var(--tx)}
+.row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem .75rem}
+.tap{gap:.3em;display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;min-width:2.75rem;padding:.35rem 1rem;border-radius:.3rem;border:1px solid var(--line2);background:var(--s3);font-weight:600;font-size:.92rem;line-height:1.2;text-align:center}
+.tap:hover{border-color:var(--mu)}
+.tap.ac{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.tap.ac:hover{background:var(--ac2)}
+.tap.sel{border-color:var(--ac);color:var(--ac)}
+.taps{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+.note{margin-top:.5rem;font-size:.88rem;color:var(--mu);border-left:3px solid var(--ac);padding-left:.6rem}
+.kv{margin-top:.5rem;font-size:.92rem}
+.kv div{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.2rem .8rem;padding:.35rem 0;border-top:1px solid var(--line)}
+.kv div:first-child{border-top:0}
+.kv dt{color:var(--mu)}
+.kv dd{text-align:right}
+.log{list-style:none;margin-top:.5rem;font-size:.88rem}
+.log li{display:flex;gap:.7rem;padding:.3rem 0;border-top:1px solid var(--line)}
+.log li:first-child{border-top:0}
+.log time{font-family:var(--mono);font-size:.78rem;color:var(--dim);flex:none;padding-top:.1rem}
+.sbar{display:flex;flex-direction:column;gap:.2rem;border-left:3px solid var(--ac);background:var(--s2);border-radius:0 5px 5px 0;padding:.5rem .7rem;margin:.4rem 0;font-size:.9rem}
+.sbar b{font-size:.78rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;font-weight:400;color:var(--ac2)}
+.sbar.red{border-left-color:var(--bad)}
+.sbar.red b{color:var(--bad)}
+.sbar.blue{border-left-color:#7FA6E8}
+.sbar.blue b{color:#9DBBF0}
+.sbar.green{border-left-color:#7FCB9A}
+.sbar.green b{color:#9ADBB0}
+.sbar.grey{border-left-color:var(--dim)}
+.sbar.grey b{color:var(--mu)}
+.sbar span{display:block}
+.wave{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .6rem}
+.wave svg{height:1.5rem;width:7rem;max-width:100%;flex:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ic{width:1.1rem;height:1.1rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.bigno{font-size:2.2rem;line-height:1.1;font-weight:600;letter-spacing:-.02em;margin-top:.3rem}
+.items{list-style:none;margin-top:.4rem}
+.items li{padding:.4rem 0;border-top:1px solid var(--line);font-size:.93rem;display:flex;flex-wrap:wrap;gap:.2rem .7rem;justify-content:space-between;align-items:center}
+.items li:first-child{border-top:0}
+.items li .d{color:var(--mu);font-size:.85rem}
+.bub{display:flex;align-items:center;gap:.6rem}
+.mic{width:1.2rem;height:1.2rem;color:var(--ac);flex:none}
+.hd{font-size:.92rem;margin-bottom:.15rem}
+.btns{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+.chg{margin:.35rem 0 .1rem 1.1rem;color:var(--tx)}
+</style>
+<style>
+/* D12 part 2: WhatsApp to calendar demo. From the old site's door 04 clip, rebuilt as a live part.
+   No tool names, no WhatsApp logo (a neutral chat bubble). Uses only D10 tokens. Scoped under .xc. */
+/* D12 (integration): every text size under 12 px raised to 12 px, the site's type floor (critique fix 9). */
+.xc{background:var(--s1);border:1px solid var(--line);border-radius:6px;padding:20px 22px 16px;color:var(--tx);font-family:var(--font);max-width:1000px}
+.xc *{box-sizing:border-box;margin:0;padding:0}
+.xc [hidden]{display:none!important}
+.xc-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.xc svg{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+.xc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px 24px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.xc-title{font-size:19px;line-height:1.25;letter-spacing:-.01em;font-weight:600}
+.xc-lead{margin-top:6px;font-size:14.5px;line-height:1.5;color:var(--mu);max-width:62ch}
+.xc-run,.xc-approve{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:4px;border:0;background:var(--ac);color:var(--acink);font:600 14.5px/1 var(--font);white-space:nowrap;cursor:pointer;transition:background .2s,color .2s;flex:none}
+.xc-run:hover,.xc-approve:hover{background:var(--ac2)}
+.xc-run:disabled{background:var(--s3);color:var(--mu);cursor:default}
+
+/* the seven steps */
+.xc-steps{list-style:none;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin:18px 0 12px}
+.xc-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;color:var(--dim)}
+.xc-step+.xc-step::before{content:"";position:absolute;top:17px;right:calc(50% + 21px);width:calc(100% - 38px);height:1px;background:var(--line2);transition:background .3s}
+.xc-step svg{width:36px;height:36px;padding:7px;border:1px solid var(--line2);border-radius:50%;background:var(--s1);position:relative;transition:background .3s,border-color .3s,color .3s}
+.xc-sl{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;line-height:1.25}
+.xc-step.is-done{color:var(--mu)}
+.xc-step.is-done svg{border-color:var(--ac);color:var(--ac)}
+.xc-step.is-done::before,.xc-step.is-now::before{background:var(--ac)}
+.xc-step.is-now{color:var(--tx)}
+.xc-step.is-now svg{background:var(--ac);border-color:var(--ac);color:var(--acink)}
+.xc-status{font-size:14.5px;line-height:1.45;color:var(--tx);min-height:42px;margin-bottom:12px}
+
+/* the two panes */
+.xc-panes{display:grid;grid-template-columns:minmax(250px,310px) minmax(0,1fr);gap:22px;align-items:start}
+.xc-pane-t{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.xc-phone{border:1.5px solid var(--line2);border-radius:22px;background:var(--deep);padding:10px 10px 14px;overflow:hidden}
+.xc-ph-top{display:flex;align-items:center;gap:10px;padding:4px 6px 10px;border-bottom:1px solid var(--line)}
+.xc-av{width:30px;height:30px;border-radius:50%;background:var(--s3);color:var(--mu);display:grid;place-items:center;flex:none}
+.xc-av svg{width:17px;height:17px}
+.xc-ph-name{font-size:14px;font-weight:600}
+.xc-thread{list-style:none;display:flex;flex-direction:column;gap:8px;padding:12px 2px 0}
+.xc-slot{display:grid;width:100%}
+.xc-slot>*{grid-area:1/1}
+.xc-in{justify-items:start}
+.xc-out{justify-items:end}
+.xc-b{max-width:88%;padding:8px 11px;border-radius:12px;font-size:13.5px;line-height:1.42;overflow-wrap:anywhere;transition:opacity .35s,transform .35s var(--ease),visibility 0s}
+.xc-in .xc-b{background:var(--s3);border-top-left-radius:4px}
+.xc-out .xc-b{background:color-mix(in srgb,var(--ac) 16%,var(--s2));border:1px solid color-mix(in srgb,var(--ac) 40%,transparent);border-top-right-radius:4px}
+.xc-typing{display:inline-flex;align-items:center;gap:4px;align-self:start;padding:11px 12px;border-radius:12px;border-top-left-radius:4px;background:var(--s3)}
+.xc-typing i{width:6px;height:6px;border-radius:50%;background:var(--mu);animation:xc-dot 1s ease-in-out infinite}
+.xc-typing i:nth-child(3){animation-delay:.15s}
+.xc-typing i:nth-child(4){animation-delay:.3s}
+@keyframes xc-dot{0%,100%{opacity:.3}50%{opacity:1}}
+
+.xc-sys{display:flex;flex-direction:column;gap:12px;min-width:0}
+.xc-sys .xc-pane-t{margin-bottom:-4px}
+.xc-card{border:1px dashed var(--line2);border-radius:6px;padding:12px 14px;transition:background .3s,border-color .3s}
+.xc-card.xc-on,.xc.is-static .xc-card{border-style:solid;background:var(--s2)}
+.xc-ch{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.xc-ch h3{font-size:14.5px;font-weight:600;letter-spacing:-.005em}
+.xc-badges{display:flex;gap:6px}
+.xc-bd{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;line-height:1;padding:5px 8px;border-radius:3px;border:1px solid var(--ac);color:var(--ac);white-space:nowrap}
+.xc-bd-no{border-color:var(--line2);color:var(--dim)}
+.xc-bd-wait{border:1px dashed var(--tx);color:var(--tx)}
+.xc-fields{margin-top:8px}
+.xc-fields div{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:13.5px;line-height:1.35}
+.xc-fields div:first-child{border-top:0}
+.xc-fields dt{color:var(--mu)}
+.xc-fields dd{text-align:right;color:var(--tx);transition:color .3s}
+.xc-fields div:nth-child(2) dd{transition-delay:.12s}
+.xc-fields div:nth-child(3) dd{transition-delay:.24s}
+.xc-fields div:nth-child(4) dd{transition-delay:.36s}
+.xc-draft{margin-top:10px;padding:10px 12px;font-size:14px;line-height:1.5;background:var(--s1);border:1px solid var(--line);border-radius:4px;transition:color .3s}
+.xc-approve{margin-top:10px;box-shadow:0 0 0 0 color-mix(in srgb,var(--ac) 50%,transparent);animation:xc-ring 1.8s ease-out infinite}
+@keyframes xc-ring{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ac) 50%,transparent)}70%,100%{box-shadow:0 0 0 10px color-mix(in srgb,var(--ac) 0%,transparent)}}
+.xc-slotcal{margin-top:10px;display:flex;gap:14px;align-items:stretch;transition:opacity .3s}
+.xc-when{display:flex;flex-direction:column;gap:2px;padding:2px 12px 2px 10px;border-left:3px solid var(--ac);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.xc-what{display:flex;flex-direction:column;gap:2px;font-size:14px;line-height:1.35}
+.xc-what span+span{color:var(--mu)}
+.xc-foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--mu)}
+.xc-demo{display:inline-block;border:1px dashed var(--line2);border-radius:3px;padding:2px 8px}
+
+/* live states: what has not happened yet */
+.xc.is-static [data-until]{display:none}
+.xc.is-live .xc-b:not(.xc-on){visibility:hidden;opacity:0;transform:translateY(6px);transition:none}
+.xc.is-live .xc-typing:not(.xc-on),.xc.is-live .xc-bd:not(.xc-on),.xc.is-live .xc-approve:not(.xc-on){display:none}
+.xc.is-live .xc-fields dd:not(.xc-on){color:transparent;background:linear-gradient(var(--line2),var(--line2)) right center/44px 1px no-repeat;transition:none}
+.xc.is-live .xc-draft:not(.xc-on){color:transparent;background:repeating-linear-gradient(to bottom,transparent 0 9px,var(--line) 9px 10px,transparent 10px 21px) var(--s1);transition:none}
+.xc.is-live .xc-slotcal:not(.xc-on){visibility:hidden;opacity:0}
+
+@media (max-width:640px){
+  .xc{padding:14px 12px 12px}
+  .xc-head{flex-direction:column;padding-bottom:12px}
+  .xc-title{font-size:17px}
+  .xc-lead{font-size:14px}
+  .xc-run{width:100%}
+  .xc-steps{margin:14px 0 10px;gap:2px}
+  .xc-step svg{width:34px;height:34px}
+  .xc-step+.xc-step::before{top:16px;right:calc(50% + 19px);width:calc(100% - 34px)}
+  .xc-sl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .xc-status{min-height:63px}
+  .xc-panes{grid-template-columns:minmax(0,1fr);gap:16px}
+  .xc-fields div{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)}
+  .xc-approve{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  .xc *,.xc *::before,.xc *::after{transition:none!important;animation:none!important}
+}
+html.still .xc *,html.still .xc *::before,html.still .xc *::after{transition:none!important;animation:none!important}
+
+.wrap #demo{margin-top:24px}
+.xc-slotcal{flex-wrap:wrap}
+.xc-when{white-space:normal;overflow-wrap:anywhere}
+.xc-what,.xc-what span{min-width:0;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<a class="skip" href="#demo">Saltar a la demostración</a>
+<header class="top">
+<a class="brand" href="../../es/work.html#whatsapp" aria-label="Crossland AI"><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="none" stroke-width="1.5" stroke="#F4EFE8"/><path d="M11 0.5v5M11 16.5v5M0.5 11h5M16.5 11h5" stroke-width="1.5" stroke="#F4EFE8"/><circle cx="11" cy="11" r="2.6" fill="#E2A93B"/></svg>Crossland AI</a>
+<nav aria-label="Páginas"><a class="lnk" href="../../es/work.html#whatsapp">Nuestro trabajo</a><a class="lnk" href="WhatsApp-EN.html" hreflang="en" lang="en">English</a></nav>
+</header>
+<main class="wrap" id="main">
+<p class="kick mono">Véalo funcionando · De WhatsApp al calendario</p>
+<h1>De WhatsApp al calendario</h1>
+<p class="lead">Un cliente escribe por WhatsApp; el sistema captura sus datos, redacta una respuesta para su aprobación y agenda la cita.</p>
+<div id="demo">
+<section class="xc is-static" data-part="whatsapp-calendar" data-beat="9" aria-labelledby="xc-t">
+<script type="application/json" class="xc-strings">{"title":"De WhatsApp al calendario, en vivo","lead":"Un cliente escribe por WhatsApp. El sistema captura sus datos, guarda el registro, redacta una respuesta para su aprobación y agenda la cita.","demo_note":"Datos de demostración; los nombres son ficticios","run":"Véalo funcionar","running":"En curso","again":"Verlo otra vez","steps_aria":"Los pasos, en orden","s1":"Cliente","s2":"WhatsApp","s3":"Captura","s4":"Registro","s5":"Borrador de respuesta","s6":"Usted aprueba","s7":"Calendario","step_of":"Paso {n} de {total}: {what}","w0":"Pulse Véalo funcionar para seguir a un cliente desde el primer mensaje hasta la cita agendada.","w1":"Sofía está escribiendo un mensaje.","w2":"Su mensaje llega por WhatsApp.","w3":"El sistema captura su nombre, lo que necesita y la fecha.","w4":"Se guarda el registro del cliente.","w5":"Se redacta una respuesta. Espera su aprobación.","w6":"Usted la aprobó. La respuesta se envía y Sofía elige un horario.","w7":"La cita queda agendada y Sofía recibe una confirmación.","done_static":"Listo: un cliente, desde el primer mensaje hasta la cita agendada.","phone_t":"El celular del cliente","phone_aria":"Chat en el celular del cliente","business":"Su negocio","typing":"Escribiendo","msg_1":"Hola, buenas. Quisiera que me instalaran el internet el 3 de noviembre, ¿será que se puede?","reply":"¡Hola, Sofía! Gracias por escribirnos. Podemos programar su instalación para el martes 3 de noviembre. ¿Le queda mejor a las 10:00 a. m. o a las 2:00 p. m.?","msg_2":"A las 10 de la mañana, por favor.","confirm":"Listo, su cita quedó agendada: martes 3 de noviembre a las 10:00 a. m. Nos vemos ese día.","from_customer":"Cliente","from_business":"Su negocio","system_t":"Dentro del sistema","rec_t":"Registro del cliente","rec_saved":"Guardado","f_name":"Nombre","v_name":"Sofía Ramírez","f_channel":"Canal","v_channel":"WhatsApp","f_request":"Solicitud","v_request":"Nueva instalación de internet","f_date":"Fecha solicitada","v_date":"3 de noviembre","f_appt":"Cita","v_appt":"Martes 3 de noviembre, 10:00 a. m.","empty":"Aún no","draft_t":"Borrador de respuesta","draft_wait":"Esperando su aprobación","draft_ok":"Aprobada","approve":"Aprobar y enviar","cal_t":"Calendario","cal_booked":"Agendada","cal_day":"Mar 3 nov","cal_time":"10:00 a. m.","cal_what":"Instalación de internet","cal_who":"Sofía Ramírez"}</script>
+<header class="xc-head">
+<div class="xc-htext">
+<h2 class="xc-title" id="xc-t">De WhatsApp al calendario, en vivo</h2>
+<p class="xc-lead">Un cliente escribe por WhatsApp. El sistema captura sus datos, guarda el registro, redacta una respuesta para su aprobación y agenda la cita.</p>
+</div>
+<button class="xc-run" type="button" hidden>Véalo funcionar</button>
+</header>
+<ol class="xc-steps" aria-label="Los pasos, en orden">
+<li class="xc-step" data-step="1"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="6.5" r="3.2"/><path d="M3.5 17.5c.8-3.6 3.4-5.4 6.5-5.4s5.7 1.8 6.5 5.4"/></svg><span class="xc-sl">Cliente</span></li>
+<li class="xc-step" data-step="2"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4.5h14v9H8.5L5 16.5v-3H3z"/></svg><span class="xc-sl">WhatsApp</span></li>
+<li class="xc-step" data-step="3"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14l-5.5 6.5V16l-3-1.5v-4z"/></svg><span class="xc-sl">Captura</span></li>
+<li class="xc-step" data-step="4"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="5" rx="6" ry="2.2"/><path d="M4 5v10c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2V5M4 10c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2"/></svg><span class="xc-sl">Registro</span></li>
+<li class="xc-step" data-step="5"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16l1-4 8.5-8.5 3 3L8 15z M11.5 5.5l3 3"/></svg><span class="xc-sl">Borrador de respuesta</span></li>
+<li class="xc-step" data-step="6"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M6.8 10.2l2.2 2.2 4.2-4.6"/></svg><span class="xc-sl">Usted aprueba</span></li>
+<li class="xc-step" data-step="7"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12" rx="1.5"/><path d="M3 8.5h14M7 3v3M13 3v3"/></svg><span class="xc-sl">Calendario</span></li>
+</ol>
+<p class="xc-status" aria-live="polite">Listo: un cliente, desde el primer mensaje hasta la cita agendada.</p>
+<div class="xc-panes">
+<div class="xc-phonewrap">
+<p class="xc-pane-t">El celular del cliente</p>
+<div class="xc-phone" role="group" aria-label="Chat en el celular del cliente">
+<div class="xc-ph-top"><span class="xc-av" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M3 4.5h14v9H8.5L5 16.5v-3H3z"/></svg></span><span class="xc-ph-name">Su negocio</span></div>
+<ol class="xc-thread">
+<li class="xc-slot xc-in"><span class="xc-typing" data-at="1" data-until="1"><span class="xc-vh">Escribiendo</span><i></i><i></i><i></i></span><p class="xc-b" data-at="2"><span class="xc-vh">Cliente: </span>Hola, buenas. Quisiera que me instalaran el internet el 3 de noviembre, ¿será que se puede?</p></li>
+<li class="xc-slot xc-out"><p class="xc-b" data-at="6"><span class="xc-vh">Su negocio: </span>¡Hola, Sofía! Gracias por escribirnos. Podemos programar su instalación para el martes 3 de noviembre. ¿Le queda mejor a las 10:00 a. m. o a las 2:00 p. m.?</p></li>
+<li class="xc-slot xc-in"><p class="xc-b" data-at="7"><span class="xc-vh">Cliente: </span>A las 10 de la mañana, por favor.</p></li>
+<li class="xc-slot xc-out"><p class="xc-b" data-at="9"><span class="xc-vh">Su negocio: </span>Listo, su cita quedó agendada: martes 3 de noviembre a las 10:00 a. m. Nos vemos ese día.</p></li>
+</ol>
+</div>
+</div>
+<div class="xc-sys">
+<p class="xc-pane-t">Dentro del sistema</p>
+<article class="xc-card" data-at="3" aria-labelledby="xc-rec-t">
+<div class="xc-ch"><h3 id="xc-rec-t">Registro del cliente</h3><span class="xc-badges"><span class="xc-bd xc-bd-no" data-at="0" data-until="2">Aún no</span><span class="xc-bd" data-at="4">Guardado</span></span></div>
+<dl class="xc-fields">
+<div><dt>Nombre</dt><dd data-at="3">Sofía Ramírez</dd></div>
+<div><dt>Canal</dt><dd data-at="3">WhatsApp</dd></div>
+<div><dt>Solicitud</dt><dd data-at="3">Nueva instalación de internet</dd></div>
+<div><dt>Fecha solicitada</dt><dd data-at="3">3 de noviembre</dd></div>
+<div><dt>Cita</dt><dd data-at="8">Martes 3 de noviembre, 10:00 a. m.</dd></div>
+</dl>
+</article>
+<article class="xc-card" data-at="5" aria-labelledby="xc-dr-t">
+<div class="xc-ch"><h3 id="xc-dr-t">Borrador de respuesta</h3><span class="xc-badges"><span class="xc-bd xc-bd-no" data-at="0" data-until="4">Aún no</span><span class="xc-bd xc-bd-wait" data-at="5" data-until="5">Esperando su aprobación</span><span class="xc-bd" data-at="6">Aprobada</span></span></div>
+<p class="xc-draft" data-at="5">¡Hola, Sofía! Gracias por escribirnos. Podemos programar su instalación para el martes 3 de noviembre. ¿Le queda mejor a las 10:00 a. m. o a las 2:00 p. m.?</p>
+<button class="xc-approve" type="button" data-at="5" data-until="5" hidden>Aprobar y enviar</button>
+</article>
+<article class="xc-card" data-at="8" aria-labelledby="xc-cal-t">
+<div class="xc-ch"><h3 id="xc-cal-t">Calendario</h3><span class="xc-badges"><span class="xc-bd xc-bd-no" data-at="0" data-until="7">Aún no</span><span class="xc-bd" data-at="8">Agendada</span></span></div>
+<div class="xc-slotcal" data-at="8"><p class="xc-when"><span>Mar 3 nov</span><span>10:00 a. m.</span></p><p class="xc-what"><span>Instalación de internet</span><span>Sofía Ramírez</span></p></div>
+</article>
+</div>
+</div>
+<p class="xc-foot"><span class="xc-demo">Datos de demostración; los nombres son ficticios</span></p>
+</section>
+</div>
+<p class="contact">¿Quiere algo así para su negocio? <a href="mailto:info@humaniasoluciones.com">info@humaniasoluciones.com</a></p>
+</main>
+<script>
+/* D12 part 2: WhatsApp to calendar. One lead, from first message to booked appointment.
+   The run stops at the draft and waits for the visitor to approve it: people keep the decision.
+   Every visible word comes from the part's strings (the JSON block inside the part). */
+(function () {
+  function reduced() {
+    var r = false;
+    try { r = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    return r || document.documentElement.classList.contains('still');
+  }
+  function fmt(s, o) { return String(s).replace(/\{(\w+)\}/g, function (m, k) { return k in o ? o[k] : m; }); }
+  // beat -> visible step (1 to 7) and the line that explains it
+  var STEP = [0, 1, 2, 3, 4, 5, 6, 6, 7, 7];
+  var WHAT = [0, 1, 2, 3, 4, 5, 6, 6, 7, 7];
+  var WAIT = [0, 300, 1300, 1000, 1300, 1000, 0, 1500, 1200, 1100]; // pause before each beat
+  var LAST = 9, APPROVE = 5, TOTAL = 7;
+
+  function init(root) {
+    var S = {};
+    try { S = JSON.parse(root.querySelector('.xc-strings').textContent); } catch (e) { return; }
+    var run = root.querySelector('.xc-run'), status = root.querySelector('.xc-status'),
+        approve = root.querySelector('.xc-approve');
+    if (!run || !status || !approve) return;
+    var items = [].slice.call(root.querySelectorAll('[data-at]'));
+    var chips = [].slice.call(root.querySelectorAll('.xc-step'));
+    var beat = 0, timer = 0, started = false, lastText = '';
+
+    root.classList.remove('is-static');
+    root.classList.add('is-live');
+    run.hidden = false;
+    approve.hidden = false;
+
+    function say(t) { if (t !== lastText) { lastText = t; status.textContent = t; } }
+    function apply(b) {
+      beat = b;
+      root.dataset.beat = b;
+      items.forEach(function (el) {
+        var at = +el.dataset.at, until = el.dataset.until ? +el.dataset.until : 99;
+        el.classList.toggle('xc-on', b >= at && b <= until);
+      });
+      var st = STEP[b];
+      chips.forEach(function (c) {
+        var n = +c.dataset.step;
+        c.classList.toggle('is-done', b === LAST ? true : n < st);
+        c.classList.toggle('is-now', b !== LAST && n === st);
+      });
+      say(b === 0 ? S.w0 : fmt(S.step_of, { n: st, total: TOTAL, what: S['w' + WHAT[b]] }));
+      if (b === 0) { run.disabled = false; run.textContent = S.run; }
+      else if (b === LAST) { run.disabled = false; run.textContent = S.again; }
+      else { run.disabled = true; run.textContent = S.running; }
+    }
+    function next() {
+      clearTimeout(timer);
+      if (beat >= LAST || beat === APPROVE) return;
+      timer = setTimeout(function () { apply(beat + 1); next(); }, WAIT[beat + 1]);
+    }
+    function start() {
+      started = true;
+      clearTimeout(timer);
+      apply(0);
+      run.disabled = true; run.textContent = S.running;
+      next();
+    }
+    run.addEventListener('click', start);
+    approve.addEventListener('click', function () {
+      if (beat !== APPROVE) return;
+      apply(APPROVE + 1);
+      next();
+    });
+
+    if (reduced()) { apply(LAST); return; }   // reduced motion: the finished state, nothing moves until asked
+    apply(0);
+    // plays once by itself when first seen; it still stops at the draft for the visitor's approval
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (en) {
+        for (var i = 0; i < en.length; i++) if (en[i].isIntersecting) { io.disconnect(); if (!started) start(); break; }
+      }, { threshold: 0.4 });
+      io.observe(root);
+    }
+  }
+  function boot() { [].forEach.call(document.querySelectorAll('[data-part="whatsapp-calendar"]'), init); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+</body>
+</html>
