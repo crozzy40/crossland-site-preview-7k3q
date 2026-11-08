@@ -430,3 +430,11 @@ h1 em{font-style:normal;background:linear-gradient(transparent 80%,var(--gold) 8
 #retorno .actrow{margin-top:22px}
 @media (max-width:1060px){.chain{grid-template-columns:1fr 1fr;gap:34px 30px}.step:nth-child(2) .arr{display:none}}
 @media (max-width:860px){.chain{grid-template-columns:1fr;gap:34px}.step .arr{right:auto;left:50%;top:auto;bottom:-31px;transform:translateX(-50%) rotate(90deg)}.step:nth-child(2) .arr{display:block}.roi-fields{grid-template-columns:1fr}.roi-in input{width:100%}}
+/* the partnering section (proposal, 7 Nov 2026) */
+.pcards{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:24px 26px;display:flex;flex-direction:column}
+.pcard h3{font-size:22px;margin:0 0 .4em}
+.pcard p{font-size:17px}
+.pcard .more{margin-top:auto}
+#alianza .actrow{margin-top:26px}
+@media (max-width:760px){.pcards{grid-template-columns:1fr}}
