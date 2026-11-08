@@ -354,7 +354,7 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .tool.solo{grid-template-columns:1fr}
 .tool.solo>div{max-width:780px}
 .nf{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 16px}
-h1 em{font-style:normal;background:linear-gradient(transparent 80%,var(--gold) 80%)}
+h1 em{font-style:normal;padding-bottom:5px;-webkit-box-decoration-break:clone;box-decoration-break:clone;background:linear-gradient(90deg,var(--gold),rgba(226,169,59,0)) 0 100%/100% 2px no-repeat}
 .next a.btn{font-size:16.5px}
 .next a.btn-p{color:#fff}
 .next a.btn-p:hover{text-decoration:none}
