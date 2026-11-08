@@ -34,7 +34,7 @@ cba53d2b7a5a1a0f480398be9df8a5cbcdc3cf3d459e1d88ad5bc3908a5212bd      7814  js/s
 4dd6fc3d66d97b7a9e073da383707336015d7eda1b155c61f0a61e3499659cdf     47685  media/demos/Office-ES.html
 7251301f7b317942298761bc094293ced8ef0908c38b92fd6a33478c34fef0ed    741086  media/demos/RedControl-ES.html
 772e2a826ce273283b630365416e8c8ec555a6afa778336e190a5459a8ddccaa     31014  media/demos/WhatsApp-ES.html
-50531f5687f93832473a8bc32534214f8663ff12a898a3595b00da92bf09ef29    106331  media/demos/WhatsApp-alojado-ES.html
+d1d41a4edaf0e6d743d49343108da7ea25e2fb344cbf287a9515da437d53b3b8    106345  media/demos/WhatsApp-alojado-ES.html
 f14918dedfaa303a1da1dac340808b95491f3bb377a922bea30279340c92b69e   2181780  media/software-factory-sim.mp4
 327598c30febe5db3c80dd029de32d6801762729afd4ed05e2010e260c1c4a3b     17697  nosotros/index.html
 c8c6dbb8b41a63ca7b9c277233f7f77cf21a85b1bef6bb4ae938cc9c1089a0ea     24399  nuestro-trabajo/index.html
