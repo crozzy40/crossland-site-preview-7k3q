@@ -12,7 +12,7 @@
   --acc:var(--gold);--accink:var(--ink);--kick:var(--navy);
   --head:var(--navy);
   --hfont:'Archivo',system-ui,'Segoe UI Variable Display','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
-  --bfont:system-ui,'Segoe UI Variable Text','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --bfont:'Archivo',system-ui,'Segoe UI Variable Text','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
   --br:10px;--cr:14px;
   /* names the Ask-us chat box reads */
   --s1:#FFFFFF;--s2:var(--paper);--s3:var(--tint);--tx:var(--ink);--mu:var(--ink);--ac:var(--navy);--ac2:var(--navy);--acink:#FFFFFF;
@@ -58,12 +58,12 @@ h4{font-size:18px}
 .btn-g:hover{background:var(--navy-t)}
 .btn-y{background:var(--acc);color:var(--accink)}
 .btn-y:hover{filter:brightness(.93)}
-.btn-s{min-height:42px;padding:0 16px;font-size:15px}
+.btn-s{min-height:44px;padding:0 16px;font-size:16px}
 .ctas{display:flex;gap:14px;flex-wrap:wrap;margin:28px 0 12px}
 .kicker{font-size:15px;font-weight:700;color:var(--kick);margin:0 0 12px;letter-spacing:.01em}
 .lead{font-size:20px;line-height:1.55;color:var(--mut);max-width:760px}
 .sub{color:var(--mut);font-size:18px;max-width:700px}
-.small{font-size:15px;color:var(--mut)}
+.small{font-size:16px;color:var(--mut)}
 .more{font-weight:700;text-decoration:none;color:var(--navy);font-size:16px}
 .more:hover{text-decoration:underline}
 .flag{flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
@@ -90,7 +90,7 @@ h4{font-size:18px}
 .badge{display:inline-flex;gap:10px;align-items:center;font-size:15px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--card);color:var(--ink);margin:0 0 22px}
 .badge b{font-weight:800}
 .hsmall{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-.idline{font-size:15.5px;color:var(--mut);margin:18px 0 0}
+.idline{font-size:16px;color:var(--mut);margin:18px 0 0}
 
 
 /* sections */
@@ -110,7 +110,7 @@ h4{font-size:18px}
 .obody{padding:22px 24px 24px;display:flex;flex-direction:column;flex:1}
 .obody p{font-size:16px;color:var(--mut)}
 .onum{display:inline-block;background:var(--tint);color:var(--ink)!important;font-weight:800;font-size:14px;padding:2px 10px;border-radius:999px;align-self:flex-start;margin-bottom:10px!important}
-.opara{font-size:15px!important}
+.opara{font-size:16px!important}
 .opara b{color:var(--ink)}
 .obody .more{margin-top:auto;padding-top:6px}
 .helper{margin-top:30px;font-size:18px}
@@ -119,7 +119,7 @@ h4{font-size:18px}
 /* photo placeholders (until Ryan's real photos exist) */
 .ph{margin:0;position:relative;background:var(--tint);border:2px dashed rgba(18,40,90,.45);border-radius:var(--cr);display:flex;align-items:flex-end;min-width:0;max-width:100%;
   background-image:repeating-linear-gradient(135deg,transparent 0 14px,rgba(18,40,90,.06) 14px 15px)}
-.ph-in{padding:16px 18px;display:grid;gap:6px;font-size:15px;line-height:1.4;color:var(--ink)}
+.ph-in{padding:16px 18px;display:grid;gap:6px;font-size:16px;line-height:1.4;color:var(--ink)}
 .ph-in strong{font-size:16px;color:var(--navy)}
 .ph-tag{font-weight:700;font-size:14px;color:var(--accink);background:var(--acc);padding:4px 10px;border-radius:4px;justify-self:start}
 .ph-shot{font-style:italic}
@@ -144,7 +144,7 @@ h4{font-size:18px}
 .steps .sn{grid-row:span 2;width:40px;height:40px;border-radius:50%;background:var(--acc);color:var(--accink);display:grid;place-items:center;font-weight:800}
 .steps li span:last-child{color:var(--mut);font-size:16px}
 .scales{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 1.2em}
-.scales div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff;font-size:15.5px;color:var(--mut)}
+.scales div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff;font-size:16px;color:var(--mut)}
 .scales b{display:block;color:var(--ink);font-size:16px;margin-bottom:2px}
 .srow{padding:64px 0;border-bottom:1px solid var(--line);scroll-margin-top:80px}
 .srow .grid2{align-items:start}
@@ -163,9 +163,9 @@ h4{font-size:18px}
 
 /* table */
 .tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--cr);background:#fff}
-table.t{border-collapse:collapse;width:100%;min-width:640px;font-size:15.5px}
+table.t{border-collapse:collapse;width:100%;min-width:640px;font-size:16px}
 table.t th,table.t td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
-table.t th{background:var(--navy-t);color:var(--navy);font-size:14.5px}
+table.t th{background:var(--navy-t);color:var(--navy);font-size:16px}
 table.t tr:last-child td{border-bottom:0}
 table.t td:first-child{font-weight:700;color:var(--navy)}
 
@@ -182,11 +182,11 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 /* tools (Nuestro trabajo) */
 .tool{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:40px;padding:48px 0;border-bottom:1px solid var(--line);scroll-margin-top:84px;align-items:start}
 .tool:last-of-type{border-bottom:0}
-.tool .tk{color:var(--kick);font-weight:700;font-size:14.5px;margin:0 0 6px}
+.tool .tk{color:var(--kick);font-weight:700;font-size:16px;margin:0 0 6px}
 .tool .tn{font-weight:800;color:var(--dim);font-size:14px}
 .tool img{border:1px solid var(--line2)}
 .tool .why{display:block;margin-top:.7em;color:var(--ink)}
-.tool .fine{font-size:14.5px;color:var(--dim)}
+.tool .fine{font-size:16px;color:var(--dim)}
 .tool .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
 
 /* "next" strip and call band */
@@ -208,7 +208,7 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .call{border:2px solid var(--navy);border-radius:var(--cr);padding:28px 30px;background:#fff}
 .call h2{font-size:28px}
 .actrow{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0 8px}
-.contact-note{font-size:15px;color:var(--mut)}
+.contact-note{font-size:16px;color:var(--mut)}
 
 /* draft legal pages */
 .draftbar{background:var(--tint);border:2px dashed var(--navy);color:var(--ink);padding:16px 20px;border-radius:12px;margin:0 0 30px;font-weight:600}
@@ -218,7 +218,7 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .prose li{margin-bottom:.4em}
 
 /* footer */
-.foot{background:var(--navy);color:#fff;padding:56px 0 70px;font-size:15.5px}
+.foot{background:var(--navy);color:#fff;padding:56px 0 70px;font-size:16px}
 .fgrid{display:grid;grid-template-columns:2fr 1fr 1.2fr 1.1fr;gap:36px}
 .foot a{display:block;text-decoration:none;padding:11px 0;color:#fff;min-height:44px}
 .foot a:hover{color:#fff;text-decoration:underline}
@@ -226,7 +226,7 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .fh{font-weight:700;color:#fff;margin-bottom:8px}
 .flegal{display:flex;gap:10px;align-items:flex-start;font-weight:600;color:#fff}
 .flegal .flag{margin-top:5px}
-.fid{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.3);font-size:14.5px;color:#fff;grid-column:1/-1}
+.fid{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.3);font-size:16px;color:#fff;grid-column:1/-1}
 .foot .pend{background:none;color:#fff;border:0;padding:0;font-weight:600;text-decoration:underline dotted}
 
 /* quick contact: phone bar and desktop button */
@@ -288,11 +288,11 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .qz-sb{margin-top:22px;padding:16px 18px;background:var(--bg2);border-radius:12px}
 .qz-score{font-size:22px;margin:0 0 6px}
 .qz-score b{font-size:34px;color:var(--navy);font-family:var(--hfont)}
-.qz-how,.qz-note,.qz-small{font-size:15px;color:var(--mut);margin:0 0 .5em}
+.qz-how,.qz-note,.qz-small{font-size:16px;color:var(--mut);margin:0 0 .5em}
 .qz-callbox{margin-top:22px;border:2px solid var(--acc);border-radius:12px;padding:18px 20px;background:var(--tint)}
 .qz-callbox h4{margin:0 0 .3em}
 .qz-btns{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
-.qz-more{margin-top:18px;font-size:15px;color:var(--mut)}
+.qz-more{margin-top:18px;font-size:16px;color:var(--mut)}
 .qz-rnav{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
 .qz-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
@@ -426,7 +426,7 @@ h1 em{font-style:normal;background:linear-gradient(transparent 80%,var(--gold) 8
 .roi-in{display:flex;align-items:center;gap:10px}
 .roi-in input{width:150px;min-height:48px;border:2px solid var(--line2);border-radius:10px;padding:0 12px;font:inherit;font-size:18px;color:var(--ink);background:#fff}
 .roi-in input:focus{border-color:var(--navy);outline:3px solid var(--acc);outline-offset:1px}
-.roi-in span{font-size:15px}
+.roi-in span{font-size:16px}
 .roi-out{margin-top:18px;padding:16px 18px;background:var(--tint);border-radius:12px;min-height:72px}
 .roi-out p{margin:0 0 .5em;font-size:17px}
 .roi-out p:last-child{margin-bottom:0}
@@ -457,3 +457,8 @@ h1 em{font-style:normal;background:linear-gradient(transparent 80%,var(--gold) 8
 @media (max-width:360px){.hk{font-size:12.5px}}
 @media (max-width:760px){.badge{font-size:12.5px;padding:5px 10px;gap:6px;white-space:nowrap}}
 .wafab,.wafab:hover,.wafab span{text-decoration:none}
+
+/* tap targets: inline links in running text and the small buttons get a 44 px touch area without moving anything (grade 8 Nov, point 8) */
+main p a:not(.btn),main li a:not(.btn),.foot p a,.foot li a{position:relative}
+main p a:not(.btn)::after,main li a:not(.btn)::after,.foot p a::after,.foot li a::after{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
+button.copy,.copy-btn,[data-copy]{min-height:44px}

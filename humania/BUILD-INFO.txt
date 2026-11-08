@@ -6,11 +6,11 @@ files: 63
 4deb3e83c028e83a8ea3496438f94e3464fd158ad724d49f1bf3ec0e91026b30      1482  404.html
 b539f02cab24e1b47604e1976a903921d2fd07651be0670abea87e5fd6552f66      5293  ask-us/ask-us.css
 19cc95659613fded87ab9a5fce269cca78a5f2fa63e6f922b3e64b4420fd1244     17334  ask-us/ask-us.js
-0ac6ddc955d6ca0eebaeee6612b9c79c76e377f93b79847e404960167f18fe4f     14717  con-quien-trabajamos/index.html
-b773593aeb131444e2ee8e42a3a03c85af74a17d97b3ee0ed6f850e239c018b5     12199  construya-con-nosotros/index.html
-55b3c69593a5a3902d558eb2cfdff3cc1ceaa88330144afbaff260ef6784dfac     29219  css/site.css
-accace517190018e8445d0f8771246bd41b8d3a537d19b4e46f4b8c49b28acf1     11599  datos-y-seguridad/index.html
-a447d78c1a29de74881033fc3dc144eba4e4816db1353adf966b7d92f9985421     12606  empiece/index.html
+347e3629b527945e60ebab85e02e339d6ff11885c85d7ea985fb0976766bce93     14717  con-quien-trabajamos/index.html
+83db9e7693c7570c2a35517911e4b4f6eef0d54caaf0b8efcd7a955274056f0b     12199  construya-con-nosotros/index.html
+3a03086c6d62b58cbb6a7dd43799dcb51e51541a66cb4a82f2b3480198af1370     29664  css/site.css
+0b4c12bc29ead850ee3c914f8254e2f7184d49ce2d3fadb1d62ad85f0279c43b     11599  datos-y-seguridad/index.html
+cb78820fe00c26db570a044ccce33dc2b8708c9f06212e3082c70082737c88b5     12606  empiece/index.html
 7c3daa1e8f769514dbdcc79933e457c65a6bbb6ac2023331c57c7064c16f5528       456  fonts/ARCHIVO-LICENCE.txt
 8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967     34928  fonts/archivo-latin.woff2
 3e76657abbcab2cd398e2e7d5c9bf075dfa69de6dad8ea8309ce9896fa5d0236    108960  img/scenes/01-tienda-de-barrio-1280.jpg
@@ -45,7 +45,7 @@ a411e8847565a3ec2eea08241a8e79cd20bea3fef68b6a1754bba5a7c8e3e0d8     59425  img/
 bf4640040cf65c621f76a5406c5ed2cb6d9f5af58901bf7c1c99e7ea0ba9109d     51390  img/tool-rollbook-800.jpg
 c3455c4634c69f7f0a041245dfe43db8f997d77a6ee1b6e8cfb8fcea7ddc4e69      9774  img/whatsapp-alojado-es-400.jpg
 5f9abb7ffd60cce0724e6eb27a9081de534976d61f598171e6853df3910ad277     28961  img/whatsapp-alojado-es-800.jpg
-bb4bac5b48b65362b32ea23a5e44bd4bf6e1551a8630059867f11a7afba8c3d9     37468  index.html
+f12e4d90c1d1f925cdb485cf08ee41fda59f6cc79457c4aeef17f206dd21a8d0     37468  index.html
 a2bd812624a2a3e45b33b22e4bc5a96855712e05980a873a4dfe4e8044decf6c      9153  js/site.js
 dc74caf33bf8190111ccf15fc4169d655c9b81e725e2c748a978a02bb6d5a3d8     25416  media/demos/AIguy-ES.html
 113486262c46bb90297d7870cf1acd24ad4f615ff787325b855e5eac63fb0e32     80346  media/demos/Blueprint-ES.html
@@ -57,14 +57,14 @@ a3d07f09b3259782b967c75883b28d1fbd0b5df8571f10db5ed1c1c2d7dac86a     29724  medi
 86cfc79002cbfe7283198e2f907ccb14f2b0a934578b2a6cbabad08850a5b858     32095  media/demos/WhatsApp-ES.html
 9b99fc688979f3d280db6171e7904e3dae5109badd1cbb5c88bf9422d55af4c2    116399  media/demos/WhatsApp-alojado-ES.html
 f14918dedfaa303a1da1dac340808b95491f3bb377a922bea30279340c92b69e   2181780  media/software-factory-sim.mp4
-039977b031d67ac2152fdff6900f20dba6f48e384f64492acb4364f59052f995     18085  nosotros/index.html
-3c732a10653123da0c1b40c972505bffbfb0ab8cfeaaebe77fdf6be760796154     24829  nuestro-trabajo/index.html
+225661f9f56579df7f16da24f42853f0fcedf6dd08675c0468a076008827627f     18085  nosotros/index.html
+33c06773dc4a70cd75d2039e52c5058978bae5e06f26315b811cd4835370d940     24795  nuestro-trabajo/index.html
 5459196cf075bd6365c995aa28a2ff58ce167262da093c82d09c70cdbc948149    168930  painting/painting.html
-ecac07223663e571f53702cf8d791dfe6594d349966467e234afb0261f9d3622     14117  preguntas-frecuentes/index.html
-0a66d174ce38450d9f2390c62775cea0b58ea50d2e4f94bdde38dad56bf57834     11467  privacidad/index.html
+eb364348eac9d7a212ac0d51b536a1dd5b07a095642bfc4ab70fbf9fc16c9221     13815  preguntas-frecuentes/index.html
+88da67b0b92be3fc1f209a2ad35a221304e506c592483d4a455f5037f3e83637     11467  privacidad/index.html
 4a3830d0c4aa648f1535ffa4b178392d9423ba152be450ef4bf23bd6d1cb9559        75  robots.txt
 240b5ea40593c44a2e49dc68bd8ac9da044a14f4019e073bfc405e3382d58fd0      1351  sitemap.xml
-970403f9d338f690edc77314dab307697ed4bc7b3b85285d9b61d044042c1116     45376  soluciones-de-inteligencia-artificial/index.html
-2027a1170c8871c4d3140220168cbea5236b4caa75433f96d7fcbce1c7294391      9861  terminos/index.html
+5a0f06e521013ad724f53e7857a3ffd6f0c2ecdf826a2f94534c796ef18bb296     45376  soluciones-de-inteligencia-artificial/index.html
+1d9ae3b639ff7ebc7d6ff8cb0708a7c4b3a8a9049eda92dd5bd5a792c12ef9c3      9861  terminos/index.html
 
 PREVIEW COPY: noindex added to 22 html files; robots.txt = Disallow all. Not for go-live.
