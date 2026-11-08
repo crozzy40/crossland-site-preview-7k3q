@@ -293,7 +293,12 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .qz-callbox h4{margin:0 0 .3em}
 .qz-btns{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
 .qz-more{margin-top:18px;font-size:16px;color:var(--mut)}
-.qz-rnav{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.qz-k{scroll-margin-top:96px}
+.qz-res .qz-top{display:none}
+.qz-callbox{margin:14px 0 18px}
+.qz-lks{list-style:none;margin:18px 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:0 22px}
+.qz-lk{background:none;border:0;font:inherit;font-weight:700;color:var(--navy);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0;min-height:44px;display:inline-flex;align-items:center}
+.qz-lk:hover{color:var(--ink)}
 .qz-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
 /* factory film dialog */

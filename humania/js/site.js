@@ -25,7 +25,7 @@ function picked(i){return S[i]&&S[i].querySelector('input:checked')}
 function path(){var c=ALL[0].querySelector('input:checked');return c?c.value:''}
 function active(){var p=path();S=ALL.filter(function(s,i){return i===0||(p&&s.getAttribute('data-path')===p)});N=S.length}
 function show(i){
-active();cur=i;tok++;MSG.textContent='';var res=i>=N&&N>1;F.hidden=res;RES.hidden=!res;INTRO.hidden=res;
+active();cur=i;tok++;MSG.textContent='';var res=i>=N&&N>1;F.hidden=res;RES.hidden=!res;INTRO.hidden=res;R.classList.toggle('qz-res',res);
 if(res){result();return}
 ALL.forEach(function(s){s.hidden=S[i]!==s});BACK.hidden=i===0;BAR.style.width=((i+1)/QN*100)+'%';
 into();focusH(S[i].querySelector('.qz-q'));
@@ -42,7 +42,7 @@ function result(){
 var d=decide(),el=null;LV.forEach(function(x){var on=x.getAttribute('data-key')===d.key;x.hidden=!on;if(on)el=x});
 var ul=el.querySelector('.qz-why-l');ul.textContent='';
 d.ans.forEach(function(a){var li=D.createElement('li');li.textContent=a;ul.appendChild(li)});
-el.querySelector('.qz-first').textContent=d.first;
+el.querySelector('.qz-first').textContent=d.first;el.querySelector('.qz-first').insertAdjacentElement('afterend',R.querySelector('.qz-callbox'));
 var o={name:el.getAttribute('data-name')},L=[T.hello,'',T.intro,''];
 d.qa.forEach(function(x,i){L.push((i+1)+'. '+x[0]);L.push('   '+x[1])});
 L.push('',fill(T.rec,o),d.first,'',T.ask,T.company+' ',T.when+' ','',T.bye);
@@ -50,7 +50,7 @@ var subj=fill(T.subject,o);
 MAIL.setAttribute('href','mailto:'+T.to+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(L.join('\r\n')));
 copyText=subj+'\n\n'+L.join('\n');CS.textContent='';LIVE.textContent='';
 var msg=fill(T.live,o);setTimeout(function(){LIVE.textContent=msg},80);
-into();focusH(el.querySelector('.qz-rh'));
+var k=RES.querySelector('.qz-k');k.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'});focusH(el.querySelector('.qz-rh'));
 }
 function open(){W.hidden=true;LAD.hidden=true;R.hidden=false;show(cur)}
 function close(){R.hidden=true;LAD.hidden=false;W.hidden=false;B.focus();var r=B.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)B.scrollIntoView({block:'center'})}
