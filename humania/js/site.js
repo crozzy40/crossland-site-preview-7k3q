@@ -107,3 +107,19 @@ d.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.m
 D.addEventListener('keydown',function(e){if(e.key==='Escape'&&d.hasAttribute('open')){d.removeAttribute('open');d.querySelector('summary').focus()}});
 })();
 })();
+
+/* the return calculator: the numbers are the visitor's own, computed here, never stored and never sent */
+(function(){
+var F=document.getElementById('roi-calc');if(!F)return;F.hidden=false;
+var N=document.getElementById('roi-n'),H=document.getElementById('roi-h'),C=document.getElementById('roi-c'),P=document.getElementById('roi-p'),O=F.querySelector('.roi-out');
+var fmt=new Intl.NumberFormat('es-CO',{maximumFractionDigits:1});
+function peso(v){return '$ '+new Intl.NumberFormat('es-CO',{maximumFractionDigits:0}).format(Math.round(v))}
+function num(e){var v=parseFloat(String(e.value).replace(',','.'));return isFinite(v)&&v>=0?v:NaN}
+function show(){
+var n=num(N),h=num(H),c=num(C),p=num(P);
+if(isNaN(n)||isNaN(h)||isNaN(c)){O.innerHTML='<p class="roi-empty">Escriba sus números y verá la cuenta aquí.</p>';return}
+var wh=n*h,wc=wh*c,yc=wc*52,out='<p>Hoy esa tarea le cuesta <b>'+peso(wc)+'</b> por semana, o <b>'+peso(yc)+'</b> al año (52 semanas): '+fmt.format(wh)+' horas por semana.</p>';
+if(!isNaN(p)&&p>0){var q=Math.min(p,100);out+='<p>Con la parte que usted indicó (<b>'+fmt.format(q)+' %</b>), recuperaría <b>'+fmt.format(wh*q/100)+' horas</b> por semana, o <b>'+peso(yc*q/100)+'</b> al año.</p>'}
+O.innerHTML=out}
+F.addEventListener('input',show);F.addEventListener('submit',function(e){e.preventDefault()});
+})();

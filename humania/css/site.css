@@ -403,3 +403,30 @@ h1 em{font-style:normal;background:linear-gradient(transparent 80%,var(--gold) 8
 .svc .more{margin-top:auto}
 @media (max-width:1060px){.svcs{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){.svcs{grid-template-columns:1fr}}
+
+/* the return-on-investment section (proposal v2, 7 Nov 2026): Ryan's chain, then the calculator */
+.chain{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+.step{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:20px 22px 22px}
+.step .cn{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:16px;margin:0 0 12px}
+.step h3{font-size:20px;margin:0 0 .4em}
+.step p{font-size:16px;margin:0}
+.step .arr{position:absolute;right:-26px;top:50%;transform:translateY(-50%);font-size:24px;font-weight:800;color:var(--navy);width:22px;text-align:center}
+.roi-note{margin:18px 0 22px;max-width:760px}
+.roi-calc{background:#fff;border:2px solid var(--navy);border-radius:var(--cr);padding:22px 24px;max-width:860px}
+.roi-calc[hidden]{display:none!important}
+.roi-calc h3{margin:0 0 .3em}
+.roi-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px}
+.roi-f{margin:14px 0 0}
+.roi-f label{display:block;font-weight:700;font-size:16px;margin:0 0 6px}
+.roi-in{display:flex;align-items:center;gap:10px}
+.roi-in input{width:150px;min-height:48px;border:2px solid var(--line2);border-radius:10px;padding:0 12px;font:inherit;font-size:18px;color:var(--ink);background:#fff}
+.roi-in input:focus{border-color:var(--navy);outline:3px solid var(--acc);outline-offset:1px}
+.roi-in span{font-size:15px}
+.roi-out{margin-top:18px;padding:16px 18px;background:var(--tint);border-radius:12px;min-height:72px}
+.roi-out p{margin:0 0 .5em;font-size:17px}
+.roi-out p:last-child{margin-bottom:0}
+.roi-out b{color:var(--navy);font-size:20px}
+.roi-how{margin:12px 0 0}
+#retorno .actrow{margin-top:22px}
+@media (max-width:1060px){.chain{grid-template-columns:1fr 1fr;gap:34px 30px}.step:nth-child(2) .arr{display:none}}
+@media (max-width:860px){.chain{grid-template-columns:1fr;gap:34px}.step .arr{right:auto;left:50%;top:auto;bottom:-31px;transform:translateX(-50%) rotate(90deg)}.step:nth-child(2) .arr{display:block}.roi-fields{grid-template-columns:1fr}.roi-in input{width:100%}}
