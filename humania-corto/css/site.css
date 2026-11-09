@@ -522,4 +522,17 @@ body.qz-on .pbar,body.qz-on .wafab{display:none!important}
 .simlinks{grid-template-columns:repeat(3,1fr)}
 @media (max-width:760px){.svclinks,.simlinks{grid-template-columns:1fr}}
 .roi-fold{margin-top:18px}
+.toolrow{margin:10px 0}
+.toolrow>summary{font-size:19px;gap:14px}
+.toolrow .trn{font-size:14px;color:var(--kick);min-width:26px}
+.toolrow article h2,.toolrow article .tn{display:none}
+.toolrow article{margin:6px 0 0;padding-top:0;border:0}
+.tsep{border:0;border-top:1px solid var(--line);margin:30px 0}
+@media (max-width:760px){
+.fgrid{grid-template-columns:1fr 1fr;gap:18px 16px}
+.fgrid>div:first-child{grid-column:1/-1}
+.foot a{overflow-wrap:anywhere}
+.stps .ico{display:none}
+.stps .stp{padding-top:14px;padding-bottom:14px}
+}
 .sec .wrap>.fold{margin-top:18px}
