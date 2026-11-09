@@ -86,7 +86,7 @@ h4{font-size:18px}
 
 /* hero (home) */
 .hero{padding:64px 0 60px;background:var(--paper)}
-.hgrid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.hgrid{display:grid;grid-template-columns:1.4fr 1fr;gap:56px;align-items:center}
 .badge{display:inline-flex;gap:10px;align-items:center;font-size:15px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--card);color:var(--ink);margin:0 0 22px}
 .badge b{font-weight:800}
 .hsmall{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
@@ -293,6 +293,12 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .qz-callbox h4{margin:0 0 .3em}
 .qz-btns{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
 .qz-more{margin-top:18px;font-size:16px;color:var(--mut)}
+.fold{border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 18px;margin:14px 0}
+.fold>summary{cursor:pointer;font-weight:700;color:var(--navy);min-height:48px;display:flex;align-items:center;gap:12px;padding:6px 0;list-style:none}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::after{content:"+";margin-left:auto;font-size:24px;line-height:1}
+.fold[open]>summary::after{content:"\2013"}
+.fold[open]{padding-bottom:18px}
 .qz-k{scroll-margin-top:96px}
 .qz-res .qz-top{display:none}
 .qz-callbox{margin:14px 0 18px}
@@ -359,10 +365,11 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .tool.solo{grid-template-columns:1fr}
 .tool.solo>div{max-width:780px}
 .nf{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 16px}
-h1 em{font-style:normal;padding-bottom:5px;-webkit-box-decoration-break:clone;box-decoration-break:clone;background:linear-gradient(90deg,var(--gold),rgba(226,169,59,0)) 0 100%/100% 2px no-repeat}
+h1 em{font-style:normal;display:inline-block;padding-bottom:5px;background:linear-gradient(90deg,var(--gold),rgba(226,169,59,0)) 0 100%/100% 2px no-repeat}
 .next a.btn{font-size:16.5px}
 .next a.btn-p{color:#fff}
 .next a.btn-p:hover{text-decoration:none}
+@media (max-width:640px){.srow{padding:36px 0}.tool{padding:30px 0}.scn-card{aspect-ratio:16/9;min-height:0}}
 @media (max-width:640px){.jump{gap:8px}.jump a{padding:8px 14px;font-size:15.5px}}
 .sbox+h2{margin-top:1.2em}
 

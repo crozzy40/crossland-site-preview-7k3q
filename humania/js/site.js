@@ -12,7 +12,7 @@ function still(){return !!(window.matchMedia&&matchMedia('(prefers-reduced-motio
 (function(){
 var R=D.getElementById('qz'),W=D.getElementById('qz-ow');if(!R||!W)return;
 var T;try{T=JSON.parse(R.querySelector('.qz-strings').textContent)}catch(e){return}
-var B=W.querySelector('.qz-open'),LAD=D.querySelector('#escalera .lad'),F=R.querySelector('.qz-f'),
+var B=W.querySelector('.qz-open'),LAD=D.querySelector('#escalera .lad'),LW=LAD&&(LAD.closest('details')||LAD),F=R.querySelector('.qz-f'),
 ALL=[].slice.call(R.querySelectorAll('.qz-s')),S=[ALL[0]],N=1,RES=R.querySelector('.qz-r'),LV=[].slice.call(R.querySelectorAll('.qz-lv')),
 BACK=R.querySelector('.qz-back'),MSG=R.querySelector('.qz-msg'),BAR=R.querySelector('.qz-bar i'),LIVE=R.querySelector('.qz-live'),
 MAIL=R.querySelector('.qz-mail'),CS=R.querySelector('.qz-cs'),INTRO=R.querySelector('.qz-intro'),cur=0,ptr=0,tok=0,copyText='',QN=4;
@@ -52,8 +52,8 @@ copyText=subj+'\n\n'+L.join('\n');CS.textContent='';LIVE.textContent='';
 var msg=fill(T.live,o);setTimeout(function(){LIVE.textContent=msg},80);
 var k=RES.querySelector('.qz-k');k.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'});focusH(el.querySelector('.qz-rh'));
 }
-function open(){W.hidden=true;LAD.hidden=true;R.hidden=false;show(cur)}
-function close(){R.hidden=true;LAD.hidden=false;W.hidden=false;B.focus();var r=B.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)B.scrollIntoView({block:'center'})}
+function open(){W.hidden=true;LW.hidden=true;R.hidden=false;show(cur)}
+function close(){R.hidden=true;LW.hidden=false;W.hidden=false;B.focus();var r=B.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)B.scrollIntoView({block:'center'})}
 W.hidden=false;
 B.addEventListener('click',open);
 /* the Home's quiz button and any link to #cuestionario open the first question directly (grade 8 Nov, item 4) */
