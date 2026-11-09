@@ -504,3 +504,8 @@ body.qz-on .pbar,body.qz-on .wafab{display:none!important}
   .btn:active,.wafab:active{transform:translateY(1px);filter:brightness(.95)}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+/* the logo in the footer (Ryan 9 Nov 15:26): his cut screenshot keeps its own dark ground, so it sits as a rounded badge on the navy footer */
+.flogo{display:block;width:240px;height:auto;background:#FBF8F1;border-radius:14px;padding:12px 16px;margin:0 0 18px}
+.brandlogo{display:block;height:44px;width:auto}
+.brand .sol{font-size:16px;font-weight:500;color:var(--mut)}
+.nlogo{display:block;width:260px;height:auto;margin:0 0 22px}
