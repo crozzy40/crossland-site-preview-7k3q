@@ -237,8 +237,8 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .wafab:hover{filter:brightness(.93)}
 .wafab path{fill:var(--ink)}
 .waic{flex:none;width:22px;height:22px}
-.btn-wa{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;background:var(--navy);color:#fff;border:2px solid var(--navy)}
-.btn-wa .waic path{fill:#fff}
+.btn-wa{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;background:var(--gold);color:var(--ink);border:2px solid var(--gold)}
+.btn-wa .waic path{fill:var(--ink)}
 
 /* Ask-us in the Empiece page */
 .askbox{max-width:700px}
@@ -394,7 +394,9 @@ h1 em{font-style:normal;display:inline-block;padding-bottom:5px;background:linea
 .proc h3{font-size:19px;margin:0 0 .35em}
 .proc p{margin:0 0 .3em;font-size:16px}
 .proc p:last-child{margin-bottom:0}
-.startcard{max-width:760px}
+.startcard{max-width:none}
+.startcard .checks{columns:2;column-gap:36px}
+@media (max-width:760px){.startcard .checks{columns:1}}
 .startcard .ctas{margin-bottom:0}
 .stps{list-style:none;padding:0;margin:30px 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;counter-reset:st}
 .stp{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:20px 18px 22px}
@@ -487,7 +489,7 @@ button.copy,.copy-btn,[data-copy]{min-height:44px}
 .procd summary{cursor:pointer;list-style:none;min-height:44px;display:flex;align-items:center;font-weight:700;color:var(--navy);font-size:17px;padding-right:26px;position:relative}
 .procd summary::-webkit-details-marker{display:none}
 .procd summary::after{content:"+";position:absolute;right:0;font-size:22px;font-weight:400;color:var(--navy)}
-.procd details[open] summary::after{content:"2"}
+.procd details[open] summary::after{content:"\2212"}
 .procd details p{margin:0 0 .4em;font-size:16px}
 .procd details p:last-child{margin-bottom:12px}
 .procd>svg,.procd>.ico{flex:none;margin-top:10px}
