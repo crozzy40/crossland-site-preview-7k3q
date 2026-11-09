@@ -49,6 +49,7 @@ L.push('',fill(T.rec,o),d.first,'',T.ask,T.company+' ',T.when+' ','',T.bye);
 var subj=fill(T.subject,o);
 MAIL.setAttribute('href','mailto:'+T.to+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(L.join('\r\n')));
 copyText=subj+'\n\n'+L.join('\n');CS.textContent='';LIVE.textContent='';
+var WA=R.querySelector('.qz-wa');if(WA){var wb=(WA.getAttribute('data-wa')||WA.getAttribute('href')).split('?')[0];WA.setAttribute('data-wa',wb);WA.setAttribute('href',wb+'?text='+encodeURIComponent(copyText))}
 var msg=fill(T.live,o);setTimeout(function(){LIVE.textContent=msg},80);
 var k=RES.querySelector('.qz-k');k.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'});focusH(el.querySelector('.qz-rh'));
 }
