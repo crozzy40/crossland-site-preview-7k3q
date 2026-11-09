@@ -16,7 +16,7 @@ html,body{margin:0;padding:0}
 <body><h1 style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">RedControl: custodia de equipos de un proveedor de internet</h1>
 <style>#hm-bar{background:#12285A;color:#F4EFE8;font:600 15px/1.3 system-ui,-apple-system,'Segoe UI',sans-serif}#hm-bar *{box-sizing:border-box}#hm-bar .hmb-in{max-width:1180px;margin:0 auto;padding:6px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:0 22px}#hm-bar a{color:#F4EFE8;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}#hm-bar a:hover{text-decoration:underline}#hm-bar a:focus-visible{outline:3px solid #E2A93B;outline-offset:2px}#hm-bar .hmb-brand{font-size:17px;gap:.35em}#hm-bar .hmb-brand b{font-weight:800}#hm-bar .hmb-brand span{color:#E2A93B;font-weight:700}#hm-bar nav{display:flex;flex-wrap:wrap;gap:0 18px;flex:1 1 auto}#hm-bar .hmb-r{display:flex;align-items:center;gap:0 18px;flex-wrap:wrap}#hm-bar .hmb-cta{background:#E2A93B;color:#12285A;padding:0 16px;border-radius:8px;font-weight:700}#hm-bar .hmb-cta:hover{text-decoration:none;filter:brightness(1.06)}@media(max-width:640px){#hm-bar .hmb-in{padding:4px 14px}#hm-bar nav{flex-basis:100%;order:3}}</style><div id="hm-bar"><div class="hmb-in"><a class="hmb-brand" href="../../" aria-label="Human IA Soluciones, inicio"><b>Human IA</b> <span>Soluciones</span></a><nav aria-label="Principal"><a href="../../soluciones-de-inteligencia-artificial/">Servicios</a><a href="../../nuestro-trabajo/">Nuestro trabajo</a><a href="../../nosotros/">Nosotros</a><a href="../../preguntas-frecuentes/">Preguntas</a></nav><div class="hmb-r"><a class="hmb-cta" href="../../empiece/#solicitar">Contacto</a><a href="https://crosslandai.com/work.html" hreflang="en" lang="en">English</a></div></div></div>
 <div id="root"></div>
-<div id="stamp">Build 2026-09-15.3 · offline</div>
+
 <pre id="err"></pre>
 <script>
 window.addEventListener("error",function(e){var el=document.getElementById("err");el.style.display="block";el.textContent="Could not start:\n"+(e.message||e.error)+"\n\n"+(e.error&&e.error.stack||"");});
@@ -19906,8 +19906,8 @@ const MUTED = "#5C666E";
 const DISPLAY = "'Barlow Condensed','Arial Narrow',sans-serif";
 const BODY = "'Barlow',system-ui,-apple-system,sans-serif";
 const MONO = "'IBM Plex Mono',ui-monospace,SFMono-Regular,monospace";
-const fmtCOP = (v) => new Intl.NumberFormat("en-US", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(v);
-const fmtNum = (v) => new Intl.NumberFormat("en-US").format(v);
+const fmtCOP = (v) => new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", currencyDisplay: "code", maximumFractionDigits: 0 }).format(v);
+const fmtNum = (v) => new Intl.NumberFormat("es-CO").format(v);
 /* ================= SEED DATA ================= */
 const EQUIPOS = [
     { id: "ont", nombre: "ONT GPON (módem de fibra)", unidad: "unidades", stock: 62, minimo: 40, precio: 185000 },
@@ -20162,7 +20162,7 @@ function RedControlDemo({ initialTab = "panel" }) {
     const PASOS = [
         { tab: "panel", target: null, titulo: "Demo guiada de RedControl", texto: "Dos minutos: cómo el mismo motor de custodia que controla cemento en una obra controla ONTs, routers y cable drop en una operación de fibra. Usa Siguiente para avanzar; Escape sale." },
         { tab: "panel", target: "kpi-fuga", titulo: "El número que importa", texto: "Fuga detectada: lo que los trabajos cerrados consumieron por encima de su lista de materiales, después de la merma normal. Los recortes de cable drop nunca cuentan como fuga. Una ONT faltante siempre cuenta." },
-        { tab: "panel", target: "panel-chart", titulo: "Lista de materiales vs. realidad", texto: "Costo esperado de los trabajos cerrados de la semana contra lo realmente consumido. La brecha se abre desde la semana 33 y sigue abriéndose." },
+        { tab: "panel", target: "panel-chart", titulo: "Lista de materiales frente a la realidad", texto: "Costo esperado de los trabajos cerrados de la semana contra lo realmente consumido. La brecha se abre desde la semana 33 y sigue abriéndose." },
         { tab: "panel", target: "panel-topfuga", titulo: "Dónde se está fugando", texto: "Aquí solo aparecen trabajos que consumieron por encima de la tolerancia. Fíjate quién cerró los tres…" },
         { tab: "ordenes", target: "orden-OT-2308", run: () => setOrdenAbierta("OT-2308"), titulo: "Radiografía de un trabajo", texto: "OT-2308, una instalación estándar: cada ítem comparado contra la lista de materiales de instalación. Verde = según lo esperado, ámbar = dentro de la tolerancia, rojo = fuga valorada en pesos. Dos routers para una instalación de un router." },
         { tab: "salidas", target: "form-salida", run: () => { setFMat("drop"); setFCant("60"); setFOrden("OT-2315"); setFTec("Andrés Ospina"); }, titulo: "Registrar una salida a camioneta", texto: "La bodega registra: 60 m de cable drop para OT-2315, retirados por Andrés Ospina. En el siguiente paso lo registramos en vivo." },
@@ -20301,7 +20301,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                             ordenes.length - cerradas.length,
                             " en curso (muestra)")),
                     React.createElement(Card, { className: "p-3" },
-                        React.createElement("div", { style: { color: MUTED }, className: "text-xs font-semibold uppercase" }, "Consumo prom. vs. lista de materiales"),
+                        React.createElement("div", { style: { color: MUTED }, className: "text-xs font-semibold uppercase" }, "Consumo prom. frente a la lista de materiales"),
                         React.createElement("div", { style: { fontFamily: DISPLAY }, className: "num mt-1 text-2xl font-bold" },
                             desvProm >= 0 ? "+" : "",
                             (desvProm * 100).toFixed(1),
@@ -20332,7 +20332,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                             " en disputa"))),
                 React.createElement("div", { className: "grid grid-cols-1 gap-4 lg:grid-cols-5" },
                     React.createElement(Card, { id: "panel-chart", className: "lg:col-span-3" },
-                        React.createElement(SectionTitle, { icon: TrendingUp }, "Consumo semanal vs. lista de materiales (COP millones)"),
+                        React.createElement(SectionTitle, { icon: TrendingUp }, "Consumo semanal frente a la lista de materiales (COP millones)"),
                         React.createElement("div", { className: "h-64 px-2 pb-3" },
                             React.createElement(MiniLineChart, { data: SEMANAS, xKey: "s", gridColor: LINE, axisColor: MUTED, series: [{ key: "presupuesto", color: STEEL }, { key: "real", color: RED }], legendLabel: (k) => (k === "presupuesto" ? "Lista de materiales" : "Consumo real") })),
                         React.createElement("div", { style: { borderTop: `1px solid ${LINE}`, color: MUTED }, className: "px-4 py-2 text-xs" }, "La brecha entre las l\u00EDneas se abre desde la semana 33, la semana en que la zona Centro recibi\u00F3 una nueva cuadrilla de instalaci\u00F3n.")),

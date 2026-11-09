@@ -16,7 +16,7 @@ html,body{margin:0;padding:0}
 <body><h1 style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">ObraControl: control de materiales de una obra</h1>
 <style>#hm-bar{background:#12285A;color:#F4EFE8;font:600 15px/1.3 system-ui,-apple-system,'Segoe UI',sans-serif}#hm-bar *{box-sizing:border-box}#hm-bar .hmb-in{max-width:1180px;margin:0 auto;padding:6px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:0 22px}#hm-bar a{color:#F4EFE8;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}#hm-bar a:hover{text-decoration:underline}#hm-bar a:focus-visible{outline:3px solid #E2A93B;outline-offset:2px}#hm-bar .hmb-brand{font-size:17px;gap:.35em}#hm-bar .hmb-brand b{font-weight:800}#hm-bar .hmb-brand span{color:#E2A93B;font-weight:700}#hm-bar nav{display:flex;flex-wrap:wrap;gap:0 18px;flex:1 1 auto}#hm-bar .hmb-r{display:flex;align-items:center;gap:0 18px;flex-wrap:wrap}#hm-bar .hmb-cta{background:#E2A93B;color:#12285A;padding:0 16px;border-radius:8px;font-weight:700}#hm-bar .hmb-cta:hover{text-decoration:none;filter:brightness(1.06)}@media(max-width:640px){#hm-bar .hmb-in{padding:4px 14px}#hm-bar nav{flex-basis:100%;order:3}}</style><div id="hm-bar"><div class="hmb-in"><a class="hmb-brand" href="../../" aria-label="Human IA Soluciones, inicio"><b>Human IA</b> <span>Soluciones</span></a><nav aria-label="Principal"><a href="../../soluciones-de-inteligencia-artificial/">Servicios</a><a href="../../nuestro-trabajo/">Nuestro trabajo</a><a href="../../nosotros/">Nosotros</a><a href="../../preguntas-frecuentes/">Preguntas</a></nav><div class="hmb-r"><a class="hmb-cta" href="../../empiece/#solicitar">Contacto</a><a href="https://crosslandai.com/work.html" hreflang="en" lang="en">English</a></div></div></div>
 <div id="root"></div>
-<div id="stamp">Build 2026-09-15.3 · offline</div>
+
 <pre id="err"></pre>
 <script>
 window.addEventListener("error",function(e){var el=document.getElementById("err");el.style.display="block";el.textContent="Could not start:\n"+(e.message||e.error)+"\n\n"+(e.error&&e.error.stack||"");});
@@ -19895,8 +19895,8 @@ const MUTED = "#5C666E";
 const DISPLAY = "'Barlow Condensed','Arial Narrow',sans-serif";
 const BODY = "'Barlow',system-ui,-apple-system,sans-serif";
 const MONO = "'IBM Plex Mono',ui-monospace,SFMono-Regular,monospace";
-const fmtCOP = (v) => new Intl.NumberFormat("en-US", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(v);
-const fmtNum = (v) => new Intl.NumberFormat("en-US").format(v);
+const fmtCOP = (v) => new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", currencyDisplay: "code", maximumFractionDigits: 0 }).format(v);
+const fmtNum = (v) => new Intl.NumberFormat("es-CO").format(v);
 /* ================= SEED DATA ================= */
 const MATERIALES = [
     { id: "cem", nombre: "Cemento gris 50 kg", unidad: "bultos", stock: 1240, minimo: 800, precio: 27500 },
@@ -20128,7 +20128,7 @@ function ObraControlDemo() {
     const PASOS = [
         { tab: "panel", target: null, titulo: "Demo guiada de ObraControl", texto: "Dos minutos: cómo el sistema convierte el control de materiales en números que cualquier gerente entiende. Usa Siguiente para avanzar; puedes salir en cualquier momento." },
         { tab: "panel", target: "kpi-fuga", titulo: "El número que importa", texto: "Fuga detectada: sobreconsumo por encima de la merma admisible de cada material, en pesos y proyectado a toda la etapa. El desperdicio normal de obra nunca cuenta como fuga." },
-        { tab: "panel", target: "panel-chart", titulo: "Presupuesto vs. realidad", texto: "La brecha entre el consumo presupuestado y el real se abre desde la semana 33. El sistema no espera al cierre de mes para mostrarlo." },
+        { tab: "panel", target: "panel-chart", titulo: "Presupuesto frente a la realidad", texto: "La brecha entre el consumo presupuestado y el real se abre desde la semana 33. El sistema no espera al cierre de mes para mostrarlo." },
         { tab: "panel", target: "panel-topfuga", titulo: "Dónde se está fugando", texto: "Aquí solo aparecen unidades con consumo por encima de la tolerancia. Fíjate quién es el responsable de las tres…" },
         { tab: "casas", target: "casa-A-103", run: () => setCasaAbierta("A-103"), titulo: "Radiografía de una unidad", texto: "Unidad A-103: cada material comparado contra su curva de consumo por etapa. Verde = dentro del presupuesto, ámbar = dentro de la tolerancia, rojo = fuga valorada en pesos." },
         { tab: "entregas", target: "form-entrega", run: () => { setFMat("cem"); setFCant("40"); setFCasa("A-103"); setFIng("Ing. Jorge Palacio"); }, titulo: "Registrar un despacho de bodega", texto: "El almacenista registra: 40 bultos de cemento para la unidad A-103, recibe el Ing. Palacio. En el siguiente paso lo registramos en vivo." },
@@ -20290,7 +20290,7 @@ function ObraControlDemo() {
                             " en disputa"))),
                 React.createElement("div", { className: "grid grid-cols-1 gap-4 lg:grid-cols-5" },
                     React.createElement(Card, { id: "panel-chart", className: "lg:col-span-3" },
-                        React.createElement(SectionTitle, { icon: TrendingUp }, "Consumo semanal vs. presupuesto (COP millones)"),
+                        React.createElement(SectionTitle, { icon: TrendingUp }, "Consumo semanal frente al presupuesto (COP millones)"),
                         React.createElement("div", { className: "h-64 px-2 pb-3" },
                             React.createElement(MiniLineChart, { data: SEMANAS, xKey: "s", gridColor: LINE, axisColor: MUTED, series: [{ key: "presupuesto", color: STEEL }, { key: "real", color: RED }], legendLabel: (k) => (k === "presupuesto" ? "Presupuestado" : "Consumo real") })),
                         React.createElement("div", { style: { borderTop: `1px solid ${LINE}`, color: MUTED }, className: "px-4 py-2 text-xs" }, "La brecha entre las l\u00EDneas se abre desde la semana 33 y coincide con el inicio de la cuadrilla de estructura en la manzana A.")),
