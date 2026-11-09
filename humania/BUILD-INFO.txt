@@ -1,16 +1,16 @@
 BUILD-INFO (make_humania.py, 2026-11-08)
-status: NOT RELEASABLE (pending placeholders: {"nit": 15, "direccion": 13, "logo": 11, "[PENDIENTE total]": 47})
+status: NOT RELEASABLE (pending placeholders: {"nit": 16, "direccion": 14, "logo": 12, "[PENDIENTE total]": 50})
 source: crozzy40/crosslandai release-hardpart fb324813be7a76efb2b53e332852b9f5a9a9b67b (es pages, ask-us, demos ES, painting)
-files: 96
+files: 97
 
 cbb1707dd7c7e350106420f926265e8b2d19754fd0391f651ec579e9c124dad4      1486  404.html
 b539f02cab24e1b47604e1976a903921d2fd07651be0670abea87e5fd6552f66      5293  ask-us/ask-us.css
 19cc95659613fded87ab9a5fce269cca78a5f2fa63e6f922b3e64b4420fd1244     17334  ask-us/ask-us.js
-68c21344b9595e50fdb8cd1dbb8095be3df7d8224f0bfda028282b579cb98d49     14816  con-quien-trabajamos/index.html
-9a36af2ecbd34a1c9a261b3df80682a220224cbe33e0da907d69cebaecfa2a89     12056  construya-con-nosotros/index.html
+88350f51a3db763ef2e11b4ae55e227ae82c0f0361efbdd4f81edd155e8de173     14870  con-quien-trabajamos/index.html
+bc41223425523f5b182d7dab4971faa9516f6fea8085404b38ad9967f4d60ea2     12110  construya-con-nosotros/index.html
 eba3959f1f40c7389dd54f37ae6efd21ef3253da7feba6e77e037a17ed6f67aa     32338  css/site.css
-c2266ad65660a6bdc2aa41596d463bc895c6adfc4ee148bba5151c3f0ac8038a     11638  datos-y-seguridad/index.html
-3e22c6f0e539e47e568826870d3b4cc9da15644cd78e29ffa9a41256cb68a94f     17651  empiece/index.html
+8b587d936740d36089918926209b568f7f8f5ed0d4cba18aaa2acaefe9f4cbd8     11746  datos-y-seguridad/index.html
+b8d4efe78c0008010660c2aea075a88fdd537fd0fb4117a79ea52a031d1825a5     17685  empiece/index.html
 7c3daa1e8f769514dbdcc79933e457c65a6bbb6ac2023331c57c7064c16f5528       456  fonts/ARCHIVO-LICENCE.txt
 8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967     34928  fonts/archivo-latin.woff2
 603a32f99a6abb0f028090bdd7933899b4782a05173b400a1e8ecffdbd2686a1     95891  img/scenes/08-capacitacion-1280.jpg
@@ -78,8 +78,8 @@ a411e8847565a3ec2eea08241a8e79cd20bea3fef68b6a1754bba5a7c8e3e0d8     59425  img/
 bf4640040cf65c621f76a5406c5ed2cb6d9f5af58901bf7c1c99e7ea0ba9109d     51390  img/tool-rollbook-800.jpg
 c3455c4634c69f7f0a041245dfe43db8f997d77a6ee1b6e8cfb8fcea7ddc4e69      9774  img/whatsapp-alojado-es-400.jpg
 5f9abb7ffd60cce0724e6eb27a9081de534976d61f598171e6853df3910ad277     28961  img/whatsapp-alojado-es-800.jpg
-d63adad2362b99b66d4e89c4f32d8272bca10f390747beb5a38596f279dc9ce8     33354  index.html
-c979135f12c7b23c6d8d9de4502dc9e9ed5c61cc8f77b45ef8478f4359e7c543      9854  js/site.js
+ffdf56ea337aa70dbb29817227c7fb809cf5d7e6d1c13cc732edba5d288829b2     33385  index.html
+c65d3b4bde07f86f377b5baffddd3259c930e4b439abbd5e80cf7e71b77fa737     10248  js/site.js
 dc74caf33bf8190111ccf15fc4169d655c9b81e725e2c748a978a02bb6d5a3d8     25416  media/demos/AIguy-ES.html
 113486262c46bb90297d7870cf1acd24ad4f615ff787325b855e5eac63fb0e32     80346  media/demos/Blueprint-ES.html
 a3d07f09b3259782b967c75883b28d1fbd0b5df8571f10db5ed1c1c2d7dac86a     29724  media/demos/Nicky-ES.html
@@ -90,14 +90,15 @@ a3d07f09b3259782b967c75883b28d1fbd0b5df8571f10db5ed1c1c2d7dac86a     29724  medi
 86cfc79002cbfe7283198e2f907ccb14f2b0a934578b2a6cbabad08850a5b858     32095  media/demos/WhatsApp-ES.html
 9b99fc688979f3d280db6171e7904e3dae5109badd1cbb5c88bf9422d55af4c2    116399  media/demos/WhatsApp-alojado-ES.html
 f14918dedfaa303a1da1dac340808b95491f3bb377a922bea30279340c92b69e   2181780  media/software-factory-sim.mp4
-05d2f2a19c42fb93a7e92750c1e5acddfc1ce88d9a84e80296e75c194f87a1c2     17992  nosotros/index.html
-d069c029459200b48748e12d221165c50451ddc122c450f5f4492ab9f7af5bcc     24527  nuestro-trabajo/index.html
+75429ba247e7f4eb8432dfc835ceb65a66ccfad3cb0ea90664442e9ab5ab71fc     18046  nosotros/index.html
+a00f86b72deaae7586ff206c0d605fd5b06e70fc263012d167a5022c2ed23192     24581  nuestro-trabajo/index.html
 5459196cf075bd6365c995aa28a2ff58ce167262da093c82d09c70cdbc948149    168930  painting/painting.html
-1e81b56183e41a81159f80b2a6d3fedf15241b2fd6072c18fa33f60b10b54b61     13880  preguntas-frecuentes/index.html
-6f774d86508c5716a9a66a3702d06dc1d804e2ccf364b0b052ca898d38e957db     11398  privacidad/index.html
+54383fc3f5326f6e163085595c2c29699025dc9092e81ecca5795a02673ff5e6     27682  por-donde-empezar/index.html
+b79bfd9064d7566b46a9b78427771fe46ee9e1b83a713e35dc484ac54b837ece     13988  preguntas-frecuentes/index.html
+0daeb0360e7631e7a45310a33622f3836c39c3139f9a026ffee10a61bb378c54     11506  privacidad/index.html
 4a3830d0c4aa648f1535ffa4b178392d9423ba152be450ef4bf23bd6d1cb9559        75  robots.txt
-240b5ea40593c44a2e49dc68bd8ac9da044a14f4019e073bfc405e3382d58fd0      1351  sitemap.xml
-0ec1ae7e8345b1f432a325a37fbc442b7cacc288f1c69c25c56167302346ee0e     45899  soluciones-de-inteligencia-artificial/index.html
-32341ae8a489505f5b3ab8d252fe40529c6bb8795fd94076a0a22aaa311e75ab      9802  terminos/index.html
+e212e930eb0e5da0c4feedeadd4d807f78d32cbb7057f386f7d74a602a91a033      1466  sitemap.xml
+117959068e97159804fb774a269c1c66a5662fd3c2fd95dc82c046169ab69c4f     28562  soluciones-de-inteligencia-artificial/index.html
+25c1cd13407159c505e68f91372d3e9dfee0c2bd7c2536ac6c366a54c69730c9      9856  terminos/index.html
 
-PREVIEW COPY: noindex added to 22 html files; robots.txt = Disallow all. Not for go-live.
+PREVIEW COPY: noindex added to 23 html files; robots.txt = Disallow all. Not for go-live.

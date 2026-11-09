@@ -6,6 +6,9 @@
 (function(){
 "use strict";
 var D=document;
+/* the ladder and the quiz moved from Servicios to Por donde empezar (Ryan 8 Nov 21:21): old links to #escalera, #ladder and #cuestionario on Servicios go to the new page */
+function oldhash(){var h=location.hash,e=D.querySelector('a[data-empezar]');if(e&&/^#(escalera|ladder|cuestionario)$/.test(h))location.replace(e.getAttribute('href')+h)}
+oldhash();addEventListener('hashchange',oldhash);
 function still(){return !!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)}
 
 /* 1. quiz (prototype 7 Nov 18:45: no score; the first question asks if they want a course or training; the answers pick the service) */
