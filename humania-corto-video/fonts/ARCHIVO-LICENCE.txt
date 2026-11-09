@@ -1,0 +1,4 @@
+Archivo (weights 400 to 600, latin subset), file archivo-latin.woff2.
+Designed by Omnibus-Type. Licensed under the SIL Open Font License, Version 1.1 (https://openfontlicense.org).
+Source: Google Fonts (https://fonts.google.com/specimen/Archivo), downloaded 28 Oct 2026; sha256 8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967.
+The font may be used, copied and embedded on websites, including commercial ones; it may not be sold by itself.
