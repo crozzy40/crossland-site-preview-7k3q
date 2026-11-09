@@ -522,6 +522,9 @@ body.qz-on .pbar,body.qz-on .wafab{display:none!important}
 .simlinks{grid-template-columns:repeat(3,1fr)}
 @media (max-width:760px){.svclinks,.simlinks{grid-template-columns:1fr}}
 .roi-fold{margin-top:18px}
+.plainlist{list-style:none;padding:0;margin:14px 0 0}
+.plainlist li{padding:9px 0;border-top:1px solid var(--line);font-size:17px}
+.plainlist li:first-child{border-top:0}
 .toolrow{margin:10px 0}
 .toolrow>summary{font-size:19px;gap:14px}
 .toolrow .trn{font-size:14px;color:var(--kick);min-width:26px}
