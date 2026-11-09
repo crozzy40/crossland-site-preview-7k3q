@@ -28,7 +28,7 @@ function picked(i){return S[i]&&S[i].querySelector('input:checked')}
 function path(){var c=ALL[0].querySelector('input:checked');return c?c.value:''}
 function active(){var p=path();S=ALL.filter(function(s,i){return i===0||(p&&s.getAttribute('data-path')===p)});N=S.length}
 function show(i){
-active();cur=i;tok++;MSG.textContent='';var res=i>=N&&N>1;F.hidden=res;RES.hidden=!res;INTRO.hidden=res;R.classList.toggle('qz-res',res);
+active();cur=i;tok++;MSG.textContent='';var res=i>=N&&N>1;F.hidden=res;RES.hidden=!res;INTRO.hidden=res;R.classList.toggle('qz-res',res);D.body.classList.toggle('qz-on',res);
 if(res){result();return}
 ALL.forEach(function(s){s.hidden=S[i]!==s});BACK.hidden=i===0;BAR.style.width=((i+1)/QN*100)+'%';
 into();focusH(S[i].querySelector('.qz-q'));
@@ -57,7 +57,7 @@ var msg=fill(T.live,o);setTimeout(function(){LIVE.textContent=msg},80);
 var k=RES.querySelector('.qz-k');k.scrollIntoView({behavior:still()?'auto':'smooth',block:'start'});focusH(el.querySelector('.qz-rh'));
 }
 function open(){W.hidden=true;LW.hidden=true;R.hidden=false;show(cur)}
-function close(){R.hidden=true;LW.hidden=false;W.hidden=false;B.focus();var r=B.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)B.scrollIntoView({block:'center'})}
+function close(){D.body.classList.remove('qz-on');R.hidden=true;LW.hidden=false;W.hidden=false;B.focus();var r=B.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)B.scrollIntoView({block:'center'})}
 W.hidden=false;
 B.addEventListener('click',open);
 /* the Home's quiz button and any link to #cuestionario open the first question directly (grade 8 Nov, item 4) */

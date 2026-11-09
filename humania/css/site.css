@@ -1,7 +1,7 @@
 /* Human IA Soluciones: one stylesheet for the whole site (7 Nov 2026).
    Design B "Light and human" with A's simple menu and C's headline weight; navy and gold; system font for text, Archivo for headings.
    Rules from Ryan (7 Nov 2026): crisp type (body 16 to 17 px, headings 650 to 700, letter-spacing never below -2%), no glows, hard-edged pictures,
-   no motion on the site (so nothing to switch off), words are real HTML from first paint. */
+   words are real HTML from first paint. Motion (Ryan 9 Nov 14:37: he never ruled 'no motion' and likes motion; the 7 Nov line here was the build chat's, not his): small and soft feedback only, off for anyone who asks the system for less motion (last block of this file). */
 @font-face{font-family:'Archivo';font-style:normal;font-weight:400 700;font-display:swap;src:url(../fonts/archivo-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{
   /* batch 2 (8-point grade, 7 Nov): five values. paper, tint, ink, navy, gold (+ white for cards and text on navy). Lines are ink at low alpha. */
@@ -494,3 +494,13 @@ button.copy,.copy-btn,[data-copy]{min-height:44px}
 .procd details p:last-child{margin-bottom:12px}
 .procd>svg,.procd>.ico{flex:none;margin-top:10px}
 @media (max-width:760px){.procsd{grid-template-columns:1fr}}
+/* grade 8 Nov 22:20, item 6: while the quiz result is on screen the always-there WhatsApp button is hidden, so 'Enviar por WhatsApp' (which carries the answers) is the only WhatsApp button */
+body.qz-on .pbar,body.qz-on .wafab{display:none!important}
+
+/* motion, grade 8 Nov 22:06 item 5 and Ryan 9 Nov 14:37: 180 ms feedback on buttons, links, tabs and rows; one rule turns everything off for reduced motion */
+@media (prefers-reduced-motion:no-preference){
+  .btn,.menu a,.subnav a,.more,.wafab,.mwa,.lang,.qz-lk,.jump a,.qz-door,.lad .lv-go,.procd summary,.foot a{transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease,filter .18s ease}
+  .btn:hover,.wafab:hover{transform:translateY(-1px)}
+  .btn:active,.wafab:active{transform:translateY(1px);filter:brightness(.95)}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
