@@ -351,3 +351,9 @@ section.s.next{padding:28px 0}
   header.top .wrap{justify-content:flex-start}
   header.top .btn-sm{margin-left:auto}
 }
+
+/* ---- v12: partner section, distributor invitation ---- */
+.partner .invite{border-top:1px solid var(--line);padding-top:22px;margin:0 0 22px}
+.partner .invite h3{font-size:22px;margin:0 0 6px}
+.partner .invite p{margin:0;max-width:62ch}
+.partner .box .btn{margin-right:8px;margin-bottom:8px}
