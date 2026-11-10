@@ -597,6 +597,11 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 .phead .kicker a{text-decoration:underline;text-underline-offset:3px}
 #blog .actrow{margin-top:6px}
 
+/* flujo, round 3 (10 Nov, Ryan 12:38): the questionnaire opens on the Home, under the six services; the Blog block is a heading, a line and a button */
+#cinco-soluciones .qz-ow{margin:18px 0 8px}
+#cinco-soluciones .qz{margin:18px 0 8px}
+#blog .actrow{margin-top:18px}
+
 /* flujo: the flow version (Ryan 9 Nov 21:48). Shorter pages on a phone: tighter rhythm, a footer of one screen, section tabs in one row. */
 .plinks{grid-template-columns:1fr 1fr}
 .svclinks .go{font-weight:700;font-size:15px;color:var(--navy);margin-top:5px}
