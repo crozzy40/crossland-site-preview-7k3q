@@ -140,7 +140,7 @@ d.addEventListener('toggle',function(){if(d.open)p()});window.addEventListener('
 (function(){function o(){var h=location.hash.slice(1);if(!h)return;var e=document.getElementById(decodeURIComponent(h));if(!e)return;var d=e.closest('details');var any=false;while(d){if(!d.open){d.open=true;any=true}d=d.parentElement&&d.parentElement.closest('details')}if(any)e.scrollIntoView()}
 window.addEventListener('hashchange',o);if(document.readyState!=='loading')o();else document.addEventListener('DOMContentLoaded',o)})();
 
-/* flujo, round 6 (Ryan 14:35): on a laptop (900 px or wider) the Home's main picture keeps moving: the clip (5 s) plays, fades back to the still, rests and plays again; a button in the picture's corner pauses it and starts it again. With reduced motion or data saving nothing plays or loads until the visitor presses the button. It rests while the picture is off screen or the tab is hidden. Never on a phone. */
+/* flujo, round 7 (Ryan 14:37): on a laptop (900 px or wider) the Home's main picture stays in motion the whole time it is on screen: the clip is a seamless loop (it plays forward and then backward, so its last frame meets its first). A button in the picture's corner pauses it (the picture fades back to the still) and starts it again. With reduced motion or data saving nothing plays or loads until the visitor presses the button. It holds while the picture is off screen or the tab is hidden. Never on a phone. */
 (function(){var f=document.querySelector('.scn-hero[data-mov]');if(!f||!window.matchMedia||!matchMedia('(min-width:900px)').matches)return;
 var c=navigator.connection,quiet=matchMedia('(prefers-reduced-motion: reduce)').matches||!!(c&&c.saveData);
 var v=null,ready=false,want=!quiet,seen=true,t=0,b=document.createElement('button');b.type='button';b.className='hbtn';
@@ -148,16 +148,15 @@ function lab(){b.textContent=f.getAttribute(want?'data-pausar':'data-reproducir'
 function live(){return want&&seen&&!document.hidden}
 function play(){clearTimeout(t);if(!v||!ready||!live())return;var p=v.play();
 if(p&&p.then){p.then(function(){if(live())v.classList.add('on')},function(){want=false;lab()})}else{v.classList.add('on')}}
-function rest(){clearTimeout(t);if(!v||!ready)return;v.pause();v.classList.remove('on');t=setTimeout(function(){if(v&&v.paused){try{v.currentTime=0}catch(e){}}},800)}
+function hold(){if(v&&ready)v.pause()}
+function rest(){clearTimeout(t);if(!v||!ready)return;v.classList.remove('on');t=setTimeout(function(){if(v&&!want){v.pause();try{v.currentTime=0}catch(e){}}},800)}
 function gone(){clearTimeout(t);if(v&&v.parentNode)v.parentNode.removeChild(v);if(b.parentNode)b.parentNode.removeChild(b);v=null;ready=false}
-function make(){v=document.createElement('video');v.muted=true;v.defaultMuted=true;v.playsInline=true;v.setAttribute('muted','');v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');v.tabIndex=-1;v.preload='auto';v.className='hmov';
+function make(){v=document.createElement('video');v.muted=true;v.defaultMuted=true;v.loop=true;v.playsInline=true;v.setAttribute('muted','');v.setAttribute('loop','');v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');v.tabIndex=-1;v.preload='auto';v.className='hmov';
 v.addEventListener('canplaythrough',function(){f.insertBefore(v,b);ready=true;play()},{once:true});
-v.addEventListener('timeupdate',function(){if(v&&v.duration&&v.currentTime>v.duration-0.8)v.classList.remove('on')});
-v.addEventListener('ended',function(){v.classList.remove('on');try{v.currentTime=0}catch(e){}clearTimeout(t);t=setTimeout(play,2600)});
 v.addEventListener('error',gone);
 v.src=f.getAttribute('data-mov');v.load()}
 b.addEventListener('click',function(){want=!want;lab();if(!want){rest()}else if(!v){make()}else{play()}});
-function turn(){if(live())play();else if(want)rest()}
+function turn(){if(live())play();else if(want)hold()}
 function start(){lab();f.appendChild(b);if('IntersectionObserver' in window){new IntersectionObserver(function(e){seen=e[e.length-1].isIntersecting;turn()},{threshold:0.2}).observe(f)}
 document.addEventListener('visibilitychange',turn);if(want)make()}
 if(document.readyState==='complete')setTimeout(start,400);else addEventListener('load',function(){setTimeout(start,400)})})();
