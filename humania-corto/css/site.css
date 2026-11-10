@@ -546,6 +546,10 @@ table.t.tcards td:first-child{font-size:18px;padding-bottom:8px}
 table.t.tcards td:not(:first-child)::before{content:attr(data-th);display:block;font-size:14px;font-weight:700;color:var(--kick)}
 }
 
+/* build 11, grade g: two tap targets at 44 px or more */
+.next a:not(.btn){min-height:46px}
+a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
+
 /* corto: the shorter version */
 .cmpbar{background:#fff7d6;color:#5a4300;font-size:14px;line-height:1.35;padding:8px 14px;text-align:center;border-bottom:1px solid #e6d58a}
 .cmpbar a{color:#5a4300;font-weight:700;text-decoration:underline}
