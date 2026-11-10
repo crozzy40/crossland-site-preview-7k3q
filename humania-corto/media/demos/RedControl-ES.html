@@ -20266,7 +20266,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                     React.createElement("div", null,
                         React.createElement("div", { style: { fontFamily: DISPLAY, letterSpacing: "0.12em" }, className: "text-xl font-bold uppercase text-white leading-none" }, "RedControl"),
                         React.createElement("div", { style: { color: "#9AA4AC" }, className: "text-xs mt-1" }, "Cada ONT contada \u00B7 Custodia de equipos en campo"))),
-                React.createElement("button", { onClick: iniciarDemo, style: { backgroundColor: FIBER, color: "#FFFFFF", fontFamily: DISPLAY, letterSpacing: "0.06em" }, className: "rounded px-3 py-2 text-sm font-bold uppercase" }, "Demostración guiada"),
+                React.createElement("button", { onClick: iniciarDemo, style: { backgroundColor: FIBER, color: "#FFFFFF", fontFamily: DISPLAY, letterSpacing: "0.06em", minHeight: 44 }, className: "rounded px-3 py-2 text-sm font-bold uppercase" }, "Demostración guiada"),
                 React.createElement("div", { className: "text-right" },
                     React.createElement("div", { className: "text-sm font-semibold text-white" }, "Fibra Ejemplo \u00B7 Semana 35"),
                     React.createElement("div", { style: { color: "#9AA4AC" }, className: "text-xs" }, "Zonas Norte \u00B7 Centro \u00B7 Sur \u00B7 Demostración")))),
@@ -20362,7 +20362,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                                         React.createElement("div", { style: { width: `${Math.max(4, (f / maxFuga) * 100)}%`, backgroundColor: tone }, className: "h-2 rounded" })),
                                     React.createElement("div", { style: { color: MUTED }, className: "mt-0.5 text-xs" }, o.tecnico)));
                             }),
-                            React.createElement("button", { onClick: () => setTab("alertas"), style: { color: STEEL }, className: "self-start text-sm font-semibold underline" }, "Ver an\u00E1lisis de patrones \u2192")))))),
+                            React.createElement("button", { onClick: () => setTab("alertas"), style: { color: STEEL, minHeight: 44 }, className: "self-start text-sm font-semibold underline" }, "Ver an\u00E1lisis de patrones \u2192")))))),
             tab === "ordenes" && (React.createElement(Card, null,
                 React.createElement(SectionTitle, { icon: Wrench, right: React.createElement("div", { style: { border: `1px solid ${LINE}` }, className: "flex items-center gap-2 rounded px-2 py-1" },
                         React.createElement(Search, { size: 14, color: MUTED }),

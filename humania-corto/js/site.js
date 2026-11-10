@@ -122,11 +122,12 @@ var N=document.getElementById('roi-n'),H=document.getElementById('roi-h'),C=docu
 var fmt=new Intl.NumberFormat('es-CO',{maximumFractionDigits:1});
 function peso(v){return '$'+new Intl.NumberFormat('es-CO',{maximumFractionDigits:0}).format(Math.round(v))}
 function num(e){var t=String(e.value).replace(/[\s $%]/g,'');if(t==='')return NaN;if(/^[1-9]\d{0,2}(,\d{3})+$/.test(t)){t=t.replace(/,/g,'')}else if(t.indexOf(',')>-1){t=t.replace(/\./g,'').replace(',','.')}else if(/^\d{1,3}(\.\d{3})+$/.test(t)){t=t.replace(/\./g,'')}if(!/^\d+(\.\d+)?$/.test(t))return NaN;var v=parseFloat(t);return isFinite(v)&&v>=0?v:NaN}
+function hs(x){var f=fmt.format(x);return f+(f==='1'?' hora':' horas')}
 function show(){
 var n=num(N),h=num(H),c=num(C),p=num(P);
 if(isNaN(n)||isNaN(h)||isNaN(c)){O.innerHTML='<p class="roi-empty">Escriba sus números y verá la cuenta aquí.</p>';return}
-var wh=n*h,wc=wh*c,yc=wc*52,out='<p>Hoy esa tarea le cuesta <b>'+peso(wc)+'</b> por semana, o <b>'+peso(yc)+'</b> al año (52 semanas): '+fmt.format(wh)+' horas por semana.</p>';
-if(!isNaN(p)&&p>0){var q=Math.min(p,100);out+='<p>Con la parte que usted indicó (<b>'+fmt.format(q)+' %</b>), recuperaría <b>'+fmt.format(wh*q/100)+' horas</b> por semana, o <b>'+peso(yc*q/100)+'</b> al año.</p>'}
+var wh=n*h,wc=wh*c,yc=wc*52,out='<p>Hoy esa tarea le cuesta <b>'+peso(wc)+'</b> por semana, o <b>'+peso(yc)+'</b> al año (52 semanas): '+hs(wh)+' por semana.</p>';
+if(!isNaN(p)&&p>0){var q=Math.min(p,100);out+='<p>Con la parte que usted indicó (<b>'+fmt.format(q)+' %</b>), recuperaría <b>'+hs(wh*q/100)+'</b> por semana, o <b>'+peso(yc*q/100)+'</b> al año.</p>'}
 O.innerHTML=out}
 F.addEventListener('input',show);F.addEventListener('submit',function(e){e.preventDefault()});
 })();
