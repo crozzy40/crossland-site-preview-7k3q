@@ -55,7 +55,7 @@
 </div>
 </div></section>
 <section class="novedad" aria-labelledby="h-nov"><div class="wrap"><div class="nov">
-<video class="pic nov-img" data-motion muted playsinline preload="metadata" poster="img/ia-novedad-poster.webp" width="720" height="480" role="img" aria-label="Tarjetas de datos translúcidas, con un gráfico, un anillo, una conversación y un documento, flotando frente a un monitor"><source src="img/ia-novedad.mp4" type="video/mp4"></video>
+<img class="pic nov-img" src="img/ia-novedad.webp" width="1024" height="682" alt="Tarjetas de datos translúcidas, con un gráfico, un anillo, una conversación y un documento, flotando frente a un monitor" decoding="async">
 <div class="nov-text"><p class="kick">Novedad en Printer Part's</p>
 <h2 id="h-nov">Ahora ofrecemos soluciones de inteligencia artificial para empresas</h2>
 <p class="lead">Capacitación para su equipo, diagnóstico, atención por WhatsApp y software a la medida.</p>
@@ -108,12 +108,5 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape"&&m.open){shu
 document.addEventListener("click",function(e){if(m.open&&!m.contains(e.target))shut()});
 m.addEventListener("click",function(e){if(e.target.closest("a"))shut()});
 window.addEventListener("hashchange",shut)})();
-</script>
-<script>
-(function(){var v=document.querySelector("video[data-motion]");if(!v)return;
-if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-if(!("IntersectionObserver" in window))return;var done=false;
-new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!done&&e.target.offsetParent!==null){done=true;var p=e.target.play();if(p&&p.catch)p.catch(function(){done=false})}})},{threshold:0.5}).observe(v);
-v.addEventListener("click",function(){v.currentTime=0;var p=v.play();if(p&&p.catch)p.catch(function(){})})})();
 </script>
 </body></html>
