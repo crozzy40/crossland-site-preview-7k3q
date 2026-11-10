@@ -12,7 +12,7 @@ html,body{margin:0;padding:0}
 #stamp{position:fixed;right:8px;bottom:6px;z-index:9998;font-family:system-ui,sans-serif;font-size:11px;color:#8A929B;pointer-events:none}
 #err{display:none;position:fixed;inset:0;z-index:9999;background:#F9E3E1;color:#C93A32;font-family:ui-monospace,monospace;font-size:13px;padding:24px;white-space:pre-wrap}
 </style>
-</head>
+<style>@media (max-width:430px){.num.text-2xl{font-size:1.3rem;line-height:1.6rem}}</style></head>
 <body><h1 style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">ObraControl: control de materiales de una obra</h1>
 <style>#hm-bar{background:#12285A;color:#F4EFE8;font:600 15px/1.3 system-ui,-apple-system,'Segoe UI',sans-serif}#hm-bar *{box-sizing:border-box}#hm-bar .hmb-in{max-width:1180px;margin:0 auto;padding:6px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:0 22px}#hm-bar a{color:#F4EFE8;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}#hm-bar a:hover{text-decoration:underline}#hm-bar a:focus-visible{outline:3px solid #E2A93B;outline-offset:2px}#hm-bar .hmb-brand{font-size:17px;gap:.35em}#hm-bar .hmb-brand b{font-weight:800}#hm-bar .hmb-brand span{color:#E2A93B;font-weight:700}#hm-bar nav{display:flex;flex-wrap:wrap;gap:0 18px;flex:1 1 auto}#hm-bar .hmb-r{display:flex;align-items:center;gap:0 18px;flex-wrap:wrap}#hm-bar .hmb-cta{background:#E2A93B;color:#12285A;padding:0 16px;border-radius:8px;font-weight:700}#hm-bar .hmb-cta:hover{text-decoration:none;filter:brightness(1.06)}@media(max-width:640px){#hm-bar .hmb-in{padding:4px 14px}#hm-bar nav{flex-basis:100%;order:3}}</style><div id="hm-bar"><div class="hmb-in"><a class="hmb-brand" href="../../" aria-label="Human IA Soluciones, inicio"><b>Human IA</b> <span>Soluciones</span></a><nav aria-label="Principal"><a href="../../soluciones-de-inteligencia-artificial/">Servicios</a><a href="../../nuestro-trabajo/">Nuestro trabajo</a><a href="../../nosotros/">Nosotros</a><a href="../../preguntas-frecuentes/">Preguntas</a></nav><div class="hmb-r"><a class="hmb-cta" href="../../empiece/#solicitar">Contacto</a><a href="https://crosslandai.com/work.html" hreflang="en" lang="en">English</a></div></div></div>
 <div id="root"></div>
@@ -19962,11 +19962,11 @@ const COMPRAS = [
     { fecha: "Jue pasado", detalle: "Arenera Ejemplo · 40 m³ de arena de río", valor: 2720000 },
 ];
 const SEMANAS = [
-    { s: "W-31", presupuesto: 118, real: 121 },
-    { s: "W-32", presupuesto: 124, real: 126 },
-    { s: "W-33", presupuesto: 121, real: 129 },
-    { s: "W-34", presupuesto: 127, real: 138 },
-    { s: "W-35", presupuesto: 125, real: 141 },
+    { s: "Sem. 31", presupuesto: 118, real: 121 },
+    { s: "Sem. 32", presupuesto: 124, real: 126 },
+    { s: "Sem. 33", presupuesto: 121, real: 129 },
+    { s: "Sem. 34", presupuesto: 127, real: 138 },
+    { s: "Sem. 35", presupuesto: 125, real: 141 },
 ];
 /* ================= HELPERS ================= */
 const matById = (id) => MATERIALES.find((m) => m.id === id);
@@ -20040,7 +20040,7 @@ function ObraControlDemo() {
         }));
         casas.filter((c) => desvPct(c) > 0.08).sort((a, b) => desvPct(b) - desvPct(a)).forEach((c) => list.push({
             nivel: "critica",
-            titulo: `Sobreconsumo en la unidad ${c.id}: +${(desvPct(c) * 100).toFixed(1)} % sobre el presupuesto`,
+            titulo: `Sobreconsumo en la unidad ${c.id}: +${(desvPct(c) * 100).toFixed(1).replace(".", ",")} % sobre el presupuesto`,
             detalle: `Fuga estimada ${fmtCOP(fugaCOP(c))} (neto de merma admisible) · Responsable: ${c.ingeniero}.`,
         }));
         entregas.filter((e) => e.estado === "Pendiente").forEach((e) => list.push({
@@ -20126,10 +20126,10 @@ function ObraControlDemo() {
         });
     }
     const PASOS = [
-        { tab: "panel", target: null, titulo: "Demo guiada de ObraControl", texto: "Dos minutos: cómo el sistema convierte el control de materiales en números que cualquier gerente entiende. Usa Siguiente para avanzar; puedes salir en cualquier momento." },
+        { tab: "panel", target: null, titulo: "Demostración guiada de ObraControl", texto: "Dos minutos: cómo el sistema convierte el control de materiales en números que cualquier gerente entiende. Use Siguiente para avanzar; puede salir en cualquier momento." },
         { tab: "panel", target: "kpi-fuga", titulo: "El número que importa", texto: "Fuga detectada: sobreconsumo por encima de la merma admisible de cada material, en pesos y proyectado a toda la etapa. El desperdicio normal de obra nunca cuenta como fuga." },
         { tab: "panel", target: "panel-chart", titulo: "Presupuesto frente a la realidad", texto: "La brecha entre el consumo presupuestado y el real se abre desde la semana 33. El sistema no espera al cierre de mes para mostrarlo." },
-        { tab: "panel", target: "panel-topfuga", titulo: "Dónde se está fugando", texto: "Aquí solo aparecen unidades con consumo por encima de la tolerancia. Fíjate quién es el responsable de las tres…" },
+        { tab: "panel", target: "panel-topfuga", titulo: "Dónde se está fugando", texto: "Aquí solo aparecen unidades con consumo por encima de la tolerancia. Fíjese quién es el responsable de las tres…" },
         { tab: "casas", target: "casa-A-103", run: () => setCasaAbierta("A-103"), titulo: "Radiografía de una unidad", texto: "Unidad A-103: cada material comparado contra su curva de consumo por etapa. Verde = dentro del presupuesto, ámbar = dentro de la tolerancia, rojo = fuga valorada en pesos." },
         { tab: "entregas", target: "form-entrega", run: () => { setFMat("cem"); setFCant("40"); setFCasa("A-103"); setFIng("Ing. Jorge Palacio"); }, titulo: "Registrar un despacho de bodega", texto: "El almacenista registra: 40 bultos de cemento para la unidad A-103, recibe el Ing. Palacio. En el siguiente paso lo registramos en vivo." },
         { tab: "entregas", target: "custodia-log", run: () => demoRegistrarEntrega(), titulo: "Custodia abierta", texto: "La entrega quedó arriba en el registro en estado Pendiente: se descontaron existencias y se cargó la cantidad a la unidad, pero nadie ha confirmado la recepción." },
@@ -20137,7 +20137,7 @@ function ObraControlDemo() {
         { tab: "entregas", target: "custodia-log", run: () => { if (demoEntregaId.current)
                 reportarDiscrepancia(demoEntregaId.current); }, titulo: "Cuando algo no cuadra", texto: "El ingeniero de obra reporta un faltante: la entrega pasa a Discrepancia y se abre un caso de auditoría. Nada se pierde en un chat de WhatsApp." },
         { tab: "alertas", target: "alerta-patron", titulo: "El análisis que nadie más hace", texto: "El sistema cruza los sobreconsumos y encuentra el patrón: las unidades con fuga comparten la misma cuadrilla. Aquí es donde auditas primero." },
-        { tab: "panel", target: null, titulo: "Fin de la demo", texto: "Control por unidad, custodia con responsable con nombre y detección de patrones: eso es ObraControl. Reinicia los datos o sigue explorando por tu cuenta." },
+        { tab: "panel", target: null, titulo: "Fin de la demostración", texto: "Control por unidad, custodia con responsable con nombre y detección de patrones: eso es ObraControl. Reinicie los datos o siga explorando por su cuenta." },
     ];
     useEffect(() => {
         if (demoStep === null) {
@@ -20228,7 +20228,7 @@ function ObraControlDemo() {
                     React.createElement("div", null,
                         React.createElement("div", { style: { fontFamily: DISPLAY, letterSpacing: "0.12em" }, className: "text-xl font-bold uppercase text-white leading-none" }, "ObraControl"),
                         React.createElement("div", { style: { color: "#9AA4AC" }, className: "text-xs mt-1" }, "Cada bulto contado \u00B7 Control de materiales de obra"))),
-                React.createElement("button", { onClick: iniciarDemo, style: { backgroundColor: AMBER, color: INK, fontFamily: DISPLAY, letterSpacing: "0.06em" }, className: "rounded px-3 py-2 text-sm font-bold uppercase" }, "Demo guiada"),
+                React.createElement("button", { onClick: iniciarDemo, style: { backgroundColor: AMBER, color: INK, fontFamily: DISPLAY, letterSpacing: "0.06em" }, className: "rounded px-3 py-2 text-sm font-bold uppercase" }, "Demostración guiada"),
                 React.createElement("div", { className: "text-right" },
                     React.createElement("div", { className: "text-sm font-semibold text-white" }, "Urbanizaci\u00F3n Ejemplo \u00B7 Etapa 2"),
                     React.createElement("div", { style: { color: "#9AA4AC" }, className: "text-xs" }, "Constructora Ejemplo S.A.S. \u00B7 Manzanas A\u2013C \u00B7 Demo")))),
@@ -20308,7 +20308,7 @@ function ObraControlDemo() {
                                             fmtCOP(f),
                                             " \u00B7 ",
                                             p >= 0 ? "+" : "",
-                                            (p * 100).toFixed(1),
+                                            (p * 100).toFixed(1).replace(".", ","),
                                             " %")),
                                     React.createElement("div", { style: { backgroundColor: PAPER }, className: "mt-1 h-2 w-full rounded" },
                                         React.createElement("div", { style: { width: `${Math.max(4, (f / maxFuga) * 100)}%`, backgroundColor: tone }, className: "h-2 rounded" })),
@@ -20319,7 +20319,7 @@ function ObraControlDemo() {
                 React.createElement(SectionTitle, { icon: Building2, right: React.createElement("div", { style: { border: `1px solid ${LINE}` }, className: "flex items-center gap-2 rounded px-2 py-1" },
                         React.createElement(Search, { size: 14, color: MUTED }),
                         React.createElement("input", { value: busqueda, onChange: (e) => setBusqueda(e.target.value), placeholder: "Buscar unidad o ingeniero\u2026", className: "w-40 bg-transparent text-sm sm:w-56", style: { border: "none" } })) }, "Control por unidad"),
-                React.createElement("div", { style: { color: MUTED }, className: "px-4 pb-2 text-xs" }, "El presupuesto a la fecha sigue la curva de consumo de cada material por etapa de obra (estructura, mamposter\u00EDa, acabados). La fuga se calcula solo por encima de la merma admisible de cada material. Toca una unidad para ver el detalle."),
+                React.createElement("div", { style: { color: MUTED }, className: "px-4 pb-2 text-xs" }, "El presupuesto a la fecha sigue la curva de consumo de cada material por etapa de obra (estructura, mamposter\u00EDa, acabados). La fuga se calcula solo por encima de la merma admisible de cada material. Toque una unidad para ver el detalle."),
                 React.createElement("div", { className: "flex flex-col" },
                     casasFiltradas.map((c) => {
                         const p = desvPct(c);
@@ -20338,7 +20338,7 @@ function ObraControlDemo() {
                                     React.createElement(Chip, { tone: tone },
                                         p >= 0 ? React.createElement(ArrowUpRight, { size: 12 }) : React.createElement(ArrowDownRight, { size: 12 }),
                                         p >= 0 ? "+" : "",
-                                        (p * 100).toFixed(1),
+                                        (p * 100).toFixed(1).replace(".", ","),
                                         " %"),
                                     abierta ? React.createElement(ChevronUp, { size: 16, color: MUTED }) : React.createElement(ChevronDown, { size: 16, color: MUTED }))),
                             abierta && (React.createElement("div", { style: { backgroundColor: PAPER }, className: "px-4 pb-4 pt-2" },
@@ -20369,7 +20369,7 @@ function ObraControlDemo() {
                                     "Fuga estimada en esta unidad (m\u00E1s all\u00E1 de la merma admisible): ",
                                     fmtCOP(fugaCOP(c))))))));
                     }),
-                    casasFiltradas.length === 0 && (React.createElement("div", { style: { color: MUTED }, className: "px-4 py-6 text-sm" }, "Ninguna unidad coincide con la b\u00FAsqueda. Prueba con la manzana (A, B, C) o el nombre del ingeniero."))))),
+                    casasFiltradas.length === 0 && (React.createElement("div", { style: { color: MUTED }, className: "px-4 py-6 text-sm" }, "Ninguna unidad coincide con la b\u00FAsqueda. Pruebe con la manzana (A, B, C) o el nombre del ingeniero."))))),
             tab === "bodega" && (React.createElement("div", { className: "grid grid-cols-1 gap-4 lg:grid-cols-3" },
                 React.createElement(Card, { id: "bodega-tabla", className: "lg:col-span-2" },
                     React.createElement(SectionTitle, { icon: Boxes }, "Inventario de bodega central"),
@@ -20491,7 +20491,7 @@ function ObraControlDemo() {
                             React.createElement("div", { style: { color: MUTED }, className: "text-sm" }, a.detalle)))))),
                 alertas.length === 0 && (React.createElement(Card, { className: "p-6 text-center text-sm", style: { color: MUTED } }, "Sin alertas activas. Todo el consumo est\u00E1 dentro del presupuesto y cada cadena de custodia est\u00E1 cerrada."))))),
         React.createElement("div", { style: { color: MUTED, borderTop: `1px solid ${LINE}` }, className: "px-4 py-4 text-center text-xs" },
-            "ObraControl \u00B7 Demo con datos simulados \u00B7 M\u00F3dulos en el plan: \u00F3rdenes de compra, conteos f\u00EDsicos con QR, app m\u00F3vil de bodega, conciliaci\u00F3n de discrepancias (consumo ajustado al cerrar el caso) e informes de gerencia",
+            "ObraControl \u00B7 Demostración con datos simulados \u00B7 M\u00F3dulos en el plan: \u00F3rdenes de compra, conteos f\u00EDsicos con QR, app m\u00F3vil de bodega, conciliaci\u00F3n de discrepancias (consumo ajustado al cerrar el caso) e informes de gerencia",
             demoStep !== null && (React.createElement("div", { style: { position: "fixed", inset: 0, zIndex: 50 } },
                 React.createElement("div", { style: { position: "absolute", inset: 0 } }),
                 spot ? (React.createElement("div", { style: {
@@ -20526,7 +20526,7 @@ function ObraControlDemo() {
                             demoStep > 0 && (React.createElement("button", { onClick: () => setDemoStep(demoStep - 1), style: { border: `1px solid ${LINE}`, color: MUTED }, className: "rounded px-2 py-1 text-xs font-semibold" }, "Atr\u00E1s")),
                             demoStep === PASOS.length - 1 && (React.createElement("button", { onClick: () => { resetDatos(); salirDemo(); }, style: { border: `1px solid ${STEEL}`, color: STEEL }, className: "rounded px-2 py-1 text-xs font-semibold" }, "Reiniciar datos")),
                             demoStep < PASOS.length - 1 ? (React.createElement("button", { onClick: () => setDemoStep(demoStep + 1), style: { backgroundColor: AMBER, color: INK }, className: "rounded px-3 py-1 text-xs font-bold uppercase" }, "Siguiente")) : (React.createElement("button", { onClick: salirDemo, style: { backgroundColor: AMBER, color: INK }, className: "rounded px-3 py-1 text-xs font-bold uppercase" }, "Terminar")))),
-                    React.createElement("button", { onClick: salirDemo, style: { color: MUTED }, className: "mt-2 text-xs underline" }, "Salir de la demo")))))));
+                    React.createElement("button", { onClick: salirDemo, style: { color: MUTED }, className: "mt-2 text-xs underline" }, "Salir de la demostración")))))));
 }
 ReactDOMClient.createRoot(document.getElementById('root')).render(React.createElement(ObraControlDemo));
 </script>
