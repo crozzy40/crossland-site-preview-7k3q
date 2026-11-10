@@ -511,6 +511,41 @@ body.qz-on .pbar,body.qz-on .wafab{display:none!important}
 .qlogo{min-width:0}
 .qlogo img{display:block;width:100%;height:auto}
 
+/* build 10: the courses band, the course screen as a picture, Llamar in the phone bar */
+.svclinks li{display:grid}
+.svclinks .tx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.svclinks .pa{font-weight:400;font-size:15px;line-height:1.35;color:var(--mut)}
+.svclinks .pa b{font-weight:600}
+.svclinks a:has(.pa){align-items:flex-start;padding-top:14px;padding-bottom:14px}
+.svclinks a:has(.pa) .onum,.svclinks a:has(.pa) .ar{margin-top:3px}
+.ccband{align-items:center}
+.cclist{list-style:none;padding:0;margin:18px 0 0}
+.cclist li{padding:12px 0;border-top:1px solid var(--line);font-size:18px}
+.cclist li:first-child{border-top:0;padding-top:0}
+.ccpic{display:block}
+.ccpic img{display:block;width:100%;height:auto;border:1px solid var(--line2);border-radius:var(--cr)}
+.ccband .small{margin:10px 0 0}
+.scn-shot{aspect-ratio:16/9;min-height:0;border:1px solid var(--line2)}
+.scn-shot img{object-fit:contain}
+.pbar{grid-template-columns:1fr auto}
+.pbar .btn-call{width:52px;min-width:52px;padding:0;gap:8px;background:var(--bg);color:var(--navy);border:2px solid var(--navy)}
+.btn-call .telic path{fill:var(--navy)}
+.btn-call .lb{display:none}
+@media (min-width:410px){.pbar .btn-call{width:auto;padding:0 14px}.btn-call .lb{display:inline}}
+
+/* build 10, grade f: wide tables become cards on a phone; pending legal notes in plain words; */
+.pendp{font-style:italic}
+@media (max-width:640px){
+.tw:has(table.tcards){overflow-x:visible;border:0;background:none}
+table.t.tcards{min-width:0;width:100%}
+table.t.tcards,table.t.tcards tbody,table.t.tcards tr,table.t.tcards td{display:block}
+table.t.tcards thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+table.t.tcards tr{border:1px solid var(--line);border-radius:var(--cr);background:#fff;padding:14px 16px;margin:0 0 12px}
+table.t.tcards td{padding:5px 0;border:0}
+table.t.tcards td:first-child{font-size:18px;padding-bottom:8px}
+table.t.tcards td:not(:first-child)::before{content:attr(data-th);display:block;font-size:14px;font-weight:700;color:var(--kick)}
+}
+
 /* corto: the shorter version */
 .cmpbar{background:#fff7d6;color:#5a4300;font-size:14px;line-height:1.35;padding:8px 14px;text-align:center;border-bottom:1px solid #e6d58a}
 .cmpbar a{color:#5a4300;font-weight:700;text-decoration:underline}

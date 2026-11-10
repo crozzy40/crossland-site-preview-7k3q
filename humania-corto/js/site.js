@@ -131,6 +131,10 @@ O.innerHTML=out}
 F.addEventListener('input',show);F.addEventListener('submit',function(e){e.preventDefault()});
 })();
 
+/* build 10, grade f flow (c): the open phone menu starts under the header wherever the header is (in the preview a strip sits above it) */
+(function(){var d=document.querySelector('details.mnav'),t=document.querySelector('header.top');if(!d||!t)return;function p(){var m=d.querySelector('.mpanel');if(!m)return;var b=Math.max(0,Math.round(t.getBoundingClientRect().bottom));m.style.top=b+'px';m.style.maxHeight='calc(100vh - '+b+'px)'}
+d.addEventListener('toggle',function(){if(d.open)p()});window.addEventListener('scroll',function(){if(d.open)p()},{passive:true});window.addEventListener('resize',function(){if(d.open)p()})})();
+
 /* corto: a link or a hash that points into a closed row opens the row */
 (function(){function o(){var h=location.hash.slice(1);if(!h)return;var e=document.getElementById(decodeURIComponent(h));if(!e)return;var d=e.closest('details');var any=false;while(d){if(!d.open){d.open=true;any=true}d=d.parentElement&&d.parentElement.closest('details')}if(any)e.scrollIntoView()}
 window.addEventListener('hashchange',o);if(document.readyState!=='loading')o();else document.addEventListener('DOMContentLoaded',o)})();
