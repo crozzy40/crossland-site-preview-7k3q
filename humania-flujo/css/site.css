@@ -602,6 +602,11 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 #cinco-soluciones .qz{margin:18px 0 8px}
 #blog .actrow{margin-top:18px}
 
+/* flujo, round 5 (10 Nov, Ryan 13:31 and 13:48): on a laptop the main picture moves once; the clip sits over the still and fades in when it can play through */
+.scn-hero .hmov{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:36% 50%;opacity:0;transition:opacity .7s ease;pointer-events:none}
+.scn-hero .hmov.on{opacity:1}
+@media (max-width:899px),(prefers-reduced-motion:reduce){.scn-hero .hmov{display:none}}
+
 /* flujo: the flow version (Ryan 9 Nov 21:48). Shorter pages on a phone: tighter rhythm, a footer of one screen, section tabs in one row. */
 .plinks{grid-template-columns:1fr 1fr}
 .svclinks .go{font-weight:700;font-size:15px;color:var(--navy);margin-top:5px}

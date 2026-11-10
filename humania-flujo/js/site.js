@@ -140,6 +140,18 @@ d.addEventListener('toggle',function(){if(d.open)p()});window.addEventListener('
 (function(){function o(){var h=location.hash.slice(1);if(!h)return;var e=document.getElementById(decodeURIComponent(h));if(!e)return;var d=e.closest('details');var any=false;while(d){if(!d.open){d.open=true;any=true}d=d.parentElement&&d.parentElement.closest('details')}if(any)e.scrollIntoView()}
 window.addEventListener('hashchange',o);if(document.readyState!=='loading')o();else document.addEventListener('DOMContentLoaded',o)})();
 
+/* flujo, round 5: the Home's main picture moves once on a laptop (900 px or wider), after the page has loaded; never on a phone, with reduced motion or with data saving; it plays one time (5 s) and fades back to the still as it ends */
+(function(){var f=document.querySelector('.scn-hero[data-mov]');if(!f||!window.matchMedia)return;
+if(!matchMedia('(min-width:900px)').matches||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+var c=navigator.connection;if(c&&c.saveData)return;
+function go(){var v=document.createElement('video');v.muted=true;v.defaultMuted=true;v.playsInline=true;v.setAttribute('muted','');v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');v.tabIndex=-1;v.preload='auto';v.className='hmov';
+v.addEventListener('canplaythrough',function(){f.appendChild(v);var p=v.play();if(p&&p.then){p.then(function(){v.classList.add('on')},function(){if(v.parentNode)v.parentNode.removeChild(v)})}else{v.classList.add('on')}},{once:true});
+v.addEventListener('timeupdate',function(){if(v.duration&&v.currentTime>v.duration-0.8)v.classList.remove('on')});
+v.addEventListener('ended',function(){v.classList.remove('on');setTimeout(function(){if(v.parentNode)v.parentNode.removeChild(v)},900)});
+v.addEventListener('error',function(){if(v.parentNode)v.parentNode.removeChild(v)});
+v.src=f.getAttribute('data-mov');v.load()}
+if(document.readyState==='complete')setTimeout(go,400);else addEventListener('load',function(){setTimeout(go,400)})})();
+
 /* flujo: on a phone the section tabs are one row that scrolls sideways; the tab of the page you are on is brought into view */
 (function(){var w=document.querySelector('.subnav .wrap');if(!w)return;function f(){if(w.scrollWidth>w.clientWidth+1){w.classList.add('ovf');var a=w.querySelector('[aria-current]');if(a){w.scrollLeft=Math.max(0,w.scrollLeft+a.getBoundingClientRect().left-w.getBoundingClientRect().left-20)}}else{w.classList.remove('ovf')}}
 f();window.addEventListener('resize',f)})();
