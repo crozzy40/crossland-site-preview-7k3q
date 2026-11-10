@@ -409,3 +409,11 @@ header.top nav.main{margin-left:0}
   .novedad .nov{grid-template-columns:1fr;gap:20px;padding:16px;border-left-width:6px}
   .novedad .btn{width:100%}
 }
+
+/* ---- v18: the Novedad picture as a short clip, and the slim Novedad band on Servicio tecnico ---- */
+.novedad video.nov-img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:var(--r);display:block;background:#1b2a22}
+.novedad.slim{padding:0 0 40px}
+.novedad.slim .nov{grid-template-columns:2fr 3fr;gap:28px;padding:20px}
+.novedad.slim h2{font-size:28px;max-width:26ch}
+@media (max-width:900px){.novedad.slim .nov{grid-template-columns:1fr}.novedad.slim{padding:0 0 32px}}
+@media (prefers-reduced-motion:reduce){.novedad video.nov-img{animation:none}}
