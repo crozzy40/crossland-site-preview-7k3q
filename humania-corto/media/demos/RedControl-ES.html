@@ -12,7 +12,7 @@ html,body{margin:0;padding:0}
 #stamp{position:fixed;right:8px;bottom:6px;z-index:9998;font-family:system-ui,sans-serif;font-size:11px;color:#8A929B;pointer-events:none}
 #err{display:none;position:fixed;inset:0;z-index:9999;background:#F9E3E1;color:#C93A32;font-family:ui-monospace,monospace;font-size:13px;padding:24px;white-space:pre-wrap}
 </style>
-</head>
+<style>@media (max-width:430px){.num.text-2xl{font-size:1.3rem;line-height:1.6rem}}</style></head>
 <body><h1 style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">RedControl: custodia de equipos de un proveedor de internet</h1>
 <style>#hm-bar{background:#12285A;color:#F4EFE8;font:600 15px/1.3 system-ui,-apple-system,'Segoe UI',sans-serif}#hm-bar *{box-sizing:border-box}#hm-bar .hmb-in{max-width:1180px;margin:0 auto;padding:6px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:0 22px}#hm-bar a{color:#F4EFE8;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}#hm-bar a:hover{text-decoration:underline}#hm-bar a:focus-visible{outline:3px solid #E2A93B;outline-offset:2px}#hm-bar .hmb-brand{font-size:17px;gap:.35em}#hm-bar .hmb-brand b{font-weight:800}#hm-bar .hmb-brand span{color:#E2A93B;font-weight:700}#hm-bar nav{display:flex;flex-wrap:wrap;gap:0 18px;flex:1 1 auto}#hm-bar .hmb-r{display:flex;align-items:center;gap:0 18px;flex-wrap:wrap}#hm-bar .hmb-cta{background:#E2A93B;color:#12285A;padding:0 16px;border-radius:8px;font-weight:700}#hm-bar .hmb-cta:hover{text-decoration:none;filter:brightness(1.06)}@media(max-width:640px){#hm-bar .hmb-in{padding:4px 14px}#hm-bar nav{flex-basis:100%;order:3}}</style><div id="hm-bar"><div class="hmb-in"><a class="hmb-brand" href="../../" aria-label="Human IA Soluciones, inicio"><b>Human IA</b> <span>Soluciones</span></a><nav aria-label="Principal"><a href="../../soluciones-de-inteligencia-artificial/">Servicios</a><a href="../../nuestro-trabajo/">Nuestro trabajo</a><a href="../../nosotros/">Nosotros</a><a href="../../preguntas-frecuentes/">Preguntas</a></nav><div class="hmb-r"><a class="hmb-cta" href="../../empiece/#solicitar">Contacto</a><a href="https://crosslandai.com/work.html" hreflang="en" lang="en">English</a></div></div></div>
 <div id="root"></div>
@@ -19912,7 +19912,7 @@ const fmtNum = (v) => new Intl.NumberFormat("es-CO").format(v);
 const EQUIPOS = [
     { id: "ont", nombre: "ONT GPON (módem de fibra)", unidad: "unidades", stock: 62, minimo: 40, precio: 185000 },
     { id: "rtr", nombre: "Router Wi-Fi 6", unidad: "unidades", stock: 31, minimo: 40, precio: 128000 },
-    { id: "drop", nombre: "Cable drop 2 hilos", unidad: "m", stock: 4800, minimo: 3000, precio: 1250 },
+    { id: "drop", nombre: "Cable de acometida 2 hilos", unidad: "m", stock: 4800, minimo: 3000, precio: 1250 },
     { id: "sc", nombre: "Conector SC/APC", unidad: "unidades", stock: 420, minimo: 200, precio: 3600 },
     { id: "fast", nombre: "Conector rápido (campo)", unidad: "unidades", stock: 260, minimo: 150, precio: 4900 },
     { id: "anc", nombre: "Tensor (anclaje)", unidad: "unidades", stock: 510, minimo: 300, precio: 2900 },
@@ -19968,16 +19968,16 @@ const SALIDAS_SEED = [
 const COMPRAS = [
     { fecha: "Ayer", detalle: "Equipos Ejemplo · 50 ONT GPON", valor: 9250000 },
     { fecha: "Lun", detalle: "Redes Ejemplo · 40 routers Wi-Fi 6", valor: 5120000 },
-    { fecha: "Vie pasado", detalle: "Cables Ejemplo · 2.000 m de cable drop 2 hilos", valor: 2500000 },
+    { fecha: "Vie pasado", detalle: "Cables Ejemplo · 2.000 m de cable de acometida 2 hilos", valor: 2500000 },
     { fecha: "Jue pasado", detalle: "Conectores Ejemplo · 200 conectores rápidos", valor: 980000 },
 ];
 // Weekly: expected cost of closed jobs (BOM × price) vs actual cost consumed, COP millions
 const SEMANAS = [
-    { s: "W-31", presupuesto: 9.8, real: 10.1 },
-    { s: "W-32", presupuesto: 10.4, real: 10.9 },
-    { s: "W-33", presupuesto: 9.9, real: 11.2 },
-    { s: "W-34", presupuesto: 10.6, real: 12.4 },
-    { s: "W-35", presupuesto: 10.2, real: 12.9 },
+    { s: "Sem. 31", presupuesto: 9.8, real: 10.1 },
+    { s: "Sem. 32", presupuesto: 10.4, real: 10.9 },
+    { s: "Sem. 33", presupuesto: 9.9, real: 11.2 },
+    { s: "Sem. 34", presupuesto: 10.6, real: 12.4 },
+    { s: "Sem. 35", presupuesto: 10.2, real: 12.9 },
 ];
 /* ================= HELPERS (the engine) ================= */
 const matById = (id) => EQUIPOS.find((m) => m.id === id);
@@ -20074,7 +20074,7 @@ function RedControlDemo({ initialTab = "panel" }) {
         // that one spare connector reads as +20 % — that is tolerance, not leakage, so percent alone can't be the trigger.
         cerradas.filter((o) => fugaCOP(o) > 0).sort((a, b) => fugaCOP(b) - fugaCOP(a)).forEach((o) => list.push({
             nivel: "critica",
-            titulo: `Sobreconsumo en ${o.id} (${o.tipo}): +${(desvPct(o) * 100).toFixed(1)} % sobre la lista de materiales del trabajo`,
+            titulo: `Sobreconsumo en ${o.id} (${o.tipo}): +${(desvPct(o) * 100).toFixed(1).replace(".", ",")} % sobre la lista de materiales del trabajo`,
             detalle: `Fuga estimada ${fmtCOP(fugaCOP(o))} (neto de merma admisible) · Técnico: ${o.tecnico}.`,
         }));
         salidas.filter((e) => e.estado === "Pendiente").forEach((e) => list.push({
@@ -20160,18 +20160,18 @@ function RedControlDemo({ initialTab = "panel" }) {
         });
     }
     const PASOS = [
-        { tab: "panel", target: null, titulo: "Demo guiada de RedControl", texto: "Dos minutos: cómo el mismo motor de custodia que controla cemento en una obra controla ONTs, routers y cable drop en una operación de fibra. Usa Siguiente para avanzar; Escape sale." },
-        { tab: "panel", target: "kpi-fuga", titulo: "El número que importa", texto: "Fuga detectada: lo que los trabajos cerrados consumieron por encima de su lista de materiales, después de la merma normal. Los recortes de cable drop nunca cuentan como fuga. Una ONT faltante siempre cuenta." },
+        { tab: "panel", target: null, titulo: "Demostración guiada de RedControl", texto: "Dos minutos: cómo el mismo motor de custodia que controla cemento en una obra controla las ONT, los routers y el cable de acometida en una operación de fibra. Use Siguiente para avanzar; Escape sale." },
+        { tab: "panel", target: "kpi-fuga", titulo: "El número que importa", texto: "Fuga detectada: lo que los trabajos cerrados consumieron por encima de su lista de materiales, después de la merma normal. Los recortes de cable de acometida nunca cuentan como fuga. Una ONT faltante siempre cuenta." },
         { tab: "panel", target: "panel-chart", titulo: "Lista de materiales frente a la realidad", texto: "Costo esperado de los trabajos cerrados de la semana contra lo realmente consumido. La brecha se abre desde la semana 33 y sigue abriéndose." },
-        { tab: "panel", target: "panel-topfuga", titulo: "Dónde se está fugando", texto: "Aquí solo aparecen trabajos que consumieron por encima de la tolerancia. Fíjate quién cerró los tres…" },
+        { tab: "panel", target: "panel-topfuga", titulo: "Dónde se está fugando", texto: "Aquí solo aparecen trabajos que consumieron por encima de la tolerancia. Fíjese quién cerró los tres…" },
         { tab: "ordenes", target: "orden-OT-2308", run: () => setOrdenAbierta("OT-2308"), titulo: "Radiografía de un trabajo", texto: "OT-2308, una instalación estándar: cada ítem comparado contra la lista de materiales de instalación. Verde = según lo esperado, ámbar = dentro de la tolerancia, rojo = fuga valorada en pesos. Dos routers para una instalación de un router." },
-        { tab: "salidas", target: "form-salida", run: () => { setFMat("drop"); setFCant("60"); setFOrden("OT-2315"); setFTec("Andrés Ospina"); }, titulo: "Registrar una salida a camioneta", texto: "La bodega registra: 60 m de cable drop para OT-2315, retirados por Andrés Ospina. En el siguiente paso lo registramos en vivo." },
+        { tab: "salidas", target: "form-salida", run: () => { setFMat("drop"); setFCant("60"); setFOrden("OT-2315"); setFTec("Andrés Ospina"); }, titulo: "Registrar una salida a camioneta", texto: "La bodega registra: 60 m de cable de acometida para OT-2315, retirados por Andrés Ospina. En el siguiente paso lo registramos en vivo." },
         { tab: "salidas", target: "custodia-log", run: () => demoRegistrarSalida(), titulo: "Custodia abierta", texto: "La salida quedó arriba en el registro en estado Pendiente: se descontaron existencias y el cable está en la camioneta del técnico, pero nada se ha conciliado todavía." },
-        { tab: "bodega", target: "bodega-tabla", titulo: "La bodega se actualizó sola", texto: "El cable drop bajó 60 m sin que nadie tocara el inventario. Y los routers están bajo el mínimo: el sistema ya sugiere la orden de compra en Alertas." },
+        { tab: "bodega", target: "bodega-tabla", titulo: "La bodega se actualizó sola", texto: "El cable de acometida bajó 60 m sin que nadie tocara el inventario. Y los routers están bajo el mínimo: el sistema ya sugiere la orden de compra en Alertas." },
         { tab: "salidas", target: "custodia-log", run: () => { if (demoSalidaId.current)
                 reportarDiscrepancia(demoSalidaId.current); }, titulo: "Cuando la devolución no cuadra", texto: "Al devolver, el total usado más devuelto no cuadra: la salida pasa a Discrepancia y se abre un caso de auditoría. Nada se pierde en un grupo de WhatsApp." },
         { tab: "alertas", target: "alerta-patron", titulo: "El análisis que nadie más hace", texto: "El sistema cruza los sobreconsumos y encuentra el patrón: los trabajos con fuga comparten el mismo técnico. Aquí es donde cuentas la camioneta primero." },
-        { tab: "panel", target: null, titulo: "Fin de la demo", texto: "Control por trabajo contra una lista de materiales, custodia con técnico con nombre y detección de patrones: eso es RedControl. El mismo motor que ObraControl, distinto vocabulario. Reinicia los datos o sigue explorando." },
+        { tab: "panel", target: null, titulo: "Fin de la demostración", texto: "Control por trabajo contra una lista de materiales, custodia con técnico con nombre y detección de patrones: eso es RedControl. El mismo motor que ObraControl, distinto vocabulario. Reinicie los datos o siga explorando." },
     ];
     useEffect(() => {
         if (demoStep === null) {
@@ -20265,7 +20265,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                     React.createElement("div", null,
                         React.createElement("div", { style: { fontFamily: DISPLAY, letterSpacing: "0.12em" }, className: "text-xl font-bold uppercase text-white leading-none" }, "RedControl"),
                         React.createElement("div", { style: { color: "#9AA4AC" }, className: "text-xs mt-1" }, "Cada ONT contada \u00B7 Custodia de equipos en campo"))),
-                React.createElement("button", { onClick: iniciarDemo, style: { backgroundColor: FIBER, color: "#FFFFFF", fontFamily: DISPLAY, letterSpacing: "0.06em" }, className: "rounded px-3 py-2 text-sm font-bold uppercase" }, "Demo guiada"),
+                React.createElement("button", { onClick: iniciarDemo, style: { backgroundColor: FIBER, color: "#FFFFFF", fontFamily: DISPLAY, letterSpacing: "0.06em" }, className: "rounded px-3 py-2 text-sm font-bold uppercase" }, "Demostración guiada"),
                 React.createElement("div", { className: "text-right" },
                     React.createElement("div", { className: "text-sm font-semibold text-white" }, "Fibra Ejemplo \u00B7 Semana 35"),
                     React.createElement("div", { style: { color: "#9AA4AC" }, className: "text-xs" }, "Zonas Norte \u00B7 Centro \u00B7 Sur \u00B7 Demo")))),
@@ -20304,7 +20304,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                         React.createElement("div", { style: { color: MUTED }, className: "text-xs font-semibold uppercase" }, "Consumo prom. frente a la lista de materiales"),
                         React.createElement("div", { style: { fontFamily: DISPLAY }, className: "num mt-1 text-2xl font-bold" },
                             desvProm >= 0 ? "+" : "",
-                            (desvProm * 100).toFixed(1),
+                            (desvProm * 100).toFixed(1).replace(".", ","),
                             " %"),
                         React.createElement("div", { style: { color: MUTED }, className: "text-xs" }, "en trabajos cerrados")),
                     React.createElement(Card, { className: "p-3" },
@@ -20355,7 +20355,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                                             fmtCOP(f),
                                             " \u00B7 ",
                                             p >= 0 ? "+" : "",
-                                            (p * 100).toFixed(1),
+                                            (p * 100).toFixed(1).replace(".", ","),
                                             " %")),
                                     React.createElement("div", { style: { backgroundColor: PAPER }, className: "mt-1 h-2 w-full rounded" },
                                         React.createElement("div", { style: { width: `${Math.max(4, (f / maxFuga) * 100)}%`, backgroundColor: tone }, className: "h-2 rounded" })),
@@ -20366,7 +20366,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                 React.createElement(SectionTitle, { icon: Wrench, right: React.createElement("div", { style: { border: `1px solid ${LINE}` }, className: "flex items-center gap-2 rounded px-2 py-1" },
                         React.createElement(Search, { size: 14, color: MUTED }),
                         React.createElement("input", { value: busqueda, onChange: (e) => setBusqueda(e.target.value), placeholder: "Buscar orden, t\u00E9cnico, zona\u2026", className: "w-40 bg-transparent text-sm sm:w-56", style: { border: "none" } })) }, "Control por trabajo"),
-                React.createElement("div", { style: { color: MUTED }, className: "px-4 pb-2 text-xs" }, "Cada trabajo cerrado se compara con la lista de materiales de su tipo (instalaci\u00F3n, reparaci\u00F3n, mejora). La fuga se calcula solo por encima de la merma admisible de cada \u00EDtem; los equipos no tienen. Toca un trabajo para ver el detalle."),
+                React.createElement("div", { style: { color: MUTED }, className: "px-4 pb-2 text-xs" }, "Cada trabajo cerrado se compara con la lista de materiales de su tipo (instalaci\u00F3n, reparaci\u00F3n, mejora). La fuga se calcula solo por encima de la merma admisible de cada \u00EDtem; los equipos no tienen. Toque un trabajo para ver el detalle."),
                 React.createElement("div", { className: "flex flex-col" },
                     ordenesFiltradas.map((o) => {
                         const p = desvPct(o);
@@ -20388,7 +20388,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                                     cerrada ? (React.createElement(Chip, { tone: tone },
                                         p >= 0 ? React.createElement(ArrowUpRight, { size: 12 }) : React.createElement(ArrowDownRight, { size: 12 }),
                                         p >= 0 ? "+" : "",
-                                        (p * 100).toFixed(1),
+                                        (p * 100).toFixed(1).replace(".", ","),
                                         " %")) : (React.createElement(Chip, { tone: "fiber" },
                                         React.createElement(Radio, { size: 12 }),
                                         " En curso")),
@@ -20421,7 +20421,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                                     "Fuga estimada en este trabajo (m\u00E1s all\u00E1 de la merma admisible): ",
                                     fmtCOP(fugaCOP(o))))))))));
                     }),
-                    ordenesFiltradas.length === 0 && (React.createElement("div", { style: { color: MUTED }, className: "px-4 py-6 text-sm" }, "Ning\u00FAn trabajo coincide con la b\u00FAsqueda. Prueba con el n\u00FAmero de orden, la zona (Norte, Centro, Sur) o el nombre del t\u00E9cnico."))))),
+                    ordenesFiltradas.length === 0 && (React.createElement("div", { style: { color: MUTED }, className: "px-4 py-6 text-sm" }, "Ning\u00FAn trabajo coincide con la b\u00FAsqueda. Pruebe con el n\u00FAmero de orden, la zona (Norte, Centro, Sur) o el nombre del t\u00E9cnico."))))),
             tab === "bodega" && (React.createElement("div", { className: "grid grid-cols-1 gap-4 lg:grid-cols-3" },
                 React.createElement(Card, { id: "bodega-tabla", className: "lg:col-span-2" },
                     React.createElement(SectionTitle, { icon: Boxes }, "Existencias en bodega central"),
@@ -20551,7 +20551,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                             React.createElement("div", { className: "text-sm font-semibold" }, a.titulo),
                             React.createElement("div", { style: { color: MUTED }, className: "text-sm" }, a.detalle)))))),
                 alertas.length === 0 && (React.createElement(Card, { className: "p-6 text-center text-sm", style: { color: MUTED } }, "Sin alertas activas. Cada trabajo cerrado est\u00E1 dentro de su lista de materiales y cada cadena de custodia est\u00E1 conciliada."))))),
-        React.createElement("div", { style: { color: MUTED, borderTop: `1px solid ${LINE}` }, className: "px-4 py-4 text-center text-xs" }, "RedControl \u00B7 Demo con datos simulados \u00B7 El mismo motor de custodia que ObraControl: las casas pasan a ser \u00F3rdenes de trabajo y el cemento, ONTs y cable drop \u00B7 M\u00F3dulos en el plan: seguimiento por n\u00FAmero de serie, salida con QR desde la camioneta, app m\u00F3vil del t\u00E9cnico, conciliaci\u00F3n de discrepancias al cerrar el caso e informes de gerencia"),
+        React.createElement("div", { style: { color: MUTED, borderTop: `1px solid ${LINE}` }, className: "px-4 py-4 text-center text-xs" }, "RedControl \u00B7 Demostración con datos simulados \u00B7 El mismo motor de custodia que ObraControl: las casas pasan a ser \u00F3rdenes de trabajo y el cemento, las ONT y el cable de acometida \u00B7 M\u00F3dulos en el plan: seguimiento por n\u00FAmero de serie, salida con QR desde la camioneta, app m\u00F3vil del t\u00E9cnico, conciliaci\u00F3n de discrepancias al cerrar el caso e informes de gerencia"),
         demoStep !== null && (React.createElement("div", { style: { position: "fixed", inset: 0, zIndex: 50 } },
             React.createElement("div", { style: { position: "absolute", inset: 0 } }),
             spot ? (React.createElement("div", { style: {
@@ -20586,7 +20586,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                         demoStep > 0 && (React.createElement("button", { onClick: () => setDemoStep(demoStep - 1), style: { border: `1px solid ${LINE}`, color: MUTED }, className: "rounded px-2 py-1 text-xs font-semibold" }, "Atr\u00E1s")),
                         demoStep === PASOS.length - 1 && (React.createElement("button", { onClick: () => { resetDatos(); salirDemo(); }, style: { border: `1px solid ${STEEL}`, color: STEEL }, className: "rounded px-2 py-1 text-xs font-semibold" }, "Reiniciar datos")),
                         demoStep < PASOS.length - 1 ? (React.createElement("button", { onClick: () => setDemoStep(demoStep + 1), style: { backgroundColor: FIBER, color: "#FFFFFF" }, className: "rounded px-3 py-1 text-xs font-bold uppercase" }, "Siguiente")) : (React.createElement("button", { onClick: salirDemo, style: { backgroundColor: FIBER, color: "#FFFFFF" }, className: "rounded px-3 py-1 text-xs font-bold uppercase" }, "Terminar")))),
-                React.createElement("button", { onClick: salirDemo, style: { color: MUTED }, className: "mt-2 text-xs underline" }, "Salir de la demo"))))));
+                React.createElement("button", { onClick: salirDemo, style: { color: MUTED }, className: "mt-2 text-xs underline" }, "Salir de la demostración"))))));
 }
 ReactDOMClient.createRoot(document.getElementById('root')).render(React.createElement(RedControlDemo));
 </script>

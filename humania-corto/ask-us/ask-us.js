@@ -48,7 +48,7 @@
     },
     es: {
       title: "Pregúntenos",
-      intro: "Respuestas cortas sobre lo que hacemos, de nuestra IA.",
+      intro: "Respuestas cortas sobre lo que hacemos.",
       demo: "Modo demostración: respuestas de ejemplo escritas de antemano. No es la IA en vivo. Lo que escriba no se envía.",
       chipsLabel: "Preguntas sugeridas",
       chips: ["¿Qué trabajo le puede quitar la IA a mi equipo?", "¿Por dónde empiezo?", "¿Cuánto cuesta?", "¿Dónde quedan mis datos?"],
@@ -88,7 +88,7 @@
       "La IA puede quitarle a su gente el trabajo repetitivo, para que se quede con el trabajo que solo las personas pueden hacer. Las decisiones siguen en sus manos. ¿Qué tarea le quita más tiempo a su equipo hoy?",
       "Empiece con una primera llamada corta sobre qué solución le sirve. Luego recibe un plan claro y un primer paso fijo, acordado con usted antes de empezar. Para agendar la llamada, escríbanos a " + EMAIL + ".",
       "Todavía no publicamos precios. Lo acordamos en la primera llamada, cuando sepamos qué necesita. Para agendar la llamada, escríbanos a " + EMAIL + ".",
-      "Depende de cuál de las cuatro formas opera la IA: un modelo local en sus propios sistemas, un modelo de lenguaje grande en los servidores del proveedor, alojado por nosotros o instalado en sus servidores. Lo acordamos con usted antes de empezar.",
+      "Depende de cuál de las cuatro formas usemos para operar la IA: un modelo local en sus propios sistemas, un modelo de lenguaje grande en los servidores del proveedor, alojado por nosotros o instalado en sus servidores. Lo acordamos con usted antes de empezar.",
     ],
     fallback: {
       en: "In demo mode I only have sample answers to the four questions above. For anything else, please email us at " + EMAIL + ".",
