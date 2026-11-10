@@ -341,7 +341,7 @@ section.s.next{padding:28px 0}
 .about .actions-line{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
 
 /* ---- v11: tablet widths (901 to 1100 px): the five links no longer fit beside the brand and the button, so they fold into the Menú button like on the phone (the quote button stays) ---- */
-@media (min-width:901px) and (max-width:1100px){
+@media (min-width:901px) and (max-width:1340px){
   nav.main{display:none}
   .menu-m{display:block;position:relative}
   .menu-m summary{list-style:none;display:flex;align-items:center;justify-content:center;min-height:44px;min-width:88px;padding:0 16px;border:2px solid var(--brand);border-radius:var(--r);font-weight:700;color:var(--brand);cursor:pointer}
@@ -363,3 +363,36 @@ section.s.next{padding:28px 0}
 .brandmark .bm{display:flex;flex-direction:column;line-height:1.1}
 .brandmark .logo{flex:none;display:block;width:48px;height:48px}
 @media (max-width:420px){.brandmark{gap:10px}.brandmark .logo{width:44px;height:44px}}
+
+/* ---- v14: header button "Soluciones de IA", the page of the same name, the novelty line on the home ---- */
+header.top .btn-ia svg,.newia .btn svg,.ia-m .btn svg{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+header.top .btn-ia{margin-left:auto}
+header.top .btn-wa.btn-sm{margin-left:0}
+header.top nav.main{margin-left:0}
+.ia-m{display:none}
+.offers{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0}
+.offers div{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.offers h2{margin:0 0 6px}
+.offers p{margin:0;color:var(--mut)}
+.pagehead .credit{font-size:16px;color:var(--mut);margin:0 0 18px;max-width:62ch}
+.newia{margin:22px 0 0}
+@media (max-width:900px){
+  .ia-m{display:block}
+  .ia-m a.btn{margin-top:8px;min-height:48px;padding:0 14px;justify-content:center;white-space:normal;text-align:center}
+  .offers{grid-template-columns:1fr}
+  .newia .btn{width:100%}
+}
+@media (min-width:901px) and (max-width:1340px){
+  .ia-m{display:none}
+}
+
+/* v14: with the second button the full header needs about 1290 px: below 1341 the five links fold into Menú (like on the tablet); above it the header is a little wider than the page and a little tighter */
+@media (min-width:1341px){
+  header.top .wrap{max-width:1320px;gap:12px}
+  nav.main ul{gap:2px}
+  nav.main a{padding:0 8px}
+  header.top .btn-sm{padding:0 12px}
+}
+
+.newia .btn{padding:12px 20px;line-height:1.25;min-height:48px;height:auto}
+@media (max-width:900px){.newia .btn{justify-content:center;text-align:center}}
