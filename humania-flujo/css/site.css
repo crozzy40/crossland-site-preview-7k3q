@@ -583,6 +583,20 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 }
 .sec .wrap>.fold{margin-top:18px}
 
+/* flujo, round 2 (10 Nov): the Blog page and its first article */
+.posts{list-style:none;padding:0;margin:0;display:grid;gap:16px}
+.post{background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:22px 24px}
+.post h2{font-size:24px;margin:0 0 .4em}
+.post h2 a{text-decoration:none;color:var(--navy)}
+.post h2 a:hover{text-decoration:underline}
+.post p{margin:0 0 .3em}
+.artlist{margin-top:0}
+.artlist .proc h2{font-size:20px;line-height:1.25;margin:0 0 .35em}
+.artlist .pn{color:var(--kick)}
+.artlist .proc{scroll-margin-top:90px}
+.phead .kicker a{text-decoration:underline;text-underline-offset:3px}
+#blog .actrow{margin-top:6px}
+
 /* flujo: the flow version (Ryan 9 Nov 21:48). Shorter pages on a phone: tighter rhythm, a footer of one screen, section tabs in one row. */
 .plinks{grid-template-columns:1fr 1fr}
 .svclinks .go{font-weight:700;font-size:15px;color:var(--navy);margin-top:5px}
