@@ -605,7 +605,11 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 /* flujo, round 5 (10 Nov, Ryan 13:31 and 13:48): on a laptop the main picture moves once; the clip sits over the still and fades in when it can play through */
 .scn-hero .hmov{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:36% 50%;opacity:0;transition:opacity .7s ease;pointer-events:none}
 .scn-hero .hmov.on{opacity:1}
-@media (max-width:899px),(prefers-reduced-motion:reduce){.scn-hero .hmov{display:none}}
+@media (max-width:899px){.scn-hero .hmov,.scn-hero .hbtn{display:none}}
+/* flujo, round 6 (10 Nov, Ryan 14:35): the picture keeps moving on a laptop; this is its button, in the picture's lower right corner */
+.scn-hero .hbtn{position:absolute;right:12px;bottom:12px;z-index:2;display:inline-flex;align-items:center;min-height:30px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.45);background:rgba(18,40,90,.82);color:#fff;font-family:var(--bfont);font-weight:600;font-size:13px;line-height:1.2;cursor:pointer;white-space:nowrap}
+.scn-hero .hbtn:hover{background:#12285A}
+.scn-hero .hbtn:focus-visible{outline-color:#fff}
 
 /* flujo: the flow version (Ryan 9 Nov 21:48). Shorter pages on a phone: tighter rhythm, a footer of one screen, section tabs in one row. */
 .plinks{grid-template-columns:1fr 1fr}
