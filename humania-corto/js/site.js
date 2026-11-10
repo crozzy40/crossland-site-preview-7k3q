@@ -120,8 +120,8 @@ D.addEventListener('keydown',function(e){if(e.key==='Escape'&&d.hasAttribute('op
 var F=document.getElementById('roi-calc');if(!F)return;F.hidden=false;
 var N=document.getElementById('roi-n'),H=document.getElementById('roi-h'),C=document.getElementById('roi-c'),P=document.getElementById('roi-p'),O=F.querySelector('.roi-out');
 var fmt=new Intl.NumberFormat('es-CO',{maximumFractionDigits:1});
-function peso(v){return '$ '+new Intl.NumberFormat('es-CO',{maximumFractionDigits:0}).format(Math.round(v))}
-function num(e){var v=parseFloat(String(e.value).replace(',','.'));return isFinite(v)&&v>=0?v:NaN}
+function peso(v){return '$'+new Intl.NumberFormat('es-CO',{maximumFractionDigits:0}).format(Math.round(v))}
+function num(e){var t=String(e.value).replace(/[\s $]/g,'');if(t==='')return NaN;if(t.indexOf(',')>-1){t=t.replace(/\./g,'').replace(',','.')}else if(/^\d{1,3}(\.\d{3})+$/.test(t)){t=t.replace(/\./g,'')}if(!/^\d+(\.\d+)?$/.test(t))return NaN;var v=parseFloat(t);return isFinite(v)&&v>=0?v:NaN}
 function show(){
 var n=num(N),h=num(H),c=num(C),p=num(P);
 if(isNaN(n)||isNaN(h)||isNaN(c)){O.innerHTML='<p class="roi-empty">Escriba sus números y verá la cuenta aquí.</p>';return}

@@ -19897,6 +19897,7 @@ const BODY = "'Barlow',system-ui,-apple-system,sans-serif";
 const MONO = "'IBM Plex Mono',ui-monospace,SFMono-Regular,monospace";
 const fmtCOP = (v) => new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", currencyDisplay: "code", maximumFractionDigits: 0 }).format(v);
 const fmtNum = (v) => new Intl.NumberFormat("es-CO").format(v);
+const uni = (n, u) => (n === 1 ? ({ unidades: "unidad", bultos: "bulto" }[u] || u) : u);
 /* ================= SEED DATA ================= */
 const MATERIALES = [
     { id: "cem", nombre: "Cemento gris 50 kg", unidad: "bultos", stock: 1240, minimo: 800, precio: 27500 },
@@ -19946,14 +19947,14 @@ const INGENIEROS = [
     "Ing. Carlos Restrepo", "Ing. Diana Muñoz", "Ing. Jorge Palacio", "Ing. Luisa Cárdenas",
 ];
 const ENTREGAS_SEED = [
-    { id: 8, fecha: "Hoy 10:42", materialId: "cem", cantidad: 40, casaId: "B-203", ingeniero: "Ing. Luisa Cárdenas", estado: "Pendiente", nota: "" },
-    { id: 7, fecha: "Hoy 09:15", materialId: "var38", cantidad: 60, casaId: "A-103", ingeniero: "Ing. Jorge Palacio", estado: "Pendiente", nota: "" },
-    { id: 6, fecha: "Ayer 16:20", materialId: "blo", cantidad: 900, casaId: "A-104", ingeniero: "Ing. Carlos Restrepo", estado: "Confirmada", nota: "" },
-    { id: 5, fecha: "Ayer 11:05", materialId: "cem", cantidad: 35, casaId: "B-204", ingeniero: "Ing. Jorge Palacio", estado: "Discrepancia", nota: "Recibió 29 de 35 bultos. Faltante reportado a bodega." },
-    { id: 4, fecha: "Ayer 08:30", materialId: "are", cantidad: 6, casaId: "B-201", ingeniero: "Ing. Luisa Cárdenas", estado: "Confirmada", nota: "" },
-    { id: 3, fecha: "Mié 15:10", materialId: "var12", cantidad: 45, casaId: "A-101", ingeniero: "Ing. Carlos Restrepo", estado: "Confirmada", nota: "" },
-    { id: 2, fecha: "Mié 10:48", materialId: "ala", cantidad: 25, casaId: "C-303", ingeniero: "Ing. Jorge Palacio", estado: "Confirmada", nota: "" },
-    { id: 1, fecha: "Mar 14:02", materialId: "blo", cantidad: 1200, casaId: "A-102", ingeniero: "Ing. Diana Muñoz", estado: "Confirmada", nota: "" },
+    { id: 8, fecha: "Hoy 10:42 a.\u00a0m.", materialId: "cem", cantidad: 40, casaId: "B-203", ingeniero: "Ing. Luisa Cárdenas", estado: "Pendiente", nota: "" },
+    { id: 7, fecha: "Hoy 9:15 a.\u00a0m.", materialId: "var38", cantidad: 60, casaId: "A-103", ingeniero: "Ing. Jorge Palacio", estado: "Pendiente", nota: "" },
+    { id: 6, fecha: "Ayer 4:20 p.\u00a0m.", materialId: "blo", cantidad: 900, casaId: "A-104", ingeniero: "Ing. Carlos Restrepo", estado: "Confirmada", nota: "" },
+    { id: 5, fecha: "Ayer 11:05 a.\u00a0m.", materialId: "cem", cantidad: 35, casaId: "B-204", ingeniero: "Ing. Jorge Palacio", estado: "Discrepancia", nota: "Recibió 29 de 35 bultos. Faltante reportado a bodega." },
+    { id: 4, fecha: "Ayer 8:30 a.\u00a0m.", materialId: "are", cantidad: 6, casaId: "B-201", ingeniero: "Ing. Luisa Cárdenas", estado: "Confirmada", nota: "" },
+    { id: 3, fecha: "Mié 3:10 p.\u00a0m.", materialId: "var12", cantidad: 45, casaId: "A-101", ingeniero: "Ing. Carlos Restrepo", estado: "Confirmada", nota: "" },
+    { id: 2, fecha: "Mié 10:48 a.\u00a0m.", materialId: "ala", cantidad: 25, casaId: "C-303", ingeniero: "Ing. Jorge Palacio", estado: "Confirmada", nota: "" },
+    { id: 1, fecha: "Mar 2:02 p.\u00a0m.", materialId: "blo", cantidad: 1200, casaId: "A-102", ingeniero: "Ing. Diana Muñoz", estado: "Confirmada", nota: "" },
 ];
 const COMPRAS = [
     { fecha: "Ayer", detalle: "Cementos Ejemplo · 600 bultos de cemento gris", valor: 16500000 },
@@ -20046,12 +20047,12 @@ function ObraControlDemo() {
         entregas.filter((e) => e.estado === "Pendiente").forEach((e) => list.push({
             nivel: "media",
             titulo: `Entrega #${e.id} sin confirmar en obra`,
-            detalle: `${fmtNum(e.cantidad)} ${matById(e.materialId).unidad} de ${matById(e.materialId).nombre} → unidad ${e.casaId} (${e.ingeniero}).`,
+            detalle: `${fmtNum(e.cantidad)} ${uni(e.cantidad, matById(e.materialId).unidad)} de ${matById(e.materialId).nombre} → unidad ${e.casaId} (${e.ingeniero}).`,
         }));
         materiales.filter((m) => m.stock < m.minimo).forEach((m) => list.push({
             nivel: "media",
             titulo: `Existencias bajo el mínimo: ${m.nombre}`,
-            detalle: `${fmtNum(m.stock)} ${m.unidad} en bodega · mínimo definido ${fmtNum(m.minimo)}. Sugerido: orden de compra por ${fmtNum(Math.max(0, Math.ceil(m.minimo * 1.5 - m.stock)))} ${m.unidad}.`,
+            detalle: `${fmtNum(m.stock)} ${uni(m.stock, m.unidad)} en bodega · mínimo definido ${fmtNum(m.minimo)}. Sugerido: orden de compra por ${fmtNum(Math.max(0, Math.ceil(m.minimo * 1.5 - m.stock)))} ${uni(Math.max(0, Math.ceil(m.minimo * 1.5 - m.stock)), m.unidad)}.`,
         }));
         // pattern by responsible engineer
         const porIng = {};
@@ -20082,7 +20083,7 @@ function ObraControlDemo() {
         }
         const mat = matById(fMat);
         if (cant > mat.stock) {
-            mostrarToast(`Existencias insuficientes: ${fmtNum(mat.stock)} ${mat.unidad} en bodega.`, "bad");
+            mostrarToast(`Existencias insuficientes: ${fmtNum(mat.stock)} ${uni(mat.stock, mat.unidad)} en bodega.`, "bad");
             return;
         }
         setMateriales((ms) => ms.map((m) => (m.id === fMat ? { ...m, stock: m.stock - cant } : m)));
@@ -20092,7 +20093,7 @@ function ObraControlDemo() {
             ...es,
         ]);
         setFCant("");
-        mostrarToast(`Entrega registrada: ${fmtNum(cant)} ${mat.unidad} de ${mat.nombre} → unidad ${fCasa}. Descontado de bodega.`);
+        mostrarToast(`Entrega registrada: ${fmtNum(cant)} ${uni(cant, mat.unidad)} de ${mat.nombre} → unidad ${fCasa}. Descontado de bodega.`);
     }
     function confirmarEntrega(id) {
         setEntregas((es) => es.map((e) => (e.id === id ? { ...e, estado: "Confirmada" } : e)));
@@ -20354,14 +20355,14 @@ function ObraControlDemo() {
                                     return (React.createElement("div", { key: mId, style: { backgroundColor: CARD, border: `1px solid ${LINE}` }, className: "rounded p-3" },
                                         React.createElement("div", { className: "flex items-center justify-between text-sm" },
                                             React.createElement("span", { className: "font-medium" }, m.nombre),
-                                            React.createElement("span", { className: "num text-xs", style: { color: tone2 } }, fu > 0 ? `+${fmtNum(fu)} ${m.unidad} por encima de la tolerancia · ${fmtCOP(fu * m.precio)}` : d > 0 ? `dentro de la tolerancia (+${fmtNum(d)})` : "dentro del presupuesto")),
+                                            React.createElement("span", { className: "num text-xs", style: { color: tone2 } }, fu > 0 ? `+${fmtNum(fu)} ${uni(fu, m.unidad)} por encima de la tolerancia · ${fmtCOP(fu * m.precio)}` : d > 0 ? `dentro de la tolerancia (+${fmtNum(d)})` : "dentro del presupuesto")),
                                         React.createElement("div", { className: "num mt-1 text-xs", style: { color: MUTED } },
                                             "consumido ",
                                             fmtNum(cons),
                                             " / presupuesto a la fecha ",
                                             fmtNum(presup),
                                             " ",
-                                            m.unidad),
+                                            uni(presup, m.unidad)),
                                         React.createElement("div", { style: { backgroundColor: PAPER }, className: "mt-2 h-2 w-full rounded" },
                                             React.createElement("div", { style: { width: `${Math.min(100, pct * 100)}%`, backgroundColor: tone2 }, className: "h-2 rounded" }))));
                                 })),
@@ -20387,7 +20388,7 @@ function ObraControlDemo() {
                                 React.createElement("td", { className: "num py-2 pr-3" },
                                     fmtNum(m.stock),
                                     " ",
-                                    m.unidad),
+                                    uni(m.stock, m.unidad)),
                                 React.createElement("td", { className: "num py-2 pr-3", style: { color: MUTED } }, fmtNum(m.minimo)),
                                 React.createElement("td", { className: "num py-2 pr-3" }, fmtCOP(m.stock * m.precio)),
                                 React.createElement("td", { className: "py-2" }, m.stock < m.minimo
@@ -20414,7 +20415,7 @@ function ObraControlDemo() {
                             React.createElement("select", { value: fMat, onChange: (e) => setFMat(e.target.value), style: { border: `1px solid ${LINE}` }, className: "rounded px-2 py-2 text-sm font-normal normal-case" }, materiales.map((m) => React.createElement("option", { key: m.id, value: m.id }, m.nombre)))),
                         React.createElement("label", { className: "flex flex-col gap-1 text-xs font-semibold uppercase", style: { color: MUTED } },
                             "Cantidad (",
-                            matById(fMat).unidad,
+                            React.createElement("span", { className: "normal-case" }, matById(fMat).unidad),
                             ")",
                             React.createElement("input", { type: "number", min: "1", value: fCant, onChange: (e) => setFCant(e.target.value), placeholder: `Disponible: ${fmtNum(matById(fMat).stock)}`, style: { border: `1px solid ${LINE}` }, className: "num rounded px-2 py-2 text-sm font-normal" })),
                         React.createElement("label", { className: "flex flex-col gap-1 text-xs font-semibold uppercase", style: { color: MUTED } },
@@ -20443,7 +20444,7 @@ function ObraControlDemo() {
                                     React.createElement("span", { className: "font-medium" },
                                         fmtNum(e.cantidad),
                                         " ",
-                                        m.unidad),
+                                        uni(e.cantidad, m.unidad)),
                                     " de ",
                                     m.nombre,
                                     " ",

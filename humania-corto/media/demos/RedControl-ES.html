@@ -19908,6 +19908,7 @@ const BODY = "'Barlow',system-ui,-apple-system,sans-serif";
 const MONO = "'IBM Plex Mono',ui-monospace,SFMono-Regular,monospace";
 const fmtCOP = (v) => new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", currencyDisplay: "code", maximumFractionDigits: 0 }).format(v);
 const fmtNum = (v) => new Intl.NumberFormat("es-CO").format(v);
+const uni = (n, u) => (n === 1 ? ({ unidades: "unidad", bultos: "bulto" }[u] || u) : u);
 /* ================= SEED DATA ================= */
 const EQUIPOS = [
     { id: "ont", nombre: "ONT GPON (módem de fibra)", unidad: "unidades", stock: 62, minimo: 40, precio: 185000 },
@@ -19956,14 +19957,14 @@ const ORDENES_SEED = ORDENES_RAW.map((o) => {
 });
 // Check-outs from the warehouse to a technician's van, for a specific order.
 const SALIDAS_SEED = [
-    { id: 8, fecha: "Hoy 08:40", materialId: "ont", cantidad: 1, ordenId: "OT-2315", tecnico: "Andrés Ospina", estado: "Pendiente", nota: "" },
-    { id: 7, fecha: "Hoy 08:38", materialId: "drop", cantidad: 80, ordenId: "OT-2315", tecnico: "Andrés Ospina", estado: "Pendiente", nota: "" },
-    { id: 6, fecha: "Hoy 08:10", materialId: "fast", cantidad: 4, ordenId: "OT-2316", tecnico: "Paula Rincón", estado: "Pendiente", nota: "" },
-    { id: 5, fecha: "Jue 07:55", materialId: "rtr", cantidad: 2, ordenId: "OT-2308", tecnico: "Andrés Ospina", estado: "Discrepancia", nota: "2 routers retirados para una instalación de 1 router. 1 instalado, 0 devueltos. Serial sin justificar." },
-    { id: 4, fecha: "Jue 07:50", materialId: "drop", cantidad: 90, ordenId: "OT-2308", tecnico: "Andrés Ospina", estado: "Confirmada", nota: "" },
-    { id: 3, fecha: "Mié 08:05", materialId: "ont", cantidad: 1, ordenId: "OT-2304", tecnico: "Paula Rincón", estado: "Confirmada", nota: "" },
-    { id: 2, fecha: "Mié 07:58", materialId: "drop", cantidad: 70, ordenId: "OT-2304", tecnico: "Paula Rincón", estado: "Confirmada", nota: "" },
-    { id: 1, fecha: "Mar 08:12", materialId: "rtr", cantidad: 1, ordenId: "OT-2299", tecnico: "Camilo Vargas", estado: "Confirmada", nota: "" },
+    { id: 8, fecha: "Hoy 8:40 a.\u00a0m.", materialId: "ont", cantidad: 1, ordenId: "OT-2315", tecnico: "Andrés Ospina", estado: "Pendiente", nota: "" },
+    { id: 7, fecha: "Hoy 8:38 a.\u00a0m.", materialId: "drop", cantidad: 80, ordenId: "OT-2315", tecnico: "Andrés Ospina", estado: "Pendiente", nota: "" },
+    { id: 6, fecha: "Hoy 8:10 a.\u00a0m.", materialId: "fast", cantidad: 4, ordenId: "OT-2316", tecnico: "Paula Rincón", estado: "Pendiente", nota: "" },
+    { id: 5, fecha: "Jue 7:55 a.\u00a0m.", materialId: "rtr", cantidad: 2, ordenId: "OT-2308", tecnico: "Andrés Ospina", estado: "Discrepancia", nota: "2 routers retirados para una instalación de 1 router. 1 instalado, 0 devueltos. Serial sin justificar." },
+    { id: 4, fecha: "Jue 7:50 a.\u00a0m.", materialId: "drop", cantidad: 90, ordenId: "OT-2308", tecnico: "Andrés Ospina", estado: "Confirmada", nota: "" },
+    { id: 3, fecha: "Mié 8:05 a.\u00a0m.", materialId: "ont", cantidad: 1, ordenId: "OT-2304", tecnico: "Paula Rincón", estado: "Confirmada", nota: "" },
+    { id: 2, fecha: "Mié 7:58 a.\u00a0m.", materialId: "drop", cantidad: 70, ordenId: "OT-2304", tecnico: "Paula Rincón", estado: "Confirmada", nota: "" },
+    { id: 1, fecha: "Mar 8:12 a.\u00a0m.", materialId: "rtr", cantidad: 1, ordenId: "OT-2299", tecnico: "Camilo Vargas", estado: "Confirmada", nota: "" },
 ];
 const COMPRAS = [
     { fecha: "Ayer", detalle: "Equipos Ejemplo · 50 ONT GPON", valor: 9250000 },
@@ -20080,12 +20081,12 @@ function RedControlDemo({ initialTab = "panel" }) {
         salidas.filter((e) => e.estado === "Pendiente").forEach((e) => list.push({
             nivel: "media",
             titulo: `Salida #${e.id} aún sin conciliar`,
-            detalle: `${fmtNum(e.cantidad)} ${matById(e.materialId).unidad} de ${matById(e.materialId).nombre} → ${e.ordenId} (${e.tecnico}). Esperando devolución.`,
+            detalle: `${fmtNum(e.cantidad)} ${uni(e.cantidad, matById(e.materialId).unidad)} de ${matById(e.materialId).nombre} → ${e.ordenId} (${e.tecnico}). Esperando devolución.`,
         }));
         equipos.filter((m) => m.stock < m.minimo).forEach((m) => list.push({
             nivel: "media",
             titulo: `Existencias bajo el mínimo: ${m.nombre}`,
-            detalle: `${fmtNum(m.stock)} ${m.unidad} en bodega · mínimo definido ${fmtNum(m.minimo)}. Sugerido: orden de compra por ${fmtNum(Math.max(0, Math.ceil(m.minimo * 1.5 - m.stock)))} ${m.unidad}.`,
+            detalle: `${fmtNum(m.stock)} ${uni(m.stock, m.unidad)} en bodega · mínimo definido ${fmtNum(m.minimo)}. Sugerido: orden de compra por ${fmtNum(Math.max(0, Math.ceil(m.minimo * 1.5 - m.stock)))} ${uni(Math.max(0, Math.ceil(m.minimo * 1.5 - m.stock)), m.unidad)}.`,
         }));
         // pattern by technician
         const porTec = {};
@@ -20117,7 +20118,7 @@ function RedControlDemo({ initialTab = "panel" }) {
         const mat = matById(fMat);
         const stockActual = equipos.find((m) => m.id === fMat).stock;
         if (cant > stockActual) {
-            mostrarToast(`Existencias insuficientes: ${fmtNum(stockActual)} ${mat.unidad} en bodega.`, "bad");
+            mostrarToast(`Existencias insuficientes: ${fmtNum(stockActual)} ${uni(stockActual, mat.unidad)} en bodega.`, "bad");
             return;
         }
         setEquipos((ms) => ms.map((m) => (m.id === fMat ? { ...m, stock: m.stock - cant } : m)));
@@ -20126,7 +20127,7 @@ function RedControlDemo({ initialTab = "panel" }) {
             ...es,
         ]);
         setFCant("");
-        mostrarToast(`Salida registrada: ${fmtNum(cant)} ${mat.unidad} de ${mat.nombre} → ${fOrden}, en custodia de ${fTec}. Descontado de bodega.`);
+        mostrarToast(`Salida registrada: ${fmtNum(cant)} ${uni(cant, mat.unidad)} de ${mat.nombre} → ${fOrden}, en custodia de ${fTec}. Descontado de bodega.`);
     }
     // Check-in: the technician reports what was used; the rest is returned. Consumption is charged to the order.
     function confirmarSalida(id) {
@@ -20406,14 +20407,14 @@ function RedControlDemo({ initialTab = "panel" }) {
                                     return (React.createElement("div", { key: mId, style: { backgroundColor: CARD, border: `1px solid ${LINE}` }, className: "rounded p-3" },
                                         React.createElement("div", { className: "flex items-center justify-between text-sm" },
                                             React.createElement("span", { className: "font-medium" }, m.nombre),
-                                            React.createElement("span", { className: "num text-xs", style: { color: tone2 } }, fu > 0 ? `+${fmtNum(fu)} ${m.unidad} por encima de la tolerancia · ${fmtCOP(fu * m.precio)}` : d > 0 ? `dentro de la tolerancia (+${fmtNum(d)})` : "según lo esperado")),
+                                            React.createElement("span", { className: "num text-xs", style: { color: tone2 } }, fu > 0 ? `+${fmtNum(fu)} ${uni(fu, m.unidad)} por encima de la tolerancia · ${fmtCOP(fu * m.precio)}` : d > 0 ? `dentro de la tolerancia (+${fmtNum(d)})` : "según lo esperado")),
                                         React.createElement("div", { className: "num mt-1 text-xs", style: { color: MUTED } },
                                             "consumido ",
                                             fmtNum(cons),
                                             " / lista de materiales ",
                                             fmtNum(esp),
                                             " ",
-                                            m.unidad),
+                                            uni(esp, m.unidad)),
                                         React.createElement("div", { style: { backgroundColor: PAPER }, className: "mt-2 h-2 w-full rounded" },
                                             React.createElement("div", { style: { width: `${Math.min(100, pct * 100)}%`, backgroundColor: tone2 }, className: "h-2 rounded" }))));
                                 })),
@@ -20439,7 +20440,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                                 React.createElement("td", { className: "num py-2 pr-3" },
                                     fmtNum(m.stock),
                                     " ",
-                                    m.unidad),
+                                    uni(m.stock, m.unidad)),
                                 React.createElement("td", { className: "num py-2 pr-3", style: { color: MUTED } }, fmtNum(m.minimo)),
                                 React.createElement("td", { className: "num py-2 pr-3" }, fmtCOP(m.stock * m.precio)),
                                 React.createElement("td", { className: "py-2" }, m.stock < m.minimo
@@ -20474,7 +20475,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                             React.createElement("select", { value: fMat, onChange: (e) => setFMat(e.target.value), style: { border: `1px solid ${LINE}` }, className: "rounded px-2 py-2 text-sm font-normal normal-case" }, equipos.map((m) => React.createElement("option", { key: m.id, value: m.id }, m.nombre)))),
                         React.createElement("label", { className: "flex flex-col gap-1 text-xs font-semibold uppercase", style: { color: MUTED } },
                             "Cantidad (",
-                            matById(fMat).unidad,
+                            React.createElement("span", { className: "normal-case" }, matById(fMat).unidad),
                             ")",
                             React.createElement("input", { type: "number", min: "1", value: fCant, onChange: (e) => setFCant(e.target.value), placeholder: `Disponible: ${fmtNum(equipos.find((m) => m.id === fMat).stock)}`, style: { border: `1px solid ${LINE}` }, className: "num rounded px-2 py-2 text-sm font-normal" })),
                         React.createElement("label", { className: "flex flex-col gap-1 text-xs font-semibold uppercase", style: { color: MUTED } },
@@ -20506,7 +20507,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                                     React.createElement("span", { className: "font-medium" },
                                         fmtNum(e.cantidad),
                                         " ",
-                                        m.unidad),
+                                        uni(e.cantidad, m.unidad)),
                                     " de ",
                                     m.nombre,
                                     " ",
@@ -20551,7 +20552,7 @@ function RedControlDemo({ initialTab = "panel" }) {
                             React.createElement("div", { className: "text-sm font-semibold" }, a.titulo),
                             React.createElement("div", { style: { color: MUTED }, className: "text-sm" }, a.detalle)))))),
                 alertas.length === 0 && (React.createElement(Card, { className: "p-6 text-center text-sm", style: { color: MUTED } }, "Sin alertas activas. Cada trabajo cerrado est\u00E1 dentro de su lista de materiales y cada cadena de custodia est\u00E1 conciliada."))))),
-        React.createElement("div", { style: { color: MUTED, borderTop: `1px solid ${LINE}` }, className: "px-4 py-4 text-center text-xs" }, "RedControl \u00B7 Demostración con datos simulados \u00B7 El mismo motor de custodia que ObraControl: las casas pasan a ser \u00F3rdenes de trabajo y el cemento, las ONT y el cable de acometida \u00B7 M\u00F3dulos en el plan: seguimiento por n\u00FAmero de serie, salida con QR desde la camioneta, app m\u00F3vil del t\u00E9cnico, conciliaci\u00F3n de discrepancias al cerrar el caso e informes de gerencia"),
+        React.createElement("div", { style: { color: MUTED, borderTop: `1px solid ${LINE}` }, className: "px-4 py-4 text-center text-xs" }, "RedControl \u00B7 Demostración con datos simulados \u00B7 El mismo motor de custodia que ObraControl: las casas pasan a ser \u00F3rdenes de trabajo, y el cemento pasa a ser las ONT y el cable de acometida \u00B7 M\u00F3dulos en el plan: seguimiento por n\u00FAmero de serie, salida con QR desde la camioneta, app m\u00F3vil del t\u00E9cnico, conciliaci\u00F3n de discrepancias al cerrar el caso e informes de gerencia"),
         demoStep !== null && (React.createElement("div", { style: { position: "fixed", inset: 0, zIndex: 50 } },
             React.createElement("div", { style: { position: "absolute", inset: 0 } }),
             spot ? (React.createElement("div", { style: {
