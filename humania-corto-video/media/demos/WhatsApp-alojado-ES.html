@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Centro de operaciones — demo alojada</title>
+<title>Centro de operaciones — demostración alojada</title>
 <style>
   :root {
     --font: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -710,7 +710,7 @@
 const CONFIG = {
   brand: {
     agency: "Human IA",
-    client: "un proveedor de internet (ejemplo)",
+    client: "RedNorte",
     mark: "N",
     billing: "WispHub",              // the client's own billing system (they name it; we integrate)
   },
@@ -718,8 +718,8 @@ const CONFIG = {
   // Demo clock: the day runs 08:00 → 18:00. Real seconds per demo minute, at speed 1.
   timing: { secPerMin: 0.28, betweenEventsMs: 900, stepMs: 700, urgentTargetSec: 60 },
   offices: [
-    { id: "yumbo",   name: "Yumbo (sede)", approver: "Andrea", backup: "Carlos (jefe técnico de respaldo)" },
-    { id: "palmira", name: "Palmira",    approver: "Luis",   backup: "Andrea (sede)" },
+    { id: "yumbo",   name: "Yumbo", approver: "Andrea", backup: "Carlos (jefe técnico de respaldo)" },
+    { id: "palmira", name: "Palmira",    approver: "Luis",   backup: "Andrea (de la sede Yumbo)" },
   ],
   baseline: { customers: 918, suspendedAtOpen: 61, invoicesDueToday: 212, officeMinPerPayment: 4, beforeReplyHours: 4 },
   payments: { autoRegisterMinConfidence: 0.95 },  // Hybrid/Auto register a receipt without a tap only above this
@@ -727,7 +727,7 @@ const CONFIG = {
 
 /* ---------- strings ---------- */
 const L = {
-  title: "Centro de operaciones — demo alojada",
+  title: "Centro de operaciones — demostración alojada",
   tier: "Alojado · la versión paga",
   preparedFor: "Preparado para {client}",
   foot: "{agency} construye, aloja y opera esto para {client}.",
@@ -736,7 +736,7 @@ const L = {
   themeToLight: "Cambiar a tema claro", themeToDark: "Cambiar a tema oscuro",
   dayTitle: "Un día, con todo encendido",
   daySub: "Es 5 — día de recordatorios. Los pagos llegan como capturas, los leads como mensajes, y aparece una caída o dos. Nada se vuelve a digitar, nada espera en un solo celular, y cada reactivación ocurre sin que la oficina abra {billing}.",
-  clockLbl: "reloj de la demo",
+  clockLbl: "reloj de la demostración",
   runPlay: "Ver el día", runStep: "Paso a paso", btnNext: "Siguiente evento", btnReset: "Reiniciar",
   play: "Reproducir el día", pause: "Pausar", resume: "Continuar",
   spRelaxed: "Tranquilo", spNormal: "Normal", spBrisk: "Rápido",
@@ -769,7 +769,7 @@ const L = {
     dupBtn: "Enviar respuesta \"ya lo recibimos\"",
     replyT: "¿Aprobar esta respuesta?", replyB: "Redactada en su tono a partir del mensaje y el calendario.",
     replyBtn: "Aprobar y enviar", replyAuto: "Enviada automáticamente — modo {mode}.",
-    urgentT: "Urgente: apruebe antes de que se acabe el reloj", urgentB: "El cliente ya tiene un mensaje de espera. {who} tiene {sec}s. Si se acaba, pasa a {backup}.",
+    urgentT: "Urgente: apruebe antes de que se acabe el reloj", urgentB: "El cliente ya tiene un mensaje de espera. {who} tiene {sec} s. Si se acaba, pasa a {backup}.",
     urgentBtn: "Aprobar la oferta de cupo de emergencia",
     escalatedB: "Se le acabó el reloj a {who}. Ahora lo tiene {backup} — sigue esperando un toque humano.",
     lowConfT: "Mensaje poco claro — decide una persona", lowConfB: "La extracción no estaba segura de qué quiere este cliente, así que Híbrido y Auto se lo pasan a usted.",
@@ -785,9 +785,9 @@ const L = {
     ["Soporte con tiempo de respuesta", "Estándar o Prioritario, según el plan que elija. No es \"cuando se pueda\"."],
     ["Cada acción automática queda registrada", "Quién o qué la aprobó, cuándo, desde qué sede. Auto e Híbrido son su decisión, cambiada desde su propio Telegram."],
   ],
-  custody: { sub: "Lista de materiales por trabajo, custodia por técnico, fuga por encima de la tolerancia. Mismo motor, demo propia — clic para abrir.", rows: [["Orden #4471 · instalación", "3 ONT, 60 m de drop", "ok"], ["Téc. J. Orozco", "fuga 2% · en tolerancia", "ok"], ["Téc. C. Hernández", "conectores +23% en una orden", "warn"]] },
+  custody: { sub: "Lista de materiales por trabajo, custodia por técnico, fuga por encima de la tolerancia. Mismo motor, demostración propia — clic para abrir.", rows: [["Orden #4471 · instalación", "3 ONT, 60 m de cable de acometida", "ok"], ["Téc. J. Orozco", "fuga 2% · en tolerancia", "ok"], ["Téc. C. Hernández", "conectores +23% en una orden", "warn"]] },
   feed: { remind: "Recordatorios enviados a {n} clientes", receiptIn: "Comprobante de {name}", registered: "Pago registrado · {name} de vuelta", partial: "Abono registrado · {name}", dup: "Comprobante duplicado atendido · {name}", leadIn: "Lead de {name}", booked: "Agendado · {name} {when}", sent: "Respuesta enviada · {name}", urgentIn: "URGENTE · {name}", escalated: "Escalado a {backup} · {name}", ack: "Mensaje de espera enviado · {name}", dayDone: "Día cerrado" },
-  toast: { registered: "Línea de vuelta", registeredB: "{name}: pago registrado en {billing}, reactivado, confirmación enviada. La oficina no hizo nada.", escalated: "Escalado", escalatedB: "{who} no respondió a tiempo. Ahora {backup} tiene a {name}.", booked: "Cita agendada", bookedB: "{name}, {when}.", dayDone: "Día completo", dayDoneB: "{pay} pagos registrados, {re} líneas de vuelta, {book} citas, {esc} escalamiento(s). Unos {min} minutos de oficina ahorrados.", urgent: "Lead urgente", urgentB: "{name}: {what}. Acusado automáticamente. {who} tiene {sec}s." },
+  toast: { registered: "Línea de vuelta", registeredB: "{name}: pago registrado en {billing}, reactivado, confirmación enviada. La oficina no hizo nada.", escalated: "Escalado", escalatedB: "{who} no respondió a tiempo. Ahora {backup} tiene a {name}.", booked: "Cita agendada", bookedB: "{name}, {when}", dayDone: "Día completo", dayDoneB: "{pay}, {re}, {book}, {esc}. Unos {min} minutos de oficina ahorrados.", urgent: "Lead urgente", urgentB: "{name}: {what} — acusado automáticamente. {who} tiene {sec} s." },
   loader: { title: "Conectando la operación", rows: ["Conectando con WhatsApp Business", "Abriendo la base de datos (918 clientes)", "Leyendo las facturas de hoy en {billing}", "Despertando los bots de aprobación de 2 sedes"], ready: "Listo" },
   hops: {
     webhook: "WhatsApp → webhook", ocr: "imagen → texto (OCR)", extract: "extracción IA", invoice: "GET {billing}/invoices?customer=", payment: "POST {billing}/payments", router: "{billing} → router: enable", confirm: "enviar plantilla WhatsApp", tg: "Telegram → {who}", tap: "callback de Telegram", audit: "escritura en auditoría", db: "db upsert", calendar: "crear en calendario", clock: "inicio temporizador SLA", escalate: "temporizador SLA vencido → reasignar", hold: "espera: decisión humana",
@@ -800,11 +800,11 @@ const L = {
     ["#officeSeg", "Dos sedes, dos aprobadores", "Yumbo y Palmira aprueban cada una su propia cola desde su propio Telegram. La sede principal lo ve todo. Esa es la parte multi-sede y multi-aprobador de la versión paga."],
     ["#modDb", "Una base de datos", "Cada cliente, cada evento, con el ID del sistema de facturación en cada fila — en un sistema que es suyo, no en una carpeta de archivos sueltos."],
     ["#panelDash", "El tablero", "Pagos registrados, líneas de vuelta, citas, qué espera su aprobación, escalamientos, y los minutos de oficina que esto ahorró hoy. Los números que de otra forma sacaría de tres sistemas."],
-    ["#modCustody", "El otro motor", "RedControl — custodia de equipos por orden y por técnico — es la misma familia de producto. Tiene su propia demo; esta tarjeta solo muestra que pertenece a la misma operación."],
+    ["#modCustody", "El otro motor", "RedControl — custodia de equipos por orden y por técnico — es la misma familia de producto. Tiene su propia demostración; esta tarjeta solo muestra que pertenece a la misma operación."],
     ["#lensSeg", "Por dentro", "Presione U. Cada evento se convierte en sus saltos de API: webhook, OCR, consulta de factura, POST del pago, habilitar en router, confirmación, auditoría. Para el comprador técnico en la sala."],
   ],
-  ackMsg: "Recibido, {name}. Esto quedó marcado como urgente y una persona lo está viendo ahora mismo. Te escribimos en unos minutos.",
-  reminderMsg: "Hola 👋 Tu factura de {client} vence hoy. Puedes pagar por Nequi, Bancolombia o en cualquier corresponsal. Envíanos el comprobante por aquí y quedas al día. ¡Gracias!",
+  ackMsg: "Recibido, {name}. Esto quedó marcado como urgente y una persona lo está viendo ahora mismo. Le escribimos en unos minutos.",
+  reminderMsg: "Hola 👋 Su factura de {client} vence hoy. Puede pagar por Nequi, Bancolombia o en cualquier corresponsal. Envíenos el comprobante por aquí y queda al día. ¡Gracias!",
   time: { at: "a las {t}", ago: "{s}s" },
   day: { done: "Esto es solo una parte pequeña de la versión alojada, que corre todo el día. Reinicie para verla otra vez, o cambie el modo de aprobación y mire la diferencia." },
 };
@@ -815,26 +815,26 @@ const DAY = [
   { id: "e1",  t: 5,   kind: "reminder", office: "yumbo" },
   { id: "e2",  t: 22,  kind: "receipt", office: "yumbo",   name: "Marta Giraldo",   phone: "+57 315 555 0142", billingId: "C-01187", method: "Nequi", paid: 65000, due: 65000, ref: "M83920417", inv: "INV-4471", conf: 0.98, wasSuspended: true,
     text: "Buenas, ya hice el pago por Nequi, adjunto el comprobante 🙏" },
-  { id: "e3",  t: 40,  kind: "lead", office: "yumbo",      name: "Sofía Ramírez",   phone: "+57 310 555 0187", billingId: "new", intent: "Instalación nueva", when: "15 sep, 10:00 AM", conf: 0.94,
-    text: "¡Hola! Quisiera instalar fibra en mi apartamento nuevo. ¿Tienen disponible el 15?", reply: "¡Hola Sofía! Sí — podemos instalar el 15 de septiembre. Tenemos 10:00 AM o 2:00 PM. ¿Cuál te sirve?" },
+  { id: "e3",  t: 40,  kind: "lead", office: "yumbo",      name: "Sofía Ramírez",   phone: "+57 310 555 0187", billingId: "new", intent: "Instalación nueva", when: "15 sep, 10:00 a.\u00a0m.", conf: 0.94,
+    text: "¡Hola! Quisiera instalar fibra en mi apartamento nuevo. ¿Tienen disponible el 15?", reply: "¡Hola Sofía! Sí — podemos instalar el 15 de septiembre. Tenemos 10:00 a.\u00a0m. o 2:00 p.\u00a0m.. ¿Cuál le sirve?" },
   { id: "e4",  t: 70,  kind: "receipt", office: "yumbo",   name: "Julián Ospina",   phone: "+57 300 555 0731", billingId: "C-00452", method: "Bancolombia", paid: 65000, due: 72000, ref: "TRX-5520918", inv: "INV-4502", conf: 0.97, wasSuspended: true, mismatch: "partial",
     text: "Listo, transferí. Me dicen si quedó." },
-  { id: "e5",  t: 95,  kind: "urgent", office: "yumbo",    name: "Andrés Molina",   phone: "+57 318 555 0908", billingId: "C-00219", intent: "Caída del servicio", what: "oficina sin internet desde las 8am", when: "hoy a las 4:00 PM", conf: 0.99,
-    text: "Nuestra oficina está sin internet desde las 8am y no podemos trabajar. Necesitamos a alguien HOY.", reply: "Andrés, esto quedó marcado como urgente. Un técnico puede estar allá hoy a las 4:00 PM — responde SÍ para confirmar y reservamos el cupo." },
-  { id: "e6",  t: 122, kind: "lead", office: "palmira",    name: "Camilo Rojas",    phone: "+57 311 555 0299", billingId: "C-00874", intent: "Cambio de router", when: "9 sep, 2:00 PM", conf: 0.93,
-    text: "El router que nos dieron se cae el wifi a cada rato. ¿Alguien puede cambiarlo esta semana?", reply: "Hola Camilo — qué pena con eso. Podemos cambiar el router el 9 de septiembre a las 2:00 PM, o el 10 a las 10:00 AM. ¿Cuál te sirve?" },
+  { id: "e5",  t: 95,  kind: "urgent", office: "yumbo",    name: "Andrés Molina",   phone: "+57 318 555 0908", billingId: "C-00219", intent: "Caída del servicio", what: "oficina sin internet desde las 8 a.\u00a0m.", when: "hoy a las 4:00 p.\u00a0m.", conf: 0.99,
+    text: "Nuestra oficina está sin internet desde las 8 a.\u00a0m. y no podemos trabajar. Necesitamos a alguien HOY.", reply: "Andrés, esto quedó marcado como urgente. Un técnico puede estar allá hoy a las 4:00 p.\u00a0m. — responda SÍ para confirmar y reservamos el cupo." },
+  { id: "e6",  t: 122, kind: "lead", office: "palmira",    name: "Camilo Rojas",    phone: "+57 311 555 0299", billingId: "C-00874", intent: "Cambio de router", when: "9 sep, 2:00 p.\u00a0m.", conf: 0.93,
+    text: "El router que nos dieron se cae el wifi a cada rato. ¿Alguien puede cambiarlo esta semana?", reply: "Hola Camilo — qué pena con eso. Podemos cambiar el router el 9 de septiembre a las 2:00 p.\u00a0m., o el 10 a las 10:00 a.\u00a0m.. ¿Cuál le sirve?" },
   { id: "e7",  t: 150, kind: "receipt", office: "palmira", name: "Diana Mesa",      phone: "+57 316 555 0410", billingId: "C-00611", method: "Efectivo (corresponsal)", paid: 65000, due: 65000, ref: "CB-77310", inv: "INV-4519", conf: 0.96, wasSuspended: true,
     text: "Pagué en el corresponsal, foto del recibo" },
-  { id: "e8",  t: 195, kind: "lead", office: "yumbo",      name: "Valentina Torres", phone: "+57 320 555 0555", billingId: "C-00302", intent: "Subir de plan", when: "11 sep, 10:00 AM", conf: 0.97,
-    text: "¿Puedo pasarme al plan de 300 Mb? ¿Tiene que venir alguien?", reply: "¡Hola Valentina! Sí — el plan de 300 Mb está disponible y necesita una visita corta para cambiar el perfil de la ONT. El 11 de septiembre a las 10:00 AM se puede; ¿te sirve?" },
+  { id: "e8",  t: 195, kind: "lead", office: "yumbo",      name: "Valentina Torres", phone: "+57 320 555 0555", billingId: "C-00302", intent: "Subir de plan", when: "11 sep, 10:00 a.\u00a0m.", conf: 0.97,
+    text: "¿Puedo pasarme al plan de 300 Mb? ¿Tiene que venir alguien?", reply: "¡Hola Valentina! Sí — el plan de 300 Mb está disponible y necesita una visita corta para cambiar el perfil de la ONT. El 11 de septiembre a las 10:00 a.\u00a0m. se puede; ¿le sirve?" },
   { id: "e9",  t: 228, kind: "receipt", office: "yumbo",   name: "Marta Giraldo",   phone: "+57 315 555 0142", billingId: "C-01187", method: "Nequi", paid: 65000, due: 0, ref: "M83920417", inv: "INV-4471", conf: 0.98, mismatch: "duplicate",
     text: "Les vuelvo a mandar el comprobante por si no llegó" },
   { id: "e10", t: 270, kind: "lead", office: "yumbo",      name: "Mateo Quintero",  phone: "+57 311 555 0908", billingId: "C-00980", intent: "Poco claro", when: "", conf: 0.61, lowConfidence: true,
-    text: "hola una pregunta lo de la otra vez", reply: "Hola Mateo — con gusto. ¿Es sobre la visita que agendamos, o algo nuevo con tu conexión?" },
+    text: "hola una pregunta lo de la otra vez", reply: "Hola Mateo — con gusto. ¿Es sobre la visita que agendamos, o algo nuevo con su conexión?" },
   { id: "e11", t: 305, kind: "receipt", office: "yumbo",   name: "Esteban Vargas",  phone: "+57 301 555 0088", billingId: "C-00733", method: "Nequi", paid: 65000, due: 65000, ref: "M83925102", inv: "INV-4530", conf: 0.99, wasSuspended: true,
     text: "Pago hecho ✅" },
-  { id: "e12", t: 440, kind: "urgent", office: "palmira",  name: "Laura Peña",      phone: "+57 313 555 0640", billingId: "C-00566", intent: "Sin señal", what: "sin señal desde el mediodía, trabaja desde casa", when: "mañana a las 8:00 AM", conf: 0.98,
-    text: "Estoy sin señal desde el mediodía y trabajo desde casa. Por favor, hoy si se puede.", reply: "Laura, quedó marcado como urgente. El primer cupo de técnico es mañana a las 8:00 AM — responde SÍ y es tuyo. Ya estamos revisando la línea de forma remota." },
+  { id: "e12", t: 440, kind: "urgent", office: "palmira",  name: "Laura Peña",      phone: "+57 313 555 0640", billingId: "C-00566", intent: "Sin señal", what: "sin señal desde el mediodía, trabaja desde casa", when: "mañana a las 8:00 a.\u00a0m.", conf: 0.98,
+    text: "Estoy sin señal desde el mediodía y trabajo desde casa. Por favor, hoy si se puede.", reply: "Laura, quedó marcado como urgente. El primer cupo de técnico es mañana a las 8:00 a.\u00a0m. — responda SÍ y es suyo. Ya estamos revisando la línea de forma remota." },
   { id: "e13", t: 490, kind: "receipt", office: "palmira", name: "Ricardo Acosta",  phone: "+57 317 555 0921", billingId: "C-00845", method: "Nequi", paid: 65000, due: 65000, ref: "M83929877", inv: "INV-4541", conf: 0.97, wasSuspended: true,
     text: "Comprobante 👇" },
   { id: "e14", t: 570, kind: "dayend", office: "yumbo" },
@@ -846,6 +846,7 @@ DAY.splice(5, 8); DAY[5].t = 125;  // small piece: e1 to e5, then the day ends (
 const $ = (id) => document.getElementById(id);
 const fmt = (s, o = {}) => s.replace(/\{(\w+)\}/g, (_, k) => (o[k] !== undefined ? o[k] : (CONFIG.brand[k] !== undefined ? CONFIG.brand[k] : `{${k}}`)));
 const clockStr = (min) => { const h = 8 + Math.floor(min / 60), m = min % 60; return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`; };
+const pl = (n, one, many) => n + " " + (n === 1 ? one : many);
 const money = (n) => "$" + n.toLocaleString("es-CO");
 const ICONS = {
   check: '<path d="M5 12l4 4L19 6"/>', send: '<path d="M21 3 3 10l8 3 3 8 7-18Z"/>', bell: '<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4l2-2Z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
@@ -996,7 +997,7 @@ function finishDay() {
   state.finished = true; state.playing = false; state.current = null; state.clock = 600;
   const s = state.stats, min = s.registered * CONFIG.baseline.officeMinPerPayment + s.sent * 3;
   logFeed({ t: 600, id: "end" }, L.feed.dayDone, "grey", "flag");
-  toast({ tone: "", icon: "flag", title: L.toast.dayDone, body: fmt(L.toast.dayDoneB, { pay: s.registered, re: s.reactivated, book: s.booked, esc: s.escalations, min }), ms: 9000 });
+  toast({ tone: "", icon: "flag", title: L.toast.dayDone, body: fmt(L.toast.dayDoneB, { pay: pl(s.registered, "pago registrado", "pagos registrados"), re: pl(s.reactivated, "línea de vuelta", "líneas de vuelta"), book: pl(s.booked, "cita", "citas"), esc: pl(s.escalations, "escalamiento", "escalamientos"), min }), ms: 9000 });
   render();
 }
 function feedLine(ev, phase) {
@@ -1088,7 +1089,7 @@ function renderMoment() {
     else if (ev.kind === "receipt" && ev.mismatch === "duplicate") { dt = L.decide.dupT; db = fmt(L.decide.dupB, { when: "08:22" }); btns = `<button class="btn btn-channel" id="btnApprove" type="button">${svgIcon("send")} ${L.decide.dupBtn}</button>`; }
     else if (ev.kind === "urgent") { dt = L.decide.urgentT; db = ev.escalatedTo ? fmt(L.decide.escalatedB, { who: ev.waitingOn, backup: ev.escalatedTo }) : fmt(L.decide.urgentB, { who: ev.waitingOn, sec: CONFIG.timing.urgentTargetSec, backup: off.backup }); btns = `<button class="btn btn-channel" id="btnApprove" type="button">${svgIcon("send")} ${L.decide.urgentBtn}</button>`; }
     else { dt = ev.lowConfidence ? L.decide.lowConfT : L.decide.replyT; db = ev.lowConfidence ? L.decide.lowConfB : L.decide.replyB; btns = `<button class="btn btn-channel" id="btnApprove" type="button">${svgIcon("send")} ${L.decide.replyBtn}</button>`; }
-    const clock = ev.kind === "urgent" ? ` <span class="clock ${ev.clockLeft <= 0 ? "over" : ""}" id="urgentClock">${ev.clockLeft > 0 ? ev.clockLeft + "s" : "0s"}</span>` : "";
+    const clock = ev.kind === "urgent" ? ` <span class="clock ${ev.clockLeft <= 0 ? "over" : ""}" id="urgentClock">${ev.clockLeft > 0 ? ev.clockLeft + " s" : "0 s"}</span>` : "";
     h += `<div class="decision" id="decision"><div class="tg">${svgIcon("send")} ${fmt(L.tg, { who, office: off.name })}</div><div class="decision-title">${dt}${clock}</div><div class="decision-body">${db}</div>${ev.reply ? `<div class="bubble out" style="margin:0 0 10px">${ev.reply}</div>` : ""}<div class="decision-actions">${btns}</div></div>`;
   } else if (ev.auto && ev.stepIdx > 0) {
     const s = ev.steps.find(x => x.auto);
@@ -1099,7 +1100,7 @@ function renderMoment() {
   const alt = $("btnAlt"); if (alt) alt.onclick = () => approve(ev, "ask");
 }
 function renderFeed() {
-  $("feedHint").textContent = fmt(L.feedHint, { n: state.feed.length });
+  $("feedHint").textContent = pl(state.feed.length, "evento", "eventos");
   $("feed").innerHTML = state.feed.map(f => `<div class="feed-item"><span class="feed-ic ${f.tone}">${svgIcon(f.icon)}</span><span>${f.text}</span><span class="feed-t">${f.t}</span></div>`).join("") || `<div class="empty-mo">—</div>`;
 }
 function renderModules() {
@@ -1146,7 +1147,7 @@ function renderDash() {
   const k = [
     [L.kpi.registered, s.registered, fmt(L.kpiD.officeTouch)], [L.kpi.reactivated, s.reactivated, `${CONFIG.baseline.suspendedAtOpen - s.suspended} ${fmt(L.kpiD.ofOpen, { n: CONFIG.baseline.suspendedAtOpen })}`],
     [L.kpi.booked, s.booked, ""], [L.kpi.waiting, state.awaiting ? 1 : 0, state.awaiting ? (state.awaiting.escalatedTo || state.awaiting.waitingOn) : "", state.awaiting ? "warn" : ""],
-    [L.kpi.median, s.sent ? "48s" : "—", `${L.before.bT.toLowerCase()}: ~${CONFIG.baseline.beforeReplyHours}h`], [L.kpi.escalations, s.escalations, "", s.escalations ? "warn" : ""],
+    [L.kpi.median, s.sent ? "48 s" : "—", `${L.before.bT.toLowerCase()}: ~${CONFIG.baseline.beforeReplyHours} h`], [L.kpi.escalations, s.escalations, "", s.escalations ? "warn" : ""],
     [L.kpi.saved, min, ""], [L.kpi.suspended, s.suspended, fmt(L.kpiD.ofOpen, { n: CONFIG.baseline.suspendedAtOpen })],
   ];
   $("kpis").innerHTML = k.map(x => `<div class="kpi ${x[3] || ""}"><div class="v">${x[1]}</div><div class="l">${x[0]}</div><div class="d">${x[2]}</div></div>`).join("");
@@ -1224,7 +1225,7 @@ boot();
   L.decide.replyB = "Redactada a partir del mensaje y del calendario.";
   L.decide.registerAuto ="Registrado automáticamente: el monto coincide y la captura es clara.";
   L.decide.replyAuto = "Enviada automáticamente: es una respuesta de rutina.";
-  L.toast.dayDoneB = "{pay} pagos registrados, {re} líneas de vuelta, {book} citas, {esc} escalamiento(s).";
+  L.toast.dayDoneB = "{pay}, {re}, {book}, {esc}.";
   L.day.done = "Fin del día de ejemplo. Pulse «Ver de nuevo» para repetirlo.";
 
   // key = event id : index of the step about to run. [text, milliseconds to read it, panel it points at]
