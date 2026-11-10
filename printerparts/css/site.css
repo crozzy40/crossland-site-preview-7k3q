@@ -357,3 +357,9 @@ section.s.next{padding:28px 0}
 .partner .invite h3{font-size:22px;margin:0 0 6px}
 .partner .invite p{margin:0;max-width:62ch}
 .partner .box .btn{margin-right:8px;margin-bottom:8px}
+
+/* ---- v13: logo mark (option B, Higgsfield, redrawn as SVG) beside the live brand name ---- */
+.brandmark{flex-direction:row;align-items:center;gap:12px}
+.brandmark .bm{display:flex;flex-direction:column;line-height:1.1}
+.brandmark .logo{flex:none;display:block;width:48px;height:48px}
+@media (max-width:420px){.brandmark{gap:10px}.brandmark .logo{width:44px;height:44px}}
