@@ -604,3 +604,11 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 .foot a{padding:9px 0}
 .fid{margin-top:4px;padding-top:14px;font-size:15px}
 }
+
+.ojcard{scroll-margin-top:96px}
+.ojcard h2{margin-bottom:.35em}
+.pe-r>.checks:first-child{margin-top:6px}
+#people .grid2+.fold{margin-top:28px}
+#ai .fold+.fold,#where .fold+.fold{margin-top:0}
+#ai .next{margin-top:26px}
+@media (max-width:1060px){#people .grid2,#size .grid2{gap:0}.pe-r>.checks:first-child{margin-top:0}}
