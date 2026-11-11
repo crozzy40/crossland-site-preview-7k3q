@@ -1,10 +1,7 @@
-/* Human IA Soluciones: one stylesheet for the whole site (7 Nov 2026).
-   Design B "Light and human" with A's simple menu and C's headline weight; navy and gold; system font for text, Archivo for headings.
-   Rules from Ryan (7 Nov 2026): crisp type (body 16 to 17 px, headings 650 to 700, letter-spacing never below -2%), no glows, hard-edged pictures,
-   words are real HTML from first paint. Motion (Ryan 9 Nov 14:37: he never ruled 'no motion' and likes motion; the 7 Nov line here was the build chat's, not his): small and soft feedback only, off for anyone who asks the system for less motion (last block of this file). */
+
 @font-face{font-family:'Archivo';font-style:normal;font-weight:400 700;font-display:swap;src:url(../fonts/archivo-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{
-  /* batch 2 (8-point grade, 7 Nov): five values. paper, tint, ink, navy, gold (+ white for cards and text on navy). Lines are ink at low alpha. */
+  
   --paper:#FBF8F1;--tint:#F1EADB;--ink:#1B2233;--navy:#12285A;--gold:#E2A93B;
   --bg:var(--paper);--bg2:var(--tint);--card:#FFFFFF;--line:rgba(27,34,51,.16);--line2:rgba(27,34,51,.32);
   --mut:var(--ink);--dim:var(--ink);
@@ -14,7 +11,7 @@
   --hfont:'Archivo',system-ui,'Segoe UI Variable Display','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
   --bfont:'Archivo',system-ui,'Segoe UI Variable Text','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
   --br:10px;--cr:14px;
-  /* names the Ask-us chat box reads */
+  
   --s1:#FFFFFF;--s2:var(--paper);--s3:var(--tint);--tx:var(--ink);--mu:var(--ink);--ac:var(--navy);--ac2:var(--navy);--acink:#FFFFFF;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -34,7 +31,6 @@ h4{font-size:18px}
 :focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* header */
 .top{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;gap:26px;height:72px}
 .brand{display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;font-family:var(--hfont);font-weight:700;font-size:22px;letter-spacing:-.01em;color:var(--navy);white-space:nowrap}
@@ -50,7 +46,6 @@ h4{font-size:18px}
 .lang:hover{background:var(--bg2)}
 .mnav{display:none}
 
-/* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 24px;border-radius:var(--br);font-weight:700;font-size:16.5px;text-decoration:none;font-family:var(--bfont);border:2px solid transparent;white-space:nowrap;cursor:pointer;line-height:1.2}
 .btn-p{background:var(--navy);color:#fff}
 .btn-p:hover{filter:brightness(1.3)}
@@ -68,7 +63,6 @@ h4{font-size:18px}
 .more:hover{text-decoration:underline}
 .flag{flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
 
-/* section tabs: the pages that sit under one menu item */
 .subnav{background:var(--bg2);border-bottom:1px solid var(--line)}
 .subnav .wrap{display:flex;flex-wrap:wrap;gap:10px;padding-top:12px;padding-bottom:12px}
 .subnav a{flex:none;text-decoration:none;font-weight:700;font-size:16px;padding:10px 18px;min-height:44px;display:inline-flex;align-items:center;color:var(--navy);background:#fff;border:2px solid var(--navy);border-radius:10px}
@@ -76,7 +70,6 @@ h4{font-size:18px}
 .subnav a[aria-current]{background:var(--navy);color:#fff}
 @media (max-width:640px){.subnav .wrap{gap:8px}.subnav a{font-size:15px;padding:8px 12px}}
 
-/* page head */
 .phead{padding:56px 0 44px;border-bottom:1px solid var(--line)}
 .phead h1{max-width:980px}
 .jump{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0;padding:0;list-style:none}
@@ -85,7 +78,6 @@ h4{font-size:18px}
 .jump span{color:var(--kick)}
 .pill{display:inline-block;font-size:14px;font-weight:700;color:var(--kick);background:var(--tint);padding:3px 10px;border-radius:999px}
 
-/* hero (home) */
 .hero{padding:64px 0 60px;background:var(--paper)}
 .hgrid{display:grid;grid-template-columns:1.4fr 1fr;gap:56px;align-items:center}
 .badge{display:inline-flex;gap:10px;align-items:center;font-size:15px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--card);color:var(--ink);margin:0 0 22px}
@@ -93,8 +85,6 @@ h4{font-size:18px}
 .hsmall{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
 .idline{font-size:16px;color:var(--mut);margin:18px 0 0}
 
-
-/* sections */
 .sec{padding:84px 0}
 .sec.alt{background:var(--bg2)}
 .sec.tight{padding:56px 0}
@@ -104,7 +94,6 @@ h4{font-size:18px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .grid2>*,.hgrid>*,.grid3>*,.wgrid>*,.agrid>*{min-width:0}
 
-/* offer cards */
 .offers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px}
 .offer{background:var(--card);border:1px solid var(--line);border-radius:var(--cr);overflow:hidden;display:flex;flex-direction:column;scroll-margin-top:90px}
 .offer .ph{border-radius:0;border-width:0 0 2px 0}
@@ -117,7 +106,6 @@ h4{font-size:18px}
 .helper{margin-top:30px;font-size:18px}
 .helper a{font-weight:700;color:var(--navy)}
 
-/* photo placeholders (until Ryan's real photos exist) */
 .ph{margin:0;position:relative;background:var(--tint);border:2px dashed rgba(18,40,90,.45);border-radius:var(--cr);display:flex;align-items:flex-end;min-width:0;max-width:100%;
   background-image:repeating-linear-gradient(135deg,transparent 0 14px,rgba(18,40,90,.06) 14px 15px)}
 .ph-in{padding:16px 18px;display:grid;gap:6px;font-size:16px;line-height:1.4;color:var(--ink)}
@@ -133,10 +121,8 @@ h4{font-size:18px}
 .ph-mini .ph-in{font-size:14px;padding:12px}
 .ph-mini .ph-in strong{font-size:14px}
 
-/* pending facts: visible until the real fact exists */
 .pend{background:var(--tint);color:var(--ink);padding:1px 6px;border-radius:4px;font-weight:700;border:1px dashed var(--navy)}
 
-/* lists, steps, rows */
 .checks{list-style:none;padding:0;margin:0 0 1.2em;display:grid;gap:10px}
 .checks li{position:relative;padding-left:28px}
 .checks li::before{content:"";position:absolute;left:2px;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--acc)}
@@ -162,7 +148,6 @@ h4{font-size:18px}
 .card h3{margin-bottom:.35em}
 .card p:last-child{margin-bottom:0}
 
-/* table */
 .tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--cr);background:#fff}
 table.t{border-collapse:collapse;width:100%;min-width:640px;font-size:16px}
 table.t th,table.t td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -170,7 +155,6 @@ table.t th{background:var(--navy-t);color:var(--navy);font-size:16px}
 table.t tr:last-child td{border-bottom:0}
 table.t td:first-child{font-weight:700;color:var(--navy)}
 
-/* FAQ */
 .faq{display:grid;gap:12px}
 .faq details{background:#fff;border:1px solid var(--line);border-radius:12px;scroll-margin-top:90px}
 .faq summary{cursor:pointer;list-style:none;padding:18px 54px 18px 20px;font-family:var(--hfont);font-weight:700;font-size:19px;color:var(--navy);position:relative;line-height:1.3}
@@ -180,7 +164,6 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .faq .ans{padding:0 20px 18px}
 .faq .ans p:last-child{margin-bottom:0}
 
-/* tools (Nuestro trabajo) */
 .tool{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:40px;padding:48px 0;border-bottom:1px solid var(--line);scroll-margin-top:84px;align-items:start}
 .tool:last-of-type{border-bottom:0}
 .tool .tk{color:var(--kick);font-weight:700;font-size:16px;margin:0 0 6px}
@@ -190,7 +173,6 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .tool .fine{font-size:16px;color:var(--dim)}
 .tool .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
 
-/* "next" strip and call band */
 .next{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:34px;padding:18px 22px;border:1px solid var(--line2);border-radius:var(--cr);background:#fff}
 .next .nl{font-weight:800;color:var(--kick)}
 .next a{font-weight:700;color:var(--navy);text-decoration:none;font-size:18px}
@@ -215,7 +197,6 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .prose ul{padding-left:22px}
 .prose li{margin-bottom:.4em}
 
-/* footer */
 .foot{background:var(--navy);color:#fff;padding:56px 0 70px;font-size:16px}
 .fgrid{display:grid;grid-template-columns:2fr 1fr 1.2fr 1.1fr;gap:36px}
 .foot a{display:block;text-decoration:none;padding:11px 0;color:#fff;min-height:44px}
@@ -227,7 +208,6 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .fid{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.3);font-size:16px;color:#fff;grid-column:1/-1}
 .foot .pend{background:none;color:#fff;border:0;padding:0;font-weight:600;text-decoration:underline dotted}
 
-/* quick contact: phone bar and desktop button */
 .pbar{display:none}
 .wafab{position:fixed;right:16px;bottom:18px;z-index:45;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px 0 16px;background:var(--gold);border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.28);font-weight:700;color:var(--ink)}
 .wafab span{font-size:16px;line-height:1}
@@ -237,10 +217,8 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .btn-wa{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;background:var(--gold);color:var(--ink);border:2px solid var(--gold)}
 .btn-wa .waic path{fill:var(--ink)}
 
-/* Ask-us in the Empiece page */
 .askbox{max-width:700px}
 
-/* ladder and quiz (Soluciones) */
 .lad{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px;counter-reset:l}
 .lad li{display:grid;grid-template-columns:44px 1fr;column-gap:16px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
 .lad .lv-n{grid-row:span 3;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800}
@@ -308,14 +286,12 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 @media (max-width:640px){.qz-btns{flex-direction:column;align-items:stretch}.qz-btns .btn{width:100%}}
 .qz-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
-/* factory film dialog */
 .wv-dlg{border:0;padding:0;max-width:min(960px,94vw);width:100%;border-radius:12px;background:#000}
 .wv-dlg::backdrop{background:rgba(5,10,25,.7)}
 .wv-bar{display:flex;justify-content:space-between;align-items:center;margin:0;padding:10px 14px;background:var(--navy-d);color:#fff;font-weight:700}
 .wv-x{background:#fff;color:var(--navy);border:0;border-radius:8px;font:inherit;font-weight:700;padding:8px 14px;cursor:pointer;min-height:40px}
 .wv-dlg video{display:block;width:100%;height:auto;background:#000}
 
-/* tablet and phone */
 @media (max-width:1060px){
   .menu{display:none}
   .hact .btn-s{display:none}
@@ -374,7 +350,6 @@ h1 em{font-style:normal;display:inline-block;padding-bottom:5px;background:linea
 @media (max-width:640px){.jump{gap:8px}.jump a{padding:8px 14px;font-size:15.5px}}
 .sbox+h2{margin-top:1.2em}
 
-/* batch 3: every link a thumb can miss is 44 px tall; Ask-us sizes follow the site */
 .more,.next a:not(.btn),.lad .lv-go,.qz-door,.helper a,.links44 a{display:inline-flex;align-items:center;min-height:44px}
 .links44{display:flex;flex-wrap:wrap;gap:0 22px}
 .mpanel a{min-height:48px}
@@ -384,7 +359,6 @@ h1 em{font-style:normal;display:inline-block;padding-bottom:5px;background:linea
 @media (max-width:640px){.pbar .btn{min-height:48px}}
 .checks li::before{width:14px;height:3px;border-radius:2px;top:.85em;left:0;background:var(--navy)}
 
-/* Home, Lorena round 1 (7 Nov 2026): the ten processes, five steps, quiz and training lines, simulator pictures */
 .ico{display:inline-grid;place-items:center;flex:none;width:48px;height:48px;border-radius:12px;background:var(--tint);color:var(--navy)}
 .procs{list-style:none;padding:0;margin:30px 0 26px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .proc{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:20px 22px}
@@ -413,7 +387,6 @@ h1 em{font-style:normal;display:inline-block;padding-bottom:5px;background:linea
 @media (max-width:760px){.stps{grid-template-columns:repeat(2,1fr)}.procs{grid-template-columns:1fr}.sims{grid-template-columns:1fr}}
 @media (max-width:640px){.stps{grid-template-columns:1fr}.proc{padding:16px 16px}}
 
-/* PROTOTYPE: Nuestros servicios */
 .svcs{list-style:none;padding:0;margin:30px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .svc{background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:24px 24px 22px;display:flex;flex-direction:column;position:relative}
 .svc .ico{margin-bottom:14px}
@@ -424,7 +397,6 @@ h1 em{font-style:normal;display:inline-block;padding-bottom:5px;background:linea
 @media (max-width:1060px){.svcs{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){.svcs{grid-template-columns:1fr}}
 
-/* the return-on-investment section (proposal v2, 7 Nov 2026): Ryan's chain, then the calculator */
 .chain{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
 .step{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:20px 22px 22px}
 .step .cn{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:16px;margin:0 0 12px}
@@ -450,7 +422,7 @@ h1 em{font-style:normal;display:inline-block;padding-bottom:5px;background:linea
 #retorno .actrow{margin-top:22px}
 @media (max-width:1060px){.chain{grid-template-columns:1fr 1fr;gap:34px 30px}.step:nth-child(2) .arr{display:none}}
 @media (max-width:860px){.chain{grid-template-columns:1fr;gap:34px}.step .arr{right:auto;left:50%;top:auto;bottom:-31px;transform:translateX(-50%) rotate(90deg)}.step:nth-child(2) .arr{display:block}.roi-fields{grid-template-columns:1fr}.roi-in input{width:100%}}
-/* the partnering section (proposal, 7 Nov 2026) */
+
 .pcards{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .pcard{background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:24px 26px;display:flex;flex-direction:column}
 .pcard h3{font-size:22px;margin:0 0 .4em}
@@ -459,27 +431,23 @@ h1 em{font-style:normal;display:inline-block;padding-bottom:5px;background:linea
 #alianza .actrow{margin-top:26px}
 @media (max-width:760px){.pcards{grid-template-columns:1fr}}
 
-/* generated scenes in the photo slots (8 Nov 2026): the same boxes as the placeholders; no tag (Ryan 12:31) */
 .scn{margin:0;position:relative;overflow:hidden;border-radius:var(--cr);min-width:0;max-width:100%;background:var(--tint)}
 .scn img{display:block;width:100%;height:100%;object-fit:cover}
 .scn-hero,.scn-mini{aspect-ratio:4/3}
 .scn-card{aspect-ratio:16/10;min-height:220px}
 .offer .scn{border-radius:0}
 
-/* the sister-company badge on the Home first screen: two flags, smaller (Ryan 8 Nov 13:11, 13:24) */
 .badge{font-size:13px;padding:5px 12px;gap:7px}
 .badge .flag{height:12px;width:auto;flex:none}
 @media (max-width:360px){.hk{font-size:12.5px}}
 @media (max-width:760px){.badge{font-size:12.5px;padding:5px 10px;gap:6px;white-space:nowrap}}
 .wafab,.wafab:hover,.wafab span{text-decoration:none}
 
-/* tap targets: inline links in running text and the small buttons get a 44 px touch area without moving anything (grade 8 Nov, point 8) */
 main p a:not(.btn),main li a:not(.btn),.foot p a,.foot li a{position:relative}
 main p a:not(.btn)::after,main li a:not(.btn)::after,.foot p a::after,.foot li a::after{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
 button.copy,.copy-btn,[data-copy]{min-height:44px}
 .tool .acts .btn{white-space:normal;text-align:center;max-width:100%;padding-top:10px;padding-bottom:10px}
 
-/* the ten processes as a short list (Home cut, 8 Nov): one row per process, the two lines open under it */
 .procsd{list-style:none;padding:0;margin:26px 0 24px;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
 .procd{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:6px 16px}
 .procd details{flex:1;min-width:0}
@@ -491,24 +459,22 @@ button.copy,.copy-btn,[data-copy]{min-height:44px}
 .procd details p:last-child{margin-bottom:12px}
 .procd>svg,.procd>.ico{flex:none;margin-top:10px}
 @media (max-width:760px){.procsd{grid-template-columns:1fr}}
-/* grade 8 Nov 22:20, item 6: while the quiz result is on screen the always-there WhatsApp button is hidden, so 'Enviar por WhatsApp' (which carries the answers) is the only WhatsApp button */
+
 body.qz-on .pbar,body.qz-on .wafab{display:none!important}
 
-/* motion, grade 8 Nov 22:06 item 5 and Ryan 9 Nov 14:37: 180 ms feedback on buttons, links, tabs and rows; one rule turns everything off for reduced motion */
 @media (prefers-reduced-motion:no-preference){
   .btn,.menu a,.subnav a,.more,.wafab,.mwa,.lang,.qz-lk,.jump a,.qz-door,.lad .lv-go,.procd summary,.foot a{transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease,filter .18s ease}
   .btn:hover,.wafab:hover{transform:translateY(-1px)}
   .btn:active,.wafab:active{transform:translateY(1px);filter:brightness(.95)}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
-/* the logo in the footer (Ryan 9 Nov 15:26): his cut screenshot keeps its own dark ground, so it sits as a rounded badge on the navy footer */
+
 .flogo{display:block;width:240px;height:auto;background:#FBF8F1;border-radius:14px;padding:12px 16px;margin:0 0 18px}
 .brandlogo{display:block;height:44px;width:auto}
 .brand .sol{font-size:16px;font-weight:500;color:var(--mut)}
 .qlogo{min-width:0}
 .qlogo img{display:block;width:100%;height:auto}
 
-/* build 10: the courses band, the course screen as a picture, Llamar in the phone bar */
 .svclinks li{display:grid}
 .svclinks .tx{display:flex;flex-direction:column;gap:3px;min-width:0}
 .svclinks .pa{font-weight:400;font-size:15px;line-height:1.35;color:var(--mut)}
@@ -530,7 +496,6 @@ body.qz-on .pbar,body.qz-on .wafab{display:none!important}
 .btn-call .lb{display:none}
 @media (min-width:410px){.pbar .btn-call{width:auto;padding:0 14px}.btn-call .lb{display:inline}}
 
-/* build 10, grade f: wide tables become cards on a phone; pending legal notes in plain words; */
 @media (max-width:640px){
 .tw:has(table.tcards){overflow-x:visible;border:0;background:none}
 table.t.tcards{min-width:0;width:100%}
@@ -542,15 +507,12 @@ table.t.tcards td:first-child{font-size:18px;padding-bottom:8px}
 table.t.tcards td:not(:first-child)::before{content:attr(data-th);display:block;font-size:14px;font-weight:700;color:var(--kick)}
 }
 
-/* build 11, grade g: two tap targets at 44 px or more */
 .next a:not(.btn){min-height:46px}
 a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 
-/* build 12, grade h: tap targets with room to spare */
 .next a:not(.btn){display:inline-flex;align-items:center;min-height:48px}
 .contact-note a{display:inline-block;padding:13px 0;margin:-13px 0}
 
-/* corto: the shorter version */
 .cmpbar{background:#fff7d6;color:#5a4300;font-size:14px;line-height:1.35;padding:8px 14px;text-align:center;border-bottom:1px solid #e6d58a}
 .cmpbar a{color:#5a4300;font-weight:700;text-decoration:underline}
 .svclinks{list-style:none;padding:0;margin:22px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -579,7 +541,6 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 }
 .sec .wrap>.fold{margin-top:18px}
 
-/* flujo, round 2 (10 Nov): the Blog page and its first article */
 .posts{list-style:none;padding:0;margin:0;display:grid;gap:16px}
 .post{background:#fff;border:1px solid var(--line);border-radius:var(--cr);padding:22px 24px}
 .post h2{font-size:24px;margin:0 0 .4em}
@@ -593,18 +554,14 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 .phead .kicker a{text-decoration:underline;text-underline-offset:3px}
 #blog .actrow{margin-top:6px}
 
-/* flujo, round 3 (10 Nov, Ryan 12:38): the questionnaire opens on the Home, under the six services; the Blog block is a heading, a line and a button */
 #cinco-soluciones .qz-ow{margin:18px 0 8px}
 #cinco-soluciones .qz{margin:18px 0 8px}
 #blog .actrow{margin-top:18px}
 
-
-/* flujo, round 9 (10 Nov, Ryan 16:43; Nelson's feedback): the time-saving line under the first screen's lead (the thirteen business types stay one column: two columns wrapped three names and read unevenly) */
 .hsave{margin:14px 0 0;font-size:17px;line-height:1.5;font-weight:700;color:var(--navy);max-width:760px;text-wrap:balance}
 .hero .lead:has(+ .hsave){margin-bottom:0}
 @media (max-width:640px){.hsave{font-size:16px;margin-top:10px}.hero .hgrid{gap:22px}}
 
-/* flujo: the flow version (Ryan 9 Nov 21:48). Shorter pages on a phone: tighter rhythm, a footer of one screen, section tabs in one row. */
 .plinks{grid-template-columns:1fr 1fr}
 .svclinks .go{font-weight:700;font-size:15px;color:var(--navy);margin-top:5px}
 .roih{margin-top:4px}

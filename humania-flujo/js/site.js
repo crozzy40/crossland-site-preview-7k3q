@@ -1,17 +1,12 @@
-/* Human IA Soluciones: the small scripts of the site (7 Nov 2026). No library, no cookie, nothing stored, nothing sent.
-   1. the two-minute quiz on Soluciones (ported from the crosslandai.com quiz; same questions, same points, same four results)
-   2. "Copiar la dirección" on Empiece
-   3. the factory film in a dialog on Nuestro trabajo
-   4. the mobile menu closes when a link in it is chosen */
+
 (function(){
 "use strict";
 var D=document;
-/* the ladder and the quiz moved from Servicios to Por donde empezar (Ryan 8 Nov 21:21): old links to #escalera, #ladder and #cuestionario on Servicios go to the new page */
+
 function oldhash(){var h=location.hash,e=D.querySelector('a[data-empezar]');if(e&&/^#(escalera|ladder|cuestionario)$/.test(h))location.replace(e.getAttribute('href')+h)}
 oldhash();addEventListener('hashchange',oldhash);
 function still(){return !!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)}
 
-/* 1. quiz (prototype 7 Nov 18:45: no score; the first question asks if they want a course or training; the answers pick the service) */
 (function(){
 var R=D.getElementById('qz'),W=D.getElementById('qz-ow');if(!R||!W)return;
 var T;try{T=JSON.parse(R.querySelector('.qz-strings').textContent)}catch(e){return}
@@ -60,7 +55,7 @@ function open(){W.hidden=true;if(LW)LW.hidden=true;R.hidden=false;show(cur)}
 function close(){D.body.classList.remove('qz-on');R.hidden=true;if(LW)LW.hidden=false;W.hidden=false;B.focus();var r=B.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)B.scrollIntoView({block:'center'})}
 W.hidden=false;
 B.addEventListener('click',open);
-/* the Home's quiz button and any link to #cuestionario open the first question directly (grade 8 Nov, item 4) */
+
 function direct(){if(location.hash==='#cuestionario'&&R.hidden)open()}
 direct();addEventListener('hashchange',direct);
 each('.qz-exit',function(x){x.addEventListener('click',close)});
@@ -73,7 +68,7 @@ if(s===ALL[0]){var p=path();ALL.forEach(function(x,i){if(i&&x.getAttribute('data
 if(s)mark(s);if(picked(cur))MSG.textContent=''});
 F.addEventListener('pointerdown',function(){ptr=Date.now()},true);
 F.addEventListener('keydown',function(){ptr=0},true);
-/* a tap or click on an answer moves on by itself; the keyboard (arrows, Space) only chooses, and Enter or Next moves on */
+
 F.addEventListener('click',function(e){var t=e.target;if(!t||t.type!=='radio'||!ptr||Date.now()-ptr>1500)return;ptr=0;
 var i=cur,k=tok;setTimeout(function(){active();if(cur===i&&tok===k&&picked(i))show(i+1)},160)});
 R.addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();close()}});
@@ -83,7 +78,6 @@ D.body.appendChild(ta);ta.select();try{ok=D.execCommand('copy')}catch(x){}D.body
 if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(s).then(function(){CS.textContent=T.copied},fb);else fb()});
 })();
 
-/* 2. copy the address */
 (function(){
 var b=D.querySelector('[data-copy]');if(!b)return;
 var m=D.querySelector('[data-copy-msg]');
@@ -95,7 +89,6 @@ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeT
 });
 })();
 
-/* 3. the factory film */
 (function(){
 var dlg=D.getElementById('wv-dlg'),open=D.querySelector('[data-film]');if(!dlg||!open)return;
 var v=dlg.querySelector('video'),x=dlg.querySelector('.wv-x');
@@ -107,7 +100,6 @@ x.addEventListener('click',end);
 dlg.addEventListener('close',function(){try{v.pause()}catch(e){}});
 })();
 
-/* 4. the mobile menu */
 (function(){
 var d=D.querySelector('details.mnav');if(!d)return;
 d.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.mpanel a'))d.removeAttribute('open')});
@@ -115,7 +107,6 @@ D.addEventListener('keydown',function(e){if(e.key==='Escape'&&d.hasAttribute('op
 })();
 })();
 
-/* the return calculator: the numbers are the visitor's own, computed here, never stored and never sent */
 (function(){
 var F=document.getElementById('roi-calc');if(!F)return;F.hidden=false;
 var N=document.getElementById('roi-n'),H=document.getElementById('roi-h'),C=document.getElementById('roi-c'),P=document.getElementById('roi-p'),O=F.querySelector('.roi-out');
@@ -132,15 +123,11 @@ O.innerHTML=out}
 F.addEventListener('input',show);F.addEventListener('submit',function(e){e.preventDefault()});
 })();
 
-/* build 10, grade f flow (c): the open phone menu starts under the header wherever the header is (in the preview a strip sits above it) */
 (function(){var d=document.querySelector('details.mnav'),t=document.querySelector('header.top');if(!d||!t)return;function p(){var m=d.querySelector('.mpanel');if(!m)return;var b=Math.max(0,Math.round(t.getBoundingClientRect().bottom));m.style.top=b+'px';m.style.maxHeight='calc(100vh - '+b+'px)'}
 d.addEventListener('toggle',function(){if(d.open)p()});window.addEventListener('scroll',function(){if(d.open)p()},{passive:true});window.addEventListener('resize',function(){if(d.open)p()})})();
 
-/* corto: a link or a hash that points into a closed row opens the row */
 (function(){function o(){var h=location.hash.slice(1);if(!h)return;var e=document.getElementById(decodeURIComponent(h));if(!e)return;var d=e.closest('details');var any=false;while(d){if(!d.open){d.open=true;any=true}d=d.parentElement&&d.parentElement.closest('details')}if(any)e.scrollIntoView()}
 window.addEventListener('hashchange',o);if(document.readyState!=='loading')o();else document.addEventListener('DOMContentLoaded',o)})();
 
-
-/* flujo: on a phone the section tabs are one row that scrolls sideways; the tab of the page you are on is brought into view */
 (function(){var w=document.querySelector('.subnav .wrap');if(!w)return;function f(){if(w.scrollWidth>w.clientWidth+1){w.classList.add('ovf');var a=w.querySelector('[aria-current]');if(a){w.scrollLeft=Math.max(0,w.scrollLeft+a.getBoundingClientRect().left-w.getBoundingClientRect().left-20)}}else{w.classList.remove('ovf')}}
 f();window.addEventListener('resize',f)})();
