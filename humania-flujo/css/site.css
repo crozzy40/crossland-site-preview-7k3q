@@ -210,9 +210,6 @@ table.t td:first-child{font-weight:700;color:var(--navy)}
 .call h2{font-size:28px}
 .actrow{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0 8px}
 .contact-note{font-size:16px;color:var(--mut)}
-
-/* draft legal pages */
-.draftbar{background:var(--tint);border:2px dashed var(--navy);color:var(--ink);padding:16px 20px;border-radius:12px;margin:0 0 30px;font-weight:600}
 .prose{max-width:780px}
 .prose h2{font-size:28px;margin-top:1.6em}
 .prose ul{padding-left:22px}
@@ -534,7 +531,6 @@ body.qz-on .pbar,body.qz-on .wafab{display:none!important}
 @media (min-width:410px){.pbar .btn-call{width:auto;padding:0 14px}.btn-call .lb{display:inline}}
 
 /* build 10, grade f: wide tables become cards on a phone; pending legal notes in plain words; */
-.pendp{font-style:italic}
 @media (max-width:640px){
 .tw:has(table.tcards){overflow-x:visible;border:0;background:none}
 table.t.tcards{min-width:0;width:100%}
@@ -602,6 +598,11 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 #cinco-soluciones .qz{margin:18px 0 8px}
 #blog .actrow{margin-top:18px}
 
+
+/* flujo, round 9 (10 Nov, Ryan 16:43; Nelson's feedback): the time-saving line under the first screen's lead (the thirteen business types stay one column: two columns wrapped three names and read unevenly) */
+.hsave{margin:14px 0 0;font-size:17px;line-height:1.5;font-weight:700;color:var(--navy);max-width:760px;text-wrap:balance}
+.hero .lead:has(+ .hsave){margin-bottom:0}
+@media (max-width:640px){.hsave{font-size:16px;margin-top:10px}.hero .hgrid{gap:22px}}
 
 /* flujo: the flow version (Ryan 9 Nov 21:48). Shorter pages on a phone: tighter rhythm, a footer of one screen, section tabs in one row. */
 .plinks{grid-template-columns:1fr 1fr}
