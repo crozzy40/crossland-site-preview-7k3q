@@ -618,3 +618,6 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 .mnav[open] summary span:nth-child(2){opacity:0}
 .mnav[open] summary span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 body.mnav-on .pbar,body.mnav-on .wafab{display:none!important}
+.mnav[open]::before{content:"";position:fixed;left:0;right:0;bottom:0;top:var(--mtop,64px);z-index:2;background:rgba(27,34,51,.45)}
+@media (max-width:1060px){#whatsapp>div+div,#office>div+div{display:none}}
+.ctgrid{align-items:stretch}#ask .askbox{max-width:none}
