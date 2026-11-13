@@ -102,7 +102,7 @@ dlg.addEventListener('close',function(){try{v.pause()}catch(e){}});
 
 (function(){
 var d=D.querySelector('details.mnav');if(!d)return;
-d.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.mpanel a'))d.removeAttribute('open')});
+d.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.mpanel a'))d.removeAttribute('open')});var sm=d.querySelector('summary');function st(){var o=d.hasAttribute('open');if(sm)sm.setAttribute('aria-expanded',o?'true':'false');D.body.classList.toggle('mnav-on',o)}st();d.addEventListener('toggle',st);D.addEventListener('click',function(e){if(d.hasAttribute('open')&&!d.contains(e.target))d.removeAttribute('open')});
 D.addEventListener('keydown',function(e){if(e.key==='Escape'&&d.hasAttribute('open')){d.removeAttribute('open');d.querySelector('summary').focus()}});
 })();
 })();

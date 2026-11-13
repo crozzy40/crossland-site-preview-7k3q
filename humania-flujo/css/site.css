@@ -612,3 +612,9 @@ a.au-datalink{display:inline-flex;align-items:center;min-height:44px}
 #ai .fold+.fold,#where .fold+.fold{margin-top:0}
 #ai .next{margin-top:26px}
 @media (max-width:1060px){#people .grid2,#size .grid2{gap:0}.pe-r>.checks:first-child{margin-top:0}}
+.ctgrid{align-items:start}.ctgrid .idcard h3{margin-top:0}
+.mnav summary span{transition:transform .18s ease,opacity .18s ease}
+.mnav[open] summary span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.mnav[open] summary span:nth-child(2){opacity:0}
+.mnav[open] summary span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+body.mnav-on .pbar,body.mnav-on .wafab{display:none!important}
